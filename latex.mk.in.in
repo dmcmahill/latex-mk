@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.27 2003/02/03 03:34:49 dan Exp $
+# $Id: latex.mk.in.in,v 1.28 2003/02/15 14:17:16 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -70,6 +70,8 @@
 #  PDFLATEX_FLAGS= flags passed to the PDFLaTeX executable
 #  PS2PDF	= ps2pdf executable
 #  PS2PDF_FLAGS	= flags passed to the ps2pdf executable
+#  VIEWPDF      = PDF viewer
+#  VIEWPDF_FLAGS= PDF viewer flags
 #  XDVI		= a .dvi previewer executable
 #  XDVI_FLAGS	= flags passed to the .dvi previewer executable
 #
