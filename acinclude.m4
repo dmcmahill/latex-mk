@@ -1,4 +1,4 @@
-dnl $Id: acinclude.m4,v 1.1 2003/06/04 14:12:19 dan Exp $
+dnl $Id: acinclude.m4,v 1.2 2003/06/07 13:03:51 dan Exp $
 dnl
 dnl Copyright (c) 2003 Dan McMahill
 dnl All rights reserved.
@@ -36,33 +36,74 @@ dnl
 
 AC_DEFUN(AC_PATH_GNU_MAKE,
 [#AC_MSG_CHECKING([for GNU make])
-for mk in $MAKE gmake make ; do
-	AC_PATH_PROG(GMAKE, $mk)
-	if test "X$GMAKE" != "X" ; then
-		AC_MSG_CHECKING([if $GMAKE is GNU make])
-		tmp=`$GMAKE --version 2>&1`
-		if false ; then
+gnu_make=
+for mk in "$GMAKE" "$MAKE" gmake make gnumake ; do
+	if test -n "$mk" ; then
+		AC_MSG_CHECKING([if $mk is GNU make >= 3.80])
+		tmp=`sh -c "$mk --version" 2> /dev/null | grep GNU`
+		if test -z "$tmp" ; then
 			AC_MSG_RESULT([no])
-			GMAKE=
 		else
-			AC_MSG_RESULT([yes])
+			case $tmp in
+	                *\ 3.[[8-9]][[0-9]]*|*\ [[4-9]].[[0-9]]*)
+				AC_MSG_RESULT([yes])
+				gnu_make="$mk"
+				break
+                	        ;;
+
+			* )
+				AC_MSG_RESULT([no])
+				;;
+	                esac    
 		fi
 	fi
 done
+if test -z "$gnu_make" ; then
+	AC_MSG_NOTICE([No suitable GNU make found.])
+	GMAKE=none
+	AC_SUBST(GMAKE)
+else
+	AC_PATH_PROG(GMAKE, $gnu_make)
+fi
 ])dnl
 
 
 # Look for BSD make
 AC_DEFUN(AC_PATH_BSD_MAKE,
-[AC_MSG_CHECKING([for BSD make])
-for mk in $MAKE make bmake nbmake ; do
+[
+cat > tmp.mk << EOF
+# include some of the "." commands that we need from a 
+# BSD make.
+MYVAR= BSDmake
+MYFLAG= #defined
+test:
+.for __tmp__ in \${MYVAR}
+.if defined(MYFLAG)
+	@echo \${__tmp__}
+.endif
+.endfor
+
+EOF
+bsd_make=
+for mk in "$BMAKE" "$MAKE" make bmake nbmake ; do
 	AC_MSG_CHECKING([if $mk is BSD make])
-	if false ; then
-		AC_MSG_RESULT([no])
-	else
+	tmp=`sh -c "$mk -f tmp.mk test" 2> /dev/null | grep BSDmake`
+	if test "X$tmp" = "XBSDmake" ; then
 		AC_MSG_RESULT([yes])
+		bsd_make="$mk"
+		break
+	else
+		AC_MSG_RESULT([no])
 	fi
 done
+if test -f tmp.mk ; then rm tmp.mk ; fi
+if test -z "$bsd_make" ; then
+	AC_MSG_NOTICE([No suitable BSD make found.])
+	BMAKE=none
+	AC_SUBST(BMAKE)
+else
+	AC_PATH_PROG(BMAKE, $bsd_make)
+fi
 ])dnl
 
 
