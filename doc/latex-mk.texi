@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.3 2002/08/21 01:50:08 dan Exp $
+@c $Id: latex-mk.texi,v 1.4 2002/08/21 11:53:49 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -13,7 +13,8 @@
 * latex-mk: (latex-mk).		Managing LaTeX documents
 @end direntry
 
-@copying
+@c @copying
+@ifnottex
 This file documents LaTeX-Mk @value{VERSION}
 
 Copyright @copyright{} 2002 Dan McMahill
@@ -38,7 +39,8 @@ Permission is granted to copy and distribute translations of this manual
 into another language, under the above conditions for modified versions,
 except that this permission notice may be stated in a translation approved
 by the author.
-@end copying
+@c @end copying
+@end ifnottex
 
 
 @titlepage
@@ -69,7 +71,8 @@ This edition documents version @value{VERSION}.
 
 @menu
 * Introduction::                LaTeX-Mk's purpose
-* Examples::                    Some examples
+* Targets::                    Some examples
+* Variables::                    Some examples
 * Target Index::
 * Variable Index::
 * General Index::
@@ -79,18 +82,12 @@ This edition documents version @value{VERSION}.
 @page
 @contents
 
-@node Introduction, Examples, Top, Top
+@node Introduction, Targets, Top, Top
 @chapter Introduction
 
-Latex-Mk is a tool for automatically generating @file{Makefile.in}s from
-files called @file{Makefile.am}.  Each @file{Makefile.am} is basically a
-series of @code{make} macro definitions (with rules being thrown in
-occasionally).  The generated @file{Makefile.in}s are compliant with the
-GNU Makefile standards.
-
-The typical Latex-Mk input file is simply a series of macro definitions.
-Each such file is processed to create a @file{Makefile.in}.  There
-should generally be one @file{Makefile.am} per directory of a project.
+Latex-Mk is a tool for managing small to large sized LaTeX projects.
+The typical Latex-Mk input file is simply a series of macro definitions
+in a @file{Makefile} for the project.  
 
 
 @cindex BUGS, reporting
@@ -101,41 +98,38 @@ Mail suggestions and bug reports for Latex-Mk to
 @email{bug-latex-mk@@xxx.xxx}.
 
 
-@node Examples, , Introduction, Top
-@chapter General ideas
-
 The following sections cover a few basic ideas that will help you
 understand how Latex-Mk works.
 
-@c @vrindex VR_INDEX
 
-@trindex A_TR_INDEX
+@node Targets, Variables, Introduction, Top
+@chapter Targets
 
-@defvar clean
+@deffn Target clean
 @trindex clean
 Cleans the current working directory by removing all LaTeX output and
 other output files created during processing of the project.  In
 addition, emacs @file{~} files are removed.
-@end defvar
+@end deffn
 
-@defvar dvi
+@deffn Target dvi
 @trindex dvi
 Performs all processing required to produce the @file{.dvi} file for the
 project.
-@end defvar
+@end deffn
 
-@defvar pdf
+@deffn Target pdf
 @trindex pdf
 Performs all processing required to produce a PDF (Portable Document
 Format) file, @file{.pdf} file, for the project.
-@end defvar
+@end deffn
 
-@defvar print
+@deffn Target print
 @trindex print
 Sends the processed document to the printer.
-@end defvar
+@end deffn
 
-@defvar show-var
+@deffn Target show-var
 @trindex show-var
 This target is used to help debug users Makefiles as well as the
 LaTeX-Mk system.  This target displays the value of the variable whose
@@ -143,17 +137,24 @@ name is given by the variable VARNAME.  For example:
 @example
   make show-var VARNAME=TEXSRCS
 @end example
-@end defvar
+@end deffn
 
-@defvar view
+@deffn Target view
 @trindex view
 Previews the @file{.dvi} file.
-@end defvar
+@end deffn
 
-@defvar viewps
+@deffn Target viewps
 @trindex viewps
 Previews the Postscript (@file{.ps}) file.
-@end defvar
+@end deffn
+
+@node Variables, , Targets, Top
+@chapter Variables
+
+@section Site Configuration Variables
+This section documents the variables which are typically set on a
+site-wide or user-wide basis.
 
 @defvar BIBTEX
 The bibtex executible.  Defaults to @code{bibtex}.
@@ -239,6 +240,7 @@ Defaults to gv.
 A list of flags to be passed to the XDVI executible.
 @end defvar
 
+@section Tgif Site Configuration Variables
 This section documents the variables related to tgif file processing.
 Tgif is a nice vector drawing program which works well with LaTeX.
 
@@ -267,6 +269,7 @@ level dependency list and will be
 automatically re-exported to postscript as required.
 @end defvar
 
+@section Xfig Site Configuration Variables
 This section documents the variables related to xfig file processing.
 
 @defvar FIG2DEV
@@ -295,6 +298,7 @@ level dependency list and will be
 automatically re-exported to postscript as required.
 @end defvar
 
+@section Per-Project Variables
 This section documents variables which can be set in project Makefiles
 to accomodate other dependencies which may be added.
 
@@ -306,12 +310,12 @@ files in a particular directory to the dependency list, then using BSD
 make, you could add:
 @example
 OTHER_EPS!=     ls eps/*.eps*
-OTHER+=         ${OTHER_EPS}
+OTHER+=         $(OTHER_EPS)
 @end example
 If you are using GNU make, you would use
 @example
 OTHER_EPS=      $(wildcard eps/*.eps*)
-OTHER+=         ${OTHER_EPS}
+OTHER+=         $(OTHER_EPS)
 @end example
 @end defvar
 
