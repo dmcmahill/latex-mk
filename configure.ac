@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.6 2002/08/26 02:14:50 dan Exp $
+dnl $Id: configure.ac,v 1.7 2002/08/28 12:52:28 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002 Dan McMahill
@@ -95,7 +95,7 @@ MAKECONF="/etc/mk.conf"
 AC_SUBST(MAKECONF)
 
 AC_ARG_WITH([gmkconf],
-[  --with-gmkconf=gmkconf    Use the specified file as the site configuration
+[  --with-gmkconf=gmkconf  Use the specified file as the site configuration
                           file for GNU make.  [default = /etc/gmk.conf]],
 [
 if test "X$with_gmkconf" = "Xno" ; then
@@ -108,6 +108,39 @@ fi
 GMAKECONF="/etc/gmk.conf"
 ])
 AC_SUBST(GMAKECONF)
+
+
+AC_ARG_WITH([usermkconf],
+[  --with-mkconf=usermkconf
+                          Use the specified file as the site configuration
+                          file for BSD make.  [default = $HOME/etc/mk.conf]],
+[
+if test "X$with_usermkconf" = "Xno" ; then
+        AC_ERROR([--without-usermkconf is not supported])
+else
+        USERMAKECONF="$with_usermkconf"
+fi
+],
+[
+USERMAKECONF="\${HOME}/etc/mk.conf"
+])
+AC_SUBST(USERMAKECONF)
+
+AC_ARG_WITH([gmkconf],
+[  --with-usergmkconf=usergmkconf
+                          Use the specified file as the user configuration
+                          file for GNU make.  [default = $HOME/etc/gmk.conf]],
+[
+if test "X$with_usergmkconf" = "Xno" ; then
+        AC_ERROR([--without-usergmkconf is not supported])
+else
+        USERGMAKECONF="$with_usergmkconf"
+fi
+],
+[
+USERGMAKECONF="\${HOME}/etc/gmk.conf"
+])
+AC_SUBST(USERGMAKECONF)
 
 
 AC_OUTPUT(

@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.5 2002/08/26 02:07:24 dan Exp $
+# $Id: latex.mk.in.in,v 1.6 2002/08/28 12:52:28 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -72,9 +72,9 @@
 
 
 BMK:MAKECONF?=	@MAKECONF@
-BMK:USER_MAKECONF?=	${HOME}/etc/mk.conf
+BMK:USER_MAKECONF?=	@USERMAKECONF@
 GMK:MAKECONF?=	@GMAKECONF@
-GMK:USER_MAKECONF?=	${HOME}/etc/gmk.conf
+GMK:USER_MAKECONF?=	@USERGMAKECONF@
 
 BMK:.if exists(${MAKECONF})
 BMK:.include "${MAKECONF}"
