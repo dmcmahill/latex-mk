@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.5 2003/02/26 23:32:34 dan Exp $
+# $Id: run_tests.sh,v 1.6 2003/05/25 04:14:14 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -196,6 +196,22 @@ MFLAGS=""
 export MAKEFLAGS
 export MAKELEVEL
 export MFLAGS
+
+#######################################
+#
+# System stuff
+#
+#######################################
+
+AWK=awk
+GREP=grep
+RM=rm
+RMDIR=rm
+
+export AWK
+export GREP
+export RM
+export RMDIR
 
 #######################################
 #
