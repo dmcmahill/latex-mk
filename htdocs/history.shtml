@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.7 2003/02/25 23:56:14 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.8 2003/02/26 10:20:11 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>LaTeX-Mk History</title>
@@ -102,7 +102,7 @@ xfig,
     <H3>Version 1.0</H3>
     <p>
     This is the long awaited 1.0 release!  Hopefully LaTeX-Mk can be considered
-    production/stable at this point.  This release was made on.
+    production/stable at this point.  This release was made on 2003-02-26.
     The significant changes/additions over the previous version are: 
     <UL>
     <LI> Support for <a href="http://gaspra.kettering.edu/dvipdfm">dvipdfm</a> is
