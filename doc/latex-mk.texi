@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.39 2004/03/18 22:12:07 dan Exp $
+@c $Id: latex-mk.texi,v 1.40 2004/03/18 22:13:53 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -785,16 +785,16 @@ make, you could add:
 OTHER_EPS!=     ls eps/*.eps*
 OTHER+=         $(OTHER_EPS)
 OTHER_PNG!=	ls png/*.png
-OTHER+=         ${OTHER_PNG:.png=.eps}
-CLEAN_FILES+=   ${OTHER_PNG:.png=.eps}
+OTHER+=         $(OTHER_PNG:.png=.eps)
+CLEAN_FILES+=   $(OTHER_PNG:.png=.eps)
 @end example
 If you are using GNU make, you would use
 @example
 OTHER_EPS=      $(wildcard eps/*.eps*)
 OTHER+=         $(OTHER_EPS)
 OTHER_PNG=      $(wildcard png/*.png)
-OTHER+=         ${OTHER_PNG:.png=.eps}
-CLEAN_FILES+=   ${OTHER_PNG:.png=.eps}
+OTHER+=         $(OTHER_PNG:.png=.eps)
+CLEAN_FILES+=   $(OTHER_PNG:.png=.eps)
 @end example
 @end defvar
 
