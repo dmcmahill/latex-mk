@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.38 2003/08/25 00:14:09 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.39 2003/11/17 17:49:55 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -66,9 +66,14 @@
 #  LATEX_FLAGS	= flags passed to the LaTeX executable
 #  LATEX2HTML   = LaTeX2HTML executable
 #  LATEX2HTML_ENV
-#               = environment variables et when running LATEX2HTML
+#               = environment variables set when running LATEX2HTML
 #  LATEX2HTML_FLAGS
 #               = flags passed to LATEX2HTML
+#  LATEX2RTF    = LaTeX2RTF executable
+#  LATEX2RTF_ENV
+#               = environment variables set when running LATEX2RTF
+#  LATEX2RTF_FLAGS
+#               = flags passed to LATEX2RTF
 #  LPR		= executable to print postscript files
 #  LPR_FLAGS	= flags passed to the executable to print postscript files
 #  PDFLATEX     = pdflatex executable
@@ -439,6 +444,7 @@ BMK:ps:	${__tmp__}.ps
 BMK:pdf:	${__tmp__}.pdf
 BMK:ps-draft:	${__tmp__}-draft.ps
 BMK:pdf-draft:	${__tmp__}-draft.pdf
+BMK:rtf:	${__tmp__}.rtf
 BMK:clean::
 BMK:	if [ -f ${__tmp__}.www_files ]; then  \
 BMK:		for f in `${AWK} '{print $$2}' ${__tmp__}.www_files` ; do \
@@ -473,6 +479,7 @@ GMK:ps:	$(1).ps
 GMK:pdf:	$(1).pdf
 GMK:ps-draft:	$(1)-draft.ps
 GMK:pdf-draft:	$(1)-draft.pdf
+GMK:rtf:	$(1).rtf
 GMK:clean::
 GMK:	if [ -f $(1).www_files ]; then  \
 GMK:		for f in `${AWK} '{print $$2}' $(1).www_files` ; do \
@@ -681,6 +688,16 @@ GMK:endif
 
 #######################################
 #
+# RTF (Rich Text Format) output (latex2rtf)
+#
+#######################################
+.PHONY:  rtf
+
+.dvi.rtf :
+	$(ENV_PROG) $(LATEX2RTF_ENV) $(LATEX2RTF) $(LATEX2RTF_FLAGS) -o $@ $*
+
+#######################################
+#
 # Clean up (clean)
 #
 #######################################
@@ -690,6 +707,7 @@ CLEAN_FILES+=	${NAME:=.ps}
 CLEAN_FILES+=	${NAME:=-draft.ps}
 CLEAN_FILES+=	${NAME:=.pdf}
 CLEAN_FILES+=	${NAME:=-draft.pdf}
+CLEAN_FILES+=	${NAME:=.rtf}
 CLEAN_FILES+=	${NAME:=.aux}
 CLEAN_FILES+=	${NAME:=.log}
 CLEAN_FILES+=	${NAME:=.dvi}
