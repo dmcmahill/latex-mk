@@ -1,0 +1,26 @@
+% $Id: ex4.tex,v 1.1 2004/05/29 12:42:12 dan Exp $
+%
+
+\documentclass[11pt]{article}
+
+\title{Example Document Number 4}
+\author{Someone}
+\date{\today}
+
+\usepackage{fancyheadings}
+\pagestyle{fancy}
+\rhead{Unreferenced Notes}
+\usepackage{hyperref}
+
+\begin{document}
+\maketitle
+\section{Introduction}
+Blah blah blah....
+
+% we include a bibliography, but no citations
+\nocite{*}
+\bibliographystyle{ieeetr}
+\bibliography{ex4}
+
+\end{document}
+
