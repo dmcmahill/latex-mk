@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.4 2003/02/25 00:14:23 dan Exp $
+# $Id: run_tests.sh,v 1.5 2003/02/26 23:32:34 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -190,9 +190,12 @@ GMAKE_REF=gmake_ref
 
 # clear out some environment variables
 # which may be polluting the test
-MAKEFLAGS=
-MAKELEVEL=
-MFLAGS=
+MAKEFLAGS=""
+MAKELEVEL=""
+MFLAGS=""
+export MAKEFLAGS
+export MAKELEVEL
+export MFLAGS
 
 #######################################
 #
@@ -239,7 +242,7 @@ gskip=0
 tot=0
 
 if test -z "$1" ; then
-    all_tests=`awk 'BEGIN{FS="|"} /^#/{next} {gsub(/ /,""); print $1}' $TESTLIST`
+    all_tests=`awk 'BEGIN{FS="|"} /^#/{next} {print $1}' $TESTLIST | sed 's; ;;g'`
 else
     all_tests=$*
 fi
