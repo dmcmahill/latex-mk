@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.10 2003/02/25 02:01:48 dan Exp $
+## $Id: Makefile.am,v 1.11 2003/02/26 01:50:29 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -43,6 +43,7 @@ GMKFILES=	${MKSRCS:.mk.in=.gmk}
 #pkgtest_SCRIPTS=	${RUN_TESTS}
 
 check_SCRIPTS=		${RUN_TESTS}
+check_DATA=		${BMKFILES} ${GMKFILES}
 
 DISTCLEANFILES=	\
 	configure.lineno \
