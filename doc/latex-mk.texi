@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.11 2002/08/29 22:36:46 dan Exp $
+@c $Id: latex-mk.texi,v 1.12 2002/09/21 02:39:01 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -107,7 +107,8 @@ are met:
 @top LaTeX-Mk
 
 This file documents the LaTeX-Mk package.  LaTeX-Mk is a
-collection of Makefile fragments for managing small to 
+collection of Makefile fragments and shell scripts
+for managing small to
 large sized LaTeX projects.
 This edition documents version @value{VERSION}.
 @end ifnottex
@@ -441,15 +442,34 @@ Every project must define the @code{name} variable.
 
 @defvar NAME
 Name of the project.  The top level LaTeX input file is assumed to be
-called @file{<NAME>.tex}.
+called @file{<NAME>.tex}.  For projects which have multiple documents,
+you would list the top level name for each document here.
 @end defvar
 
 @subsection Generic Variables
+The variables described in this section affect all of the top level 
+documents listed in the @code{NAME} variable.  This is useful for
+listing common dependencies like a header or style file used by all
+documents.  To list dependencies which are specific to one of the top
+level documents, you can use the variable @code{<docname>_<VARNAME>}
+where @code{<docname>} is the name of the document and @code{<VARNAME>}
+is the name of the variable.  For example,
+@example
+NAME= doc1 doc2
+TEXSRCS= header.tex
+doc1_TEXSRCS= intro1.tex body1.tex conclusions.tex
+@end example
+defines a project with two top level documents, @code{doc1} and
+@code{doc2}.  Both documents depend on @file{header.tex} and in
+addition, @code{doc1} depends on @file{intro1.tex}, @file{body1.tex},
+and @code{conclusions.tex}.  More information on the @code{TEXSRCS}
+variable is given later.
+
 @defvar BIBTEXSRCS
 All files listed in this variable are assumed to be BibTeX input files.
 Listing files in this variable will cause a dependency to be
 added to the top level project and BibTeX will be run on these files as
-needed. 
+needed.
 @end defvar
 
 @defvar CLEAN_FILES
@@ -554,6 +574,24 @@ common option is the @samp{--prefix=<installation prefix>} option.  This
 causes LaTeX-Mk to use @code{<installation prefix>} as the base
 directory for the installation.  
 
+Running @sample{configure --help} will give a list of the available
+configuration options.  The ones which are specific to LaTeX-Mk, as
+opposed to being generic configure options are listed here.
+@code{--with-mkconf=<mkconf>}:  this option changes the default system
+configuration file for BSD make.  This file defaults to
+@file{\$\{sysconfdir\}/latex-mk.conf}.
+@code{--with-gmkconf=<gmkconf>}:  this option changes the default system
+configuration file for GNU make.  This file defaults to
+@file{\$\{sysconfdir\}/latex-gmk.conf}. 
+@code{--with-usermkconf=<usermkconf>}:  this option changes the default 
+user
+configuration file for BSD make.  This file defaults to
+@file{\$HOME/.latex-mk.conf}.
+@code{--with-usergmkconf=<usergmkconf>}:  this option changes the
+default user
+configuration file for GNU make.  This file defaults to
+@file{\$HOME/.latex-gmk.conf}. 
+
 @node Feedback, Target Index, Installation, Top
 @chapter Feedback
 @comment  node-name,  next,  previous,  up
@@ -561,9 +599,12 @@ directory for the installation.
 @cindex Reporting BUGS
 @cindex E-mail, bug reports
 
-Mail suggestions and bug reports for Latex-Mk to
-@email{bug-latex-mk@@xxx.xxx}.
-
+To report bugs, provide feedback, suggest new features, etc. visit the
+LaTeX-Mk Project management page at
+@url{http://www.sourceforge.net/projects/latex-mk} or send email to the
+author at @email{danmc@sourceforge.net}.
+For information on the current version of LaTeX-Mk, visit the LaTeX-Mk
+homepage at @url{http://latex-mk.sourceforge.net}.
 
 @page
 @node Target Index, Variable Index, Feedback, Top

@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.3 2002/09/20 12:05:36 dan Exp $
+## $Id: Makefile.am,v 1.4 2002/09/21 02:39:02 dan Exp $
 ##
 ## Copyright (c) 2002 Dan McMahill
 ## All rights reserved.
@@ -61,7 +61,7 @@ SUFFIXES=	.in .mk .gmk
 SED_COMMON=	-e 's;@latexmkdatadir@;$(pkgdatadir);g' \
 	-e 's;@latexmkconfdir@;${sysconfdir};g' \
 	-e 's;@latexmkbindir@;${bindir};g' \
-	-e 'd;^MAKECONF;'
+	-e '/^MAKECONF/d'
 
 SED_COMMON_TEST=	-e 's;@latexmkdatadir@;$(top_srcdir);g' \
 	-e 's;@latexmkconfdir@;${sysconfdir};g' \

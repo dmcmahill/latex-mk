@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.11 2002/09/18 02:45:06 dan Exp $
+# $Id: latex.mk.in.in,v 1.12 2002/09/21 02:39:00 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -113,6 +113,14 @@ XDVI_FLAGS?=
 
 RM?=		@RM@
 
+.MAIN: all
+.PHONY: all
+default: all
+
+all:: dvi
+all:: view-all
+
+
 # Include other .mk files often times used with LaTeX
 BMK:.if defined(TGIFSRCS) || defined(TGIFDIRS)
 BMK:.include "tgif.mk"
@@ -142,56 +150,29 @@ GMK:ifdef _USE_XFIG_MK
 GMK:include ${LATEX_MK_DIR}/xfig.gmk
 GMK:endif
 
-.MAIN: view
-
-all:: view
-
-# target 'view' will only have latex run once.  Thus the preview
-# will not always have all the figure and equation references
-# up to date
 BMK:.for __tmp__ in ${NAME}
-.PHONY: view_${__tmp__}
-view_${__tmp__}: ${__tmp__}.dvi
-	$(XDVI) $(XDVI_FLAGS) ${__tmp__}.dvi
-DEFAULTVIEW?=	view_${__tmp__}
-ALLVIEW+=	view_${__tmp__}
+BMK:.PHONY: view_${__tmp__}
+BMK:view_${__tmp__}: ${__tmp__}.dvi
+BMK:	$(XDVI) $(XDVI_FLAGS) ${__tmp__}.dvi
+BMK:DEFAULTVIEW?=	view_${__tmp__}
+BMK:ALLVIEW+=	view_${__tmp__}
 BMK:.endfor
-.PHONY: view
-view: ${DEFAULTVIEW}
-.PHONY: view-all
-view-all: ${ALLVIEW}
-
 
 BMK:.for __tmp__ in ${NAME}
-.PHONY: viewps_${__tmp__}
-viewps_${__tmp__}: ${__tmp__}.ps
-	$(GV) $(GV_FLAGS)  ${__tmp__}.ps
-DEFAULTVIEWPS?=	viewps_${__tmp__}
-ALLVIEWPS+=	viewps_${__tmp__}
+BMK:.PHONY: viewps_${__tmp__}
+BMK:viewps_${__tmp__}: ${__tmp__}.ps
+BMK:	$(GV) $(GV_FLAGS)  ${__tmp__}.ps
+BMK:DEFAULTVIEWPS?=	viewps_${__tmp__}
+BMK:ALLVIEWPS+=	viewps_${__tmp__}
 BMK:.endfor
-.PHONY: viewps
-viewps: ${DEFAULTVIEWPS}
-.PHONY: viewps-all
-viewps-all: ${ALLVIEWPS}
 
 BMK:.for __tmp__ in ${NAME}
-.PHONY: print_${__tmp__}
-print_${__tmp__}: ${__tmp__}.ps
-	$(LPR) $(LPR_FLAGS) ${__tmp__}.ps
-DEFAULTPRINT?=	print_${__tmp__}
-ALLPRINT+=	print_${__tmp__}
+BMK:.PHONY: print_${__tmp__}
+BMK:print_${__tmp__}: ${__tmp__}.ps
+BMK:	$(LPR) $(LPR_FLAGS) ${__tmp__}.ps
+BMK:DEFAULTPRINT?=	print_${__tmp__}
+BMK:ALLPRINT+=	print_${__tmp__}
 BMK:.endfor
-.PHONY: print
-print: ${DEFAULTPRINT}
-.PHONY: print-all
-print-all: ${ALLPRINT}
-
-#######################################
-#
-# DVI Output (latex)
-#
-#######################################
-.PHONY: dvi
 
 ALLTEXSRCS=	${TEXSRCS}
 ALLBIBTEXSRCS=	${BIBTEXSRCS}
@@ -206,8 +187,76 @@ BMK:ps:	${__tmp__}.ps
 BMK:pdf:	${__tmp__}.pdf
 BMK:.endfor
 
+GMK:# here is where we wish that .for loops were commonly
+GMK:# supported in GNU make...
+GMK:# XXX -- we need to not assume its called 'Makefile'.  What if
+GMK:#        someone uses gmake -f foo.mk !!!  Stupid GNU make.
+GMK:latex-mk-texdeps.mk: Makefile
+GMK:	@${RM} -f $@
+GMK:	@echo "#############################################" >> $@
+GMK:	@echo "### Generated file.  Do not edit directly ###" >> $@
+GMK:	@echo "#############################################" >> $@
+GMK:	@for tmp in ${NAME} ; do \
+GMK:		echo "# Targets for \"$${tmp}\"" >> $@ ; \
+GMK:		echo " " >> $@ ; \
+GMK:		echo ".PHONY: view_$${tmp}" >> $@ ; \
+GMK:		echo "view_$${tmp}: $${tmp}.dvi" >> $@ ; \
+GMK:		echo '	$$(XDVI) $$(XDVI_FLAGS) $$<' >> $@ ; \
+GMK:		echo "DEFAULTVIEW?= view_$${tmp}" >> $@ ; \
+GMK:		echo "ALLVIEW+= view_$${tmp}" >> $@ ; \
+GMK:		echo " " >> $@ ; \
+GMK:		echo ".PHONY: viewps_$${tmp}" >> $@ ; \
+GMK:		echo "viewps_$${tmp}: $${tmp}.ps" >> $@ ; \
+GMK:		echo '	$$(GV) $$(GV_FLAGS) $$<' >> $@ ; \
+GMK:		echo "DEFAULTVIEWPS?= viewps_$${tmp}" >> $@ ; \
+GMK:		echo "ALLVIEWPS+= viewps_$${tmp}" >> $@ ; \
+GMK:		echo "$${tmp}.dvi: $${tmp}.tex \$${TEXSRCS} \$${$${tmp}_TEXSRCS} \\" >> $@ ; \
+GMK:		echo "	\$${BIBTEXSRCS} \$${$${tmp}_BIBTEXSRCS} \$${OTHER} \$${$${tmp}_OTHER}" >> $@ ; \
+GMK:		echo " " >> $@ ; \
+GMK:		echo ".PHONY: print_$${tmp}" >> $@ ; \
+GMK:		echo "print_$${tmp}: $${tmp}.ps" >> $@ ; \
+GMK:		echo '	$$(LPR) $$(LPR_FLAGS) $$<' >> $@ ; \
+GMK:		echo "DEFAULTPRINT?= print_$${tmp}" >> $@ ; \
+GMK:		echo "ALLPRINT+= print_$${tmp}" >> $@ ; \
+GMK:		echo " " >> $@ ; \
+GMK:		echo "# Dependencies for \"$${tmp}\"" >> $@ ; \
+GMK:		echo " " >> $@ ; \
+GMK:		echo "$${tmp}.dvi: $${tmp}.tex \$${TEXSRCS} \$${$${tmp}_TEXSRCS} \\" >> $@ ; \
+GMK:		echo "	\$${BIBTEXSRCS} \$${$${tmp}_BIBTEXSRCS} \$${OTHER} \$${$${tmp}_OTHER}" >> $@ ; \
+GMK:		echo " " >> $@ ; \
+GMK:		echo "ALLTEXSRCS+=	$${tmp}.tex \$${$${tmp}_TEXSRCS}" >> $@ ; \
+GMK:		echo "ALLBIBTEXSRCS+=	\$${$${tmp}_BIBTEXSRCS}" >> $@ ; \
+GMK:		echo "dvi:	$${tmp}.dvi" >> $@ ; \
+GMK:		echo "ps:	$${tmp}.ps"  >> $@ ; \
+GMK:		echo "pdf:	$${tmp}.pdf" >> $@ ; \
+GMK:		echo " " >> $@ ; \
+GMK:	done
+GMK:include latex-mk-texdeps.mk
+
+.PHONY: view
+view: ${DEFAULTVIEW}
+.PHONY: view-all
+view-all: ${ALLVIEW}
+
+
+.PHONY: viewps
+viewps: ${DEFAULTVIEWPS}
+.PHONY: viewps-all
+viewps-all: ${ALLVIEWPS}
+
+.PHONY: print
+print: ${DEFAULTPRINT}
+.PHONY: print-all
+print-all: ${ALLPRINT}
+
 .SUFFIXES : .tex .dvi .ps .pdf
 
+#######################################
+#
+# DVI Output (latex)
+#
+#######################################
+.PHONY: dvi
 .tex.dvi : 
 	$(ENV_PROG) $(LATEX_ENV) $(LATEX-MK) $<
 
@@ -217,7 +266,6 @@ BMK:.endfor
 #
 #######################################
 .PHONY:  ps
-
 .dvi.ps :
 	$(DVIPS) $(DVIPS_FLAGS) -o $@ $<
 
@@ -227,7 +275,6 @@ BMK:.endfor
 #
 #######################################
 .PHONY:  pdf
-
 .ps.pdf :
 	$(PS2PDF) $(PS2PDF_FLAGS) $<
 
@@ -239,23 +286,24 @@ BMK:.endfor
 #######################################
 CLEAN_FILES+=	${ALLTEXSRCS:.tex=.aux}
 CLEAN_FILES+=	${BIBTEXSRCS:.bib=.aux}
-BMK:.for __tmp__ in ${NAME}
-CLEAN_FILES+=	${__tmp__}.ps
-CLEAN_FILES+=	${__tmp__}.pdf
-CLEAN_FILES+=	${__tmp__}.aux
-CLEAN_FILES+=	${__tmp__}.log
-CLEAN_FILES+=	${__tmp__}.dvi
-CLEAN_FILES+=	${__tmp__}.log
-CLEAN_FILES+=	${__tmp__}.bbl
-CLEAN_FILES+=	${__tmp__}.blg
-CLEAN_FILES+=	${__tmp__}.lof
-CLEAN_FILES+=	${__tmp__}.lot
-CLEAN_FILES+=	${__tmp__}.toc
-CLEAN_FILES+=	${__tmp__}.out
-BMK:.endfor
+CLEAN_FILES+=	${NAME:=.ps}
+CLEAN_FILES+=	${NAME:=.pdf}
+CLEAN_FILES+=	${NAME:=.aux}
+CLEAN_FILES+=	${NAME:=.log}
+CLEAN_FILES+=	${NAME:=.dvi}
+CLEAN_FILES+=	${NAME:=.log}
+CLEAN_FILES+=	${NAME:=.bbl}
+CLEAN_FILES+=	${NAME:=.blg}
+CLEAN_FILES+=	${NAME:=.lof}
+CLEAN_FILES+=	${NAME:=.lot}
+CLEAN_FILES+=	${NAME:=.toc}
+CLEAN_FILES+=	${NAME:=.out}
+
+CLEAN_FILES+=	latex-mk-texdeps.mk
 
 .PHONY: clean
 clean::
+	${LATEX-MK} --clean
 	$(RM) -f *~ texput.log $(CLEAN_FILES)
 
 .PHONY: distclean

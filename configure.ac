@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.12 2002/09/20 11:58:07 dan Exp $
+dnl $Id: configure.ac,v 1.13 2002/09/21 02:38:59 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002 Dan McMahill
@@ -126,7 +126,7 @@ USERMAKECONF="\${HOME}/.latex-mk.conf"
 ])
 AC_SUBST(USERMAKECONF)
 
-AC_ARG_WITH([gmkconf],
+AC_ARG_WITH([usergmkconf],
 [  --with-usergmkconf=usergmkconf
                           Use the specified file as the user configuration
                           file for GNU make.  [default = $HOME/.latex-gmk.conf]],
