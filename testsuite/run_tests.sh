@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.6 2003/05/25 04:14:14 dan Exp $
+# $Id: run_tests.sh,v 1.7 2003/06/04 12:28:59 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -109,10 +109,22 @@ ENV_PROG=env
 FALSE=false
 GV=gv
 GV_FLAGS=
+HACHA=hacha
+HACHA_ENV=
+HACHA_FLAGS=
+HEVEA=hevea
+HEVEA_ENV=
+HEVEA_FLAGS=
+IMAGEN=imagen
+IMAGEN_ENV=
+IMAGEN_FLAGS=
 LATEX_MK=latex-mk
 LATEX_MK_FLAGS=
 LATEX=latex
 LATEX_ENV=
+LATEX2HTML=latex2html
+LATEX2HTML_ENV=
+LATEX2HTML_FLAGS=
 LPR=lpr
 LPR_FLAGS=
 PDFLATEX=pdflatex
@@ -135,10 +147,23 @@ export ENV_PROG
 export FALSE
 export GV
 export GV_FLAGS
+export HACHA
+export HACHA_ENV
+export HACHA_FLAGS
+export HEVEA
+export HEVEA_ENV
+export HEVEA_FLAGS
+export IMAGEN
+export IMAGEN_ENV
+export IMAGEN_FLAGS
 export LATEX_MK
 export LATEX_MK_FLAGS
 export LATEX
 export LATEX_ENV
+export LATEX_FLAGS
+export LATEX2HTML
+export LATEX2HTML_ENV
+export LATEX2HTML_FLAGS
 export LPR
 export LPR_FLAGS
 export PDFLATEX
