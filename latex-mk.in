@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.3 2002/09/18 02:11:40 dan Exp $
+# $Id: latex-mk.in,v 1.4 2002/09/21 02:31:29 dan Exp $
 #
 # Copyright (c) 2002 Dan McMahill
 # All rights reserved.
@@ -39,7 +39,7 @@ VERSION=@VERSION@
 MAXITERS=${MAXITERS:-5}
 LATEX=${LATEX:-latex}
 BIBTEX=${BIBTEX:-bibtex}
-LOG=${LOG:-latex-mk.log}
+LATEX_MK_LOG=${LOG:-latex-mk.log}
 
 sep="------------------------------------"
 
@@ -47,6 +47,13 @@ while test -n "$1"
 do
 	case "$1"
 	in
+
+	--clean)
+		if [ -f $LATEX_MK_LOG ]; then
+		    rm -f $LATEX_MK_LOG
+		fi
+		exit 0
+		;;
 
 	--version)
 		echo "latex-mk version $VERSION"
@@ -88,7 +95,7 @@ while test $cnt -lt $MAXITERS ; do
 	# run latex.  If it fails, manually remove the .dvi file since
 	# latex won't.  This will confuse 'make' because on the next
 	# invocation, the .dvi file will appear to be up to date already.
-	$LATEX $INFILE | tee $LOG
+	$LATEX $INFILE | tee $LATEX_MK_LOG
 	if test $? -ne 0 ; then
 		echo "$sep" 
 		echo "$0:  Error:  LaTeX failed" 
@@ -108,7 +115,7 @@ while test $cnt -lt $MAXITERS ; do
 	# wants to keep running latex and viewing/printing the results with these
 	# errors present, provide a way to override this.
 	#
-	needbib=`grep "Citation.*on page.*undefined" $LOG`
+	needbib=`grep "Citation.*on page.*undefined" $LATEX_MK_LOG`
 	if test ! -z "$needbib" ; then
 		if test $bibcnt -eq 0 ; then
 			echo "$sep"
@@ -147,7 +154,7 @@ while test $cnt -lt $MAXITERS ; do
 	fi
 
 	#LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right
-	rerun=`grep "Rerun to get" $LOG`
+	rerun=`grep "Rerun to get" $LATEX_MK_LOG`
 	if test -z "$rerun" ; then
 		break;
 	fi
