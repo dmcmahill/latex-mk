@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.15 2002/09/27 13:27:19 dan Exp $
+# $Id: latex.mk.in.in,v 1.16 2002/09/30 03:05:05 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -101,6 +101,7 @@ ECHO?=		@ECHO@
 ENV_PROG?=	@ENV_PROG@
 FALSE?=		@FALSE@
 GV?=		@GV@
+GV_FLAGS?=	
 LATEX-MK?=	@bindir@/latex-mk
 LATEX?=		@LATEX@
 LATEX_ENV?=	
@@ -110,6 +111,8 @@ PS2PDF?=	@PS2PDF@
 PS2PDF_FLAGS?=	
 XDVI?=		@XDVI@
 XDVI_FLAGS?=	
+VIEWPDF?=	${GV}
+VIEWPDF_FLAGS?=	${GV_FLAGS}
 
 RM?=		@RM@
 
@@ -172,6 +175,22 @@ BMK:viewps_${__tmp__}-draft: ${__tmp__}-draft.ps
 BMK:	$(GV) $(GV_FLAGS)  ${__tmp__}-draft.ps
 BMK:DEFAULTVIEWPS_DRAFT?=	viewps_${__tmp__}-draft
 BMK:ALLVIEWPS_DRAFT+=	viewps_${__tmp__}-draft
+BMK:${__tmp__}-draft.ps: ${__tmp__}.dvi
+BMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
+BMK:	$(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $@ ${__tmp__}.dvi
+BMK:.endfor
+
+BMK:.for __tmp__ in ${NAME}
+BMK:.PHONY: viewpdf_${__tmp__}
+BMK:viewpdf_${__tmp__}: ${__tmp__}.pdf
+BMK:	$(VIEWPDF) $(VIEWPDF_FLAGS)  ${__tmp__}.pdf
+BMK:DEFAULTVIEWPDF?=	viewpdf_${__tmp__}
+BMK:ALLVIEWPDF+=	viewpdf_${__tmp__}
+BMK:.PHONY: viewpdf_${__tmp__}-draft
+BMK:viewpdf_${__tmp__}-draft: ${__tmp__}-draft.pdf
+BMK:	$(VIEWPDF) $(VIEWPDF_FLAGS)  ${__tmp__}-draft.pdf
+BMK:DEFAULTVIEWPDF_DRAFT?=	viewpdf_${__tmp__}-draft
+BMK:ALLVIEWPDF_DRAFT+=	viewpdf_${__tmp__}-draft
 BMK:.endfor
 
 BMK:.for __tmp__ in ${NAME}
@@ -198,6 +217,8 @@ BMK:ALLBIBTEXSRCS+=	${${__tmp__}_BIBTEXSRCS}
 BMK:dvi:	${__tmp__}.dvi
 BMK:ps:	${__tmp__}.ps
 BMK:pdf:	${__tmp__}.pdf
+BMK:ps-draft:	${__tmp__}-draft.ps
+BMK:pdf-draft:	${__tmp__}-draft.pdf
 BMK:.endfor
 
 GMK:# here is where we wish that .for loops were commonly
@@ -229,6 +250,11 @@ GMK:		echo "viewps_$${tmp}: $${tmp}.ps" >> $@ ; \
 GMK:		echo '	$$(GV) $$(GV_FLAGS) $$<' >> $@ ; \
 GMK:		echo "DEFAULTVIEWPS?= viewps_$${tmp}" >> $@ ; \
 GMK:		echo "ALLVIEWPS+= viewps_$${tmp}" >> $@ ; \
+GMK:		echo ".PHONY: viewpdf_$${tmp}" >> $@ ; \
+GMK:		echo "viewpdf_$${tmp}: $${tmp}.pdf" >> $@ ; \
+GMK:		echo '	$$(VIEWPDF) $$(VIEWPDF_FLAGS) $$<' >> $@ ; \
+GMK:		echo "DEFAULTVIEWPDF?= viewpdf_$${tmp}" >> $@ ; \
+GMK:		echo "ALLVIEWPDF+= viewpdf_$${tmp}" >> $@ ; \
 GMK:		echo "$${tmp}.dvi: $${tmp}.tex \$${TEXSRCS} \$${$${tmp}_TEXSRCS} \\" >> $@ ; \
 GMK:		echo "	\$${BIBTEXSRCS} \$${$${tmp}_BIBTEXSRCS} \$${OTHER} \$${$${tmp}_OTHER}" >> $@ ; \
 GMK:		echo " " >> $@ ; \
@@ -245,6 +271,9 @@ GMK:		echo "	\$${BIBTEXSRCS} \$${$${tmp}_BIBTEXSRCS} \$${OTHER} \$${$${tmp}_OTHE
 GMK:		echo " " >> $@ ; \
 GMK:		echo "ALLTEXSRCS+=	$${tmp}.tex \$${$${tmp}_TEXSRCS}" >> $@ ; \
 GMK:		echo "ALLBIBTEXSRCS+=	\$${$${tmp}_BIBTEXSRCS}" >> $@ ; \
+BMK:		echo "$${tmp}-draft.ps: $${tmp}.dvi" >> $@ ; \
+BMK:		echo '	sed "s;DATE;`date`;g" $${DATED_DRAFT_PS} > $${DRAFT_STAMP_PS}' >> $@ ; \
+BMK:		echo '	$$(DVIPS) -h $${DRAFT_STAMP_PS} $$(DVIPS_FLAGS) -o $$@ $${tmp}.dvi' >> $@ ; \
 GMK:		echo "dvi:	$${tmp}.dvi" >> $@ ; \
 GMK:		echo "ps:	$${tmp}.ps"  >> $@ ; \
 GMK:		echo "pdf:	$${tmp}.pdf" >> $@ ; \
@@ -263,10 +292,20 @@ viewps: ${DEFAULTVIEWPS}
 .PHONY: viewps-all
 viewps-all: ${ALLVIEWPS}
 
+.PHONY: viewpdf
+viewpdf: ${DEFAULTVIEWPDF}
+.PHONY: viewpdf-all
+viewpdf-all: ${ALLVIEWPDF}
+
 .PHONY: viewps-draft
 viewps-draft: ${DEFAULTVIEWPS_DRAFT}
 .PHONY: viewps-all-draft
 viewps-all-draft: ${ALLVIEWPS_DRAFT}
+
+.PHONY: viewpdf-draft
+viewpdf-draft: ${DEFAULTVIEWPDF_DRAFT}
+.PHONY: viewpdf-all-draft
+viewpdf-all-draft: ${ALLVIEWPDF_DRAFT}
 
 .PHONY: print
 print: ${DEFAULTPRINT}
@@ -296,19 +335,24 @@ print-all-draft: ${ALLPRINT_DRAFT}
 #######################################
 .PHONY:  ps
 
-BMK:.if defined(DRAFT)
-GMK:ifdef DRAFT
-DVIPS_FLAGS+=	-h ${DRAFT_STAMP_PS}
+# if we're doing a *-draft target, then add the 
+# DRAFT watermark and time stamp
+BMK:.if make(*-draft)
+GMK:ifeq ($(findstring -draft,${MAKECMDGOALS}),-draft)
+__DRAFT=	yes
 BMK:.endif
 GMK:endif
 
 .dvi.ps :
-BMK:.if defined(DRAFT)
+BMK:.if defined(__DRAFT)
 GMK:ifdef DRAFT
 	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
+	$(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $*-draft.ps $<
+BMK:.else
+GMK:else
+	$(DVIPS) $(DVIPS_FLAGS) -o $@ $<
 BMK:.endif
 GMK:endif
-	$(DVIPS) $(DVIPS_FLAGS) -o $@ $<
 
 #######################################
 #
