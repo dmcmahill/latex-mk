@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.42 2004/03/18 12:31:35 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.43 2004/03/18 20:22:46 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -55,6 +55,7 @@
 #  BIBTEX	= the BibTeX executable
 #  BIBTEX_ENV	= environment variables set when running the BibTeX executable
 #  BIBEX_FLAGS	= flags passed to the BibTeX executable
+#  CONVERT      = the 'convert' program which is part of ImageMagick
 #  DVIPDFM      = the dvipdfm executable
 #  DVIPDFM_ENV  = environment variables set when running the dvipdfm executable
 #  DVIPDFM_FLAGS= flags passed to the dvipdfm executable
@@ -62,6 +63,7 @@
 #  DVIPS_FLAGS	= flags passed to the dvips executable
 #  GV		= a postscript previewer executable
 #  GV_FLAGS	= flags passed to the postscript previewer executable
+#  JPG2EPS      = program and flags used to convert JPEG files to EPS
 #  LATEX	= the LaTeX executable
 #  LATEX_ENV	= environment variables set when running the LaTeX executable
 #  LATEX_FLAGS	= flags passed to the LaTeX executable
@@ -80,6 +82,7 @@
 #  PDFLATEX     = pdflatex executable
 #  PDFLATEX_ENV = environment variables set when running the PDFLaTeX executable
 #  PDFLATEX_FLAGS= flags passed to the PDFLaTeX executable
+#  PNG2EPS      = program and flags used to convert PNG files to EPS
 #  PS2PDF	= ps2pdf executable
 #  PS2PDF_FLAGS	= flags passed to the ps2pdf executable
 #  VIEWPDF      = PDF viewer
@@ -127,6 +130,7 @@ LATEX_MK_DIR?=	@pkgdatadir@
 
 AWK?=		@AWK@
 BIBTEX?=	@BIBTEX@
+CONVERT?=	@CONVERT@
 DVIPDFM?=	@DVIPDFM@
 DVIPDFM_ENV?=	
 DVIPDFM_FLAGS+=	
@@ -146,6 +150,7 @@ HEVEA?=		@HEVEA@
 HEVEA_ENV?=
 HEVEA_FLAGS?=	-fix
 IMAGEN?=	@IMAGEN@
+JPG2EPS?=	${CONVERT} 
 LATEX_MK?=	@latexmkbindir@/latex-mk
 LATEX_MK_FLAGS?=
 LATEX?=		@LATEX@
@@ -161,6 +166,7 @@ LPR_FLAGS?=
 PDFLATEX?=	@PDFLATEX@
 PDFLATEX_ENV?=	
 PDFLATEX_FLAGS?=	
+PNG2EPS?=	${CONVERT} 
 POST_BIBTEX_HOOK?=
 RM?=		@RM@
 RMDIR?=		@RMDIR@
@@ -577,13 +583,24 @@ print-all-draft: ${ALLPRINT_DRAFT}
 #
 #######################################
 
-.SUFFIXES : .tex .dvi .ps .pdf .rtf .html-stamp
+.SUFFIXES : .tex .dvi .ps .pdf .rtf .html-stamp .png .jpg .eps
 
 BMK:.if defined(IGNORE_LATEX_ERRORS)
 GMK:ifdef IGNORE_LATEX_ERRORS
 LATEX_MK_FLAGS+=	--ignore-errors
 BMK:.endif
 GMK:endif
+
+#######################################
+#
+# Graphic file conversions
+#
+#######################################
+.jpg.eps : 
+	$(JPG2EPS) $< $@
+
+.png.eps : 
+	$(PNG2EPS) $< $@
 
 #######################################
 #
@@ -774,3 +791,4 @@ distclean: clean
 .PHONY: show-var
 show-var:
 	@${ECHO} ${${VARNAME}}
+

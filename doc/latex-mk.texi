@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.35 2004/03/17 21:10:59 dan Exp $
+@c $Id: latex-mk.texi,v 1.36 2004/03/18 20:22:45 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -430,6 +430,13 @@ A list of flags to be passed to the BIBTEX executible.
 Defaults to @samp{}.
 @end defvar
 
+@defvar CONVERT
+The image file format conversion executible which is
+part of the ImageMagick (@url{http://imagemagick.org/})
+suite.
+Defaults to @samp{convert}.
+@end defvar
+
 @defvar DVIPDFM
 The executible which produces PDF files from @file{.dvi} files.
 Defaults to @samp{dvipdfm}.  Note that the default behaviour is to use
@@ -495,6 +502,12 @@ Defaults to @samp{-fix}.
 @defvar IMAGEN
 The imagen  executible (part of HeVeA).
 Defaults to @samp{imagen}.
+@end defvar
+
+@defvar JPG2EPS
+The command to convert a JPEG file
+to an Encapsulated PostScript (EPS) file.
+Defaults to @samp{$\{CONVERT\}}.
 @end defvar
 
 @defvar LATEX
@@ -581,6 +594,12 @@ Defaults to @samp{}.
 @defvar PDFLATEX_FLAGS
 A list of flags to be passed to the PDFLATEX executible.
 Defaults to @samp{}.
+@end defvar
+
+@defvar PNG2EPS
+The command to convert a Portable Network Graphic (PNG) file
+to an Encapsulated PostScript (EPS) file.
+Defaults to @samp{$\{CONVERT\}}.
 @end defvar
 
 @defvar POST_BIBTEX_HOOK
