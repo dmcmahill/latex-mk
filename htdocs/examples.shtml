@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<!-- $Id: examples.shtml,v 1.1 2002/09/12 02:54:11 dan Exp $ -->
+<!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
+<link rev="made" href="mailto:danmc@sourceforge.net">
+<title>LaTeX-Mk Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="DESCRIPTION" content="LaTeX-Mk:  A makefile system for
+          LaTeX documents">
+<meta name="KEYWORDS" content="
+gmake,
+latex,
+make,
+tgif,
+xfig,
+">
+</head>
+
+<!-- Start the main page table -->
+<!--#include virtual="page_start.incl"-->
+
+<!-- The main action area -->
+    <center>
+    <font face="helvetica, arial" size="+2">
+      LaTeX-Mk Examples
+    </font>
+    <br>
+    <br>
+    </center>
+    
+    <font face="helvetica, arial">
+    <H2>Simple Project</H2>
+    <p>
+    </p>
+
+    <H2>A More Complicated Example</H2>
+    <p>
+    </p>
+
+
+    </font>
+
+  </td>
+
+</tr>
+
+<!-- The left hand column -->
+<!--#include virtual="left_column.incl"-->
+
+</table>
+<p>
+
+<!--#include virtual="main_footer.incl"-->
+
+
+</body>
+</html>
