@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.7 2002/10/07 21:00:37 dan Exp $
+## $Id: Makefile.am,v 1.8 2002/10/08 13:45:05 dan Exp $
 ##
 ## Copyright (c) 2002 Dan McMahill
 ## All rights reserved.
@@ -44,9 +44,9 @@ BMKFILES=	${MKSRCS:.in=.mk}
 GMKFILES=	${MKSRCS:.in=.gmk}
 
 pkgexampledir=		${pkgdatadir}/example
-pkgexample_DATA=	${BMKFILES} ${GMKFILES} ${EXFILES} example.conf
+pkgexample_DATA=	${BMKFILES} ${GMKFILES} ${EXFILES} example.conf README-example.txt
 
-EXTRA_DIST=	${EXFILES} makefile.in example.conf.in
+EXTRA_DIST=	${EXFILES} makefile.in example.conf.in README-example.txt
 
 DISTCLEANFILES=	\
 	${BMKFILES} \
