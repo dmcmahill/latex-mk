@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.9 2002/09/15 11:43:57 dan Exp $
+# $Id: latex.mk.in.in,v 1.10 2002/09/16 11:11:37 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -88,6 +88,11 @@ GMK:_CONFS= $(wildcard ${MAKECONF})
 GMK:_CONFS+=        $(wildcard ${USER_MAKECONF})
 GMK:include ${_CONFS}
 
+# The location of the latex-mk .mk and .gmk files
+# we do this instead of hard coding so the package
+# can be tested before installation by setting this
+# variable in a test config file
+LATEX_MK_DIR?=	@pkgdatadir@
 
 BIBTEX?=	@BIBTEX@
 DVIPS?=		@DVIPS@
@@ -120,7 +125,7 @@ GMK:ifdef TGIFDIRS
 _USE_TGIF_MK+=	YES
 GMK:endif
 GMK:ifdef _USE_TGIF_MK
-GMK:include @pkgdatadir@/tgif.gmk
+GMK:include ${LATEX_MK_DIR}/tgif.gmk
 GMK:endif
 
 BMK:.if defined(XFIGSRCS) || defined(XFIGDIRS)
@@ -134,7 +139,7 @@ GMK:ifdef XFIGDIRS
 _USE_XFIG_MK+=	YES
 GMK:endif
 GMK:ifdef _USE_XFIG_MK
-GMK:include @pkgdatadir@/xfig.gmk
+GMK:include ${LATEX_MK_DIR}/xfig.gmk
 GMK:endif
 
 .MAIN: view
