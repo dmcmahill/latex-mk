@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.33 2003/05/25 04:07:37 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.34 2003/05/25 20:12:17 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -462,10 +462,10 @@ GMK:ps:	$(1).ps
 GMK:pdf:	$(1).pdf
 GMK:ps-draft:	$(1)-draft.ps
 GMK:pdf-draft:	$(1)-draft.pdf
-GMK:clean::	clean-$(1)-html
+GMK:clean::
 GMK:	if [ -f $(1).www_files ]; then  \
 GMK:		for f in `${AWK} '{print $$2}' $(1).www_files` ; do \
-GMK:			if [ -f $$f ]; then ${RM} -f $$f ; fi ;\
+GMK:			if [ -f $$$$f ]; then ${RM} -f $$$$f ; fi ;\
 GMK:		done ;\
 GMK:	fi
 GMK:	${RM} -f $(1).www_files
@@ -474,7 +474,7 @@ GMK:	${RM} -f $(1).html_dir/images.aux
 GMK:	${RM} -f $(1).html_dir/images.bbl
 GMK:	${RM} -f $(1).html_dir/images.log
 GMK:	${RM} -f $(1).html_dir/images.tex
-GMK:endef
+GMK:endif
 GMK:	if [ -d $(1).html_dir ] ; then ${RMDIR} $(1).html_dir ; fi
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call dvideps_template,$(__tmp__))))
@@ -604,6 +604,7 @@ GMK:endif
 		if ${GREP} $$f $*.www_files >/dev/null ; then \
 			echo "$$f already recorded" ; \
 		else \
+			echo "recording file $$f ($*.html_dir/$$fn)" ; \
 			echo "$$f $*.html_dir/$$fn" >> $*.www_files ; \
 		fi ;\
 	done
