@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.17 2002/10/07 02:28:13 dan Exp $
+# $Id: latex.mk.in.in,v 1.18 2002/10/07 03:08:15 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -103,6 +103,7 @@ FALSE?=		@FALSE@
 GV?=		@GV@
 GV_FLAGS?=	
 LATEX-MK?=	@latexmkbindir@/latex-mk
+LATEX-MK_FLAGS?=
 LATEX?=		@LATEX@
 LATEX_ENV?=	
 LPR?=		@LPR@
@@ -319,6 +320,12 @@ print-all-draft: ${ALLPRINT_DRAFT}
 
 .SUFFIXES : .tex .dvi .ps .pdf
 
+BMK:.if defined(IGNORE_LATEX_ERRORS)
+GMK:ifdef IGNORE_LATEX_ERRORS
+LATEX-MK_FLAGS+=	--ignore-errors
+BMK:.endif
+GMK:endif
+
 #######################################
 #
 # DVI Output (latex)
@@ -326,7 +333,7 @@ print-all-draft: ${ALLPRINT_DRAFT}
 #######################################
 .PHONY: dvi
 .tex.dvi : 
-	$(ENV_PROG) $(LATEX_ENV) $(LATEX-MK) $<
+	$(ENV_PROG) $(LATEX_ENV) $(LATEX-MK) $(LATEX-MK_FLAGS) $<
 
 #######################################
 #
