@@ -1,4 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
+@c $Id: latex-mk.texi,v 1.2 2002/06/02 11:04:35 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle latex-mk
@@ -125,6 +126,20 @@ understand how Latex-Mk works.
 @vrindex VR_INDEX
 
 @trindex A_TR_INDEX
+
+@defmac BIBTEX
+@vrindex BIBTEX
+The bibtex executible.
+@end defmac
+
+@defmac BIBTEX_ENV
+@vrindex BIBTEX_ENV
+A list of variables to be set in the environment when bibtex
+is run.  For example:
+@example
+BIBTEX_ENV+=	FOO="bar"
+@end example
+@end defmac
 
 @page
 @node Variable Index, General Index, Top, Top
