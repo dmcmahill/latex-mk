@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<!-- $Id: bugs.shtml,v 1.1 2002/09/12 12:59:50 dan Exp $ -->
+<!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
+<link rev="made" href="mailto:danmc@sourceforge.net">
+<title>Reporting LaTeX-Mk Bugs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="DESCRIPTION" content="LaTeX-Mk:  A makefile system for
+          LaTeX documents">
+<meta name="KEYWORDS" content="
+gmake,
+latex,
+make,
+tgif,
+xfig,
+">
+</head>
+
+<!-- Start the main page table -->
+<!--#include virtual="page_start.incl"-->
+
+<!-- The main action area -->
+    <center>
+    <font face="helvetica, arial" size="+2">
+      Reporting LaTeX-Mk Bugs and Other Feedback
+    </font>
+    <br>
+    <br>
+    </center>
+    
+    <font face="helvetica, arial">
+    <H2>Bug Reports</H2>
+    <p>
+    If you find a bug in LaTeX-Mk or have a suggestion on how to improve LaTeX-Mk, please visit the
+    <a href="http://sourceforge.net/projects/latex-mk">LaTeX-Mk Sourceforge Project Page</a>.  Before
+    filing a bug report, please check the bug database and see if the bug has already been reported.  If
+    note, file a bug report there.  Remember, your feedback is what helps to improve LaTeX-Mk!
+    </p>
+
+
+    </font>
+
+  </td>
+
+</tr>
+
+<!-- The left hand column -->
+<!--#include virtual="left_column.incl"-->
+
+</table>
+<p>
+
+<!--#include virtual="main_footer.incl"-->
+
+</body>
+</html>
