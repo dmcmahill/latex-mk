@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.13 2003/03/07 23:53:28 dan Exp $
+# $Id: latex-mk.in,v 1.14 2003/05/19 03:24:50 dan Exp $
 #
 # Copyright (c) 2002, 2003 Dan McMahill
 # All rights reserved.
@@ -142,7 +142,7 @@ while test $cnt -lt $MAXITERS ; do
 	# wants to keep running latex and viewing/printing the results with these
 	# errors present, provide a way to override this.
 	#
-	needbib=`grep "Citation.*on page.*undefined" $LATEX_MK_LOG`
+	needbib=`grep "Citation.*undefined" $LATEX_MK_LOG`
 	if test -n "$needbib" ; then
 		if test $bibcnt -eq 0 ; then
 			echo "$sep"
