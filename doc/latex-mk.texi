@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.23 2003/02/25 23:56:15 dan Exp $
+@c $Id: latex-mk.texi,v 1.24 2003/02/28 10:38:06 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -198,7 +198,7 @@ TGIFDIRS=    tgif_figs
 In this example is it assumed that all of the Tgif figures reside in a
 subdirectory called @file{tgif_figs}.  When the user issues a
 @samp{make} command, all of the steps required to reformat the document
-are taken.  Because of the dependency structure imposed my @samp{make},
+are taken.  Because of the dependency structure imposed by @samp{make},
 only the steps which need to be taken are done.  This avoids
 re-exporting a large number of figures which may have not changed, but
 ensures that files which need processing are processed.
@@ -435,7 +435,7 @@ Defaults to @samp{dvips}.
 
 @defvar DVIPS_FLAGS
 A list of flags to be passed to the DVIPS executible.
-Defaults to @samp{-Ppdf -j0}
+Defaults to @samp{-Ppdf -j0}.
 @end defvar
 
 @defvar GV
@@ -530,7 +530,7 @@ currently precludes the generation of the -draft versions of PDF files.
 
 @defvar VIEWPDF
 The executible which previews @file{.pdf} files. 
-Defaults to @samp{xdvi}.
+Defaults to @samp{gv}.
 @end defvar
 
 @defvar VIEWPDF_FLAGS
@@ -562,6 +562,7 @@ Defaults to @samp{tgif}.
 @defvar TGIF_FLAGS
 A list of flags to be passed to the TGIF executible to cause it to print
 to an encapsulated postscript, @file{.eps}, file.
+Defaults to @samp{-color -print -eps}.
 @end defvar
 
 @subsection Xfig Site Configuration Variables
