@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.37 2003/06/11 12:24:08 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.38 2003/08/25 00:14:09 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -450,6 +450,7 @@ BMK:.if defined(USE_LATEX2HTML)
 BMK:	${RM} -f ${__tmp__}.html_dir/images.aux
 BMK:	${RM} -f ${__tmp__}.html_dir/images.bbl
 BMK:	${RM} -f ${__tmp__}.html_dir/images.log
+BMK:	${RM} -f ${__tmp__}.html_dir/images.out
 BMK:	${RM} -f ${__tmp__}.html_dir/images.tex
 BMK:.endif
 BMK:	if [ -d ${__tmp__}.html_dir ]; then ${RMDIR} ${__tmp__}.html_dir ; fi
@@ -483,6 +484,7 @@ GMK:ifdef USE_LATEX2HTML
 GMK:	${RM} -f $(1).html_dir/images.aux
 GMK:	${RM} -f $(1).html_dir/images.bbl
 GMK:	${RM} -f $(1).html_dir/images.log
+GMK:	${RM} -f $(1).html_dir/images.out
 GMK:	${RM} -f $(1).html_dir/images.tex
 GMK:endif
 GMK:	if [ -d $(1).html_dir ] ; then ${RMDIR} $(1).html_dir ; fi
