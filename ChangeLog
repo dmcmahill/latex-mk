@@ -1,0 +1,414 @@
+2002-10-17  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	many fixes for gmake.  Uses gmake-3.80 features, but the other approach
+	to the dynamic dependencies and targets was a total hack which proved
+	to not be portable across different versions of gmake.  The big change
+	here is how we handle multiple top level documents with gmake.
+
+2002-10-10  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	- document the VIEWPDF and VIEWPDF_FLAGS variables
+
+	- XDVI is for .dvi previews, not .pdf previews
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/news.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/obtaining.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/history.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/index.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/examples.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/faq.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/bugs.shtml:
+	s/danmc@sourceforge.net/danmc@users.sourceforge.net/
+
+2002-10-09  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/upload_list, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/Makefile:
+	add 'upload' target.  this uses the upload_list to select which files
+	get rsynced
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/history.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/index.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/news.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/Makefile:
+	add the news section and update for the 0.9 release
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac: set to version 0.9
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac: bump to 0.9A
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am:
+	add all-local to chmod 755 the scripts.  otherwise they are not executible prior to installation
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/COPYING:
+	note that its more than just .mk files
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	add the ps_<name>-draft target
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/TODO:
+	add ieee-copyout and dist items
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/ex2.tex:
+	add missing example to CVS
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	clean the draft_stamp.ps file
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/README-example.txt:
+	add more notes on runnng the example
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/example.conf.in, /usr/cvsroot/localsrc/misc/latex-mk/example/makefile.in, /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
+	example.conf is deprecated.  Just set the env vars per the readme file
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/obtaining.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/history.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/index.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/left_column.incl, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/bugs.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/examples.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/faq.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/Makefile:
+	several updates, add a history section, add some faq's about GNU vs BSD make,
+	correct some spellings, grammar, etc.
+
+2002-10-08  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/tgif/Makefile.am:
+	install the tgif files in a subdirectory
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/README-example.txt, /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
+	add a readme file about how to try the example
+
+2002-10-07  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
+	distribute the .dvi files to avoid needing tex to build the docs
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
+	fix for BSD make
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	s/BMK/GMK in a key spot.  Fixes gmake foo-draft.ps and prevents creating garbage pdf-draft files with bmake
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	fix the test for draft output with gmake.  clean the -draft.ps and -draft.pdf files
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in: add a check for
+
+	  LaTeX Warning: There were undefined references.
+
+	after the final run.  For now, just issue a warning.  In the future, this
+	should support a bunch of flags saying which are warnings and which are
+	fatal errors
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in:
+	add support for IGNORE_LATEX_ERRORS makefile variable which will pass
+	--ignore-errors to latex-mk.  This lets you build with undefined references.
+
+	While here, add --pdflatex support to latex-mk.  Still need support in the
+	makefiles.
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in:
+	correctly capture the latex return code when piping the output to a log
+	file.  Thanks to Valeriy E. Ushakov <uwe@netbsd.org> for shell programming
+	help on this one.
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am:
+	fix exec_dir processing
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/ieee-copyout.in, /usr/cvsroot/localsrc/misc/latex-mk/ieee-copyout:
+	move ieee-copyout to ieee-copyout.in
+
+2002-10-05  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/README:
+	Add an acknowledgement for Karthikesh Raju <karthik@james.hut.fi>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/README.to-release:
+	pull in some notes on releasing with cvs
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/README.to-release:
+	move to top directory
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/README.to-release:
+	pull in some notes on releasing with cvs
+
+2002-10-03  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/README:
+	add some formatting and some acknowledgements
+
+2002-09-30  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/index.shtml:
+	note that latex-mk has scripts as well as makefiles
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in:
+	fix support for -draft targets
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	document the -draft targets and the options for multiple top level documents.
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/ieee-copyout:
+	add script (not finished yet) to make a sanitized copy of the document
+	for IEEE submission.
+
+2002-09-27  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	fix the name for viewps-draft, viewps-all-draft, print-draft, and print-all-draft
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/dated_draft.ps, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	add initial support for draft watermark and time stamp in postscript and later output
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/TODO:
+	add TODO list
+
+2002-09-21  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	cause the gmake dependency files to always be remade.  Hopefully this ugly
+	hack brings gmake support up to what BSD make does.
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
+	add ex2.tex to distfiles
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
+	add example.conf to distclean list
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	fix texi formatting bugs
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
+	bump rev now that multiple docs are supported
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/example/makefile.in, /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
+	many changes to allow GNU make to deal with multiple documents per
+	directory and some common and some shared dependencies.  Now fully
+	supports things like:
+
+	NAME= doc1 doc2
+	TEXSRCS= common.tex
+	doc1_TEXSRCS=extra1.tex
+	doc2_TEXSRCS=extra2.tex
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in:
+	be sure and cleanup on exit
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in:
+	add a --clean flag which deletes any leftover log files
+
+2002-09-20  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/example.conf.in, /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
+	more work on the examples, but not ready for prime-time yet
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am: add copyright info
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
+	correct help text for --with-{user,}{g,}mkconf
+
+2002-09-18  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/example/makefile.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in:
+	add support for having multiple documents with individual and shared
+	dependencies in the same directory.  Idea from Jeff McMahill.
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in: use
+	  if test ! -f $file
+	instead of
+	  if ! test -f $file
+
+	and fix some echo "" quotes to make this work properly on solaris.
+
+2002-09-16  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/refs.bib, /usr/cvsroot/localsrc/misc/latex-mk/example/tgif/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/example/biblio.tex, /usr/cvsroot/localsrc/misc/latex-mk/example/example.tex, /usr/cvsroot/localsrc/misc/latex-mk/example/makefile.in, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
+	add an example of using latex-mk
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	search for the included .mk files in LATEX_MK_DIR.  This will let me more
+	easily setup a config file for pre-installation testing.
+
+2002-09-15  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	more improvements to the latex-mk script.  It now seems to correctly detect
+	when a bibtex run is needed and actually appears to run latex the right number
+	of times now.
+
+	Given this, try switching to latex-mk instead of latex in the makefiles now.
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am:
+	add @bindir@ to the list of common variables to substitute for
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	for gmake, include the .gmk files, not the .mk files
+
+2002-09-14  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am:
+	add a latex-mk shell script which actually will (not yet) do the work
+	of running latex.  It will keep track of if latex and/or bibtex need
+	to be re-run to resolve changed labels, etc.  Also, it has a configurable
+	limit on how many times it will run latex.
+
+2002-09-13  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/logo.jpg, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/logo.png, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/logo2.png, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/curved.png, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/curved.xcf:
+	add some images
+
+2002-09-12  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/bugs.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/Makefile:
+	add bug reporting info
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/examples.shtml:
+	add some examples
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/Makefile:
+	makefile for building static pages
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/examples.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/left_column.incl:
+	add template for an example
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/main_footer.incl:
+	add sourceforge logo and counter
+
+2002-08-31  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/utils/shtml2html, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/logo.xcf, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/main_footer.incl, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/obtaining.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/page_start.incl, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/index.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/left_column.incl, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/faq.shtml:
+	start on web page
+
+2002-08-29  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	- fix the table of contents so it actually shows up
+	- fix the concepts index so it actually shows up
+	- start new pages with each new chapter
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/aclocal.m4:
+	this is a generated file.  no need to put in cvs
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	fix up the config files.  In particular, use sysconfdir to specify the
+	locations for latex-mk.conf and latex-gmk.conf.
+
+	switch to make the default user config file be ${HOME}/.latex-{g,}mk.conf
+
+2002-08-28  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.subdir.mk.in.in:
+	add stub makefile for subdirectories
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
+	use ${sysconfdir} instead of hardcoding /etc
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	document the --with-mkconf, --with-gmkconf, --with-usermkconf, and
+	--with-usergmkconf options
+
+	start work on the installation chapter
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	fix up the --with-mkconf, --with-gmkconf, --with-usermkconf, and --with-usergmkconf options
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/README:
+	point to the real documentation
+
+2002-08-26  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
+	fix up the previous commit
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/xfig.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	add --with-mkconf and --with-gmkconf to change /etc/mk.conf and /etc/gmk.conf
+
+2002-08-24  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
+	install the html, postscript and pdf manuals
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	add minimal documentation on MAKECONF and USER_MAKECONF
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	use mk.conf for BSD make and gmk.conf for GNU make
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	- fix autoconf-iguration of ENV_PROG.
+	- check for XFIGSRCS and XFIGDIRS and pull in xfig.mk if either is set.
+	  fixes processing of xfig figures.
+
+2002-08-23  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	fix up copyright notice and license
+
+2002-08-22  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	- add a bunch of introductory text
+	- sort variables by type
+	- add barebones "obtaining" section
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
+	sort DISTCLEANFILES and add .pdf
+
+2002-08-21  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	add some sections and nodes for targets and variables
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am:
+	do not distribute the .mk.in files.  they are installation dependent
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	first pass through listing of all targets and variables.  Need to add examples
+	and a good bit of explanatory text still.
+
+2002-08-19  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/texinfo.tex:
+	update to version 2002-06-04.06
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
+	use DISTCLEANFILES instead of distclean-local:
+
+2002-08-16  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
+	add more program checks
+
+2002-08-15  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/example/tgif/myfig.obj, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/aclocal.m4, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
+	lots of changes to build system.  use configure to find paths to many
+	of the executibles which are needed.  Also add xfig tests and an example.
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/xfig.mk.in.in:
+	add (untested) xfig make fragment
+
+2002-08-14  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in, /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
+	move latex.mk.in tgif.mk.in to latex.mk.in.in tgif.mk.in.in
+
+2002-07-01  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
+	remove .fns files during distclean
+
+2002-06-02  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in:
+	add .PHONY everywhere where needed (did not have any before)
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
+	add small example on formatting code examples
+
+2002-05-21  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
+	cleanup and fix distclean target
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/mdate-sh, /usr/cvsroot/localsrc/misc/latex-mk/doc/texinfo.tex:
+	add rcs id
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
+	add html and pdf ouptut
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/doc/texinfo.tex, /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi, /usr/cvsroot/localsrc/misc/latex-mk/doc/mdate-sh, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in, /usr/cvsroot/localsrc/misc/latex-mk/COPYING, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/README, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/AUTHORS:
+	add texinfo skeleton
+
+2002-05-20  Dan McMahill  <dan@bondage.mcmahill.net>
+
+	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in, /usr/cvsroot/localsrc/misc/latex-mk/missing, /usr/cvsroot/localsrc/misc/latex-mk/mkinstalldirs, /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/install-sh, /usr/cvsroot/localsrc/misc/latex-mk/config.guess, /usr/cvsroot/localsrc/misc/latex-mk/config.sub, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/NEWS, /usr/cvsroot/localsrc/misc/latex-mk/README, /usr/cvsroot/localsrc/misc/latex-mk/aclocal.m4, /usr/cvsroot/localsrc/misc/latex-mk/ChangeLog, /usr/cvsroot/localsrc/misc/latex-mk/INSTALL, /usr/cvsroot/localsrc/misc/latex-mk/AUTHORS, /usr/cvsroot/localsrc/misc/latex-mk/COPYING:
+	move here from localsrc/share/mk since it is its own package now
+
