@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.3 2002/08/15 02:50:28 dan Exp $
+## $Id: Makefile.am,v 1.4 2002/08/21 02:28:01 dan Exp $
 
 
 MKSRCS=	latex.mk.in tgif.mk.in xfig.mk.in
@@ -8,7 +8,6 @@ GMKFILES=	${MKSRCS:.mk.in=.gmk}
 
 pkgdata_DATA= ${BMKFILES} ${GMKFILES}
 
-EXTRA_DIST= ${MKSRCS}
 DISTCLEANFILES=	\
 	configure.lineno \
 	${BMKFILES} \
