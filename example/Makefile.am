@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.4 2002/09/21 02:39:02 dan Exp $
+## $Id: Makefile.am,v 1.5 2002/09/21 02:57:08 dan Exp $
 ##
 ## Copyright (c) 2002 Dan McMahill
 ## All rights reserved.
@@ -49,7 +49,8 @@ EXTRA_DIST=	${EXFILES} makefile.in example.conf.in
 
 DISTCLEANFILES=	\
 	${BMKFILES} \
-	${GMKFILES}
+	${GMKFILES} \
+	example.conf
 
 SUBDIRS=	tgif
 
