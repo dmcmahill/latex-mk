@@ -1,0 +1,3 @@
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
+dvips  -j0 -t landscape -o test1.ps test1.dvi
+ps2pdf  test1.ps
