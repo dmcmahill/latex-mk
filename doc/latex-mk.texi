@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.19 2003/02/02 01:28:02 dan Exp $
+@c $Id: latex-mk.texi,v 1.20 2003/02/02 02:33:53 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -16,7 +16,7 @@
 @ifinfo
 This file documents LaTeX-Mk-@value{VERSION}
 
-Copyright @copyright{} 2002 Dan McMahill
+Copyright @copyright{} 2002, 2003 Dan McMahill
 
 @quotation
 This code is derived from software written by Dan McMahill
@@ -58,7 +58,7 @@ are met:
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 2002 Dan McMahill
+Copyright @copyright{} 2002, 2003 Dan McMahill
 @sp 2
 @iftex
 @smallformat
