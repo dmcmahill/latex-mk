@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.15 2002/10/09 03:36:11 dan Exp $
+@c $Id: latex-mk.texi,v 1.16 2002/10/10 01:34:31 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -690,7 +690,7 @@ configuration file for GNU make.  This file defaults to
 To report bugs, provide feedback, suggest new features, etc. visit the
 LaTeX-Mk Project management page at
 @url{http://www.sourceforge.net/projects/latex-mk} or send email to the
-author at @email{danmc@@sourceforge.net}.
+author at @email{danmc@@users.sourceforge.net}.
 For information on the current version of LaTeX-Mk, visit the LaTeX-Mk
 homepage at @url{http://latex-mk.sourceforge.net}.
 

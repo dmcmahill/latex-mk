@@ -2,9 +2,9 @@
 
 <html>
 <head>
-<!-- $Id: obtaining.shtml,v 1.2 2002/10/09 00:59:58 dan Exp $ -->
+<!-- $Id: obtaining.shtml,v 1.3 2002/10/10 01:32:22 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
-<link rev="made" href="mailto:danmc@sourceforge.net">
+<link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>How to Get LaTeX-Mk</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="DESCRIPTION" content="LaTeX-Mk:  A makefile system for
