@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.25 2003/03/19 18:46:40 dan Exp $
+@c $Id: latex-mk.texi,v 1.26 2003/05/26 19:15:21 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -118,6 +118,7 @@ This edition documents version @value{VERSION}.
 * Introduction::                LaTeX-Mk's purpose
 * Targets::                     Available Targets
 * Variables::                   Variables
+* HTML::                        HTML Output Support
 * Obtaining::                   How to get LaTeX-Mk
 * Installation::                How to configure and install LaTeX-Mk
 * Feedback::                    How to contribute
@@ -233,6 +234,12 @@ addition, emacs @file{~} files are removed.
 @deffn Target dvi
 @trindex dvi
 Performs all processing required to produce the @file{.dvi} file for the
+project.
+@end deffn
+
+@deffn Target html
+@trindex html
+Performs all processing required to produce HTML output for the
 project.
 @end deffn
 
@@ -448,6 +455,30 @@ A list of flags to be passed to the GV executible.
 Defaults to @samp{}.
 @end defvar
 
+@defvar HEVEA
+The Hevea executible.
+Defaults to @samp{hevea}.
+@end defvar
+
+@defvar HEVEA_ENV
+A list of variables to be set in the environment when HEVEA
+or IMAGEN is run.  For example:
+@example
+HEVEA_ENV+=	TEXINPUTS=.:/home/usr/tex:
+@end example
+Defaults to @samp{}.
+@end defvar
+
+@defvar HEVEA_FLAGS
+A list of flags to be passed to the HEVEA executible.
+Defaults to @samp{-fix}.
+@end defvar
+
+@defvar IMAGEN
+The imagen  executible (part of HeVeA).
+Defaults to @samp{imagen}.
+@end defvar
+
 @defvar LATEX
 The LaTeX executible.
 Defaults to @samp{latex}.
@@ -465,6 +496,25 @@ Defaults to @samp{}.
 @defvar LATEX_FLAGS
 A list of flags to be passed to the LATEX executible.
 Defaults to @samp{}.
+@end defvar
+
+@defvar LATEX2HTML
+The LaTex2HTML executible.
+Defaults to @samp{latex2html}.
+@end defvar
+
+@defvar LATEX2HTML_ENV
+A list of variables to be set in the environment when LATEX2HTML
+is run.  For example:
+@example
+LATEX2HTML_ENV+=	TEXINPUTS=.:/home/usr/tex:
+@end example
+Defaults to @samp{}.
+@end defvar
+
+@defvar LATEX2HTML_FLAGS
+A list of flags to be passed to the LATEX2HTML executible.
+Defaults to @samp{-image_type png -local_icons -show_section_numbers}.
 @end defvar
 
 @defvar LPR
@@ -517,6 +567,16 @@ directly generate @file{.pdf} files from the @file{.dvi} files instead
 of using DVIPS to generate a postscript file and then PS2PDF to convert
 the postscript to PDF.  Please note that the use of this option
 currently precludes the generation of the -draft versions of PDF files.
+@end defvar
+
+@defvar USE_HEVEA
+When set, this variable causes the HEVEA program to be used to
+generate HTML output.  
+@end defvar
+
+@defvar USE_LATEX2HTML
+When set, this variable causes the LATEX2HTML program to be used to
+generate HTML output. 
 @end defvar
 
 @defvar USE_PDFLATEX
@@ -704,8 +764,50 @@ level dependency list and will be
 automatically re-exported to postscript as required.
 @end defvar
 
+@node HTML, Obtaining, Variables, Top
+@chapter HTML Output
+LaTeX-Mk includes support for generating HTML output.  Currently either
+Latex2HTML (see @url{http://www.latex2html.org}) or HeVeA (see
+@url{http://para.inria.fr/~maranget/hevea/}) can be used for producing
+an HTML version of your document.  The selection of which program to
+use is done with the USE_LATEX2HTML and USE_HEVEA variables.  Simply
+define one of these in your @file{$@{sysconfdir@}/latex-mk.conf} file
+(for site-wide configuration) or @file{$HOME/.latex-mk.conf} (for
+per-user configuration).  If you are using GNU make, the variable would
+be set in @file{$@{sysconfdir@}/latex-gmk.conf} or
+@file{$HOME/.latex-gmk.conf} instead.  You can also override this
+setting in your project @file{Makefile}. For example, to use Latex2HTML,
+add
+@example
+USE_LATEX2HTML=  yes
+@end example
+to your configuration file or to your project @file{Makefile}.
 
-@node Obtaining, Installation, Variables, Top
+To generate HTML output, simply run @samp{make html}.  The HTML output
+along with any image files will be placed in a subdirectory called
+@file{${NAME}.html_dir}.  For example, if you have a project with two
+top level documents, your @file{Makefile} might look like:
+@example
+NAME=  doc1 doc2
+.include "/usr/pkg/share/latex-mk/latex.mk"
+@end example
+After running @samp{make html}, you will have two new subdirectories
+called @file{doc1.html_dir} and @file{doc2.html_dir} containing HTML
+versions of the two documents.
+
+To keep track of which files have been generated during the conversion,
+a temporary file, @file{${NAME}.www_files} gets created and all
+generated files are recorded there.  This allows the output produced by
+HeVeA to be moved to the correct subdirectory as well as allowing
+@samp{make clean} to work.
+
+The HTML generation is still new and there are probably some bugs to
+work out.  Please submit bug reports.  There are also some features
+which may be useful that have not been integrated.  For example the
+program @file{hacha} could be used for breaking the HeVeA output into
+several smaller files.
+
+@node Obtaining, Installation, HTML, Top
 @chapter Obtaining LaTeX-Mk
 The latest information and version of LaTeX-Mk can be found on the main
 LaTeX-Mk
@@ -900,6 +1002,16 @@ been fixed.
     fixed.  Previously, after a BibTeX run, @code{latex-mk} failed to run
     LaTeX the correct number of times.
 
+@end itemize
+
+@subsection Version 1.1
+This is the "HTML Support" release.  Version 1.1 was released on 2003-??-??.
+The significant changes/additions over the previous version are:
+@itemize @bullet
+@item Support for HTML output
+
+@item Fixed a bug where bibtex was not run sometimes when it needed to
+be run.  This problem showed up with some versions of LaTeX.
 @end itemize
 
 @page
