@@ -1,4 +1,4 @@
-# $Id: tgif.mk.in.in,v 1.6 2002/10/17 10:54:09 dan Exp $
+# $Id: tgif.mk.in.in,v 1.7 2002/10/18 02:22:37 dan Exp $
 #
 # Makefile fragment for processing tgif files to produce postscript
 #
@@ -84,6 +84,9 @@ BMK:.endif
 BMK:.endfor
 
 
+TGIFOBJS?=	$(TGIFSRCS:.obj=.eps)
+ALLTGIFOBJS=	$(TGIFOBJS)
+
 GMK:define tgifdirs_template
 GMK:ifdef $(1)_TGIFDIRS
 GMK:$(1)_TGIFSRCS+= $(foreach __tmp2__,$($(1)_TGIFDIRS),$(wildcard $(__tmp2__)/*.obj))
@@ -91,8 +94,6 @@ GMK:endif
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call tgifdirs_template,$(__tmp__))))
 
-TGIFOBJS?=	$(TGIFSRCS:.obj=.eps)
-ALLTGIFOBJS=	$(TGIFOBJS)
 BMK:.for __tmp__ in ${NAME}
 BMK:.if defined(${__tmp__}_TGIFSRCS)
 BMK:${__tmp__}_TGIFOBJS?=	${${__tmp__}_TGIFSRCS:.obj=.eps}
@@ -100,7 +101,6 @@ BMK:${__tmp__}_OTHER+=	${${__tmp__}_TGIFOBJS}
 BMK:ALLTGIFOBJS+=	${${__tmp__}_TGIFOBJS}
 BMK:.endif
 BMK:.endfor
-
 
 GMK:define tgifdeps_template
 GMK:ifdef $(1)_TGIFSRCS
@@ -110,7 +110,6 @@ GMK:ALLTGIFOBJS+=	${$(1)_TGIFOBJS}
 GMK:endif
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call tgifdeps_template,$(__tmp__))))
-
 
 
 OTHER+=	$(TGIFOBJS)
