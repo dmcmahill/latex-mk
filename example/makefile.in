@@ -1,10 +1,11 @@
-# $Id: makefile.in,v 1.4 2002/10/09 02:53:19 dan Exp $
+# $Id: makefile.in,v 1.5 2003/02/23 03:17:05 dan Exp $
 #
 
-NAME=		example ex2
-TEXSRCS=	biblio.tex
-TGIFDIRS=	tgif
+NAME=			example ex2 ex3
 
+# ex3 doesn't use the tgif figures
+example_TGIFDIRS=	tgif
+ex2_TGIFDIRS=		tgif
 
 BMK:.include "${LATEX_MK_DIR}/latex.mk"
 GMK:include ${LATEX_MK_DIR}/latex.gmk
