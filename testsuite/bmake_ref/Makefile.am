@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.2 2003/02/08 21:42:19 dan Exp $
+## $Id: Makefile.am,v 1.3 2003/02/27 00:17:01 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -32,10 +32,7 @@
 ##  SUCH DAMAGE.
 ##
 
-
-
-pkgtestdir=	${pkgdatadir}/testsuite/bmake
-pkgtest_DATA=	${GOLDEN_FILES}
+check_DATA=	${GOLDEN_FILES}
 
 DISTCLEANFILES=	\
 	${LOG_FILES} 
