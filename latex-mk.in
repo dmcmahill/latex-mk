@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.17 2003/09/05 20:04:33 dan Exp $
+# $Id: latex-mk.in,v 1.18 2003/11/17 22:01:19 dan Exp $
 #
 # Copyright (c) 2002, 2003 Dan McMahill
 # All rights reserved.
@@ -48,6 +48,7 @@ LATEX_MK_LOG=${LOG:-latex-mk.log}
 sep="------------------------------------"
 
 ignore_errors=no
+debug=no
 
 while test -n "$1"
 do
@@ -59,6 +60,12 @@ do
 		    rm -f $LATEX_MK_LOG
 		fi
 		exit 0
+		;;
+		
+	--debug)
+		debug=yes
+		echo "$0:  Enabling debug mode"
+		shift
 		;;
 		
 	-h|--help)
@@ -100,6 +107,10 @@ done
 
 INFILE=$1
 
+if test "X$debug" = "Xyes" ; then
+	echo "$0 debug: command line INFILE=$INFILE"
+fi
+
 if test -z "$INFILE" ; then
 	echo "$0:   You must specify an input file"
 	exit 1
@@ -112,12 +123,22 @@ if test ! -f "${INFILE}" ; then
 	echo "$0:   Neither ${INFILE} nor ${INFILE}.tex exists"
 	exit 1
 fi
+if test "X$debug" = "Xyes" ; then
+	echo "$0 debug: processed INFILE=$INFILE"
+fi
+
 NAME=`basename ${INFILE} .tex`
+
+if test "X$debug" = "Xyes" ; then
+	echo "$0 debug: NAME=$NAME"
+fi
 
 cnt=0
 bibcnt=0
 
 while test $cnt -lt $MAXITERS ; do
+	if test "X$debug" = "Xyes" ; then echo "$0 debug: cnt=$cnt" ; fi
+
 	# run latex.  If it fails, manually remove the .dvi file since
 	# latex won't.  This will confuse 'make' because on the next
 	# invocation, the .dvi file will appear to be up to date already.
@@ -204,6 +225,7 @@ while test $cnt -lt $MAXITERS ; do
 	echo "$0:   LaTeX references have changed, another latex run is needed"
 	echo "$sep"
 	cnt=`expr $cnt + 1`
+	if test "X$debug" = "Xyes" ; then echo "$0 debug: incremented cnt=$cnt" ; fi
 done
 
 #LaTeX Warning: There were undefined references.
@@ -218,7 +240,7 @@ if test -n "$undefined" ; then
 fi
 
 #LaTeX Warning: There were multiply-defined labels.
-mult=`grep "multiply-defined labels" $LATEX_MK_LOG
+mult=`grep "multiply-defined labels" $LATEX_MK_LOG`
 if test -n "$mult" ; then
 	echo "$sep"
 	echo "$0:  There were multiply defined labels."
