@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.2 2002/08/15 02:50:29 dan Exp $
+# $Id: latex.mk.in.in,v 1.3 2002/08/24 01:27:56 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -91,7 +91,7 @@ BIBTEX?=	@BIBTEX@
 DVIPS?=		@DVIPS@
 DVIPS_FLAGS+=	-Ppdf -j0
 ECHO?=		@ECHO@
-ENV_PROG?=	@ENV@
+ENV_PROG?=	@ENV_PROG@
 FALSE?=		@FALSE@
 GV?=		@GV@
 LATEX?=		@LATEX@
@@ -118,6 +118,20 @@ _USE_TGIF_MK+=	YES
 GMK:endif
 GMK:ifdef _USE_TGIF_MK
 GMK:include @pkgdatadir@/tgif.mk
+GMK:endif
+
+BMK:.if defined(XFIGSRCS) || defined(XFIGDIRS)
+BMK:.include "xfig.mk"
+BMK:.endif
+
+GMK:ifdef XFIGSRCS
+_USE_XFIG_MK+=	YES
+GMK:endif
+GMK:ifdef XFIGDIRS
+_USE_XFIG_MK+=	YES
+GMK:endif
+GMK:ifdef _USE_XFIG_MK
+GMK:include @pkgdatadir@/xfig.mk
 GMK:endif
 
 .MAIN: view
