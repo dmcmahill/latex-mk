@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.6 2002/09/21 14:39:11 dan Exp $
+## $Id: Makefile.am,v 1.7 2002/10/07 21:00:37 dan Exp $
 ##
 ## Copyright (c) 2002 Dan McMahill
 ## All rights reserved.
@@ -56,7 +56,7 @@ DISTCLEANFILES=	\
 SUBDIRS=	tgif
 
 example.conf: $(srcdir)/example.conf.in
-	sed ${SED_COMMON_TEST} $< > $@
+	sed ${SED_COMMON_TEST} $(srcdir)/example.conf.in > $@
 
 SUFFIXES=	.in .mk .gmk
 
