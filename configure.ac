@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.30 2003/11/17 17:49:05 dan Exp $
+dnl $Id: configure.ac,v 1.31 2003/11/17 22:22:24 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002, 2003 Dan McMahill
@@ -60,6 +60,8 @@ AC_PATH_PROG(RMDIR,rmdir)
 # for latex.mk
 #
 AC_PATH_PROG(BIBTEX, bibtex, bibtex)
+# for converting graphics file formats (from ImageMagick)
+AC_PATH_PROG(CONVERT, convert, convert)
 AC_PATH_PROG(DVIPDFM, dvipdfm, dvipdfm)
 AC_PATH_PROG(DVIPS, dvips, dvips)
 AC_PATH_PROG(ECHO, echo, echo)
