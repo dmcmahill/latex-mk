@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.14 2002/09/30 01:46:18 dan Exp $
+@c $Id: latex-mk.texi,v 1.15 2002/10/09 03:36:11 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -331,6 +331,10 @@ In addition, draft versions of these targets exist:
 @deffn Target print_<name>-draft
 @trindex print_<name>-draft
 Draft version of the @code{print_<name>} target.
+@end deffn
+@deffn Target ps_<name>-draft
+@trindex ps_<name>-draft
+Draft version of the @code{ps_<name>} target.
 @end deffn
 @deffn Target view_<name>-draft
 @trindex view_<name>-draft
