@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.19 2004/03/17 18:04:50 dan Exp $
+# $Id: latex-mk.in,v 1.20 2004/03/17 20:20:16 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004 Dan McMahill
 # All rights reserved.
@@ -45,10 +45,15 @@ BIBTEX=${BIBTEX:-bibtex}
 BIBTEX_FLAGS=${BIBTEX_FLAGS:-}
 LATEX_MK_LOG=${LOG:-latex-mk.log}
 
+# list of files to monitor.  If they change, we will rerun 
+# LaTeX again.  These are all suffixes of ${NAME}
+monitor_files="lof lot toc"
+
 sep="------------------------------------"
 
 ignore_errors=no
 debug=no
+do_clean=no
 
 while test -n "$1"
 do
@@ -56,10 +61,8 @@ do
 	in
 
 	--clean)
-		if [ -f $LATEX_MK_LOG ]; then
-		    rm -f $LATEX_MK_LOG
-		fi
-		exit 0
+		do_clean=yes
+		shift
 		;;
 		
 	--debug)
@@ -133,12 +136,23 @@ if test "X$debug" = "Xyes" ; then
 	echo "$0 debug: NAME=$NAME"
 fi
 
+if [ "X$do_clean" = "Xyes" ]; then
+	echo "$0: Cleaning"
+	if [ -f $LATEX_MK_LOG ]; then
+		rm -f $LATEX_MK_LOG
+	fi
+	# clean up any of the .old versions of files we were
+	# monitoring
+	for sfx in $monitor_files ; do
+		if [ -f ${NAME}.${sfx}.old ]; then
+			rm -f ${NAME}.${sfx}.old
+		fi
+	done
+	exit 0
+fi
+
 cnt=0
 bibcnt=0
-
-# list of files to monitor.  If they change, we will rerun 
-# LaTeX again.  These are all suffixes of ${NAME}
-monitor_files="lof lot toc"
 
 while test $cnt -lt $MAXITERS ; do
 	if test "X$debug" = "Xyes" ; then echo "$0 debug: cnt=$cnt" ; fi
