@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.11 2003/02/26 01:50:29 dan Exp $
+## $Id: Makefile.am,v 1.12 2003/06/07 18:18:47 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -31,6 +31,10 @@
 ##  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 ##  SUCH DAMAGE.
 ##
+
+TESTS_ENVIRONMENT=	\
+	GMAKE=${GMAKE}	\
+	BMAKE=${BMAKE}
 
 MKSRCS=		testfile.mk.in
 RUN_TESTS=	run_tests.sh
