@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests,v 1.2 2003/02/03 03:34:50 dan Exp $
+# $Id: run_tests,v 1.3 2003/02/03 11:39:47 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -74,6 +74,9 @@ LATEX_MK_DIR=${top_srcdir:-..}
 
 LATEX_MK_DIR=`cd ${LATEX_MK_DIR} && pwd`
 export LATEX_MK_DIR
+
+echo "LATEX_MK_DIR = $LATEX_MK_DIR"
+# printenv
 
 #######################################
 # 
@@ -159,12 +162,18 @@ export FIG2DEV_FLAGS
 
 #######################################
 #
-#
+# Make stuff
 #
 #######################################
 
 BMAKE=${BMAKE:-make}
 GMAKE=${GMAKE:-gmake}
+
+# clear out some environment variables
+# which may be polluting the test
+MAKEFLAGS=
+MAKELEVEL=
+MFLAGS=
 
 #######################################
 #
@@ -281,10 +290,16 @@ for t in $all_tests ; do
     cd $here
     
     # clean up the rundirectory
-    #rm -fr ${rundir}
+    rm -fr ${rundir}
 
 done
 
 echo "BSD make version:  Passed $bpass, failed $bfail, skipped $bskip out of $tot tests."
 echo "GNU make version:  Passed $gpass, failed $gfail, skipped $gskip out of $tot tests."
 
+rc=0
+if [ $bpass -ne $tot  -o $gpass -ne $tot ]; then
+    rc=1
+fi
+
+exit $rc
