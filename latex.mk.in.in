@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.14 2002/09/27 03:11:10 dan Exp $
+# $Id: latex.mk.in.in,v 1.15 2002/09/27 13:27:19 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -264,9 +264,9 @@ viewps: ${DEFAULTVIEWPS}
 viewps-all: ${ALLVIEWPS}
 
 .PHONY: viewps-draft
-viewps: ${DEFAULTVIEWPS_DRAFT}
+viewps-draft: ${DEFAULTVIEWPS_DRAFT}
 .PHONY: viewps-all-draft
-viewps-all: ${ALLVIEWPS_DRAFT}
+viewps-all-draft: ${ALLVIEWPS_DRAFT}
 
 .PHONY: print
 print: ${DEFAULTPRINT}
@@ -274,9 +274,9 @@ print: ${DEFAULTPRINT}
 print-all: ${ALLPRINT}
 
 .PHONY: print-draft
-print: ${DEFAULTPRINT_DRAFT}
+print-draft: ${DEFAULTPRINT_DRAFT}
 .PHONY: print-all-draft
-print-all: ${ALLPRINT_DRAFT}
+print-all-draft: ${ALLPRINT_DRAFT}
 
 .SUFFIXES : .tex .dvi .ps .pdf
 
