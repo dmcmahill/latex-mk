@@ -1,6 +1,6 @@
-## $Id: golden.mk,v 1.7 2004/03/17 19:28:24 dan Exp $
+## $Id: golden.mk,v 1.8 2004/03/17 19:34:41 dan Exp $
 ##
-## Copyright (c) 2003 Dan McMahill
+## Copyright (c) 2003, 2004 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
