@@ -1,2 +1,2 @@
 env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
-mydvipdfm mydvipdfm_flags test1.dvi
+env foo=dvipdfm mydvipdfm mydvipdfm_flags test1.dvi
