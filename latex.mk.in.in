@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.39 2003/11/17 17:49:55 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.40 2003/11/17 17:58:08 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -56,6 +56,7 @@
 #  BIBTEX_ENV	= environment variables set when running the BibTeX executable
 #  BIBEX_FLAGS	= flags passed to the BibTeX executable
 #  DVIPDFM      = the dvipdfm executable
+#  DVIPDFM_ENV  = environment variables set when running the dvipdfm executable
 #  DVIPDFM_FLAGS= flags passed to the dvipdfm executable
 #  DVIPS	= the dvips executable
 #  DVIPS_FLAGS	= flags passed to the dvips executable
@@ -127,9 +128,10 @@ LATEX_MK_DIR?=	@pkgdatadir@
 AWK?=		@AWK@
 BIBTEX?=	@BIBTEX@
 DVIPDFM?=	@DVIPDFM@
+DVIPDFM_ENV?=	
 DVIPDFM_FLAGS+=	
 DVIPS?=		@DVIPS@
-DVIPS_FLAGS+=	-Ppdf -j0
+DVIPS_FLAGS+=	-j0
 ECHO?=		@ECHO@
 ENV_PROG?=	@ENV_PROG@
 FALSE?=		@FALSE@
@@ -156,6 +158,7 @@ LPR_FLAGS?=
 PDFLATEX?=	@PDFLATEX@
 PDFLATEX_ENV?=	
 PDFLATEX_FLAGS?=	
+POST_BIBTEX_HOOK?=
 RM?=		@RM@
 RMDIR?=		@RMDIR@
 PS2PDF?=	@PS2PDF@
@@ -185,12 +188,14 @@ REAL_LATEX_ENV+=	LATEX=${LATEX}
 REAL_LATEX_ENV+=	LATEX_FLAGS=${LATEX_FLAGS}
 REAL_LATEX_ENV+=	BIBTEX=${BIBTEX}
 REAL_LATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+REAL_LATEX_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
 REAL_LATEX_ENV+=	${LATEX_ENV}
 
 REAL_PDFLATEX_ENV+=	PDFLATEX=${PDFLATEX}
 REAL_PDFLATEX_ENV+=	PDFLATEX_FLAGS=${PDFLATEX_FLAGS}
 REAL_PDFLATEX_ENV+=	BIBTEX=${BIBTEX}
 REAL_PDFLATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+REAL_PDFLATEX_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
 REAL_PDFLATEX_ENV+=	${PDFLATEX_ENV}
 
 # Include other .mk files often times used with LaTeX
@@ -672,7 +677,7 @@ GMK:endif
 BMK:.if defined(USE_DVIPDFM)
 GMK:ifdef USE_DVIPDFM
 .dvi.pdf :
-	$(DVIPDFM) $(DVIPDFM_FLAGS) $<
+	$(ENV_PROG) $(DVIPDFM_ENV) $(DVIPDFM) $(DVIPDFM_FLAGS) $<
 BMK:.elif defined(USE_PDFLATEX)
 GMK:else
 GMK:ifdef USE_PDFLATEX
