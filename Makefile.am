@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.10 2002/09/27 02:53:28 dan Exp $
+## $Id: Makefile.am,v 1.11 2002/09/30 01:18:09 dan Exp $
 ##
 ## Copyright (c) 2002 Dan McMahill
 ## All rights reserved.
@@ -40,7 +40,7 @@ GMKFILES=	${MKSRCS:.mk.in=.gmk}
 PSFILES=	dated_draft.ps
 
 pkgdata_DATA=	${BMKFILES} ${GMKFILES} ${PSFILES}
-bin_SCRIPTS=	latex-mk
+bin_SCRIPTS=	latex-mk ieee-copyout
 
 DISTCLEANFILES=	\
 	configure.lineno \

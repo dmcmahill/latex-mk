@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.14 2002/09/21 02:44:04 dan Exp $
+dnl $Id: configure.ac,v 1.15 2002/09/30 01:18:08 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002 Dan McMahill
@@ -148,6 +148,7 @@ AC_OUTPUT(
 	doc/Makefile
 	example/Makefile
 	example/tgif/Makefile
+	ieee-copyout
 	latex-mk
 	latex.mk.in
 	latex.subdir.mk.in
