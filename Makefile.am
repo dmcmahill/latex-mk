@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.12 2002/10/07 02:28:12 dan Exp $
+## $Id: Makefile.am,v 1.13 2002/10/09 03:46:08 dan Exp $
 ##
 ## Copyright (c) 2002 Dan McMahill
 ## All rights reserved.
@@ -56,6 +56,13 @@ SUFFIXES=	.mk.in .mk .gmk
 SED_COMMON=	-e 's;@pkgdatadir@;$(pkgdatadir);g' \
 	-e 's;@latexmkconfdir@;${sysconfdir};g' \
 	-e 's;@latexmkbindir@;${bindir};g'
+
+# make sure the latex-mk script is executible before installation so we
+# can give it a trial run here
+
+all-local:
+	chmod 755 latex-mk
+	chmod 755 ieee-copyout
 
 .mk.in.mk:
 	sed -e 's/^BMK://g' -e '/^GMK:/d' ${SED_COMMON} $<  > $@
