@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.8 2002/10/08 13:45:05 dan Exp $
+## $Id: Makefile.am,v 1.9 2002/10/09 02:53:18 dan Exp $
 ##
 ## Copyright (c) 2002 Dan McMahill
 ## All rights reserved.
@@ -44,9 +44,9 @@ BMKFILES=	${MKSRCS:.in=.mk}
 GMKFILES=	${MKSRCS:.in=.gmk}
 
 pkgexampledir=		${pkgdatadir}/example
-pkgexample_DATA=	${BMKFILES} ${GMKFILES} ${EXFILES} example.conf README-example.txt
+pkgexample_DATA=	${BMKFILES} ${GMKFILES} ${EXFILES} README-example.txt
 
-EXTRA_DIST=	${EXFILES} makefile.in example.conf.in README-example.txt
+EXTRA_DIST=	${EXFILES} makefile.in README-example.txt
 
 DISTCLEANFILES=	\
 	${BMKFILES} \
@@ -54,9 +54,6 @@ DISTCLEANFILES=	\
 	example.conf
 
 SUBDIRS=	tgif
-
-example.conf: $(srcdir)/example.conf.in
-	sed ${SED_COMMON_TEST} $(srcdir)/example.conf.in > $@
 
 SUFFIXES=	.in .mk .gmk
 

@@ -1,13 +1,10 @@
-# $Id: makefile.in,v 1.3 2002/09/21 02:39:02 dan Exp $
+# $Id: makefile.in,v 1.4 2002/10/09 02:53:19 dan Exp $
 #
 
 NAME=		example ex2
 TEXSRCS=	biblio.tex
 TGIFDIRS=	tgif
 
-# normally we don't need to define this, but we do it here
-# to allow testing before this package has been installed
-LATEX-MK=	@latexmkbindir@/latex-mk
 
-BMK:.include "@latexmkdatadir@/latex.mk"
-GMK:include @latexmkdatadir@/latex.gmk
+BMK:.include "${LATEX_MK_DIR}/latex.mk"
+GMK:include ${LATEX_MK_DIR}/latex.gmk
