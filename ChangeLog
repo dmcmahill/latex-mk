@@ -1,414 +1,1565 @@
-2002-10-17  Dan McMahill  <dan@bondage.mcmahill.net>
+2004-05-29 08:46  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	many fixes for gmake.  Uses gmake-3.80 features, but the other approach
-	to the dynamic dependencies and targets was a total hack which proved
-	to not be portable across different versions of gmake.  The big change
-	here is how we handle multiple top level documents with gmake.
+	* latex-mk.in: Correctly detect that a bibtex run is needed in the
+	  case where the document has no explicit \cite{} commands.  For
+	  example, you could have uncited references by just doing
+	  \nocite{*}.  Reported in bug report #927068.
 
-2002-10-10  Dan McMahill  <dan@bondage.mcmahill.net>
+2004-05-29 08:42  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	- document the VIEWPDF and VIEWPDF_FLAGS variables
+	* example/: ex4.bib, ex4.tex: add an example of a document where
+	  the bibliography is generated with \nocite{*}
 
-	- XDVI is for .dvi previews, not .pdf previews
+2004-05-29 08:28  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/news.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/obtaining.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/history.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/index.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/examples.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/faq.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/bugs.shtml:
-	s/danmc@sourceforge.net/danmc@users.sourceforge.net/
+	* example/: biblio.tex, ex2.tex, ex3.tex, example.tex, refs.bib:
+	  RCS Id police
 
-2002-10-09  Dan McMahill  <dan@bondage.mcmahill.net>
+2004-05-28 23:24  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/upload_list, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/Makefile:
-	add 'upload' target.  this uses the upload_list to select which files
-	get rsynced
+	* example/: Makefile.am, README-example.txt, makefile.in,
+	  mkfile.in: rename makefile.in to mkfile.in to avoid problems with
+	  non-case-sensitive filesystems (cygwin)
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/history.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/index.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/news.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/Makefile:
-	add the news section and update for the 0.9 release
+2004-04-13 11:28  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac: set to version 0.9
+	* htdocs/obtaining.shtml: update freebsd port URL
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac: bump to 0.9A
+2004-03-18 22:55  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am:
-	add all-local to chmod 755 the scripts.  otherwise they are not executible prior to installation
+	* configure.ac: set to version 1.2 for release
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/COPYING:
-	note that its more than just .mk files
+2004-03-18 22:53  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	add the ps_<name>-draft target
+	* configure.ac: welcome to 1.2A
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/TODO:
-	add ieee-copyout and dist items
+2004-03-18 21:28  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/ex2.tex:
-	add missing example to CVS
+	* htdocs/Makefile: add latex-mk.html target and favicon.ico to all:
+	  target
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	clean the draft_stamp.ps file
+2004-03-18 21:27  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/README-example.txt:
-	add more notes on runnng the example
+	* htdocs/upload_list: add favicon.ico
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/example.conf.in, /usr/cvsroot/localsrc/misc/latex-mk/example/makefile.in, /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
-	example.conf is deprecated.  Just set the env vars per the readme file
+2004-03-18 21:15  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/obtaining.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/history.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/index.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/left_column.incl, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/bugs.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/examples.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/faq.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/Makefile:
-	several updates, add a history section, add some faq's about GNU vs BSD make,
-	correct some spellings, grammar, etc.
+	* htdocs/: Makefile, favicon.xpm, bugs.shtml, examples.shtml,
+	  faq.shtml, history.shtml, index.shtml, news.shtml,
+	  obtaining.shtml: add favicon icon
 
-2002-10-08  Dan McMahill  <dan@bondage.mcmahill.net>
+2004-03-18 18:11  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/tgif/Makefile.am:
-	install the tgif files in a subdirectory
+	* testsuite/golden.mk: add graphic1_dvi1
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/README-example.txt, /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
-	add a readme file about how to try the example
+2004-03-18 17:13  dan
 
-2002-10-07  Dan McMahill  <dan@bondage.mcmahill.net>
+	* doc/latex-mk.texi: fix more texinfo syntax errors
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
-	distribute the .dvi files to avoid needing tex to build the docs
+2004-03-18 17:12  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
-	fix for BSD make
+	* doc/latex-mk.texi, htdocs/history.shtml, htdocs/news.shtml: add
+	  some docs about png and jpeg conversion
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	s/BMK/GMK in a key spot.  Fixes gmake foo-draft.ps and prevents creating garbage pdf-draft files with bmake
+2004-03-18 17:02  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	fix the test for draft output with gmake.  clean the -draft.ps and -draft.pdf files
+	* testsuite/: run_tests.sh, testfile.mk.in, tests.list,
+	  bmake_ref/graphic1_dvi1.ref, gmake_ref/graphic1_dvi1.ref: add
+	  tests for jpeg and png graphic file conversion
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in: add a check for
+2004-03-18 15:31  dan
 
-	  LaTeX Warning: There were undefined references.
+	* doc/latex-mk.texi: fix one more texinfo syntax bug
 
-	after the final run.  For now, just issue a warning.  In the future, this
-	should support a bunch of flags saying which are warnings and which are
-	fatal errors
+2004-03-18 15:24  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in:
-	add support for IGNORE_LATEX_ERRORS makefile variable which will pass
-	--ignore-errors to latex-mk.  This lets you build with undefined references.
+	* doc/latex-mk.texi: fix a texinfo syntax bug
 
-	While here, add --pdflatex support to latex-mk.  Still need support in the
-	makefiles.
+2004-03-18 15:22  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in:
-	correctly capture the latex return code when piping the output to a log
-	file.  Thanks to Valeriy E. Ushakov <uwe@netbsd.org> for shell programming
-	help on this one.
+	* doc/latex-mk.texi, latex.mk.in.in: add JPG2EPS and PNG2EPS for
+	  converting png and jpeg files to eps
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am:
-	fix exec_dir processing
+2004-03-18 07:31  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/ieee-copyout.in, /usr/cvsroot/localsrc/misc/latex-mk/ieee-copyout:
-	move ieee-copyout to ieee-copyout.in
+	* latex.mk.in.in: fix up the call to latex-mk --clean after recent
+	  changes to the latex-mk script
 
-2002-10-05  Dan McMahill  <dan@bondage.mcmahill.net>
+2004-03-18 07:28  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/README:
-	Add an acknowledgement for Karthikesh Raju <karthik@james.hut.fi>
+	* latex-mk.in: be explicit about which project we are cleaning
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/README.to-release:
-	pull in some notes on releasing with cvs
+2004-03-17 16:41  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/README.to-release:
-	move to top directory
+	* TODO: HTML output is in testsuite now
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/README.to-release:
-	pull in some notes on releasing with cvs
+2004-03-17 16:39  dan
 
-2002-10-03  Dan McMahill  <dan@bondage.mcmahill.net>
+	* testsuite/: tests.list, bmake_ref/vars_latex.ref,
+	  gmake_ref/vars_latex.ref: exercise the POST_BIBTEX_HOOK variable
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/README:
-	add some formatting and some acknowledgements
+2004-03-17 16:08  dan
+
+	* htdocs/obtaining.shtml, doc/latex-mk.texi: add link to freebsd
+	  port
+
+2004-03-17 15:45  dan
+
+	* htdocs/main_footer.incl: update copyright date
+
+2004-03-17 15:40  dan
+
+	* doc/latex-mk.texi, htdocs/history.shtml, htdocs/index.shtml,
+	  htdocs/news.shtml: add updates for latex-mk version 1.2
+
+2004-03-17 15:20  dan
+
+	* latex-mk.in: make sure we clean up the .old versions of the files
+	  we were monitoring
+
+2004-03-17 15:13  dan
+
+	* testsuite/: bmake_ref/basic1_dvipdfm_pdf1.ref,
+	  bmake_ref/basic1_pdflatex_pdf1.ref,
+	  bmake_ref/basic1_pdflatex_pdf2.ref,
+	  gmake_ref/basic1_dvipdfm_pdf2.ref,
+	  gmake_ref/basic1_pdflatex_pdf1.ref,
+	  gmake_ref/basic1_pdflatex_pdf2.ref: update for POST_BIBTEX_HOOK
+	  and DVIPDFM_ENV
+
+2004-03-17 15:09  dan
+
+	* testsuite/: bmake_ref/vars_dvipdfm.ref,
+	  gmake_ref/vars_dvipdfm.ref: update for DVIPDFM_ENV
+
+2004-03-17 15:09  dan
+
+	* testsuite/: bmake_ref/vars_bibtex.ref, gmake_ref/vars_bibtex.ref,
+	  bmake_ref/vars_latex.ref, gmake_ref/vars_latex.ref,
+	  bmake_ref/vars_pdflatex.ref, gmake_ref/vars_pdflatex.ref: update
+	  for POST_BIBTEX_HOOK
+
+2004-03-17 14:56  dan
+
+	* testsuite/: bmake_ref/basic1_dvipdfm_pdf2.ref,
+	  gmake_ref/basic1_dvipdfm_pdf1.ref: update golden files for having
+	  DVIPDFM_ENV
+
+2004-03-17 14:50  dan
+
+	* testsuite/: bmake_ref/basic1_dvipdfm_ps1.ref,
+	  bmake_ref/basic1_dvipdfm_ps2.ref, bmake_ref/basic1_pdf1.ref,
+	  bmake_ref/basic1_pdf2.ref, bmake_ref/basic1_pdflatex_ps1.ref,
+	  bmake_ref/basic1_pdflatex_ps2.ref, bmake_ref/basic1_ps1.ref,
+	  bmake_ref/basic1_ps2.ref, bmake_ref/vars_gv.ref,
+	  bmake_ref/vars_lpr.ref, bmake_ref/vars_ps2pdf.ref,
+	  bmake_ref/vars_viewpdf.ref, gmake_ref/basic1_dvipdfm_ps1.ref,
+	  gmake_ref/basic1_dvipdfm_ps2.ref, gmake_ref/basic1_pdf1.ref,
+	  gmake_ref/basic1_pdf2.ref, gmake_ref/basic1_pdflatex_ps1.ref,
+	  gmake_ref/basic1_pdflatex_ps2.ref, gmake_ref/basic1_ps1.ref,
+	  gmake_ref/basic1_ps2.ref, gmake_ref/vars_gv.ref,
+	  gmake_ref/vars_lpr.ref, gmake_ref/vars_ps2pdf.ref,
+	  gmake_ref/vars_viewpdf.ref: update golden files for not having
+	  -Ppdf forced on you for dvips
+
+2004-03-17 14:45  dan
+
+	* testsuite/: bmake_ref/basic1_dvi1.ref, bmake_ref/basic1_dvi2.ref,
+	  bmake_ref/basic1_dvipdfm_dvi1.ref,
+	  bmake_ref/basic1_dvipdfm_dvi2.ref,
+	  bmake_ref/basic1_dvipdfm_pdf1.ref,
+	  bmake_ref/basic1_dvipdfm_pdf2.ref,
+	  bmake_ref/basic1_dvipdfm_ps1.ref,
+	  bmake_ref/basic1_dvipdfm_ps2.ref, bmake_ref/basic1_html1.ref,
+	  bmake_ref/basic1_html2.ref, bmake_ref/basic1_html4.ref,
+	  bmake_ref/basic1_html5.ref, bmake_ref/basic1_html6.ref,
+	  bmake_ref/basic1_pdf1.ref, bmake_ref/basic1_pdf2.ref,
+	  bmake_ref/basic1_pdflatex_dvi1.ref,
+	  bmake_ref/basic1_pdflatex_dvi2.ref,
+	  bmake_ref/basic1_pdflatex_ps1.ref,
+	  bmake_ref/basic1_pdflatex_ps2.ref, bmake_ref/basic1_ps1.ref,
+	  bmake_ref/basic1_ps2.ref, bmake_ref/basic2_dvi1.ref,
+	  bmake_ref/basic2_dvi2.ref, bmake_ref/basic2_dvi3.ref,
+	  bmake_ref/basic_bibtexsrcs_dvi1.ref,
+	  bmake_ref/basic_bibtexsrcs_dvi3.ref,
+	  bmake_ref/basic_tgifdirs.ref, bmake_ref/basic_tgifsrcs.ref,
+	  bmake_ref/basic_xfigdirs.ref, bmake_ref/basic_xfigsrcs.ref,
+	  bmake_ref/multi1_dvi1.ref, bmake_ref/multi1_dvi2.ref,
+	  bmake_ref/multi1_dvi3.ref, bmake_ref/multi_texsrcs_dvi1.ref,
+	  bmake_ref/multi_texsrcs_dvi2.ref,
+	  bmake_ref/multi_texsrcs_dvi3.ref,
+	  bmake_ref/multi_texsrcs_dvi5.ref,
+	  bmake_ref/multi_tgifsrcs_dvi1.ref,
+	  bmake_ref/multi_tgifsrcs_dvi2.ref,
+	  bmake_ref/multi_tgifsrcs_dvi3.ref,
+	  bmake_ref/multi_tgifsrcs_dvi5.ref, bmake_ref/vars_dvipdfm.ref,
+	  bmake_ref/vars_dvips.ref, bmake_ref/vars_gv.ref,
+	  bmake_ref/vars_hevea.ref, bmake_ref/vars_latex2html.ref,
+	  bmake_ref/vars_lpr.ref, bmake_ref/vars_ps2pdf.ref,
+	  bmake_ref/vars_viewpdf.ref, bmake_ref/vars_xdvi.ref,
+	  gmake_ref/basic1_dvi1.ref, gmake_ref/basic1_dvi2.ref,
+	  gmake_ref/basic1_dvipdfm_dvi1.ref,
+	  gmake_ref/basic1_dvipdfm_dvi2.ref,
+	  gmake_ref/basic1_dvipdfm_pdf1.ref,
+	  gmake_ref/basic1_dvipdfm_pdf2.ref,
+	  gmake_ref/basic1_dvipdfm_ps1.ref,
+	  gmake_ref/basic1_dvipdfm_ps2.ref, gmake_ref/basic1_html1.ref,
+	  gmake_ref/basic1_html2.ref, gmake_ref/basic1_html4.ref,
+	  gmake_ref/basic1_html5.ref, gmake_ref/basic1_html6.ref,
+	  gmake_ref/basic1_pdf1.ref, gmake_ref/basic1_pdf2.ref,
+	  gmake_ref/basic1_pdflatex_dvi1.ref,
+	  gmake_ref/basic1_pdflatex_dvi2.ref,
+	  gmake_ref/basic1_pdflatex_ps1.ref,
+	  gmake_ref/basic1_pdflatex_ps2.ref, gmake_ref/basic1_ps1.ref,
+	  gmake_ref/basic1_ps2.ref, gmake_ref/basic2_dvi1.ref,
+	  gmake_ref/basic2_dvi2.ref, gmake_ref/basic2_dvi3.ref,
+	  gmake_ref/basic_bibtexsrcs_dvi1.ref,
+	  gmake_ref/basic_bibtexsrcs_dvi3.ref,
+	  gmake_ref/basic_tgifdirs.ref, gmake_ref/basic_tgifsrcs.ref,
+	  gmake_ref/basic_xfigdirs.ref, gmake_ref/basic_xfigsrcs.ref,
+	  gmake_ref/multi1_dvi1.ref, gmake_ref/multi1_dvi2.ref,
+	  gmake_ref/multi1_dvi3.ref, gmake_ref/multi_texsrcs_dvi1.ref,
+	  gmake_ref/multi_texsrcs_dvi2.ref,
+	  gmake_ref/multi_texsrcs_dvi3.ref,
+	  gmake_ref/multi_texsrcs_dvi5.ref,
+	  gmake_ref/multi_tgifsrcs_dvi1.ref,
+	  gmake_ref/multi_tgifsrcs_dvi2.ref,
+	  gmake_ref/multi_tgifsrcs_dvi3.ref,
+	  gmake_ref/multi_tgifsrcs_dvi5.ref, gmake_ref/vars_dvipdfm.ref,
+	  gmake_ref/vars_dvips.ref, gmake_ref/vars_gv.ref,
+	  gmake_ref/vars_hevea.ref, gmake_ref/vars_latex2html.ref,
+	  gmake_ref/vars_lpr.ref, gmake_ref/vars_ps2pdf.ref,
+	  gmake_ref/vars_viewpdf.ref, gmake_ref/vars_xdvi.ref: update
+	  golden files for having POST_BIBTEX_HOOK set in LATEX_ENV
 
-2002-09-30  Dan McMahill  <dan@bondage.mcmahill.net>
+2004-03-17 14:34  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/index.shtml:
-	note that latex-mk has scripts as well as makefiles
+	* testsuite/: tests.list, golden.mk: update copyright date
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in:
-	fix support for -draft targets
+2004-03-17 14:33  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	document the -draft targets and the options for multiple top level documents.
+	* testsuite/run_tests.sh: add DVIPDFM_ENV and the latex2rtf
+	  variables
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/ieee-copyout:
-	add script (not finished yet) to make a sanitized copy of the document
-	for IEEE submission.
+2004-03-17 14:32  dan
 
-2002-09-27  Dan McMahill  <dan@bondage.mcmahill.net>
+	* testsuite/tests.list: add vars_latex2rtf test and add DVIPDFM_ENV
+	  to vars_dvipdfm
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	fix the name for viewps-draft, viewps-all-draft, print-draft, and print-all-draft
+2004-03-17 14:28  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/dated_draft.ps, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	add initial support for draft watermark and time stamp in postscript and later output
+	* testsuite/: bmake_ref/vars_latex2rtf.ref,
+	  gmake_ref/vars_latex2rtf.ref, golden.mk: add vars_latex2rtf test
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/TODO:
-	add TODO list
+2004-03-17 13:07  dan
 
-2002-09-21  Dan McMahill  <dan@bondage.mcmahill.net>
+	* COPYING: update copyright date
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	cause the gmake dependency files to always be remade.  Hopefully this ugly
-	hack brings gmake support up to what BSD make does.
+2004-03-17 13:04  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
-	add ex2.tex to distfiles
+	* latex-mk.in: add support for monitoring certain files such as the
+	  .toc, .lof, and .lot files (table of contents, list of figures,
+	  list of tables).  If these files change or appear after a latex
+	  run, then an addition run will be triggered.	This addresses a
+	  bug noted by Herve Quiroz and reproduced by myself where the
+	  table of contents might not get properly updated.
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
-	add example.conf to distclean list
+2004-02-02 22:30  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	fix texi formatting bugs
+	* example/README-example.txt: LATEX-MK -> LATEX_MK
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
-	bump rev now that multiple docs are supported
+2003-11-17 17:48  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/example/makefile.in, /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
-	many changes to allow GNU make to deal with multiple documents per
-	directory and some common and some shared dependencies.  Now fully
-	supports things like:
+	* doc/latex-mk.texi: added some info about the 1.2 release
 
-	NAME= doc1 doc2
-	TEXSRCS= common.tex
-	doc1_TEXSRCS=extra1.tex
-	doc2_TEXSRCS=extra2.tex
+2003-11-17 17:22  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in:
-	be sure and cleanup on exit
+	* configure.ac: check for convert (from ImageMagick) for png to eps
+	  conversion
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in:
-	add a --clean flag which deletes any leftover log files
+2003-11-17 17:19  dan
 
-2002-09-20  Dan McMahill  <dan@bondage.mcmahill.net>
+	* example/makefile.in: add missing BIBTEXSRCS adn TEXSRCS entries
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/example.conf.in, /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am:
-	more work on the examples, but not ready for prime-time yet
+2003-11-17 17:02  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am: add copyright info
+	* latex.mk.in.in: Apply several fixes to the RTF output.  This
+	  target should actually work now.  (added .rtf to suffixes, set
+	  the LATEX2RTF* variables, added the dependency on the .dvi file)
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
-	correct help text for --with-{user,}{g,}mkconf
+2003-11-17 17:01  dan
 
-2002-09-18  Dan McMahill  <dan@bondage.mcmahill.net>
+	* latex-mk.in: fix a shell quoting bug which causes an errored exit
+	  at the end of the latex runs.
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/example/makefile.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in:
-	add support for having multiple documents with individual and shared
-	dependencies in the same directory.  Idea from Jeff McMahill.
+	  Also add a --debug option for getting some debug output.
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in: use
-	  if test ! -f $file
-	instead of
-	  if ! test -f $file
+2003-11-17 13:08  dan
 
-	and fix some echo "" quotes to make this work properly on solaris.
+	* doc/latex-mk.texi: note the rtf target
 
-2002-09-16  Dan McMahill  <dan@bondage.mcmahill.net>
+2003-11-17 13:05  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/refs.bib, /usr/cvsroot/localsrc/misc/latex-mk/example/tgif/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/example/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/example/biblio.tex, /usr/cvsroot/localsrc/misc/latex-mk/example/example.tex, /usr/cvsroot/localsrc/misc/latex-mk/example/makefile.in, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
-	add an example of using latex-mk
+	* doc/latex-mk.texi: document the latex2rtf variables, the
+	  DVIPDFM_ENV variable, and note the change in DVIPS_FLAGS default
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	search for the included .mk files in LATEX_MK_DIR.  This will let me more
-	easily setup a config file for pre-installation testing.
+2003-11-17 12:58  dan
 
-2002-09-15  Dan McMahill  <dan@bondage.mcmahill.net>
+	* latex.mk.in.in: Fix a handful of bugs noted by Brook Milligan who
+	  supplied patches.  In particular:
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	more improvements to the latex-mk script.  It now seems to correctly detect
-	when a bibtex run is needed and actually appears to run latex the right number
-	of times now.
+	  - don't force -Ppdf on everyone as a DVIPS flag.  This now needs
+	  to go in a site/user/project config file now if you want -Ppdf.
 
-	Given this, try switching to latex-mk instead of latex in the makefiles now.
+	  - make sure POST_BIBTEX_HOOK ends up in REAL_{PDF,}LATEX_ENV so
+	  it can be detected by latex-mk.
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am:
-	add @bindir@ to the list of common variables to substitute for
+	  - add DVIPDFM_ENV and use it when calling dvipdfm.
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	for gmake, include the .gmk files, not the .mk files
+2003-11-17 12:49  dan
 
-2002-09-14  Dan McMahill  <dan@bondage.mcmahill.net>
+	* latex.mk.in.in: add preliminary support for RTF output
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/latex-mk.in, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am:
-	add a latex-mk shell script which actually will (not yet) do the work
-	of running latex.  It will keep track of if latex and/or bibtex need
-	to be re-run to resolve changed labels, etc.  Also, it has a configurable
-	limit on how many times it will run latex.
+2003-11-17 12:49  dan
 
-2002-09-13  Dan McMahill  <dan@bondage.mcmahill.net>
+	* configure.ac: look for latex2rtf
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/logo.jpg, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/logo.png, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/logo2.png, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/curved.png, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/curved.xcf:
-	add some images
+2003-09-05 16:04  dan
 
-2002-09-12  Dan McMahill  <dan@bondage.mcmahill.net>
+	* latex-mk.in: add checks at the end for multiply defined labels
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/bugs.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/Makefile:
-	add bug reporting info
+2003-08-24 20:14  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/examples.shtml:
-	add some examples
+	* latex.mk.in.in: clean the images.out file which got created with
+	  latex2html
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/Makefile:
-	makefile for building static pages
+2003-06-14 10:16  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/examples.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/left_column.incl:
-	add template for an example
+	* testsuite/run_tests.sh: do not fail the entire test if we have
+	  skipped one flavor of make
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/main_footer.incl:
-	add sourceforge logo and counter
+2003-06-14 08:38  dan
 
-2002-08-31  Dan McMahill  <dan@bondage.mcmahill.net>
+	* configure.ac: set version to 1.1 for release
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/htdocs/utils/shtml2html, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/images/logo.xcf, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/main_footer.incl, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/obtaining.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/page_start.incl, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/index.shtml, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/left_column.incl, /usr/cvsroot/localsrc/misc/latex-mk/htdocs/faq.shtml:
-	start on web page
+2003-06-14 08:34  dan
 
-2002-08-29  Dan McMahill  <dan@bondage.mcmahill.net>
+	* configure.ac: bump rev to 1.1A
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	- fix the table of contents so it actually shows up
-	- fix the concepts index so it actually shows up
-	- start new pages with each new chapter
+2003-06-12 17:58  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/aclocal.m4:
-	this is a generated file.  no need to put in cvs
+	* testsuite/run_tests.sh: replace $GMAKE with gmake in the log
+	  files and the reference files to account for the differing names
+	  that GNU make may be installed under.
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	fix up the config files.  In particular, use sysconfdir to specify the
-	locations for latex-mk.conf and latex-gmk.conf.
+	  Also minor clean up of variables.
 
-	switch to make the default user config file be ${HOME}/.latex-{g,}mk.conf
+2003-06-11 20:49  dan
 
-2002-08-28  Dan McMahill  <dan@bondage.mcmahill.net>
+	* testsuite/: bmake_ref/vars_hevea.ref, gmake_ref/vars_hevea.ref:
+	  s;/usr/bin/;;g
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.subdir.mk.in.in:
-	add stub makefile for subdirectories
+2003-06-11 08:27  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
-	use ${sysconfdir} instead of hardcoding /etc
+	* testsuite/: bmake_ref/basic1_html1.ref,
+	  bmake_ref/basic1_html2.ref, bmake_ref/basic1_html4.ref,
+	  bmake_ref/basic1_html5.ref, bmake_ref/basic1_html6.ref,
+	  bmake_ref/vars_latex2html.ref, gmake_ref/basic1_html1.ref,
+	  gmake_ref/basic1_html2.ref, gmake_ref/basic1_html4.ref,
+	  gmake_ref/basic1_html5.ref, gmake_ref/basic1_html6.ref,
+	  gmake_ref/vars_latex2html.ref: s;/usr/bin;;g
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	document the --with-mkconf, --with-gmkconf, --with-usermkconf, and
-	--with-usergmkconf options
+2003-06-11 08:24  dan
 
-	start work on the installation chapter
+	* latex.mk.in.in: allow FIND and GREP to be overridden
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	fix up the --with-mkconf, --with-gmkconf, --with-usermkconf, and --with-usergmkconf options
+2003-06-11 08:23  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/README:
-	point to the real documentation
+	* testsuite/run_tests.sh: override FIND, GREP, and RM
 
-2002-08-26  Dan McMahill  <dan@bondage.mcmahill.net>
+2003-06-11 07:43  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
-	fix up the previous commit
+	* acinclude.m4: do not try and test out an empty string to see if
+	  it is BSD make
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/xfig.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	add --with-mkconf and --with-gmkconf to change /etc/mk.conf and /etc/gmk.conf
+2003-06-09 00:33  dan
 
-2002-08-24  Dan McMahill  <dan@bondage.mcmahill.net>
+	* doc/latex-mk.texi, htdocs/history.shtml, htdocs/index.shtml,
+	  htdocs/news.shtml: add documentation relating to the version 1.1
+	  release
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
-	install the html, postscript and pdf manuals
+2003-06-09 00:24  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	add minimal documentation on MAKECONF and USER_MAKECONF
+	* configure.ac: bump to 1.0B now that HTML output works
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	use mk.conf for BSD make and gmk.conf for GNU make
+2003-06-09 00:14  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	- fix autoconf-iguration of ENV_PROG.
-	- check for XFIGSRCS and XFIGDIRS and pull in xfig.mk if either is set.
+	* testsuite/: golden.mk, tests.list, bmake_ref/basic1_html1.ref,
+	  bmake_ref/basic1_html2.ref, bmake_ref/basic1_html3.ref,
+	  bmake_ref/basic1_html4.ref, bmake_ref/basic1_html5.ref,
+	  bmake_ref/basic1_html6.ref, bmake_ref/vars_hevea.ref,
+	  bmake_ref/vars_latex2html.ref, gmake_ref/basic1_html1.ref,
+	  gmake_ref/basic1_html2.ref, gmake_ref/basic1_html3.ref,
+	  gmake_ref/basic1_html4.ref, gmake_ref/basic1_html5.ref,
+	  gmake_ref/basic1_html6.ref, gmake_ref/vars_hevea.ref,
+	  gmake_ref/vars_latex2html.ref: add HTML output tests to
+	  testsuite.
+
+2003-06-07 23:42  dan
+
+	* testsuite/run_tests.sh: if BMAKE or GMAKE is set to none then
+	  skip that test
+
+2003-06-07 23:30  dan
+
+	* configure.ac: look for GNU and BSD make
+
+2003-06-07 14:18  dan
+
+	* testsuite/Makefile.am: add BMAKE and GMAKE to the test
+	  environment
+
+2003-06-07 09:03  dan
+
+	* acinclude.m4: fix up bsd and gnu make tests
+
+2003-06-04 10:12  dan
+
+	* acinclude.m4: add the start of some checks for GNU make and BSD
+	  make
+
+2003-06-04 08:28  dan
+
+	* testsuite/run_tests.sh: add the variables for latex output
+
+2003-06-01 17:24  dan
+
+	* README: add Brook Milligan to ack. section
+
+2003-06-01 16:46  dan
+
+	* doc/latex-mk.texi: document POST_BIBTEX_HOOK
+
+2003-05-31 18:39  dan
+
+	* latex-mk.in: on second thought, don't use ". $POST_BIBTEX_HOOK",
+	  but rather just "$POST_BIBTEX_HOOK" to allow for any sort of
+	  executible to be used rather than just a bourne shell script.
+
+2003-05-29 05:23  dan
+
+	* latex-mk.in: add the option of running a script after a bibtex
+	  run.	If the POST_BIBTEX_HOOK variable is set to an executible
+	  script, then it is run immediately after a bibtex run.  The
+	  script can set the 'exit_status' variable to something non-zero
+	  to cause latex-mk to exit.
+
+	  Suggested by Brook Milligan.
+
+2003-05-27 07:10  dan
+
+	* doc/latex-mk.texi: its @{ not \{...  also fix the next field for
+	  the variables node
+
+2003-05-27 06:59  dan
+
+	* latex.mk.in.in: protect default and all targets with .if !().
+	  Also add missing .PHONY:default.  From Brook Milligan
+
+2003-05-27 06:56  dan
+
+	* doc/latex-mk.texi: escape { and }
+
+2003-05-27 06:42  dan
+
+	* TODO: add 2 more items
+
+2003-05-26 15:15  dan
+
+	* doc/latex-mk.texi: add documentation for html output
+
+2003-05-26 15:15  dan
+
+	* configure.ac: add check for imagen
+
+2003-05-26 15:14  dan
+
+	* latex.mk.in.in: - imagen -> ${IMAGEN}
+
+	  - also add 'foo.html' targets
+
+2003-05-25 16:12  dan
+
+	* latex.mk.in.in: fix some bugs in the html clean:: section for GNU
+	  make which rendered this file non-functional.  GNU make html
+	  generation now seems to work.
+
+2003-05-25 00:14  dan
+
+	* testsuite/run_tests.sh: add awk, grep, rm, and rmdir variables
+
+2003-05-25 00:07  dan
+
+	* latex.mk.in.in: add HTML output support via Hevea or Latex2HTML
+
+2003-05-25 00:07  dan
+
+	* configure.ac: add checks for awk, grep, and rmdir
+
+2003-05-18 23:24  dan
+
+	* latex-mk.in: fix a bug where bibtex would not get run due to
+	  slightly different LaTeX output in teTeX-1.0.7 than what I had
+	  observed.  Noted by Brook Milligan brook at biology dot nmsu dot
+	  edu.
+
+2003-05-07 07:09  dan
+
+	* configure.ac, latex.mk.in.in: add the start of HTML output
+	  support suggested by Brook Milligan.	Not finished yet.
+
+2003-04-19 00:08  dan
+
+	* TODO: pdflatex support has been added
+
+2003-04-18 23:47  dan
+
+	* htdocs/history.shtml: fix html typo
+
+2003-03-19 13:46  dan
+
+	* doc/latex-mk.texi: - add URL to tgif - add example of setting
+	  NAME
+
+2003-03-07 19:04  dan
+
+	* latex.mk.in.in: add dependency on ${DATED_DRAFT_PS} to
+	  foo-draft.ps so that users who override the default
+	  DATED_DRAFT_PS get the correct dependency.
+
+2003-03-07 18:53  dan
+
+	* latex-mk.in: after executing --help, exit instead of looping
+	  forever
+
+2003-02-28 05:38  dan
+
+	* doc/latex-mk.texi: correct some typos
+
+2003-02-26 20:57  dan
+
+	* htdocs/index.shtml: add latex-mk-1.0 release new
+
+2003-02-26 19:17  dan
+
+	* testsuite/: bmake_ref/Makefile.am, gmake_ref/Makefile.am: do not
+	  install the testsuite.  its only for use at build time
+
+2003-02-26 18:32  dan
+
+	* testsuite/run_tests.sh: fixes to run on solaris
+
+2003-02-26 05:20  dan
+
+	* htdocs/history.shtml: add release date for 1.0
+
+2003-02-25 20:53  dan
+
+	* configure.ac: bump rev to 1.0
+
+2003-02-25 20:50  dan
+
+	* configure.ac: bump rev to 1.0A
+
+2003-02-25 20:50  dan
+
+	* testsuite/: Makefile.am: make sure we build the .{,g}mk files
+	  needed by the tests
+
+2003-02-25 20:45  dan
+
+	* htdocs/faq.shtml: add note about GNU make version
+
+2003-02-25 20:28  dan
+
+	* autogen.sh: no need to run autoheader.  we do not have one...
+
+2003-02-25 19:57  dan
+
+	* testsuite/golden.mk: add several missing tests
+
+2003-02-25 19:42  dan
+
+	* testsuite/: bmake_ref/basic2_dvi1.ref, bmake_ref/basic2_dvi2.ref,
+	  bmake_ref/basic2_dvi3.ref, gmake_ref/basic2_dvi1.ref,
+	  gmake_ref/basic2_dvi2.ref, gmake_ref/basic2_dvi3.ref: add some
+	  missing reference files
+
+2003-02-25 18:56  dan
+
+	* htdocs/history.shtml, htdocs/news.shtml, doc/latex-mk.texi: add
+	  notes about the 1.0 release
+
+2003-02-24 21:05  dan
+
+	* testsuite/: testfile.mk.in, tests.list,
+	  bmake_ref/multi_texsrcs_dvi1.ref,
+	  bmake_ref/multi_texsrcs_dvi2.ref,
+	  bmake_ref/multi_texsrcs_dvi3.ref,
+	  bmake_ref/multi_texsrcs_dvi4.ref,
+	  bmake_ref/multi_texsrcs_dvi5.ref,
+	  bmake_ref/multi_tgifsrcs_dvi1.ref,
+	  bmake_ref/multi_tgifsrcs_dvi2.ref,
+	  bmake_ref/multi_tgifsrcs_dvi3.ref,
+	  bmake_ref/multi_tgifsrcs_dvi4.ref,
+	  bmake_ref/multi_tgifsrcs_dvi5.ref,
+	  gmake_ref/multi_texsrcs_dvi1.ref,
+	  gmake_ref/multi_texsrcs_dvi2.ref,
+	  gmake_ref/multi_texsrcs_dvi3.ref,
+	  gmake_ref/multi_texsrcs_dvi4.ref,
+	  gmake_ref/multi_texsrcs_dvi5.ref,
+	  gmake_ref/multi_tgifsrcs_dvi1.ref,
+	  gmake_ref/multi_tgifsrcs_dvi2.ref,
+	  gmake_ref/multi_tgifsrcs_dvi3.ref,
+	  gmake_ref/multi_tgifsrcs_dvi4.ref,
+	  gmake_ref/multi_tgifsrcs_dvi5.ref: add several more tests.
+	  These are for multiple document projects
+
+2003-02-24 21:01  dan
+
+	* testsuite/Makefile.am: do not install testsuite.  this is a
+	  compile time check
+
+2003-02-24 19:26  dan
+
+	* testsuite/: Makefile.am, README.txt: add some docs on the
+	  testsuite
+
+2003-02-24 19:14  dan
+
+	* testsuite/run_tests.sh: add --without-{b,g}make flags to disable
+	  BSD or GNU make test
+
+2003-02-24 07:29  dan
+
+	* README.to-release, autogen.sh: update notes on how to release to
+	  reflect using a GNU auto* tools build system.
+
+2003-02-22 22:17  dan
+
+	* example/ex2.tex: remove extra junk from bottom of file
+
+2003-02-22 22:17  dan
+
+	* example/makefile.in: add ex3
+
+2003-02-22 22:16  dan
+
+	* example/: Makefile.am, ex3.tex: add an example which has a
+	  bibliography but does not include postscript files.  This is used
+	  for testing the latex-mk script with --pdflatex.
+
+2003-02-22 09:28  dan
+
+	* latex-mk.in: fix a bug with running bibtex that caused latex-mk
+	  to sometimes stop processing after running bibtex once.
+
+2003-02-17 07:11  dan
+
+	* latex.mk.in.in, tgif.mk.in.in, xfig.mk.in.in,
+	  testsuite/testfile.mk.in: add  -*- Makefile -*- to let emacs
+	  figure out the major mode
+
+2003-02-15 15:35  dan
+
+	* testsuite/: bmake_ref/basic1_dvi1.ref, bmake_ref/basic1_dvi2.ref,
+	  bmake_ref/basic1_dvipdfm_dvi1.ref,
+	  bmake_ref/basic1_dvipdfm_dvi2.ref,
+	  bmake_ref/basic1_dvipdfm_pdf1.ref,
+	  bmake_ref/basic1_dvipdfm_pdf2.ref,
+	  bmake_ref/basic1_dvipdfm_ps1.ref,
+	  bmake_ref/basic1_dvipdfm_ps2.ref, bmake_ref/basic1_pdf1.ref,
+	  bmake_ref/basic1_pdf2.ref, bmake_ref/basic1_pdflatex_dvi1.ref,
+	  bmake_ref/basic1_pdflatex_dvi2.ref,
+	  bmake_ref/basic1_pdflatex_pdf1.ref,
+	  bmake_ref/basic1_pdflatex_pdf2.ref,
+	  bmake_ref/basic1_pdflatex_ps1.ref,
+	  bmake_ref/basic1_pdflatex_ps2.ref, bmake_ref/basic1_ps1.ref,
+	  bmake_ref/basic1_ps2.ref, bmake_ref/basic_bibtexsrcs_dvi1.ref,
+	  bmake_ref/basic_bibtexsrcs_dvi3.ref,
+	  bmake_ref/basic_tgifdirs.ref, bmake_ref/basic_tgifsrcs.ref,
+	  bmake_ref/basic_xfigdirs.ref, bmake_ref/basic_xfigsrcs.ref,
+	  bmake_ref/multi1_dvi1.ref, bmake_ref/multi1_dvi2.ref,
+	  bmake_ref/multi1_dvi3.ref, bmake_ref/vars_dvipdfm.ref,
+	  bmake_ref/vars_dvips.ref, bmake_ref/vars_gv.ref,
+	  bmake_ref/vars_lpr.ref, bmake_ref/vars_ps2pdf.ref,
+	  bmake_ref/vars_viewpdf.ref, bmake_ref/vars_xdvi.ref,
+	  gmake_ref/basic1_dvi1.ref, gmake_ref/basic1_dvi2.ref,
+	  gmake_ref/basic1_dvipdfm_dvi1.ref,
+	  gmake_ref/basic1_dvipdfm_dvi2.ref,
+	  gmake_ref/basic1_dvipdfm_pdf1.ref,
+	  gmake_ref/basic1_dvipdfm_pdf2.ref,
+	  gmake_ref/basic1_dvipdfm_ps1.ref,
+	  gmake_ref/basic1_dvipdfm_ps2.ref, gmake_ref/basic1_pdf1.ref,
+	  gmake_ref/basic1_pdf2.ref, gmake_ref/basic1_pdflatex_dvi1.ref,
+	  gmake_ref/basic1_pdflatex_dvi2.ref,
+	  gmake_ref/basic1_pdflatex_pdf1.ref,
+	  gmake_ref/basic1_pdflatex_pdf2.ref,
+	  gmake_ref/basic1_pdflatex_ps1.ref,
+	  gmake_ref/basic1_pdflatex_ps2.ref, gmake_ref/basic1_ps1.ref,
+	  gmake_ref/basic1_ps2.ref, gmake_ref/basic_bibtexsrcs_dvi1.ref,
+	  gmake_ref/basic_bibtexsrcs_dvi3.ref,
+	  gmake_ref/basic_tgifdirs.ref, gmake_ref/basic_tgifsrcs.ref,
+	  gmake_ref/basic_xfigdirs.ref, gmake_ref/basic_xfigsrcs.ref,
+	  gmake_ref/multi1_dvi1.ref, gmake_ref/multi1_dvi2.ref,
+	  gmake_ref/multi1_dvi3.ref, gmake_ref/vars_dvipdfm.ref,
+	  gmake_ref/vars_dvips.ref, gmake_ref/vars_gv.ref,
+	  gmake_ref/vars_lpr.ref, gmake_ref/vars_ps2pdf.ref,
+	  gmake_ref/vars_viewpdf.ref, gmake_ref/vars_xdvi.ref: all calls to
+	  latex-mk now include an env call to set PDF/LATEX,
+	  PDF/LATEX_FLAGS, BIBTEX, BIBTEX_FLAGS
+
+2003-02-15 15:07  dan
+
+	* latex-mk.in, latex.mk.in.in: set {{PDF,}LA},BIB}TEX{,_FLAGS} in
+	  the environment that latex-mk is run in.  Also follow these flags
+	  inside of latex-mk.
+
+2003-02-15 14:43  dan
+
+	* testsuite/: golden.mk, tests.list, bmake_ref/vars_bibtex.ref,
+	  bmake_ref/vars_latex.ref, bmake_ref/vars_pdflatex.ref,
+	  gmake_ref/vars_bibtex.ref, gmake_ref/vars_latex.ref,
+	  gmake_ref/vars_pdflatex.ref: add BIBTEX, LATEX, and PDFLATEX
+	  variable checks
+
+2003-02-15 09:17  dan
+
+	* latex.mk.in.in: add VIEWPDF{,_FLAGS} to comments near top
+
+2003-02-15 09:06  dan
+
+	* testsuite/: golden.mk, testfile.mk.in, tests.list,
+	  bmake_ref/basic_bibtexsrcs_dvi1.ref,
+	  bmake_ref/basic_bibtexsrcs_dvi2.ref,
+	  bmake_ref/basic_bibtexsrcs_dvi3.ref, bmake_ref/vars_dvipdfm.ref,
+	  bmake_ref/vars_dvips.ref, bmake_ref/vars_gv.ref,
+	  bmake_ref/vars_lpr.ref, bmake_ref/vars_ps2pdf.ref,
+	  bmake_ref/vars_viewpdf.ref, bmake_ref/vars_xdvi.ref,
+	  gmake_ref/basic_bibtexsrcs_dvi1.ref,
+	  gmake_ref/basic_bibtexsrcs_dvi2.ref,
+	  gmake_ref/basic_bibtexsrcs_dvi3.ref, gmake_ref/vars_dvipdfm.ref,
+	  gmake_ref/vars_dvips.ref, gmake_ref/vars_gv.ref,
+	  gmake_ref/vars_lpr.ref, gmake_ref/vars_ps2pdf.ref,
+	  gmake_ref/vars_viewpdf.ref, gmake_ref/vars_xdvi.ref: add lots of
+	  tests related to variables defining executables and their flags
+
+2003-02-10 08:07  dan
+
+	* testsuite/golden.mk: add multi1_dvi{1,2,3} tests
+
+2003-02-09 23:00  dan
+
+	* testsuite/: testfile.mk.in, tests.list,
+	  bmake_ref/multi1_dvi1.ref, bmake_ref/multi1_dvi2.ref,
+	  bmake_ref/multi1_dvi3.ref, gmake_ref/multi1_dvi1.ref,
+	  gmake_ref/multi1_dvi2.ref, gmake_ref/multi1_dvi3.ref: add tests
+	  for projects with multiple .tex files and multiple documents
+
+2003-02-08 16:42  dan
+
+	* testsuite/: Makefile.am, golden.mk, bmake_ref/Makefile.am,
+	  gmake_ref/Makefile.am: put the list of reference files for the
+	  testsuite into a single file (golden.mk) which is included by the
+	  two subdirectory makefiles.
+
+2003-02-08 16:39  dan
+
+	* testsuite/run_tests.sh: add support for inserting delays between
+	  touching files which need to be created during each test run.
+
+2003-02-07 20:32  dan
+
+	* configure.ac: move testsuite/{b,g}make to testsuite/{b,g}make_ref
+
+2003-02-07 20:22  dan
+
+	* testsuite/: Makefile.am, run_tests.sh, bmake/Makefile.am,
+	  bmake/basic1_dvi1.ref, bmake/basic1_dvi2.ref,
+	  bmake/basic1_dvipdfm_dvi1.ref, bmake/basic1_dvipdfm_dvi2.ref,
+	  bmake/basic1_dvipdfm_pdf1.ref, bmake/basic1_dvipdfm_pdf2.ref,
+	  bmake/basic1_dvipdfm_ps1.ref, bmake/basic1_dvipdfm_ps2.ref,
+	  bmake/basic1_pdf1.ref, bmake/basic1_pdf2.ref,
+	  bmake/basic1_pdflatex_dvi1.ref, bmake/basic1_pdflatex_dvi2.ref,
+	  bmake/basic1_pdflatex_pdf1.ref, bmake/basic1_pdflatex_pdf2.ref,
+	  bmake/basic1_pdflatex_ps1.ref, bmake/basic1_pdflatex_ps2.ref,
+	  bmake/basic1_ps1.ref, bmake/basic1_ps2.ref,
+	  bmake/basic_tgifdirs.ref, bmake/basic_tgifsrcs.ref,
+	  bmake/basic_xfigdirs.ref, bmake/basic_xfigsrcs.ref,
+	  bmake_ref/Makefile.am, bmake_ref/basic1_dvi1.ref,
+	  bmake_ref/basic1_dvi2.ref, bmake_ref/basic1_dvipdfm_dvi1.ref,
+	  bmake_ref/basic1_dvipdfm_dvi2.ref,
+	  bmake_ref/basic1_dvipdfm_pdf1.ref,
+	  bmake_ref/basic1_dvipdfm_pdf2.ref,
+	  bmake_ref/basic1_dvipdfm_ps1.ref,
+	  bmake_ref/basic1_dvipdfm_ps2.ref, bmake_ref/basic1_pdf1.ref,
+	  bmake_ref/basic1_pdf2.ref, bmake_ref/basic1_pdflatex_dvi1.ref,
+	  bmake_ref/basic1_pdflatex_dvi2.ref,
+	  bmake_ref/basic1_pdflatex_pdf1.ref,
+	  bmake_ref/basic1_pdflatex_pdf2.ref,
+	  bmake_ref/basic1_pdflatex_ps1.ref,
+	  bmake_ref/basic1_pdflatex_ps2.ref, bmake_ref/basic1_ps1.ref,
+	  bmake_ref/basic1_ps2.ref, bmake_ref/basic_tgifdirs.ref,
+	  bmake_ref/basic_tgifsrcs.ref, bmake_ref/basic_xfigdirs.ref,
+	  bmake_ref/basic_xfigsrcs.ref, gmake/Makefile.am,
+	  gmake/basic1_dvi1.ref, gmake/basic1_dvi2.ref,
+	  gmake/basic1_dvipdfm_dvi1.ref, gmake/basic1_dvipdfm_dvi2.ref,
+	  gmake/basic1_dvipdfm_pdf1.ref, gmake/basic1_dvipdfm_pdf2.ref,
+	  gmake/basic1_dvipdfm_ps1.ref, gmake/basic1_dvipdfm_ps2.ref,
+	  gmake/basic1_pdf1.ref, gmake/basic1_pdf2.ref,
+	  gmake/basic1_pdflatex_dvi1.ref, gmake/basic1_pdflatex_dvi2.ref,
+	  gmake/basic1_pdflatex_pdf1.ref, gmake/basic1_pdflatex_pdf2.ref,
+	  gmake/basic1_pdflatex_ps1.ref, gmake/basic1_pdflatex_ps2.ref,
+	  gmake/basic1_ps1.ref, gmake/basic1_ps2.ref,
+	  gmake/basic_tgifdirs.ref, gmake/basic_tgifsrcs.ref,
+	  gmake/basic_xfigdirs.ref, gmake/basic_xfigsrcs.ref,
+	  gmake_ref/Makefile.am, gmake_ref/basic1_dvi1.ref,
+	  gmake_ref/basic1_dvi2.ref, gmake_ref/basic1_dvipdfm_dvi1.ref,
+	  gmake_ref/basic1_dvipdfm_dvi2.ref,
+	  gmake_ref/basic1_dvipdfm_pdf1.ref,
+	  gmake_ref/basic1_dvipdfm_pdf2.ref,
+	  gmake_ref/basic1_dvipdfm_ps1.ref,
+	  gmake_ref/basic1_dvipdfm_ps2.ref, gmake_ref/basic1_pdf1.ref,
+	  gmake_ref/basic1_pdf2.ref, gmake_ref/basic1_pdflatex_dvi1.ref,
+	  gmake_ref/basic1_pdflatex_dvi2.ref,
+	  gmake_ref/basic1_pdflatex_pdf1.ref,
+	  gmake_ref/basic1_pdflatex_pdf2.ref,
+	  gmake_ref/basic1_pdflatex_ps1.ref,
+	  gmake_ref/basic1_pdflatex_ps2.ref, gmake_ref/basic1_ps1.ref,
+	  gmake_ref/basic1_ps2.ref, gmake_ref/basic_tgifdirs.ref,
+	  gmake_ref/basic_tgifsrcs.ref, gmake_ref/basic_xfigdirs.ref,
+	  gmake_ref/basic_xfigsrcs.ref: rename bmake and gmake directories
+	  to bmake_ref and gmake_ref to avoid problems with users who may
+	  include '.' in their path.
+
+2003-02-06 05:31  dan
+
+	* doc/latex-mk.texi, htdocs/history.shtml: add some news about the
+	  up and coming 1.0 release
+
+2003-02-05 10:28  dan
+
+	* testsuite/: Makefile.am, run_tests, run_tests.sh: move run_tests
+	  to run_tests.sh and fix up the script.  In particular, it now
+	  properly functions when the build directory is not the same as
+	  the source directory.  Its now open season on adding tests!
+
+2003-02-03 07:13  dan
+
+	* testsuite/run_tests: look in ${srcdir} for tests.list
+
+2003-02-03 07:09  dan
+
+	* testsuite/Makefile.am: do not try and chmod run_test.  It should
+	  be ok already and we may have a write-only source tree
+
+2003-02-03 07:04  dan
+
+	* testsuite/Makefile.am: add run_test, tests.list, and
+	  testfile.mk.in to EXTRA_DIST
+
+2003-02-03 06:45  dan
+
+	* configure.ac: bump to 0.9C with the addition of a testsuite
+
+2003-02-03 06:41  dan
+
+	* testsuite/Makefile.am: enable the testsuite
+
+2003-02-03 06:39  dan
+
+	* testsuite/run_tests: clean up the environment a bit for running
+	  the test make's.  This lets the testsuite actually run as part of
+	  'make check'
+
+2003-02-02 22:34  dan
+
+	* latex.mk.in.in, testsuite/Makefile.am, testsuite/run_tests,
+	  testsuite/testfile.mk.in, testsuite/tests.list,
+	  testsuite/bmake/Makefile.am, testsuite/bmake/basic1_dvi1.ref,
+	  testsuite/bmake/basic1_dvi2.ref,
+	  testsuite/bmake/basic1_dvipdfm_dvi1.ref,
+	  testsuite/bmake/basic1_dvipdfm_dvi2.ref,
+	  testsuite/bmake/basic1_dvipdfm_pdf1.ref,
+	  testsuite/bmake/basic1_dvipdfm_pdf2.ref,
+	  testsuite/bmake/basic1_dvipdfm_ps1.ref,
+	  testsuite/bmake/basic1_dvipdfm_ps2.ref,
+	  testsuite/bmake/basic1_pdf1.ref, testsuite/bmake/basic1_pdf2.ref,
+	  testsuite/bmake/basic1_pdflatex_dvi1.ref,
+	  testsuite/bmake/basic1_pdflatex_dvi2.ref,
+	  testsuite/bmake/basic1_pdflatex_pdf1.ref,
+	  testsuite/bmake/basic1_pdflatex_pdf2.ref,
+	  testsuite/bmake/basic1_pdflatex_ps1.ref,
+	  testsuite/bmake/basic1_pdflatex_ps2.ref,
+	  testsuite/bmake/basic1_ps1.ref, testsuite/bmake/basic1_ps2.ref,
+	  testsuite/bmake/basic_tgifdirs.ref,
+	  testsuite/bmake/basic_tgifsrcs.ref,
+	  testsuite/bmake/basic_xfigdirs.ref,
+	  testsuite/bmake/basic_xfigsrcs.ref, testsuite/gmake/Makefile.am,
+	  testsuite/gmake/basic1_dvi1.ref, testsuite/gmake/basic1_dvi2.ref,
+	  testsuite/gmake/basic1_dvipdfm_dvi1.ref,
+	  testsuite/gmake/basic1_dvipdfm_dvi2.ref,
+	  testsuite/gmake/basic1_dvipdfm_pdf1.ref,
+	  testsuite/gmake/basic1_dvipdfm_pdf2.ref,
+	  testsuite/gmake/basic1_dvipdfm_ps1.ref,
+	  testsuite/gmake/basic1_dvipdfm_ps2.ref,
+	  testsuite/gmake/basic1_pdf1.ref, testsuite/gmake/basic1_pdf2.ref,
+	  testsuite/gmake/basic1_pdflatex_dvi1.ref,
+	  testsuite/gmake/basic1_pdflatex_dvi2.ref,
+	  testsuite/gmake/basic1_pdflatex_pdf1.ref,
+	  testsuite/gmake/basic1_pdflatex_pdf2.ref,
+	  testsuite/gmake/basic1_pdflatex_ps1.ref,
+	  testsuite/gmake/basic1_pdflatex_ps2.ref,
+	  testsuite/gmake/basic1_ps1.ref, testsuite/gmake/basic1_ps2.ref,
+	  testsuite/gmake/basic_tgifdirs.ref,
+	  testsuite/gmake/basic_tgifsrcs.ref,
+	  testsuite/gmake/basic_xfigdirs.ref,
+	  testsuite/gmake/basic_xfigsrcs.ref: import the first pass at part
+	  of a testsuite.  As a bonus I've already caught a bug with this.
+	  Testsuite still needs to be incorporated into the 'make check'
+	  part of the automake build system.
+
+2003-02-02 22:27  dan
+
+	* configure.ac: add testsuite/{b,g}make/Makefile output
+
+2003-02-02 22:25  dan
+
+	* tgif.mk.in.in, xfig.mk.in.in: fix bug in which only one directory
+	  of multiple directories listed in {TGIF,XFIG}DIRS actually got
+	  processed with BSD make.  Caught when creating the testsuite.
+
+2003-02-02 07:38  dan
+
+	* Makefile.am, configure.ac, testsuite/Makefile.am,
+	  testsuite/run_tests, testsuite/testfile.mk.in: add the start of a
+	  testsuite.
+
+2003-02-02 07:07  dan
+
+	* xfig.mk.in.in: - fix some typos in comments -
+	  s/XFIG2DEV_FLAGS/FIG2DEV_FLAGS
+
+2003-02-01 22:43  dan
+
+	* latex-mk.in: add a very short -h|--help output
+
+2003-02-01 22:42  dan
+
+	* configure.ac, latex.mk.in.in, doc/latex-mk.texi: provide
+	  preliminary support for using pdflatex to directly produce pdf
+	  files from latex files.
+
+2003-02-01 21:33  dan
+
+	* doc/latex-mk.texi: update copyright year
+
+2003-02-01 20:28  dan
+
+	* configure.ac, latex.mk.in.in, doc/latex-mk.texi: add preliminary
+	  support for using dvipdfm to directly create PDF from DVI.  This
+	  addresses feature request "[ 620891 ] support for dvipdfm"
+	  entered on sourceforge.
+
+2003-02-01 19:14  dan
+
+	* latex.mk.in.in, tgif.mk.in.in, xfig.mk.in.in: - fix remaining
+	  bugs with correct inclusion of tgif.mk and xfig.mk   when
+	  foo_TGIFDIRS and bar_XFIGSRCS, etc are used with gmake.
+
+	  - correctly add the dependencies for tgif and xfig files with
+	  gmake and foo_{TGIF,XFIG}{DIRS,SRCS}
+
+2003-02-01 11:01  dan
+
+	* latex.mk.in.in: correctly pull in latex.[g]mk and xfig.[g]mk when
+	  foo_TGIFDIRS and similar constructs are used but without TGIFDIRS
+	  being defined.
+
+2002-10-31 09:59  dan
+
+	* htdocs/faq.shtml: add note about GNU make version and how to get
+	  bmake
+
+2002-10-31 09:57  dan
+
+	* htdocs/history.shtml: fix the 0.9.1 section to be labeled as
+	  0.9.1
+
+2002-10-30 05:16  dan
+
+	* htdocs/: Makefile, bugs.shtml, examples.shtml, faq.shtml,
+	  history.shtml, index.shtml, news.shtml, obtaining.shtml,
+	  upload_list: sync with the head for the 0.9.1 release
+
+2002-10-29 05:29  dan
+
+	* configure.ac: bump version to 0.9.1
+
+2002-10-28 21:50  dan
+
+	* htdocs/: history.shtml, index.shtml, news.shtml: add news and
+	  history for latex-mk-0.9.1
+
+2002-10-28 21:17  dan
+
+	* doc/latex-mk.texi: pullup revs 1.16, 1.17, 1.18
+
+2002-10-28 21:14  dan
+
+	* xfig.mk.in.in: pullup rev 1.3
+
+2002-10-28 21:13  dan
+
+	* tgif.mk.in.in: pullup revs 1.6 and 1.7
+
+2002-10-28 21:10  dan
+
+	* latex.mk.in.in: pullup revision 1.22 to fix many GNU make related
+	  bugs
+
+2002-10-26 21:23  dan
+
+	* doc/latex-mk.texi: - add system requirements section with info on
+	  required GNU make version (>=3.80)   and where to get a BSD make
+	  program
+
+	  - add a history section
+
+2002-10-17 22:23  dan
+
+	* ChangeLog: add ChangeLog
+
+2002-10-17 22:22  dan
+
+	* tgif.mk.in.in: remove some whitespace.  move ALLTGIFOBJS up
+	  higher in the file.
+
+2002-10-17 22:21  dan
+
+	* xfig.mk.in.in: Support per-document xfig dependencies.  Somehow
+	  this was missed when support was added for tgif per-docuemnt
+	  dependencies.
+
+2002-10-17 06:54  dan
+
+	* latex.mk.in.in, tgif.mk.in.in: many fixes for gmake.	Uses
+	  gmake-3.80 features, but the other approach to the dynamic
+	  dependencies and targets was a total hack which proved to not be
+	  portable across different versions of gmake.	The big change here
+	  is how we handle multiple top level documents with gmake.
+
+2002-10-10 08:50  dan
+
+	* doc/latex-mk.texi: - document the VIEWPDF and VIEWPDF_FLAGS
+	  variables
+
+	  - XDVI is for .dvi previews, not .pdf previews
+
+2002-10-09 21:32  dan
+
+	* htdocs/bugs.shtml, htdocs/examples.shtml, htdocs/faq.shtml,
+	  htdocs/history.shtml, htdocs/index.shtml, htdocs/news.shtml,
+	  htdocs/obtaining.shtml, doc/latex-mk.texi:
+	  s/danmc@sourceforge.net/danmc@users.sourceforge.net/
+
+2002-10-09 01:03  dan
+
+	* htdocs/: Makefile, upload_list: add 'upload' target.	this uses
+	  the upload_list to select which files get rsynced
+
+2002-10-09 00:35  dan
+
+	* htdocs/: Makefile, history.shtml, index.shtml, news.shtml: add
+	  the news section and update for the 0.9 release
+
+2002-10-09 00:11  dan
+
+	* configure.ac: set to version 0.9
+
+2002-10-09 00:10  dan
+
+	* configure.ac: bump to 0.9A
+
+2002-10-08 23:46  dan
+
+	* Makefile.am: add all-local to chmod 755 the scripts.	otherwise
+	  they are not executible prior to installation
+
+2002-10-08 23:37  dan
+
+	* COPYING: note that its more than just .mk files
+
+2002-10-08 23:36  dan
+
+	* doc/latex-mk.texi: add the ps_<name>-draft target
+
+2002-10-08 23:22  dan
+
+	* TODO: add ieee-copyout and dist items
+
+2002-10-08 23:19  dan
+
+	* example/ex2.tex: add missing example to CVS
+
+2002-10-08 23:17  dan
+
+	* latex.mk.in.in: clean the draft_stamp.ps file
+
+2002-10-08 23:13  dan
+
+	* example/README-example.txt: add more notes on runnng the example
+
+2002-10-08 22:53  dan
+
+	* example/: Makefile.am, example.conf.in, makefile.in: example.conf
+	  is deprecated.  Just set the env vars per the readme file
+
+2002-10-08 20:59  dan
+
+	* htdocs/: Makefile, bugs.shtml, examples.shtml, faq.shtml,
+	  history.shtml, index.shtml, left_column.incl, obtaining.shtml:
+	  several updates, add a history section, add some faq's about GNU
+	  vs BSD make, correct some spellings, grammar, etc.
+
+2002-10-08 09:46  dan
+
+	* example/tgif/Makefile.am: install the tgif files in a
+	  subdirectory
+
+2002-10-08 09:45  dan
+
+	* example/: Makefile.am, README-example.txt: add a readme file
+	  about how to try the example
+
+2002-10-07 17:15  dan
+
+	* doc/Makefile.am: distribute the .dvi files to avoid needing tex
+	  to build the docs
+
+2002-10-07 17:00  dan
+
+	* example/Makefile.am: fix for BSD make
+
+2002-10-07 15:31  dan
+
+	* latex.mk.in.in: s/BMK/GMK in a key spot.  Fixes gmake
+	  foo-draft.ps and prevents creating garbage pdf-draft files with
+	  bmake
+
+2002-10-07 14:34  dan
+
+	* latex.mk.in.in: fix the test for draft output with gmake.  clean
+	  the -draft.ps and -draft.pdf files
+
+2002-10-07 10:11  dan
+
+	* latex-mk.in: add a check for
+
+	    LaTeX Warning: There were undefined references.
+
+	  after the final run.	For now, just issue a warning.	In the
+	  future, this should support a bunch of flags saying which are
+	  warnings and which are fatal errors
+
+2002-10-06 23:08  dan
+
+	* latex-mk.in, latex.mk.in.in: add support for IGNORE_LATEX_ERRORS
+	  makefile variable which will pass --ignore-errors to latex-mk.
+	  This lets you build with undefined references.
+
+	  While here, add --pdflatex support to latex-mk.  Still need
+	  support in the makefiles.
+
+2002-10-06 22:30  dan
+
+	* latex-mk.in: correctly capture the latex return code when piping
+	  the output to a log file.  Thanks to Valeriy E. Ushakov
+	  <uwe@netbsd.org> for shell programming help on this one.
+
+2002-10-06 22:28  dan
+
+	* Makefile.am, latex.mk.in.in: fix exec_dir processing
+
+2002-10-06 22:27  dan
+
+	* ieee-copyout, ieee-copyout.in: move ieee-copyout to
+	  ieee-copyout.in
+
+2002-10-05 16:34  dan
+
+	* README: Add an acknowledgement for Karthikesh Raju
+	  <karthik@james.hut.fi>
+
+2002-10-05 16:18  dan
+
+	* README.to-release: pull in some notes on releasing with cvs
+
+2002-10-05 16:18  dan
+
+	* example/README.to-release: move to top directory
+
+2002-10-05 16:08  dan
+
+	* example/README.to-release: pull in some notes on releasing with
+	  cvs
+
+2002-10-02 22:34  dan
+
+	* README: add some formatting and some acknowledgements
+
+2002-09-29 23:10  dan
+
+	* htdocs/index.shtml: note that latex-mk has scripts as well as
+	  makefiles
+
+2002-09-29 23:05  dan
+
+	* latex-mk.in, latex.mk.in.in: fix support for -draft targets
+
+2002-09-29 21:46  dan
+
+	* doc/latex-mk.texi: document the -draft targets and the options
+	  for multiple top level documents.
+
+2002-09-29 21:18  dan
+
+	* configure.ac, ieee-copyout, Makefile.am: add script (not finished
+	  yet) to make a sanitized copy of the document for IEEE
+	  submission.
+
+2002-09-27 09:27  dan
+
+	* latex.mk.in.in: fix the name for viewps-draft, viewps-all-draft,
+	  print-draft, and print-all-draft
+
+2002-09-26 23:11  dan
+
+	* dated_draft.ps, latex.mk.in.in: add initial support for draft
+	  watermark and time stamp in postscript and later output
+
+2002-09-26 22:53  dan
+
+	* Makefile.am, TODO: add TODO list
+
+2002-09-21 10:40  dan
+
+	* latex.mk.in.in, tgif.mk.in.in: cause the gmake dependency files
+	  to always be remade.	Hopefully this ugly hack brings gmake
+	  support up to what BSD make does.
+
+2002-09-21 10:39  dan
+
+	* example/Makefile.am: add ex2.tex to distfiles
+
+2002-09-20 22:57  dan
+
+	* example/Makefile.am: add example.conf to distclean list
+
+2002-09-20 22:56  dan
+
+	* doc/latex-mk.texi: fix texi formatting bugs
+
+2002-09-20 22:44  dan
+
+	* configure.ac: bump rev now that multiple docs are supported
+
+2002-09-20 22:38  dan
+
+	* configure.ac, latex.mk.in.in, tgif.mk.in.in, doc/latex-mk.texi,
+	  example/Makefile.am, example/makefile.in: many changes to allow
+	  GNU make to deal with multiple documents per directory and some
+	  common and some shared dependencies.	Now fully supports things
+	  like:
+
+	  NAME= doc1 doc2 TEXSRCS= common.tex doc1_TEXSRCS=extra1.tex
+	  doc2_TEXSRCS=extra2.tex
+
+2002-09-20 22:32  dan
+
+	* latex-mk.in: be sure and cleanup on exit
+
+2002-09-20 22:31  dan
+
+	* latex-mk.in: add a --clean flag which deletes any leftover log
+	  files
+
+2002-09-20 08:05  dan
+
+	* example/: Makefile.am, example.conf.in: more work on the
+	  examples, but not ready for prime-time yet
+
+2002-09-20 07:58  dan
+
+	* Makefile.am: add copyright info
+
+2002-09-20 07:58  dan
+
+	* configure.ac: correct help text for --with-{user,}{g,}mkconf
+
+2002-09-17 22:45  dan
+
+	* latex.mk.in.in, tgif.mk.in.in, example/Makefile.am,
+	  example/makefile.in: add support for having multiple documents
+	  with individual and shared dependencies in the same directory.
+	  Idea from Jeff McMahill.
+
+2002-09-17 22:11  dan
+
+	* latex-mk.in: use   if test ! -f $file instead of   if ! test -f
+	  $file
+
+	  and fix some echo "" quotes to make this work properly on
+	  solaris.
+
+2002-09-16 07:12  dan
+
+	* Makefile.am, configure.ac, example/Makefile.am,
+	  example/biblio.tex, example/example.tex, example/makefile.in,
+	  example/refs.bib, example/tgif/Makefile.am: add an example of
+	  using latex-mk
+
+2002-09-16 07:11  dan
+
+	* latex.mk.in.in: search for the included .mk files in
+	  LATEX_MK_DIR.  This will let me more easily setup a config file
+	  for pre-installation testing.
+
+2002-09-15 07:43  dan
+
+	* latex-mk.in, latex.mk.in.in: more improvements to the latex-mk
+	  script.  It now seems to correctly detect when a bibtex run is
+	  needed and actually appears to run latex the right number of
+	  times now.
+
+	  Given this, try switching to latex-mk instead of latex in the
+	  makefiles now.
+
+2002-09-15 07:34  dan
+
+	* Makefile.am: add @bindir@ to the list of common variables to
+	  substitute for
+
+2002-09-14 22:14  dan
+
+	* latex.mk.in.in: for gmake, include the .gmk files, not the .mk
+	  files
+
+2002-09-14 07:34  dan
+
+	* Makefile.am, configure.ac, latex-mk.in: add a latex-mk shell
+	  script which actually will (not yet) do the work of running
+	  latex.  It will keep track of if latex and/or bibtex need to be
+	  re-run to resolve changed labels, etc.  Also, it has a
+	  configurable limit on how many times it will run latex.
+
+2002-09-12 22:50  dan
+
+	* htdocs/images/: curved.png, curved.xcf, logo.jpg, logo.png,
+	  logo2.png: add some images
+
+2002-09-12 08:59  dan
+
+	* htdocs/: Makefile, bugs.shtml: add bug reporting info
+
+2002-09-12 08:59  dan
+
+	* htdocs/examples.shtml: add some examples
+
+2002-09-11 22:55  dan
+
+	* htdocs/Makefile: makefile for building static pages
+
+2002-09-11 22:54  dan
+
+	* htdocs/: examples.shtml, left_column.incl: add template for an
+	  example
+
+2002-09-11 22:53  dan
+
+	* htdocs/main_footer.incl: add sourceforge logo and counter
+
+2002-08-31 00:06  dan
+
+	* htdocs/: faq.shtml, index.shtml, left_column.incl,
+	  main_footer.incl, obtaining.shtml, page_start.incl,
+	  images/logo.xcf, utils/shtml2html: start on web page
+
+2002-08-29 18:36  dan
+
+	* doc/latex-mk.texi: - fix the table of contents so it actually
+	  shows up - fix the concepts index so it actually shows up - start
+	  new pages with each new chapter
+
+2002-08-29 18:32  dan
+
+	* aclocal.m4: this is a generated file.  no need to put in cvs
+
+2002-08-28 21:01  dan
+
+	* Makefile.am, configure.ac, latex.mk.in.in, doc/latex-mk.texi: fix
+	  up the config files.	In particular, use sysconfdir to specify
+	  the locations for latex-mk.conf and latex-gmk.conf.
+
+	  switch to make the default user config file be
+	  ${HOME}/.latex-{g,}mk.conf
+
+2002-08-28 19:53  dan
+
+	* latex.subdir.mk.in.in: add stub makefile for subdirectories
+
+2002-08-28 09:10  dan
+
+	* configure.ac, doc/latex-mk.texi: use ${sysconfdir} instead of
+	  hardcoding /etc
+
+2002-08-28 08:55  dan
+
+	* doc/latex-mk.texi: document the --with-mkconf, --with-gmkconf,
+	  --with-usermkconf, and --with-usergmkconf options
+
+	  start work on the installation chapter
+
+2002-08-28 08:52  dan
+
+	* configure.ac, latex.mk.in.in: fix up the --with-mkconf,
+	  --with-gmkconf, --with-usermkconf, and --with-usergmkconf options
+
+2002-08-28 08:47  dan
+
+	* README: point to the real documentation
+
+2002-08-25 22:14  dan
+
+	* configure.ac: fix up the previous commit
+
+2002-08-25 22:07  dan
+
+	* configure.ac, latex.mk.in.in, xfig.mk.in.in: add --with-mkconf
+	  and --with-gmkconf to change /etc/mk.conf and /etc/gmk.conf
+
+2002-08-24 00:14  dan
+
+	* doc/Makefile.am: install the html, postscript and pdf manuals
+
+2002-08-24 00:05  dan
+
+	* doc/latex-mk.texi: add minimal documentation on MAKECONF and
+	  USER_MAKECONF
+
+2002-08-23 23:57  dan
+
+	* latex.mk.in.in: use mk.conf for BSD make and gmk.conf for GNU
+	  make
+
+2002-08-23 21:27  dan
+
+	* latex.mk.in.in: - fix autoconf-iguration of ENV_PROG.  - check
+	  for XFIGSRCS and XFIGDIRS and pull in xfig.mk if either is set.
 	  fixes processing of xfig figures.
 
-2002-08-23  Dan McMahill  <dan@bondage.mcmahill.net>
+2002-08-22 22:41  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	fix up copyright notice and license
+	* doc/latex-mk.texi: fix up copyright notice and license
 
-2002-08-22  Dan McMahill  <dan@bondage.mcmahill.net>
+2002-08-21 23:14  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	- add a bunch of introductory text
-	- sort variables by type
-	- add barebones "obtaining" section
+	* doc/latex-mk.texi: - add a bunch of introductory text - sort
+	  variables by type - add barebones "obtaining" section
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
-	sort DISTCLEANFILES and add .pdf
+2002-08-21 23:13  dan
 
-2002-08-21  Dan McMahill  <dan@bondage.mcmahill.net>
+	* doc/Makefile.am: sort DISTCLEANFILES and add .pdf
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	add some sections and nodes for targets and variables
+2002-08-21 07:53  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am:
-	do not distribute the .mk.in files.  they are installation dependent
+	* doc/latex-mk.texi: add some sections and nodes for targets and
+	  variables
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	first pass through listing of all targets and variables.  Need to add examples
-	and a good bit of explanatory text still.
+2002-08-20 22:28  dan
 
-2002-08-19  Dan McMahill  <dan@bondage.mcmahill.net>
+	* Makefile.am: do not distribute the .mk.in files.  they are
+	  installation dependent
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/texinfo.tex:
-	update to version 2002-06-04.06
+2002-08-20 21:50  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
-	use DISTCLEANFILES instead of distclean-local:
+	* doc/latex-mk.texi: first pass through listing of all targets and
+	  variables.  Need to add examples and a good bit of explanatory
+	  text still.
 
-2002-08-16  Dan McMahill  <dan@bondage.mcmahill.net>
+2002-08-19 07:40  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
-	add more program checks
+	* doc/texinfo.tex: update to version 2002-06-04.06
 
-2002-08-15  Dan McMahill  <dan@bondage.mcmahill.net>
+2002-08-18 22:12  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/example/tgif/myfig.obj, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/aclocal.m4, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac:
-	lots of changes to build system.  use configure to find paths to many
-	of the executibles which are needed.  Also add xfig tests and an example.
+	* doc/Makefile.am: use DISTCLEANFILES instead of distclean-local:
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/xfig.mk.in.in:
-	add (untested) xfig make fragment
+2002-08-16 07:05  dan
 
-2002-08-14  Dan McMahill  <dan@bondage.mcmahill.net>
+	* configure.ac: add more program checks
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in, /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in.in, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in.in:
-	move latex.mk.in tgif.mk.in to latex.mk.in.in tgif.mk.in.in
+2002-08-14 22:50  dan
 
-2002-07-01  Dan McMahill  <dan@bondage.mcmahill.net>
+	* Makefile.am, aclocal.m4, configure.ac, latex.mk.in.in,
+	  tgif.mk.in.in, example/tgif/myfig.obj: lots of changes to build
+	  system.  use configure to find paths to many of the executibles
+	  which are needed.  Also add xfig tests and an example.
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
-	remove .fns files during distclean
+2002-08-14 22:44  dan
 
-2002-06-02  Dan McMahill  <dan@bondage.mcmahill.net>
+	* xfig.mk.in.in: add (untested) xfig make fragment
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in:
-	add .PHONY everywhere where needed (did not have any before)
+2002-08-14 07:40  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi:
-	add small example on formatting code examples
+	* latex.mk.in.in, latex.mk.in, tgif.mk.in.in, tgif.mk.in: move
+	  latex.mk.in tgif.mk.in to latex.mk.in.in tgif.mk.in.in
 
-2002-05-21  Dan McMahill  <dan@bondage.mcmahill.net>
+2002-07-01 08:32  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
-	cleanup and fix distclean target
+	* doc/Makefile.am: remove .fns files during distclean
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/mdate-sh, /usr/cvsroot/localsrc/misc/latex-mk/doc/texinfo.tex:
-	add rcs id
+2002-06-02 07:07  dan
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/Makefile.am:
-	add html and pdf ouptut
+	* latex.mk.in: add .PHONY everywhere where needed (did not have any
+	  before)
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/doc/texinfo.tex, /usr/cvsroot/localsrc/misc/latex-mk/doc/latex-mk.texi, /usr/cvsroot/localsrc/misc/latex-mk/doc/mdate-sh, /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in, /usr/cvsroot/localsrc/misc/latex-mk/COPYING, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/README, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/AUTHORS:
-	add texinfo skeleton
+2002-06-02 07:04  dan
 
-2002-05-20  Dan McMahill  <dan@bondage.mcmahill.net>
+	* doc/latex-mk.texi: add small example on formatting code examples
 
-	* /usr/cvsroot/localsrc/misc/latex-mk/latex.mk.in, /usr/cvsroot/localsrc/misc/latex-mk/missing, /usr/cvsroot/localsrc/misc/latex-mk/mkinstalldirs, /usr/cvsroot/localsrc/misc/latex-mk/tgif.mk.in, /usr/cvsroot/localsrc/misc/latex-mk/configure.ac, /usr/cvsroot/localsrc/misc/latex-mk/install-sh, /usr/cvsroot/localsrc/misc/latex-mk/config.guess, /usr/cvsroot/localsrc/misc/latex-mk/config.sub, /usr/cvsroot/localsrc/misc/latex-mk/Makefile.am, /usr/cvsroot/localsrc/misc/latex-mk/NEWS, /usr/cvsroot/localsrc/misc/latex-mk/README, /usr/cvsroot/localsrc/misc/latex-mk/aclocal.m4, /usr/cvsroot/localsrc/misc/latex-mk/ChangeLog, /usr/cvsroot/localsrc/misc/latex-mk/INSTALL, /usr/cvsroot/localsrc/misc/latex-mk/AUTHORS, /usr/cvsroot/localsrc/misc/latex-mk/COPYING:
-	move here from localsrc/share/mk since it is its own package now
+2002-05-20 22:10  dan
+
+	* doc/Makefile.am: cleanup and fix distclean target
+
+2002-05-20 21:50  dan
+
+	* doc/: mdate-sh, texinfo.tex: add rcs id
+
+2002-05-20 21:50  dan
+
+	* doc/Makefile.am: add html and pdf ouptut
+
+2002-05-20 21:26  dan
+
+	* AUTHORS, COPYING, Makefile.am, README, configure.ac, latex.mk.in,
+	  doc/latex-mk.texi, doc/mdate-sh, doc/texinfo.tex: add texinfo
+	  skeleton
+
+2002-05-20 10:25  dan
+
+	* AUTHORS, COPYING, ChangeLog, INSTALL, Makefile.am, NEWS, README,
+	  aclocal.m4, config.guess, config.sub, configure.ac, install-sh,
+	  latex.mk.in, missing, mkinstalldirs, tgif.mk.in: move here from
+	  localsrc/share/mk since it is its own package now
 
