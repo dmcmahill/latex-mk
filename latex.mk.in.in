@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.32 2003/05/07 11:09:53 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.33 2003/05/25 04:07:37 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -106,12 +106,20 @@ GMK:_CONFS= $(wildcard ${MAKECONF})
 GMK:_CONFS+=        $(wildcard ${USER_MAKECONF})
 GMK:include ${_CONFS}
 
+# Make sure we set at least 1 way for creating html files
+BMK:.if !defined(USE_HEVEA)
+GMK:ifndef USE_HEVEA
+USE_LATEX2HTML=	YES
+BMK:.endif
+GMK:endif
+
 # The location of the latex-mk .mk and .gmk files
 # we do this instead of hard coding so the package
 # can be tested before installation by setting this
 # variable in a test config file
 LATEX_MK_DIR?=	@pkgdatadir@
 
+AWK?=		@AWK@
 BIBTEX?=	@BIBTEX@
 DVIPDFM?=	@DVIPDFM@
 DVIPDFM_FLAGS+=	
@@ -121,6 +129,7 @@ ECHO?=		@ECHO@
 ENV_PROG?=	@ENV_PROG@
 FALSE?=		@FALSE@
 FIND=		@FIND@
+GREP=		@GREP@
 GV?=		@GV@
 GV_FLAGS?=
 HACHA?=		@HACHA@
@@ -141,6 +150,8 @@ LPR_FLAGS?=
 PDFLATEX?=	@PDFLATEX@
 PDFLATEX_ENV?=	
 PDFLATEX_FLAGS?=	
+RM?=		@RM@
+RMDIR?=		@RMDIR@
 PS2PDF?=	@PS2PDF@
 PS2PDF_FLAGS?=	
 XDVI?=		@XDVI@
@@ -148,7 +159,6 @@ XDVI_FLAGS?=
 VIEWPDF?=	${GV}
 VIEWPDF_FLAGS?=	${GV_FLAGS}
 
-RM?=		@RM@
 
 DRAFT_STAMP_PS?=	draft_stamp.ps
 DATED_DRAFT_PS?=	${LATEX_MK_DIR}/dated_draft.ps
@@ -415,11 +425,26 @@ BMK:
 BMK:ALLTEXSRCS+=	${__tmp__}.tex ${${__tmp__}_TEXSRCS}
 BMK:ALLBIBTEXSRCS+=	${${__tmp__}_BIBTEXSRCS}
 BMK:dvi:	${__tmp__}.dvi
-# XXX add HTML
+BMK:html:	${__tmp__}.html-stamp
+BMK:${__tmp__}.html-stamp:	${__tmp__}.dvi
 BMK:ps:	${__tmp__}.ps
 BMK:pdf:	${__tmp__}.pdf
 BMK:ps-draft:	${__tmp__}-draft.ps
 BMK:pdf-draft:	${__tmp__}-draft.pdf
+BMK:clean::
+BMK:	if [ -f ${__tmp__}.www_files ]; then  \
+BMK:		for f in `${AWK} '{print $$2}' ${__tmp__}.www_files` ; do \
+BMK:			if [ -f $$f ]; then ${RM} -f $$f ; fi ;\
+BMK:		done ;\
+BMK:	fi
+BMK:	${RM} -f ${__tmp__}.www_files
+BMK:.if defined(USE_LATEX2HTML)
+BMK:	${RM} -f ${__tmp__}.html_dir/images.aux
+BMK:	${RM} -f ${__tmp__}.html_dir/images.bbl
+BMK:	${RM} -f ${__tmp__}.html_dir/images.log
+BMK:	${RM} -f ${__tmp__}.html_dir/images.tex
+BMK:.endif
+BMK:	if [ -d ${__tmp__}.html_dir ]; then ${RMDIR} ${__tmp__}.html_dir ; fi
 BMK:.endfor
 
 GMK:define dvideps_template
@@ -431,11 +456,26 @@ GMK:
 GMK:ALLTEXSRCS+=	$(1).tex ${$(1)_TEXSRCS}
 GMK:ALLBIBTEXSRCS+=	${$(1)_BIBTEXSRCS}
 GMK:dvi:	$(1).dvi
-# XXX add HTML
+GMK:html:	$(1).html-stamp
+GMK:$(1).html-stamp:	$(1).dvi
 GMK:ps:	$(1).ps
 GMK:pdf:	$(1).pdf
 GMK:ps-draft:	$(1)-draft.ps
 GMK:pdf-draft:	$(1)-draft.pdf
+GMK:clean::	clean-$(1)-html
+GMK:	if [ -f $(1).www_files ]; then  \
+GMK:		for f in `${AWK} '{print $$2}' $(1).www_files` ; do \
+GMK:			if [ -f $$f ]; then ${RM} -f $$f ; fi ;\
+GMK:		done ;\
+GMK:	fi
+GMK:	${RM} -f $(1).www_files
+GMK:ifdef USE_LATEX2HTML
+GMK:	${RM} -f $(1).html_dir/images.aux
+GMK:	${RM} -f $(1).html_dir/images.bbl
+GMK:	${RM} -f $(1).html_dir/images.log
+GMK:	${RM} -f $(1).html_dir/images.tex
+GMK:endef
+GMK:	if [ -d $(1).html_dir ] ; then ${RMDIR} $(1).html_dir ; fi
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call dvideps_template,$(__tmp__))))
 
@@ -508,7 +548,7 @@ print-all-draft: ${ALLPRINT_DRAFT}
 #
 #######################################
 
-.SUFFIXES : .tex .dvi .ps .pdf .html
+.SUFFIXES : .tex .dvi .ps .pdf .html-stamp
 
 BMK:.if defined(IGNORE_LATEX_ERRORS)
 GMK:ifdef IGNORE_LATEX_ERRORS
@@ -536,23 +576,45 @@ GMK:endif
 # a convenient way to get a list of files to clean.  In addition, hevea
 # does not currently provide a DESTDIR type functionality which is needed
 # for dealing with multiple top level documents.
+
+
 .PHONY: html
-.tex.html : 
+.tex.html-stamp : 
+	touch $@1
 BMK:.if defined(USE_LATEX2HTML)
-	touch $@.html-stamp
 GMK:ifdef USE_LATEX2HTML
 	@${ECHO} LaTeX-Mk:  Creating HTML output using latex2html
-	$(ENV_PROG) $(LATEX2HTML_ENV) $(LATEX2HTML) $(LATEX2HTML_FLAGS) -mkdir -dir $@ $<
+	$(ENV_PROG) $(LATEX2HTML_ENV) $(LATEX2HTML) $(LATEX2HTML_FLAGS) -mkdir -dir $*.html_dir $<
 BMK:.elif defined(USE_HEVEA)
 GMK:else
 GMK:ifdef USE_HEVEA
 	@${ECHO} LaTeX-Mk:  Creating HTML output using HeVeA
-	$(ENV_PROG) $(HEVEA_ENV) $(HEVEA) $(HEVEA_FLAGS) $<
+	mkdir -p $*.html_dir
+	-$(ENV_PROG) $(HEVEA_ENV) $(HEVEA) $(HEVEA_FLAGS) $< 
+	-$(ENV_PROG) $(HEVEA_ENV) imagen  `basename $< .tex`
+	-$(ENV_PROG) $(HEVEA_ENV) $(HEVEA) $(HEVEA_FLAGS) $< 
 BMK:.endif
 GMK:endif
 GMK:endif
-	${FIND} . -type f \( -name \*-name *.htm* -o -name *.gif -o -name *.png \) \
-		-newer $@.html-stamp -print > $@.www_files
+	if [ ! -f $*.www_files ]; then touch $*.www_files ; fi
+	for f in `${FIND} . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
+		-o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \) \
+		-newer $@1 -print` ; do \
+		fn=`basename $$f` ; \
+		if ${GREP} $$f $*.www_files >/dev/null ; then \
+			echo "$$f already recorded" ; \
+		else \
+			echo "$$f $*.html_dir/$$fn" >> $*.www_files ; \
+		fi ;\
+	done
+BMK:.if defined(USE_HEVEA)
+GMK:ifdef USE_HEVEA
+	for f in `${AWK} '{print $$1}' $*.www_files` ; do \
+		${ECHO} "Moving $$f to $*.html_dir" ; mv $$f $*.html_dir ; \
+	done
+BMK:.endif
+GMK:endif
+	mv $@1 $@
 
 #######################################
 #
@@ -627,12 +689,24 @@ CLEAN_FILES+=	${NAME:=.toc}
 CLEAN_FILES+=	${NAME:=.out}
 CLEAN_FILES+=	$(DRAFT_STAMP_PS)
 
+# HTML generation
+CLEAN_FILES+=	${NAME:=.html-stamp}
+CLEAN_FILES+=	${NAME:=.www_files}
 
 BMK:.ifdef USE_HEVEA
 GMK:ifdef USE_HEVEA
 CLEAN_FILES+=	${NAME:=.haux}
+CLEAN_FILES+=	${NAME:=.image.tex}
 BMK:.endif
 GMK:endif
+
+BMK:.ifdef USE_LATEX2HTML
+GMK:ifdef USE_LATEX2HTML
+CLEAN_FILES+=	${NAME:=.haux}
+CLEAN_FILES+=	${NAME:=.image.tex}
+BMK:.endif
+GMK:endif
+
 
 .PHONY: clean
 clean::
