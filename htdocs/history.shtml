@@ -2,9 +2,11 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.12 2004/03/18 22:12:08 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.13 2004/03/19 02:18:07 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <title>LaTeX-Mk History</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="DESCRIPTION" content="LaTeX-Mk:  A makefile system for
