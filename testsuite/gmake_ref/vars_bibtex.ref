@@ -1,0 +1,1 @@
+env LATEX=latex LATEX_FLAGS= BIBTEX=mybibtex BIBTEX_FLAGS=mybibtex_flags  latex-mk  test1.tex

@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.3 2003/02/15 14:06:31 dan Exp $
+# $Id: tests.list,v 1.4 2003/02/15 19:43:59 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -108,6 +108,7 @@ basic_xfigdirs|xfigdir1 xfigdir2|test.tex xfigdir1/xfiga.fig xfigdir1/xfigb.fig 
 #  BIBTEX	= the BibTeX executable
 #  BIBTEX_ENV	= environment variables set when running the BibTeX executable
 #  BIBTEX_FLAGS	= flags passed to the BibTeX executable
+vars_bibtex||test1.tex|dvi TEST1=yes BIBTEX=mybibtex BIBTEX_FLAGS=mybibtex_flags BIBTEX_ENV=foo=bar
 #
 #  DVIPDFM      = the dvipdfm executable
 #  DVIPDFM_FLAGS= flags passed to the dvipdfm executable
@@ -124,6 +125,7 @@ vars_gv||test1.tex|viewps TEST1=yes GV=mygv GV_FLAGS=mygv_flags
 #  LATEX	= the LaTeX executable
 #  LATEX_ENV	= environment variables set when running the LaTeX executable
 #  LATEX_FLAGS	= flags passed to the LaTeX executable
+vars_latex||test1.tex|dvi TEST1=yes LATEX=mylatex LATEX_FLAGS=mylatex_flags LATEX_ENV=foo=bar
 #
 #  LPR		= executable to print postscript files
 #  LPR_FLAGS	= flags passed to the executable to print postscript files
@@ -132,6 +134,7 @@ vars_lpr||test1.tex|print TEST1=yes LPR=mylpr LPR_FLAGS=mylpr_flags
 #  PDFLATEX     = pdflatex executable
 #  PDFLATEX_ENV = environment variables set when running the PDFLaTeX executable
 #  PDFLATEX_FLAGS= flags passed to the PDFLaTeX executable
+vars_pdflatex||test1.tex|pdf TEST1=yes PDFLATEX=mypdflatex PDFLATEX_FLAGS=mypdflatex_flags PDFLATEX_ENV=foo=bar USE_PDFLATEX=yes
 #
 #  PS2PDF	= ps2pdf executable
 #  PS2PDF_FLAGS	= flags passed to the ps2pdf executable
