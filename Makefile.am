@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.5 2002/08/29 01:01:00 dan Exp $
+## $Id: Makefile.am,v 1.6 2002/09/14 11:34:18 dan Exp $
 
 
 MKSRCS=	latex.mk.in tgif.mk.in xfig.mk.in
@@ -6,7 +6,8 @@ MKSRCS=	latex.mk.in tgif.mk.in xfig.mk.in
 BMKFILES=	${MKSRCS:.mk.in=.mk}
 GMKFILES=	${MKSRCS:.mk.in=.gmk}
 
-pkgdata_DATA= ${BMKFILES} ${GMKFILES}
+pkgdata_DATA=	${BMKFILES} ${GMKFILES}
+bin_SCRIPTS=	latex-mk
 
 DISTCLEANFILES=	\
 	configure.lineno \
