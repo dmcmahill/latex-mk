@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.12 2002/09/21 02:39:00 dan Exp $
+# $Id: latex.mk.in.in,v 1.13 2002/09/21 14:40:35 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -191,8 +191,14 @@ GMK:# here is where we wish that .for loops were commonly
 GMK:# supported in GNU make...
 GMK:# XXX -- we need to not assume its called 'Makefile'.  What if
 GMK:#        someone uses gmake -f foo.mk !!!  Stupid GNU make.
-GMK:latex-mk-texdeps.mk: Makefile
-GMK:	@${RM} -f $@
+GMK:LATEX_MK_TEXDEPS=	latex-mk-texdeps.mk
+GMK:LATEX_MK_TEXDEPS_STAMP=	${LATEX_MK_TEXDEPS}_stamp
+GMK:${LATEX_MK_TEXDEPS_STAMP}:
+GMK:	@touch $@ ; $(RM) ${LATEX_MK_TEXDEPS}
+GMK:
+GMK:${LATEX_MK_TEXDEPS}: ${LATEX_MK_TEXDEPS_STAMP}
+GMK:	@-${RM} $@
+GMK:	@-${RM} ${LATEX_MK_TEXDEPS_STAMP}
 GMK:	@echo "#############################################" >> $@
 GMK:	@echo "### Generated file.  Do not edit directly ###" >> $@
 GMK:	@echo "#############################################" >> $@
@@ -231,7 +237,7 @@ GMK:		echo "ps:	$${tmp}.ps"  >> $@ ; \
 GMK:		echo "pdf:	$${tmp}.pdf" >> $@ ; \
 GMK:		echo " " >> $@ ; \
 GMK:	done
-GMK:include latex-mk-texdeps.mk
+GMK:include ${LATEX_MK_TEXDEPS}
 
 .PHONY: view
 view: ${DEFAULTVIEW}
@@ -299,7 +305,8 @@ CLEAN_FILES+=	${NAME:=.lot}
 CLEAN_FILES+=	${NAME:=.toc}
 CLEAN_FILES+=	${NAME:=.out}
 
-CLEAN_FILES+=	latex-mk-texdeps.mk
+CLEAN_FILES+=	${LATEX_MK_TEXDEPS}
+CLEAN_FILES+=	${LATEX_MK_TEXDEPS_STAMP}
 
 .PHONY: clean
 clean::
