@@ -1,10 +1,8 @@
-# $Id: TODO,v 1.2 2002/10/09 03:22:13 dan Exp $
+# $Id: TODO,v 1.3 2003/04/19 04:08:40 dan Exp $
 #
 
 LaTeX-Mk Unofficial TODO List
 -----------------------------
-
-- Support for pdflatex
 
 - Support for lgrind
 
