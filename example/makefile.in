@@ -1,0 +1,12 @@
+# $Id: makefile.in,v 1.1 2002/09/16 11:12:23 dan Exp $
+#
+
+NAME=		example
+TGIFDIRS=	tgif
+
+# normally we don't need to define this, but we do it here
+# to allow testing before this package has been installed
+LATEX-MK=	@latexmkbindir@/latex-mk
+
+BMK:.include "@latexmkdatadir@/latex.mk"
+GMK:include @latexmkdatadir@/latex.mk

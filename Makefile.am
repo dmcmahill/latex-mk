@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.7 2002/09/15 11:34:59 dan Exp $
+## $Id: Makefile.am,v 1.8 2002/09/16 11:12:22 dan Exp $
 
 
 MKSRCS=	latex.mk.in tgif.mk.in xfig.mk.in
@@ -14,7 +14,7 @@ DISTCLEANFILES=	\
 	${BMKFILES} \
 	${GMKFILES}
 
-SUBDIRS=	doc
+SUBDIRS=	doc example
 
 SUFFIXES=	.mk.in .mk .gmk
 
