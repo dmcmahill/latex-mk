@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.7 2002/08/24 04:05:06 dan Exp $
+@c $Id: latex-mk.texi,v 1.8 2002/08/28 12:55:10 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -116,11 +116,12 @@ This edition documents version @value{VERSION}.
 * Targets::                     Available Targets
 * Variables::                   Variables
 * Obtaining::                   How to get LaTeX-Mk
+* Installation::                How to configure and install LaTeX-Mk
+* Feedback::                    How to contribute
 * Target Index::                Target Index
 * Variable Index::              Variable Index
-* General Index::
+* General Index::               
 @end menu
-
 
 @page
 @contents
@@ -283,7 +284,10 @@ LaTeX-Mk code.  Default is @file{/etc/mk.conf} for BSD make and
 can set system wide configuration variables.  Any variables defined
 here should be defined using the @code{VARIABLE?=  "new value"}
 instead of @code{VARIABLE=  "new value"} so that individual users
-can easily override the setting.
+can easily override the setting.  The default setting may be
+changed during configuration of the package using the
+@code{--with-mkconf} and @code{--with-gmkconf} flags to
+@code{configure}. 
 @end defvar
 
 @defvar USER_MAKECONF
@@ -291,7 +295,10 @@ This variable is set to the location of a users personal configuration
 file.  If this file exists, it is sourced at the beginning of the
 LaTeX-Mk code.  Default is @file{$HOME/etc/mk.conf} for BSD make and
 @file{$HOME/etc/gmk.conf} for GNU make.  This file is sourced before
-the file specified by @code{MAKECONF}.
+the file specified by @code{MAKECONF}.  The default setting may be
+changed during configuration of the package using the
+@code{--with-usermkconf} and @code{--with-usergmkconf} flags to
+@code{configure}. 
 @end defvar
 
 @subsection Generic Project Variables
@@ -516,14 +523,34 @@ automatically re-exported to postscript as required.
 @end defvar
 
 
-@node Obtaining, , Variables, Top
+@node Obtaining, Installation, Variables, Top
 @chapter Obtaining LaTeX-Mk
 The latest information and version of LaTeX-Mk can be found on the main
 web site at @url{http://latex-mk.sourceforge.net}.  A NetBSD package
 exists at
 @url{ftp://ftp.netbsd.org/pub/NetBSD/packages/pkgsrc/print/latex-mk/README.html}.
 
+@node Installation, Feedback, Obtaining, Top
+@comment  node-name,  next,  previous,  up
+@chapter Installing LaTeX-Mk
+Installation of LaTeX-Mk consists of three steps:  configuration,
+building, and installing.  In a typical installation, this is as simple
+as
+@example
+./configure
+make
+make install
+@end example
+This will configure LaTeX-Mk with the defaults, create the final files
+to be installed, and install them in the proper location.  The
+@file{configure} script is a standard GNU autoconf script.  The most
+common option is the @samp{--prefix=<installation prefix>} option.  This
+causes LaTeX-Mk to use @code{<installation prefix>} as the base
+directory for the installation.  
 
+@node Feedback, Target Index, Installation, Top
+@chapter Feedback
+@comment  node-name,  next,  previous,  up
 @cindex BUGS, reporting
 @cindex Reporting BUGS
 @cindex E-mail, bug reports
@@ -533,7 +560,7 @@ Mail suggestions and bug reports for Latex-Mk to
 
 
 @page
-@node Target Index, Variable Index, Top, Top
+@node Target Index, Variable Index, Feedback, Top
 @unnumbered Target Index
 
 @printindex tr
