@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.11 2004/05/29 03:24:58 dan Exp $
+## $Id: Makefile.am,v 1.12 2004/05/29 13:09:50 dan Exp $
 ##
 ## Copyright (c) 2002, 2003, 2004 Dan McMahill
 ## All rights reserved.
@@ -39,6 +39,8 @@ EXFILES= \
 	example.tex \
 	ex2.tex \
 	ex3.tex \
+	ex4.bib \
+	ex4.tex \
 	refs.bib 
 
 BMKFILES=	${MKSRCS:.in=.mk}
