@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.14 2003/05/19 03:24:50 dan Exp $
+# $Id: latex-mk.in,v 1.15 2003/05/29 09:23:30 dan Exp $
 #
 # Copyright (c) 2002, 2003 Dan McMahill
 # All rights reserved.
@@ -157,6 +157,21 @@ while test $cnt -lt $MAXITERS ; do
 				rm -f ${NAME}.dvi ${NAME}.pdf
 				rm -f $LATEX_MK_LOG
 				exit 1
+			fi
+			# run the post-bibtex hook if its been defined
+			if test "X$POST_BIBTEX_HOOK" != "X" ; then
+			    if test -x $POST_BIBTEX_HOOK ; then
+				exit_status=0
+				. $POST_BIBTEX_HOOK $NAME
+				# the post-bibtex hook script can set
+				# exit_status to a non-zero value to 
+				# abort the run
+				if test $exit_status -ne 0 ; then
+				    rm -f ${NAME}.dvi ${NAME}.pdf
+				    rm -f $LATEX_MK_LOG
+				    exit $exit_status
+				fi
+			    fi
 			fi
 		elif test $bibcnt -eq 1 ; then
 			echo "$sep"
