@@ -1,4 +1,4 @@
-## $Id: Makefile,v 1.3 2002/10/09 00:59:55 dan Exp $
+## $Id: Makefile,v 1.3.2.1 2002/10/30 10:16:34 dan Exp $
 ##
 
 ## Copyright (c) 2002 Dan McMahill
@@ -50,6 +50,7 @@ SHTML_IN=	\
 	history.shtml \
 	examples.shtml \
 	index.shtml \
+	news.shtml  \
 	obtaining.shtml 
 
 INCL_FILES=\
@@ -84,4 +85,6 @@ clean:
 .PHONY: all
 all:: ${HTML_OUT}
 
+upload: all
+	rsync  -e ssh -vax --progress --delete  --include-from=./upload_list --exclude='*' . danmc@shell.sourceforge.net:/home/groups/l/la/latex-mk/htdocs
 
