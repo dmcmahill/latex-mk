@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.8 2003/02/26 10:20:11 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.9 2003/04/19 03:47:14 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>LaTeX-Mk History</title>
@@ -112,7 +112,7 @@ xfig,
     </LI>
     <LI> Support for PDFLaTeX is
     included.  By setting the USE_PDFLATEX variable, the
-    <code>pdflatex<code> program can be used to
+    <code>pdflatex</code> program can be used to
     generate pdf files directly from the TeX sources.
     </LI>
     <LI> A testsuite is now included.  This has resulted in the fixing of a handful of small
