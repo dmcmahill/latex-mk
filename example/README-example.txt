@@ -1,4 +1,4 @@
-# $Id: README-example.txt,v 1.3 2004/02/03 03:30:09 dan Exp $
+# $Id: README-example.txt,v 1.4 2004/05/29 03:24:59 dan Exp $
 #
 
 
@@ -70,22 +70,24 @@ Running the example
 ----------------------------------------
 
 The example includes two different makefiles.  One is called
-"makefile.mk" which uses the BSD make syntax.  The other is
-"makefile.gmk" and uses the GNU make syntax.  Normally you
+"mkfile.mk" which uses the BSD make syntax.  The other is
+"mkfile.gmk" and uses the GNU make syntax.  Normally you
 would just use the name "Makefile" and use the syntax appropriate
 for your version of make.  However, to provide both a GNU make
-and a BSD make example, I used two different names.  You can tell
+and a BSD make example, I used two different names.  In addition,
+I needed a name which would not conflict with the Makefile in
+this directory which handles packaging up this example.  You can tell
 make which makefile to use via the -f flag.  So to run GNU make,
 you'd do:
-	gmake -f makefile.gmk
+	gmake -f mkfile.gmk
 and for BSD make,
-	make -f makefile.mk
+	make -f mkfile.mk
 
 Try various targets like
-	make -f makefile.mk pdf
-	make -f makefile.mk clean
+	make -f mkfile.mk pdf
+	make -f mkfile.mk clean
 to see what make would run with actually having it run the commands
 use the -n flag like:
-	make -f makefile.mk -n viewpdf
+	make -f mkfile.mk -n viewpdf
 
 

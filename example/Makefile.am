@@ -1,6 +1,6 @@
-## $Id: Makefile.am,v 1.10 2003/02/23 03:16:09 dan Exp $
+## $Id: Makefile.am,v 1.11 2004/05/29 03:24:58 dan Exp $
 ##
-## Copyright (c) 2002, 2003 Dan McMahill
+## Copyright (c) 2002, 2003, 2004 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
@@ -33,7 +33,7 @@
 ##
 
 
-MKSRCS=	makefile.in
+MKSRCS=	mkfile.in
 EXFILES= \
 	biblio.tex \
 	example.tex \
