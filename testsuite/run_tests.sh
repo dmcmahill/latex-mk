@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.2 2003/02/08 01:22:22 dan Exp $
+# $Id: run_tests.sh,v 1.3 2003/02/08 21:39:34 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -255,7 +255,11 @@ for t in $all_tests ; do
     # Create the files needed
     if [ ! -z "$files" ]; then
 	for f in $files ; do
-	    touch ${rundir}/${f}
+	    if [ "$f" = "@" ]; then
+		sleep 2
+	    else
+		touch ${rundir}/${f}
+	    fi
 	done
     fi
     
