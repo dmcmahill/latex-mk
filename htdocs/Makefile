@@ -1,4 +1,4 @@
-## $Id: Makefile,v 1.7 2004/03/19 02:28:05 dan Exp $
+## $Id: Makefile,v 1.8 2004/05/29 13:03:19 dan Exp $
 ##
 
 ## Copyright (c) 2002, 2003, 2004 Dan McMahill
@@ -38,8 +38,8 @@ srcdir=	.
 top_srcdir=	.
 AWK=	awk
 
-.PHONY: all
-all: ${HTML_OUT} favicon.ico
+.PHONY: default
+default: all
 
 # the include= is a ':' seperated search path for SSI directives
 SHTML_INCLUDE_PATH= $(srcdir)
@@ -62,7 +62,7 @@ INCL_FILES=\
 HTML_OUT=	${SHTML_IN:.shtml=.html}
 
 # add the dependency on the .incl files
-${HTML_OUT} : ${INCL_FILES}
+${HTML_OUT}: ${INCL_FILES}
 
 # the include= is a ':' seperated search path for SSI directives
 SHTML2HTML=	${AWK} -f $(top_srcdir)/utils/shtml2html include=$(SHTML_INCLUDE_PATH)
@@ -80,7 +80,7 @@ show-var:
 
 .PHONY: clean
 clean:
-	rm -f *~ ${HTML_OUT}
+	rm -f *~ ${HTML_OUT} latex-mk.html
 
 favicon.ico: favicon.xpm
 	xpmtoppm favicon.xpm | ppmtowinicon > $@
@@ -88,6 +88,9 @@ favicon.ico: favicon.xpm
 latex-mk.html: ../doc/latex-mk.html
 	cd ../doc && gmake latex-mk.html
 	cp ../doc/latex-mk.html $@
+
+.PHONY: all
+all: ${HTML_OUT} latex-mk.html favicon.ico
 
 upload: all
 	rsync  -e ssh -vax --progress --delete  --include-from=./upload_list --exclude='*' . danmc@shell.sourceforge.net:/home/groups/l/la/latex-mk/htdocs
