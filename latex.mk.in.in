@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.36 2003/05/27 10:59:54 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.37 2003/06/11 12:24:08 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -128,8 +128,8 @@ DVIPS_FLAGS+=	-Ppdf -j0
 ECHO?=		@ECHO@
 ENV_PROG?=	@ENV_PROG@
 FALSE?=		@FALSE@
-FIND=		@FIND@
-GREP=		@GREP@
+FIND?=		@FIND@
+GREP?=		@GREP@
 GV?=		@GV@
 GV_FLAGS?=
 HACHA?=		@HACHA@
