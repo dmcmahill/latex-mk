@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.38 2004/03/18 20:31:45 dan Exp $
+@c $Id: latex-mk.texi,v 1.39 2004/03/18 22:12:07 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -774,7 +774,8 @@ to be removed when @samp{make clean} is run.
 Files listed in this variable will be added to the dependency list for
 the @file{.dvi} file.  For example if you want to add all @file{.eps}
 and @file{.epsi}
-files in a particular directory to the dependency list, then using BSD
+files in a particular directory as well as some @file{.png} files
+from another directory to the dependency list, then using BSD
 make, you could add:
 @cindex make, differences between GNU and BSD
 @cindex GNU make, versus BSD make
@@ -783,11 +784,17 @@ make, you could add:
 @example
 OTHER_EPS!=     ls eps/*.eps*
 OTHER+=         $(OTHER_EPS)
+OTHER_PNG!=	ls png/*.png
+OTHER+=         ${OTHER_PNG:.png=.eps}
+CLEAN_FILES+=   ${OTHER_PNG:.png=.eps}
 @end example
 If you are using GNU make, you would use
 @example
 OTHER_EPS=      $(wildcard eps/*.eps*)
 OTHER+=         $(OTHER_EPS)
+OTHER_PNG=      $(wildcard png/*.png)
+OTHER+=         ${OTHER_PNG:.png=.eps}
+CLEAN_FILES+=   ${OTHER_PNG:.png=.eps}
 @end example
 @end defvar
 
@@ -1113,6 +1120,9 @@ to the text-formatter-challenged.
 @item Fixed a bug where a list of figures, list of tables, and
 table of contents were sometimes not fully up to date in the final
 output.
+
+@item Added support for using ImageMagick to convert JPEG and PNG
+files to EPS for inclusion in a document.
 
 @end itemize
 

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: news.shtml,v 1.6 2004/03/17 20:40:21 dan Exp $ -->
+<!-- $Id: news.shtml,v 1.7 2004/03/18 22:12:09 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>LaTeX-Mk News</title>
@@ -57,6 +57,9 @@ xfig,
 	<LI>Fixed a bug where a list of figures, list of tables, and
 	table of contents were sometimes not fully up to date in the final
 	output.</LI>
+
+	<LI>Added support for using ImageMagick to convert JPEG and PNG
+	files to EPS for inclusion in a document.</LI>  
     </UL>
     </p>
 
