@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.4 2002/08/21 11:53:49 dan Exp $
+@c $Id: latex-mk.texi,v 1.5 2002/08/22 03:14:24 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -71,10 +71,11 @@ This edition documents version @value{VERSION}.
 
 @menu
 * Introduction::                LaTeX-Mk's purpose
-* Targets::                    Some examples
-* Variables::                    Some examples
-* Target Index::
-* Variable Index::
+* Targets::                     Available Targets
+* Variables::                   Variables
+* Obtaining::                   How to get LaTeX-Mk
+* Target Index::                Target Index
+* Variable Index::              Variable Index
 * General Index::
 @end menu
 
@@ -85,25 +86,93 @@ This edition documents version @value{VERSION}.
 @node Introduction, Targets, Top, Top
 @chapter Introduction
 
-Latex-Mk is a tool for managing small to large sized LaTeX projects.
-The typical Latex-Mk input file is simply a series of macro definitions
-in a @file{Makefile} for the project.  
+LaTeX-Mk is a tool for managing small to large sized LaTeX projects.
+The typical LaTeX-Mk input file is simply a series of variable
+definitions 
+in a @file{Makefile} for the project.  After creating a simple
+@file{Makefile} the user can easily perform all required steps to
+do such tasks as: preview the document, print the document, or produce a
+PDF file.  LaTeX-Mk will keep track of files that have changed and how
+to run the various programs that are needed to produce the output.
 
+As a quick example, consider a project which has a single LaTeX file,
+@file{mydoc.tex}, as its input.  To produce a @file{.pdf} file you might
+use the following sequence of commands:
+@example
+latex mydoc.tex
+latex mydoc.tex
+latex mydoc.tex
+dvips -Ppdf -j0 -o mydoc.ps mydoc.dvi
+ps2pdf mydoc.ps mydoc.pdf
+@end example
+The triple invocation of @samp{latex} is to ensure that all references
+have been properly resolved and any page layout changes due to inserting
+the references have been accounted for.  The sequence of commands isn't
+horrible, but it still is several commands and one of them,
+@samp{dvips}, has some flags to remember.  To use LaTeX-Mk for this
+project, you would create a @file{Makefile} that contains the following.
+@example
+NAME=mydoc
 
-@cindex BUGS, reporting
-@cindex Reporting BUGS
-@cindex E-mail, bug reports
+include /usr/local/share/latex-mk/latex.gmk
+@end example
+@cindex make, differences between GNU and BSD
+@cindex GNU make, versus BSD make
+@cindex BSD make, versus GNU make
+@cindex include, Makefile syntax for
+Note that the @code{include /usr/local/share/latex-mk/latex.gmk} is the
+syntax for GNU @samp{make}.  If you are using BSD @samp{make} you would
+replace the include line with 
+@code{.include "/usr/local/share/latex-mk/latex.mk"}.  In both examples,
+you would replace @code{/usr/local} with the installation prefix
+on your system.  For the remainder of this document we will use the BSD
+style of include in the examples.
+Now to create a @file{.pdf} file you simply run
+@samp{make pdf}.  For larger projects which may need to run programs to
+export drawings to postscript files for inclusion or run BibTeX to
+generate bibliographies, the generation of @file{.pdf} (or other) files
+becomes increasingly complicated to run manually.  With LaTeX-Mk, such
+operations are still very simple.
 
-Mail suggestions and bug reports for Latex-Mk to
-@email{bug-latex-mk@@xxx.xxx}.
+As a more complicated example, consider a project whose LaTeX input
+is broken apart in to many @file{.tex} files.  Also suppose the project
+includes a bibliography and a large number of figures created with the
+Tgif program.  An example @file{Makefile} for this project might look
+like:
+@example
+NAME=        mydoc
+TEXSRCS=     ch1.tex ch2.tex ch3.tex refs.tex
+BIBTEXSRCS=  mybib.bib
+TGIFDIRS=    tgif_figs
 
+.include "/usr/local/share/latex-mk/latex.mk"
+@end example
+In this example is it assumed that all of the Tgif figures reside in a
+subdirectory called @file{tgif_figs}.  When the user issues a
+@samp{make} command, all of the steps required to reformat the document
+are taken.  Because of the dependency structure imposed my @samp{make},
+only the steps which need to be taken are done.  This avoids
+re-exporting a large number of figures which may have not changed, but
+ensures that files which need processing are processed.
 
-The following sections cover a few basic ideas that will help you
-understand how Latex-Mk works.
-
+Hopefully this introduction has provided an adequate example for how
+LaTeX-Mk can simplify the management of LaTeX based documents.  The
+LaTeX-Mk system is simple enough for small projects and powerful enough
+for large projects.  The remainder of this manual will provide complete
+documentation on the use of LaTeX-Mk as well as configuration and
+installation instructions.
 
 @node Targets, Variables, Introduction, Top
 @chapter Targets
+
+LaTeX-Mk provides a fixed set of targets, the argument to the
+@samp{make} command, for all projects.  The default target is
+@samp{view} whose ultimate goal is to provide an on-screen preview of
+the formatted document.  For additional information on the @samp{make}
+program, please refer to the documentation for your copy of
+@samp{make}. 
+
+The targets provided by LaTeX-Mk are:
 
 @deffn Target clean
 @trindex clean
@@ -121,7 +190,7 @@ project.
 @deffn Target pdf
 @trindex pdf
 Performs all processing required to produce a PDF (Portable Document
-Format) file, @file{.pdf} file, for the project.
+Format) file, @file{.pdf}, for the project.
 @end deffn
 
 @deffn Target print
@@ -137,6 +206,7 @@ name is given by the variable VARNAME.  For example:
 @example
   make show-var VARNAME=TEXSRCS
 @end example
+will display the value of the @code{TEXSRCS} variable.
 @end deffn
 
 @deffn Target view
@@ -149,15 +219,25 @@ Previews the @file{.dvi} file.
 Previews the Postscript (@file{.ps}) file.
 @end deffn
 
-@node Variables, , Targets, Top
+@node Variables, Obtaining, Targets, Top
 @chapter Variables
+The variables used by LaTeX-Mk can be categorized roughly into two
+groups.  The first set of variables are typically set during the
+installation of LaTeX-Mk and these defaults used for all projects.
+These variables can be overridden on a per-user or per-project basis for
+maximal flexibility.  The second set of variables are set by the user on
+a per-project basis.
 
 @section Site Configuration Variables
 This section documents the variables which are typically set on a
 site-wide or user-wide basis.
 
+@subsection Generic Project Variables
+This section documents the variables which are typically set on a
+site-wide or user-wide basis.
+
 @defvar BIBTEX
-The bibtex executible.  Defaults to @code{bibtex}.
+The bibtex executible.  Defaults to @samp{bibtex}.
 @end defvar
 
 @defvar BIBTEX_ENV
@@ -166,33 +246,37 @@ is run.  For example:
 @example
 BIBTEX_ENV+=	BIBINPUTS=.:/home/usr/bib:
 @end example
+Defaults to @samp{}.
 @end defvar
 
 @defvar BIBTEX_FLAGS
 A list of flags to be passed to the BIBTEX executible.
+Defaults to @samp{}.
 @end defvar
 
 @defvar DVIPS
 The executible which produces postscript files from @file{.dvi} files.
-Defaults to dvips.
+Defaults to @samp{dvips}.
 @end defvar
 
 @defvar DVIPS_FLAGS
 A list of flags to be passed to the DVIPS executible.
+Defaults to @samp{-Ppdf -j0}
 @end defvar
 
 @defvar GV
 The executible which previews postscript files. 
-Defaults to gv.
+Defaults to @samp{gv}.
 @end defvar
 
 @defvar GV_FLAGS
 A list of flags to be passed to the GV executible.
+Defaults to @samp{}.
 @end defvar
 
 @defvar LATEX
 The LaTeX executible.
-Defaults to latex.
+Defaults to @samp{latex}.
 @end defvar
 
 @defvar LATEX_ENV
@@ -201,15 +285,17 @@ is run.  For example:
 @example
 LATEX_ENV+=	TEXINPUTS=.:/home/usr/tex:
 @end example
+Defaults to @samp{}.
 @end defvar
 
 @defvar LATEX_FLAGS
 A list of flags to be passed to the LATEX executible.
+Defaults to @samp{}.
 @end defvar
 
 @defvar LPR
 The executible which spools postscript files to a printer.
-Defaults to lpr.
+Defaults to @samp{lpr}.
 @end defvar
 
 @defvar LPR_FLAGS
@@ -218,35 +304,39 @@ For example:
 @example
 LPR_FLAGS=	-Pbeernuts
 @end example
+Defaults to @samp{}.
 @end defvar
 
 @defvar PS2PDF
 The executible which produces PDF (@file{.pdf}) files from postscript
 (@file{.ps})  files.
-Defaults to @code{ps2pdf}.
+Defaults to @samp{ps2pdf}.
 @end defvar
 
 @defvar PS2PDF_FLAGS
 A list of flags to be passed to the PS2PDF executible.
-Defaults to @code{-Ppdf -j0}.
+Defaults to @samp{}.
 @end defvar
 
 @defvar XDVI
 The executible which previews @file{.pdf} files. 
-Defaults to gv.
+Defaults to @samp{xdvi}.
 @end defvar
 
 @defvar XDVI_FLAGS
 A list of flags to be passed to the XDVI executible.
+Defaults to @samp{}.
 @end defvar
 
-@section Tgif Site Configuration Variables
-This section documents the variables related to tgif file processing.
+@subsection Tgif Site Configuration Variables
+This section documents the variables related to Tgif file processing.
 Tgif is a nice vector drawing program which works well with LaTeX.
+Please note that LaTeX-Mk requires that all Tgif files use the extension
+@file{.obj}.  
 
 @defvar TGIF
 The tgif executible.
-Defaults to @code{tgif}.
+Defaults to @samp{tgif}.
 @end defvar
 
 @defvar TGIF_FLAGS
@@ -254,6 +344,83 @@ A list of flags to be passed to the TGIF executible to cause it to print
 to an encapsulated postscript, @file{.eps}, file.
 @end defvar
 
+@subsection Xfig Site Configuration Variables
+This section documents the variables related to Xfig file processing.
+Please note that LaTeX-Mk requires that all Xfig files use the extension
+@file{.fig}.  
+
+@defvar FIG2DEV
+The executible which can convert xfig @file{.fig} files to encapsulated
+postscript @file{.eps} files.
+Defaults to @code{fig2dev}.
+@end defvar
+
+@defvar FIG2DEV_FLAGS
+A list of flags to be passed to the FIG2DEV executible to cause it to print
+to an encapsulated postscript, @file{.eps}, file.
+@end defvar
+
+@section Per-Project Variables
+This section documents variables which can be set in project Makefiles
+to accomodate other dependencies which may be added.
+
+@subsection Required Variables
+Every project must define the @code{name} variable.
+
+@defvar NAME
+Name of the project.  The top level LaTeX input file is assumed to be
+called @file{<NAME>.tex}.
+@end defvar
+
+@subsection Generic Variables
+@defvar BIBTEXSRCS
+All files listed in this variable are assumed to be BibTeX input files.
+Listing files in this variable will cause a dependency to be
+added to the top level project and BibTeX will be run on these files as
+needed. 
+@end defvar
+
+@defvar CLEAN_FILES
+Files listed in this variable will be removed when the @code{clean}
+target is made.  When setting this variable in a @file{Makefile}, the
+@code{+=} syntax should be used to append to this variable.  For
+example:
+@example
+CLEAN_FILES+=   my_leftover_file foo.bak
+@end example
+will add @file{my_leftover_file} and @file{foo.bak} to the list of files
+to be removed when @samp{make clean} is run.
+@end defvar
+
+@defvar OTHER
+Files listed in this variable will be added to the dependency list for
+the @file{.dvi} file.  For example if you want to add all @file{.eps}
+and @file{.epsi}
+files in a particular directory to the dependency list, then using BSD
+make, you could add:
+@cindex make, differences between GNU and BSD
+@cindex GNU make, versus BSD make
+@cindex BSD make, versus GNU make
+@cindex wildcard, Makefile syntax for
+@example
+OTHER_EPS!=     ls eps/*.eps*
+OTHER+=         $(OTHER_EPS)
+@end example
+If you are using GNU make, you would use
+@example
+OTHER_EPS=      $(wildcard eps/*.eps*)
+OTHER+=         $(OTHER_EPS)
+@end example
+@end defvar
+
+@defvar TEXSRCS
+All files listed in this variable are assumed to be LaTeX input files.
+Listing files in this variable will cause a dependency to be
+added to the top level project.  All LaTeX files used in the project
+should be listed in this variable.
+@end defvar
+
+@subsection Per-Project Tgif Variables
 @defvar TGIFSRCS
 All files listed in this variable are assumed to be tgif @file{.obj}
 files.  Listing files in this variable will cause a dependency to be
@@ -269,20 +436,8 @@ level dependency list and will be
 automatically re-exported to postscript as required.
 @end defvar
 
-@section Xfig Site Configuration Variables
-This section documents the variables related to xfig file processing.
 
-@defvar FIG2DEV
-The executible which can convert xfig @file{.fig} files to encapsulated
-postscript @file{.eps} files.
-Defaults to @code{fig2dev}.
-@end defvar
-
-@defvar FIG2DEV_FLAGS
-A list of flags to be passed to the FIG2DEV executible to cause it to print
-to an encapsulated postscript, @file{.eps}, file.
-@end defvar
-
+@subsection Per-Project Xfig Variables
 @defvar XFIGSRCS
 All files listed in this variable are assumed to be xfig @file{.fig}
 files.  Listing files in this variable will cause a dependency to be
@@ -298,32 +453,21 @@ level dependency list and will be
 automatically re-exported to postscript as required.
 @end defvar
 
-@section Per-Project Variables
-This section documents variables which can be set in project Makefiles
-to accomodate other dependencies which may be added.
 
-@defvar OTHER
-Files listed in this variable will be added to the dependency list for
-the @file{.dvi} file.  For example if you want to add all @file{.eps}
-and @file{.epsi}
-files in a particular directory to the dependency list, then using BSD
-make, you could add:
-@example
-OTHER_EPS!=     ls eps/*.eps*
-OTHER+=         $(OTHER_EPS)
-@end example
-If you are using GNU make, you would use
-@example
-OTHER_EPS=      $(wildcard eps/*.eps*)
-OTHER+=         $(OTHER_EPS)
-@end example
-@end defvar
+@node Obtaining, , Variables, Top
+@chapter Obtaining LaTeX-Mk
+The latest information and version of LaTeX-Mk can be found on the main
+web site at @url{http://latex-mk.sourceforge.net}.  A NetBSD package
+exists at
+@url{ftp://ftp.netbsd.org/pub/NetBSD/packages/pkgsrc/print/latex-mk/README.html}.
 
-@defvar CLEAN_FILES
-Files listed in this variable will be removed when the @code{clean}
-target is made.
-@end defvar
 
+@cindex BUGS, reporting
+@cindex Reporting BUGS
+@cindex E-mail, bug reports
+
+Mail suggestions and bug reports for Latex-Mk to
+@email{bug-latex-mk@@xxx.xxx}.
 
 
 @page
