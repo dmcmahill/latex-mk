@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.24 2003/02/28 10:38:06 dan Exp $
+@c $Id: latex-mk.texi,v 1.25 2003/03/19 18:46:40 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -550,7 +550,8 @@ Defaults to @samp{}.
 
 @subsection Tgif Site Configuration Variables
 This section documents the variables related to Tgif file processing.
-Tgif is a nice vector drawing program which works well with LaTeX.
+Tgif (@url{http://bourbon.usc.edu:8001/tgif/tgif.html}) 
+is a nice vector drawing program which works well with LaTeX.
 Please note that LaTeX-Mk requires that all Tgif files use the extension
 @file{.obj}.  
 
@@ -592,6 +593,15 @@ Every project must define the @code{NAME} variable.
 Name of the project.  The top level LaTeX input file is assumed to be
 called @file{<NAME>.tex}.  For projects which have multiple documents,
 you would list the top level name for each document here.
+For example, if you have a single document, @file{mydoc}, you would use
+@example
+NAME= mydoc
+@end example
+and if you have multiple documents, @file{mydoc1}, @file{mydoc2}, 
+and @file{mydoc3}, you would use
+@example
+NAME= mydoc1 mydoc2 mydoc3
+@end example
 @end defvar
 
 @subsection Generic Variables
