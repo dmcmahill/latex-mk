@@ -1,4 +1,4 @@
-dnl $Id: acinclude.m4,v 1.2 2003/06/07 13:03:51 dan Exp $
+dnl $Id: acinclude.m4,v 1.3 2003/06/11 11:43:15 dan Exp $
 dnl
 dnl Copyright (c) 2003 Dan McMahill
 dnl All rights reserved.
@@ -86,14 +86,16 @@ test:
 EOF
 bsd_make=
 for mk in "$BMAKE" "$MAKE" make bmake nbmake ; do
-	AC_MSG_CHECKING([if $mk is BSD make])
-	tmp=`sh -c "$mk -f tmp.mk test" 2> /dev/null | grep BSDmake`
-	if test "X$tmp" = "XBSDmake" ; then
-		AC_MSG_RESULT([yes])
-		bsd_make="$mk"
-		break
-	else
-		AC_MSG_RESULT([no])
+	if test -n "$mk" ; then
+		AC_MSG_CHECKING([if $mk is BSD make])
+		tmp=`sh -c "$mk -f tmp.mk test" 2> /dev/null | grep BSDmake`
+		if test "X$tmp" = "XBSDmake" ; then
+			AC_MSG_RESULT([yes])
+			bsd_make="$mk"
+			break
+		else
+			AC_MSG_RESULT([no])
+		fi
 	fi
 done
 if test -f tmp.mk ; then rm tmp.mk ; fi
