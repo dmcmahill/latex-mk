@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.19 2003/02/02 12:38:32 dan Exp $
+dnl $Id: configure.ac,v 1.20 2003/02/03 03:27:57 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002, 2003 Dan McMahill
@@ -155,6 +155,8 @@ AC_OUTPUT(
 	latex.mk.in
 	latex.subdir.mk.in
 	testsuite/Makefile
+	testsuite/bmake/Makefile
+	testsuite/gmake/Makefile
 	tgif.mk.in
 	xfig.mk.in
 )
