@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.11 2003/06/14 14:16:46 dan Exp $
+# $Id: run_tests.sh,v 1.12 2004/03/17 19:33:40 dan Exp $
 #
-# Copyright (c) 2003 Dan McMahill
+# Copyright (c) 2003, 2004 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -101,6 +101,7 @@ echo "LATEX_MK_DIR = $LATEX_MK_DIR"
 
 BIBTEX=bibtex
 DVIPDFM=dvipdfm
+DVIPDFM_ENV=
 DVIPDFM_FLAGS=
 DVIPS=dvips
 DVIPS_FLAGS=
@@ -125,6 +126,9 @@ LATEX_ENV=
 LATEX2HTML=latex2html
 LATEX2HTML_ENV=
 LATEX2HTML_FLAGS=
+LATEX2RTF=latex2rtf
+LATEX2RTF_ENV=
+LATEX2RTF_FLAGS=
 LPR=lpr
 LPR_FLAGS=
 PDFLATEX=pdflatex
@@ -139,6 +143,7 @@ VIEWPDF_FLAGS=
 
 export BIBTEX
 export DVIPDFM
+export DVIPDFM_ENV
 export DVIPDFM_FLAGS
 export DVIPS
 export DVIPS_FLAGS
@@ -164,6 +169,9 @@ export LATEX_FLAGS
 export LATEX2HTML
 export LATEX2HTML_ENV
 export LATEX2HTML_FLAGS
+export LATEX2RTF
+export LATEX2RTF_ENV
+export LATEX2RTF_FLAGS
 export LPR
 export LPR_FLAGS
 export PDFLATEX
