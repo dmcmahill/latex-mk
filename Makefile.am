@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.4 2002/08/21 02:28:01 dan Exp $
+## $Id: Makefile.am,v 1.5 2002/08/29 01:01:00 dan Exp $
 
 
 MKSRCS=	latex.mk.in tgif.mk.in xfig.mk.in
@@ -17,7 +17,8 @@ SUBDIRS=	doc
 
 SUFFIXES=	.mk.in .mk .gmk
 
-SED_COMMON=	-e 's;@pkgdatadir@;$(pkgdatadir);g'
+SED_COMMON=	-e 's;@pkgdatadir@;$(pkgdatadir);g' \
+	-e 's;@latexmkconfdir@;${sysconfdir};g'
 
 .mk.in.mk:
 	sed -e 's/^BMK://g' -e '/^GMK:/d' ${SED_COMMON} $<  > $@

@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.8 2002/08/28 13:10:54 dan Exp $
+dnl $Id: configure.ac,v 1.9 2002/08/29 01:01:00 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002 Dan McMahill
@@ -90,7 +90,7 @@ else
 fi
 ],
 [
-MAKECONF='${sysconfdir}/latex-mk.conf'
+MAKECONF=@latexmkconfdir@/latex-mk.conf
 ])
 AC_SUBST(MAKECONF)
 
@@ -105,7 +105,7 @@ else
 fi
 ],
 [
-GMAKECONF='${sysconfdir}/latex-gmk.conf'
+GMAKECONF=@latexmkconfdir@/latex-gmk.conf
 ])
 AC_SUBST(GMAKECONF)
 
@@ -122,7 +122,7 @@ else
 fi
 ],
 [
-USERMAKECONF="\${HOME}/etc/mk.conf"
+USERMAKECONF="\${HOME}/.latex-mk.conf"
 ])
 AC_SUBST(USERMAKECONF)
 
@@ -138,7 +138,7 @@ else
 fi
 ],
 [
-USERGMAKECONF="\${HOME}/etc/gmk.conf"
+USERGMAKECONF="\${HOME}/.latex-gmk.conf"
 ])
 AC_SUBST(USERGMAKECONF)
 
@@ -147,6 +147,7 @@ AC_OUTPUT(
 	Makefile
 	doc/Makefile
 	latex.mk.in
+	latex.subdir.mk.in
 	tgif.mk.in
 	xfig.mk.in
 )

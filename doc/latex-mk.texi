@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.9 2002/08/28 13:10:55 dan Exp $
+@c $Id: latex-mk.texi,v 1.10 2002/08/29 01:01:01 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -285,14 +285,15 @@ instead of @code{VARIABLE=  "new value"} so that individual users
 can easily override the setting.  The default setting may be
 changed during configuration of the package using the
 @code{--with-mkconf} and @code{--with-gmkconf} flags to
-@code{configure}. 
+@code{configure}.  The @code{sysconfdir} directory can be specified 
+to @code{configure} with the @code{--sysconfdir=} option.
 @end defvar
 
 @defvar USER_MAKECONF
 This variable is set to the location of a users personal configuration
 file.  If this file exists, it is sourced at the beginning of the
-LaTeX-Mk code.  Default is @file{$HOME/etc/mk.conf} for BSD make and
-@file{$HOME/etc/gmk.conf} for GNU make.  This file is sourced before
+LaTeX-Mk code.  Default is @file{$HOME/.latex-mk.conf} for BSD make and
+@file{$HOME/.latex-gmk.conf} for GNU make.  This file is sourced before
 the file specified by @code{MAKECONF}.  The default setting may be
 changed during configuration of the package using the
 @code{--with-usermkconf} and @code{--with-usergmkconf} flags to

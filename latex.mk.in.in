@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.6 2002/08/28 12:52:28 dan Exp $
+# $Id: latex.mk.in.in,v 1.7 2002/08/29 01:01:00 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -171,7 +171,7 @@ $(NAME).dvi: $(TEXSRCS) $(BIBTEXSRCS) $(OTHER)
 BMK:.ifdef BIBTEXSRCS
 GMK:ifdef BIBTEXSRCS
 	@$(ECHO) BibTeXing and rerunning LaTeX to get references right
-	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
+	$(ENV_PROG) $(BIBTEX_ENV) $(BIBTEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
 	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
 BMK:.endif
 GMK:endif
