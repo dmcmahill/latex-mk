@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.3 2003/02/08 21:39:34 dan Exp $
+# $Id: run_tests.sh,v 1.4 2003/02/25 00:14:23 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -35,6 +35,9 @@
 #
 
 regen=no
+with_bmake=yes
+with_gmake=yes
+
 while test -n "$1"
 do
     case "$1"
@@ -49,6 +52,18 @@ do
 	# regenerate the 'golden' output files.  Use this with caution.
 	# In particular, all differences should be noted and understood.
 	regen=yes
+	shift
+	;;
+
+    --without-bmake)
+	# don't run the BSD make tests
+	with_bmake=no
+	shift
+	;;
+
+    --without-gmake)
+	# don't run the GNU make tests
+	with_gmake=no
 	shift
 	;;
 
@@ -264,6 +279,7 @@ for t in $all_tests ; do
     fi
     
     # run the BSD make test
+    if [ "X$with_bmake" = "Xyes" ]; then
     echo "Test:  (BSD make) $t"
     cd ${rundir} && ${BMAKE}  $args > ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
@@ -282,8 +298,10 @@ for t in $all_tests ; do
     else
 	echo "Regenerated"
     fi
+    fi
 
     # run the GNU make test
+    if [ "X$with_gmake" = "Xyes" ]; then
     echo "Test:  (GNU make) $t"
     cd ${rundir} && ${GMAKE}  $args > ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
@@ -301,6 +319,7 @@ for t in $all_tests ; do
 	fi
     else
 	echo "Regenerated"
+    fi
     fi
 
     cd $here
