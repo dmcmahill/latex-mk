@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.3 2002/08/15 02:50:28 dan Exp $
+dnl $Id: configure.ac,v 1.4 2002/08/16 11:05:29 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002 Dan McMahill
@@ -46,20 +46,34 @@ AC_CANONICAL_HOST
 #
 AC_PROG_INSTALL
 
+#
+# general
+#
+AC_PATH_PROG(ENV_PROG, env, env)
+AC_PATH_PROG(FALSE, false, false)
+AC_PATH_PROG(RM,rm)
 
+#
+# for latex.mk
+#
 AC_PATH_PROG(BIBTEX, bibtex, bibtex)
 AC_PATH_PROG(DVIPS, dvips, dvips)
 AC_PATH_PROG(ECHO, echo, echo)
-AC_PATH_PROG(ENV_PROG, env, env)
-AC_PATH_PROG(FALSE, false, false)
 AC_PATH_PROG(GV, gv, gv)
 AC_PATH_PROG(LATEX, latex, latex)
 AC_PATH_PROG(LPR, lpr, lpr)
 AC_PATH_PROG(PS2PDF, ps2pdf, ps2pdf)
 AC_PATH_PROG(XDVI, xdvi, xdvi)
-AC_PATH_PROG(NOTME, notme, freddy)
 
-AC_PATH_PROG(RM,rm)
+#
+# for tgif.mk
+#
+AC_PATH_PROG(TGIF, tgif, tgif)
+
+#
+# for xfig.mk
+#
+AC_PATH_PROG(FIG2DEV, fig2dev, fig2dev)
 
 AC_OUTPUT(
 	Makefile
