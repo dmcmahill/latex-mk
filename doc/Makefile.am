@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.2 2002/05/21 02:10:48 dan Exp $
+## $Id: Makefile.am,v 1.3 2002/07/01 12:32:05 dan Exp $
 
 info_TEXINFOS=	latex-mk.texi
 
@@ -11,7 +11,7 @@ EXTRA_DIST=	${html_docs} ${ps_docs} ${pdf_docs}
 SUFFIXES=	.html .pdf
 
 distclean-local:
-	${RM} -f ${pdf_docs} *.trs *.vrs
+	${RM} -f ${pdf_docs} *.trs *.vrs *.fns
 
 .ps.pdf:
 	ps2pdf $<
