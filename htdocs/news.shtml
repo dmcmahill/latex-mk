@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<!-- $Id: news.shtml,v 1.1 2002/10/09 04:35:52 dan Exp $ -->
+<!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
+<link rev="made" href="mailto:danmc@sourceforge.net">
+<title>LaTeX-Mk News</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="DESCRIPTION" content="LaTeX-Mk:  A makefile system for
+          LaTeX documents">
+<meta name="KEYWORDS" content="
+gmake,
+latex,
+make,
+tgif,
+xfig,
+">
+</head>
+
+<!-- Start the main page table -->
+<!--#include virtual="page_start.incl"-->
+
+<!-- The main action area -->
+    <center>
+    <font face="helvetica, arial" size="+2">
+      LaTeX-Mk News Items
+    </font>
+    <br>
+    <br>
+    </center>
+    
+    <font face="helvetica, arial">
+    <HR>
+    <H2><A NAME="20021009">LaTeX-Mk-0.9 Released</A></H2>
+    <p>
+    October 9, 2002.  LaTeX-Mk version 0.9 has been released.  This is
+    the first public release of LaTeX-Mk.  Please try it out and let
+    me know how it works out.  There are forums on the 
+    <a href="http://sourceforge.net/projects/latex-mk">LaTeX-Mk
+    Sourceforge Project Page</a> where you can leave comments, ask
+    questions of other users and file bug reports.  I can't promise a
+    quick response, but I will try and look at each report.
+    </p>
+
+    </font>
+
+  </td>
+
+</tr>
+
+<!-- The left hand column -->
+<!--#include virtual="left_column.incl"-->
+
+</table>
+<p>
+
+<!--#include virtual="main_footer.incl"-->
+
+
+</body>
+</html>

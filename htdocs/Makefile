@@ -1,4 +1,4 @@
-## $Id: Makefile,v 1.3 2002/10/09 00:59:55 dan Exp $
+## $Id: Makefile,v 1.4 2002/10/09 04:35:51 dan Exp $
 ##
 
 ## Copyright (c) 2002 Dan McMahill
@@ -50,6 +50,7 @@ SHTML_IN=	\
 	history.shtml \
 	examples.shtml \
 	index.shtml \
+	news.shtml  \
 	obtaining.shtml 
 
 INCL_FILES=\

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.1 2002/10/09 00:59:57 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.2 2002/10/09 04:35:52 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@sourceforge.net">
 <title>LaTeX-Mk History</title>
@@ -76,7 +76,7 @@ xfig,
     <H2>The Modern Era of LaTeX-Mk</H2>
     <p>
     <H3>Version 0.9</H3>
-    Released on XXXXX, this was the first public release of LaTeX-Mk.  My reason for using 0.9
+    Released on 2002-10-09, this was the first public release of LaTeX-Mk.  My reason for using 0.9
     instead of 1.0 is that LaTeX-Mk has not been tested or used much by others yet.  Even though
     it works well for me, as with any product, I'm sure others will quickly find other ways to
     use it that I had not anticipated.  My goal is to collect feedback over the first few months
