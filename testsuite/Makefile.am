@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.9 2003/02/25 00:26:21 dan Exp $
+## $Id: Makefile.am,v 1.10 2003/02/25 02:01:48 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -38,9 +38,9 @@ RUN_TESTS=	run_tests.sh
 BMKFILES=	${MKSRCS:.mk.in=.mk}
 GMKFILES=	${MKSRCS:.mk.in=.gmk}
 
-pkgtestdir=	${pkgdatadir}/testsuite
-pkgtest_DATA=	${BMKFILES} ${GMKFILES} tests.list
-pkgtest_SCRIPTS=	${RUN_TESTS}
+#pkgtestdir=	${pkgdatadir}/testsuite
+#pkgtest_DATA=	${BMKFILES} ${GMKFILES} tests.list
+#pkgtest_SCRIPTS=	${RUN_TESTS}
 
 check_SCRIPTS=		${RUN_TESTS}
 
