@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.30 2003/06/09 04:33:43 dan Exp $
+@c $Id: latex-mk.texi,v 1.31 2003/11/17 18:05:15 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -430,6 +430,12 @@ use DVIPDFM to directly produce PDF from DVI, set the USE_DVIPDFM
 variable. 
 @end defvar
 
+@defvar DVIPDFM_ENV
+A list of variables to be set in the environment when DVIPDFM is
+executed.
+Defaults to @samp{}.
+@end defvar
+
 @defvar DVIPDFM_FLAGS
 A list of flags to be passed to the DVIPDFM executible.
 Defaults to @samp{}
@@ -442,7 +448,11 @@ Defaults to @samp{dvips}.
 
 @defvar DVIPS_FLAGS
 A list of flags to be passed to the DVIPS executible.
-Defaults to @samp{-Ppdf -j0}.
+Defaults to @samp{-j0}.  Note:  versions of latex-mk
+prior to 1.2 used @samp{-Ppdf -j0} as the default.  If
+you wish to maintain this behaviour on latex-mk-1.2 and
+newer, you will need to set this variable in your site or
+user configuration file.
 @end defvar
 
 @defvar GV
@@ -515,6 +525,21 @@ Defaults to @samp{}.
 @defvar LATEX2HTML_FLAGS
 A list of flags to be passed to the LATEX2HTML executible.
 Defaults to @samp{-image_type png -local_icons -show_section_numbers}.
+@end defvar
+
+@defvar LATEX2RTF
+The LaTex2rtf executible.
+Defaults to @samp{latex2rtf}.
+@end defvar
+
+@defvar LATEX2RTF_ENV
+A list of variables to be set in the environment when LATEX2RTF
+is run.
+@end defvar
+
+@defvar LATEX2RTF_FLAGS
+A list of flags to be passed to the LATEX2RTF executible.
+Defaults to @samp{}.
 @end defvar
 
 @defvar LPR
