@@ -1,4 +1,4 @@
-## $Id: golden.mk,v 1.4 2003/02/15 19:43:58 dan Exp $
+## $Id: golden.mk,v 1.5 2003/02/26 00:57:25 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -65,6 +65,16 @@ GOLDEN_FILES=	\
 	multi1_dvi1.ref \
 	multi1_dvi2.ref \
 	multi1_dvi3.ref \
+	multi_texsrcs_dvi1.ref \
+	multi_texsrcs_dvi2.ref \
+	multi_texsrcs_dvi3.ref \
+	multi_texsrcs_dvi4.ref \
+	multi_texsrcs_dvi5.ref \
+	multi_tgifsrcs_dvi1.ref \
+	multi_tgifsrcs_dvi2.ref \
+	multi_tgifsrcs_dvi3.ref \
+	multi_tgifsrcs_dvi4.ref \
+	multi_tgifsrcs_dvi5.ref \
 	vars_bibtex.ref \
 	vars_dvipdfm.ref \
 	vars_dvips.ref \
