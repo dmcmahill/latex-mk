@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.5 2002/08/26 02:07:24 dan Exp $
+dnl $Id: configure.ac,v 1.6 2002/08/26 02:14:50 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002 Dan McMahill
@@ -84,28 +84,30 @@ AC_ARG_WITH([mkconf],
                           file for BSD make.  [default = /etc/mk.conf]],
 [
 if test "X$with_mkconf" = "Xno" ; then
-        AC_ERROR[--without-mkconf is not supported]
+        AC_ERROR([--without-mkconf is not supported])
 else
-        MAKECONF=$with_mkconf
+        MAKECONF="$with_mkconf"
 fi
 ],
 [
 MAKECONF="/etc/mk.conf"
 ])
+AC_SUBST(MAKECONF)
 
 AC_ARG_WITH([gmkconf],
 [  --with-gmkconf=gmkconf    Use the specified file as the site configuration
                           file for GNU make.  [default = /etc/gmk.conf]],
 [
 if test "X$with_gmkconf" = "Xno" ; then
-        AC_ERROR[--without-gmkconf is not supported]
+        AC_ERROR([--without-gmkconf is not supported])
 else
-        GMAKECONF=$with_gmkconf
+        GMAKECONF="$with_gmkconf"
 fi
 ],
 [
 GMAKECONF="/etc/gmk.conf"
 ])
+AC_SUBST(GMAKECONF)
 
 
 AC_OUTPUT(
