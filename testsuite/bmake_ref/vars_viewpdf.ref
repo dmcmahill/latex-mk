@@ -1,4 +1,4 @@
-env  latex-mk  test1.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS=  latex-mk  test1.tex
 dvips  -Ppdf -j0 -o test1.ps test1.dvi
 ps2pdf  test1.ps
 myviewpdf myviewpdf_flags  test1.pdf

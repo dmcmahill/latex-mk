@@ -1,4 +1,4 @@
 tgif -color -print -eps tgifdir1/tgifa.obj
 tgif -color -print -eps tgifdir1/tgifb.obj
 tgif -color -print -eps tgifdir2/tgifc.obj
-env  latex-mk  test3.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS=  latex-mk  test3.tex

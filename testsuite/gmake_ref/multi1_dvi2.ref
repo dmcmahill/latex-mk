@@ -1,1 +1,1 @@
-env  latex-mk  test2.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS=  latex-mk  test2.tex
