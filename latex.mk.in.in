@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.34 2003/05/25 20:12:17 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.35 2003/05/26 19:14:43 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -138,6 +138,7 @@ HACHA_FLAGS?=
 HEVEA?=		@HEVEA@
 HEVEA_ENV?=
 HEVEA_FLAGS?=	-fix
+IMAGEN?=	@IMAGEN@
 LATEX_MK?=	@latexmkbindir@/latex-mk
 LATEX_MK_FLAGS?=
 LATEX?=		@LATEX@
@@ -426,6 +427,8 @@ BMK:ALLTEXSRCS+=	${__tmp__}.tex ${${__tmp__}_TEXSRCS}
 BMK:ALLBIBTEXSRCS+=	${${__tmp__}_BIBTEXSRCS}
 BMK:dvi:	${__tmp__}.dvi
 BMK:html:	${__tmp__}.html-stamp
+BMK:.PHONY: ${__tmp__}.html
+BMK:${__tmp__}.html:	${__tmp__}.html-stamp
 BMK:${__tmp__}.html-stamp:	${__tmp__}.dvi
 BMK:ps:	${__tmp__}.ps
 BMK:pdf:	${__tmp__}.pdf
@@ -458,6 +461,8 @@ GMK:ALLBIBTEXSRCS+=	${$(1)_BIBTEXSRCS}
 GMK:dvi:	$(1).dvi
 GMK:html:	$(1).html-stamp
 GMK:$(1).html-stamp:	$(1).dvi
+GMK:.PHONY: $(1).html
+GMK:$(1).html:	$(1).html-stamp
 GMK:ps:	$(1).ps
 GMK:pdf:	$(1).pdf
 GMK:ps-draft:	$(1)-draft.ps
@@ -591,7 +596,7 @@ GMK:ifdef USE_HEVEA
 	@${ECHO} LaTeX-Mk:  Creating HTML output using HeVeA
 	mkdir -p $*.html_dir
 	-$(ENV_PROG) $(HEVEA_ENV) $(HEVEA) $(HEVEA_FLAGS) $< 
-	-$(ENV_PROG) $(HEVEA_ENV) imagen  `basename $< .tex`
+	-$(ENV_PROG) $(HEVEA_ENV) ${IMAGEN}  `basename $< .tex`
 	-$(ENV_PROG) $(HEVEA_ENV) $(HEVEA) $(HEVEA_FLAGS) $< 
 BMK:.endif
 GMK:endif
