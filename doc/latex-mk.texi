@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.15 2002/10/09 03:36:11 dan Exp $
+@c $Id: latex-mk.texi,v 1.15.2.1 2002/10/29 02:17:25 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -121,6 +121,7 @@ This edition documents version @value{VERSION}.
 * Obtaining::                   How to get LaTeX-Mk
 * Installation::                How to configure and install LaTeX-Mk
 * Feedback::                    How to contribute
+* History::                     History
 * Target Index::                Target Index
 * Variable Index::              Variable Index
 * General Index::               
@@ -478,8 +479,18 @@ A list of flags to be passed to the PS2PDF executible.
 Defaults to @samp{}.
 @end defvar
 
-@defvar XDVI
+@defvar VIEWPDF
 The executible which previews @file{.pdf} files. 
+Defaults to @samp{xdvi}.
+@end defvar
+
+@defvar VIEWPDF_FLAGS
+A list of flags to be passed to the VIEWPDF executible.
+Defaults to @samp{}.
+@end defvar
+
+@defvar XDVI
+The executible which previews @file{.dvi} files. 
 Defaults to @samp{xdvi}.
 @end defvar
 
@@ -647,6 +658,31 @@ exists at
 @node Installation, Feedback, Obtaining, Top
 @comment  node-name,  next,  previous,  up
 @chapter Installing LaTeX-Mk
+@section System Requirements
+To configure and install LaTeX-Mk, you will need a Unix-like operating
+system or shell with a compatible make program.  In addition, to use
+LaTeX-Mk, you will require:
+
+@enumerate
+
+@item
+@code{latex}.  The development of LaTeX-Mk was done using Thomas Esser's
+@TeX{} distribution, teTeX, version 1.0.7. More information on teTeX can
+be found at @url{http://www.tug.org/tetex/}.
+
+@item
+Either GNU make version 3.80 or higher or a BSD make program.  
+For information on GNU make, see
+@url{http://www.gnu.org/software/make/}.  For information on the NetBSD
+operating system (which of course includes BSD make), see
+@url{http://www.netbsd.org}.  If you wish to install BSD make on a
+non-BSD system, you can try downloading one of the bmake snapshots from
+files area of the LaTeX-Mk sourceforge project page at
+@url{http://www.sourceforge.net/projects/latex-mk}.
+
+@end enumerate
+
+@section Installation
 Installation of LaTeX-Mk consists of three steps:  configuration,
 building, and installing.  In a typical installation, this is as simple
 as
@@ -680,7 +716,7 @@ default user
 configuration file for GNU make.  This file defaults to
 @file{$HOME/.latex-gmk.conf}. 
 
-@node Feedback, Target Index, Installation, Top
+@node Feedback, History, Installation, Top
 @chapter Feedback
 @comment  node-name,  next,  previous,  up
 @cindex BUGS, reporting
@@ -690,12 +726,93 @@ configuration file for GNU make.  This file defaults to
 To report bugs, provide feedback, suggest new features, etc. visit the
 LaTeX-Mk Project management page at
 @url{http://www.sourceforge.net/projects/latex-mk} or send email to the
-author at @email{danmc@@sourceforge.net}.
+author at @email{danmc@@users.sourceforge.net}.
 For information on the current version of LaTeX-Mk, visit the LaTeX-Mk
 homepage at @url{http://latex-mk.sourceforge.net}.
 
+@comment  node-name,  next,  previous,  up
+@node History, Target Index, Feedback, Top
+@chapter History
+@section The Dark Ages
+In the beginning I used a WYSIWYG word processor from a large software
+vendor in the Pacific Northwest of the US.  It worked for short papers,
+it was horrible for medium to long documents, painful for equations,
+and painful for figures.  Then I learned LaTeX and life was much much
+better. 
+
+@section The Giant Per-Project Makefile
+In graduate school, a friend showed me a makefile he had set up for his
+thesis.  It contained all sorts of targets and some intellegence about
+running LaTeX multiple times for resolving references.  I made a
+modified version of that for my thesis and even wrote a book
+where I used yet another modified version of that makefile.  This
+approach was much better than doing everything by hand because I had
+added a lot of functionality over my friends makefile.  In particular,
+my new makefile automatically dealt with tgif figures and I had many
+many figures in the thesis and the book. 
+
+Despite the utility of the large customized makefile I had, it was not
+maintainable in the sense that every time I started a new document, I'd
+end up with another copy of a very large makefile to maintain.  If I
+fixed a bug in one, I'd have several other documents in progress which
+needed updating.
+
+@section Enter LaTeX-Mk
+For those of you familiar with the build system used by the BSD
+operating systems, you'll know that for each program, there is a very
+simple makefile which lists the source files along with a couple of
+other variables which can optionally be set.  Then a system makefile
+called @file{bsd.prog.mk} is included.  That included makefile
+fragment has all the code required to provide all the standard targets,
+sets up the various compiler flags and correctly handles all the
+dependencies.  It is maintainable because the bulk of the code is common
+and only needs to be maintained in one place. 
+
+Being inspired by the BSD style makefile approach, I converted my most
+up to date giant per-project makefile into an @code{include}-able makefile
+fragment and spent some time defining the interface a bit more
+generically than I'd done in the past.  Since that time I've used the
+result, LaTeX-Mk, for the last few documents at school, some papers I've
+worked on since then and also for work related documentation.  So far,
+the makefile framework has proven to be very useful and a big time saver
+for me.  Since I believe in open-source software I felt it was
+appropriate to document my efforts and provide a packaged solution that
+others could also use.  
+
+@section The Modern Era of LaTeX-Mk
+@subsection Version 0.9
+Released on 2002-10-09, this was the first public
+release of LaTeX-Mk.  My reason for using 0.9 instead of 1.0 is that
+LaTeX-Mk had not been tested or used much by others yet.  Even though it
+works well for me, as with any product I'm sure others will quickly
+find other ways to use it that I had not anticipated.  My goal is to
+collect feedback over the first few months of public consumption and
+come out with a 1.0 version which incorporates the primary improvements.
+
+@subsection Version 0.9.1
+This is a bug fix version.  The significant changes over the previous
+version are:
+@itemize @bullet
+@item
+Per-document Xfig dependencies are now supported.  This was an oversight
+in the previous version.
+
+@item
+A big non-portable GNU make hack has been removed.  Starting with this
+@cindex GNU make, version required
+version of LaTeX-Mk, you will need version 3.80 or newer of GNU make
+(run @code{gmake --version} to check your GNU make version) if you are
+using the GNU make interface to LaTeX-Mk.  The new implementation is
+much cleaner and should continue to work with all newer versions of GNU
+make. 
+
+@item 
+The history section of the manual was added.
+
+@end itemize
+
 @page
-@node Target Index, Variable Index, Feedback, Top
+@node Target Index, Variable Index, History, Top
 @unnumbered Target Index
 
 @printindex tr
