@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.8 2002/10/07 03:08:14 dan Exp $
+# $Id: latex-mk.in,v 1.9 2002/10/07 14:11:03 dan Exp $
 #
 # Copyright (c) 2002 Dan McMahill
 # All rights reserved.
@@ -179,6 +179,16 @@ while test $cnt -lt $MAXITERS ; do
 	echo "$sep"
 	cnt=`expr $cnt + 1`
 done
+
+#LaTeX Warning: There were undefined references.
+undefined=`grep "There were undefined references" $LATEX_MK_LOG`
+if test ! -z "$undefined" ; then
+	echo "$sep"
+	echo "$0:  There were undefined references.  Please correct this."
+	#LaTeX Warning: Reference `tab:fuse_table' on page 3 undefined on input line 82.
+	grep "Reference.*on page.*undefined" $LATEX_MK_LOG
+	echo "$sep"
+fi
 
 if test $cnt -eq $MAXITERS ; then
 	echo "$sep"
