@@ -1,0 +1,2 @@
+env  latex-mk  test1.tex
+myxdvi myxdvi_flags test1.dvi

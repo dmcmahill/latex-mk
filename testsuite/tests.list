@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.2 2003/02/10 04:00:41 dan Exp $
+# $Id: tests.list,v 1.3 2003/02/15 14:06:31 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -77,6 +77,14 @@ basic1_pdflatex_ps2||test1.tex|test1.ps TEST1=yes USE_PDFLATEX=yes
 basic1_pdflatex_pdf1||test1.tex|pdf TEST1=yes USE_PDFLATEX=yes
 basic1_pdflatex_pdf2||test1.tex|test1.pdf TEST1=yes USE_PDFLATEX=yes
 #
+# BIBTEXSRCS test
+#
+basic_bibtexsrcs_dvi1||test.tex foo.bib|dvi TEST8=yes
+# this one shouldn't do anything:
+basic_bibtexsrcs_dvi2||test.tex foo.bib @ test.dvi @ |dvi TEST8=yes
+# this one should want to re-run
+basic_bibtexsrcs_dvi3||test.tex test.dvi @ foo.bib|dvi TEST8=yes
+#
 # TGIFSRCS test
 #
 basic_tgifsrcs||test2.tex tgif1.obj tgif2.obj|dvi TEST2=yes
@@ -92,6 +100,50 @@ basic_xfigsrcs||test.tex xfig1.fig xfig2.fig|dvi TEST4=yes
 # XFIGDIRS test
 #
 basic_xfigdirs|xfigdir1 xfigdir2|test.tex xfigdir1/xfiga.fig xfigdir1/xfigb.fig xfigdir2/xfigc.fig |dvi TEST5=yes
+#
+# -----------------------------------------
+# Checks for various configuration variables
+# -----------------------------------------
+#
+#  BIBTEX	= the BibTeX executable
+#  BIBTEX_ENV	= environment variables set when running the BibTeX executable
+#  BIBTEX_FLAGS	= flags passed to the BibTeX executable
+#
+#  DVIPDFM      = the dvipdfm executable
+#  DVIPDFM_FLAGS= flags passed to the dvipdfm executable
+vars_dvipdfm||test1.tex|pdf TEST1=yes DVIPDFM=mydvipdfm DVIPDFM_FLAGS=mydvipdfm_flags USE_DVIPDFM=yes
+#
+#  DVIPS	= the dvips executable
+#  DVIPS_FLAGS	= flags passed to the dvips executable
+vars_dvips||test1.tex|ps TEST1=yes DVIPS=mydvips DVIPS_FLAGS=mydvips_flags
+#
+#  GV		= a postscript previewer executable
+#  GV_FLAGS	= flags passed to the postscript previewer executable
+vars_gv||test1.tex|viewps TEST1=yes GV=mygv GV_FLAGS=mygv_flags
+#
+#  LATEX	= the LaTeX executable
+#  LATEX_ENV	= environment variables set when running the LaTeX executable
+#  LATEX_FLAGS	= flags passed to the LaTeX executable
+#
+#  LPR		= executable to print postscript files
+#  LPR_FLAGS	= flags passed to the executable to print postscript files
+vars_lpr||test1.tex|print TEST1=yes LPR=mylpr LPR_FLAGS=mylpr_flags
+#
+#  PDFLATEX     = pdflatex executable
+#  PDFLATEX_ENV = environment variables set when running the PDFLaTeX executable
+#  PDFLATEX_FLAGS= flags passed to the PDFLaTeX executable
+#
+#  PS2PDF	= ps2pdf executable
+#  PS2PDF_FLAGS	= flags passed to the ps2pdf executable
+vars_ps2pdf||test1.tex|pdf TEST1=yes PS2PDF=myps2pdf PS2PDF_FLAGS=myps2pdf_flags
+#
+#  VIEWPDF      = PDF viewer
+#  VIEWPDF_FLAGS= PDF viewer flags
+vars_viewpdf||test1.tex|viewpdf TEST1=yes VIEWPDF=myviewpdf VIEWPDF_FLAGS=myviewpdf_flags
+#
+#  XDVI		= a .dvi previewer executable
+#  XDVI_FLAGS	= flags passed to the .dvi previewer executable
+vars_xdvi||test1.tex|view TEST1=yes XDVI=myxdvi XDVI_FLAGS=myxdvi_flags
 #
 # -----------------------------------------
 # Single project, multiple latex source tests

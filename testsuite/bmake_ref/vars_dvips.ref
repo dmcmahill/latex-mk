@@ -1,0 +1,2 @@
+env  latex-mk  test1.tex
+mydvips mydvips_flags -o test1.ps test1.dvi
