@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.20 2002/10/07 19:31:19 dan Exp $
+# $Id: latex.mk.in.in,v 1.21 2002/10/09 03:17:35 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -392,7 +392,7 @@ CLEAN_FILES+=	${NAME:=.lof}
 CLEAN_FILES+=	${NAME:=.lot}
 CLEAN_FILES+=	${NAME:=.toc}
 CLEAN_FILES+=	${NAME:=.out}
-
+CLEAN_FILES+=	$(DRAFT_STAMP_PS)
 CLEAN_FILES+=	${LATEX_MK_TEXDEPS}
 CLEAN_FILES+=	${LATEX_MK_TEXDEPS_STAMP}
 
