@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.19 2002/10/07 18:34:36 dan Exp $
+# $Id: latex.mk.in.in,v 1.20 2002/10/07 19:31:19 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -272,9 +272,9 @@ GMK:		echo "	\$${BIBTEXSRCS} \$${$${tmp}_BIBTEXSRCS} \$${OTHER} \$${$${tmp}_OTHE
 GMK:		echo " " >> $@ ; \
 GMK:		echo "ALLTEXSRCS+=	$${tmp}.tex \$${$${tmp}_TEXSRCS}" >> $@ ; \
 GMK:		echo "ALLBIBTEXSRCS+=	\$${$${tmp}_BIBTEXSRCS}" >> $@ ; \
-BMK:		echo "$${tmp}-draft.ps: $${tmp}.dvi" >> $@ ; \
-BMK:		echo '	sed "s;DATE;`date`;g" $${DATED_DRAFT_PS} > $${DRAFT_STAMP_PS}' >> $@ ; \
-BMK:		echo '	$$(DVIPS) -h $${DRAFT_STAMP_PS} $$(DVIPS_FLAGS) -o $$@ $${tmp}.dvi' >> $@ ; \
+GMK:		echo "$${tmp}-draft.ps: $${tmp}.dvi" >> $@ ; \
+GMK:		echo '	sed "s;DATE;`date`;g" $${DATED_DRAFT_PS} > $${DRAFT_STAMP_PS}' >> $@ ; \
+GMK:		echo '	$$(DVIPS) -h $${DRAFT_STAMP_PS} $$(DVIPS_FLAGS) -o $$@ $${tmp}.dvi' >> $@ ; \
 GMK:		echo "dvi:	$${tmp}.dvi" >> $@ ; \
 GMK:		echo "ps:	$${tmp}.ps"  >> $@ ; \
 GMK:		echo "pdf:	$${tmp}.pdf" >> $@ ; \
