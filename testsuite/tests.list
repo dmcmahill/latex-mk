@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.5 2003/02/25 02:05:07 dan Exp $
+# $Id: tests.list,v 1.6 2003/06/09 04:14:46 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -58,6 +58,18 @@ basic1_ps1||test1.tex|ps TEST1=yes
 basic1_ps2||test1.tex|test1.ps TEST1=yes
 basic1_pdf1||test1.tex|pdf TEST1=yes
 basic1_pdf2||test1.tex|test1.pdf TEST1=yes
+#
+# HTML output -- LaTeX2HTML
+#
+basic1_html1||test1.tex|html TEST1=yes USE_LATEX2HTML=yes
+basic1_html2||test1.tex|test1.html TEST1=yes USE_LATEX2HTML=yes
+basic1_html3||test1.tex @ test1.dvi @ test1.html-stamp|test1.html TEST1=yes USE_LATEX2HTML=yes
+basic1_html4||test1.tex|html TEST1=yes 
+#
+# HTML output -- HeVeA
+#
+basic1_html5||test1.tex|html TEST1=yes USE_HEVEA=yes
+basic1_html6||test1.tex|test1.html TEST1=yes USE_HEVEA=yes
 #
 # basic tests with USE_DVIPDFM
 #
@@ -122,10 +134,21 @@ vars_dvips||test1.tex|ps TEST1=yes DVIPS=mydvips DVIPS_FLAGS=mydvips_flags
 #  GV_FLAGS	= flags passed to the postscript previewer executable
 vars_gv||test1.tex|viewps TEST1=yes GV=mygv GV_FLAGS=mygv_flags
 #
+#  HEVEA	= the Hevea executable
+#  HEVEA_ENV	= environment variables set when running the Hevea executable
+#  HEVEA_FLAGS	= flags passed to the LaTeX executable
+#  IMAGEN       = imagen executable
+vars_hevea||test1.tex|html TEST1=yes IMAGEN=myimagen HEVEA=myhevea HEVEA_FLAGS=myhevea_flags HEVEA_ENV=foo=bar USE_HEVEA=yes
+#
 #  LATEX	= the LaTeX executable
 #  LATEX_ENV	= environment variables set when running the LaTeX executable
 #  LATEX_FLAGS	= flags passed to the LaTeX executable
 vars_latex||test1.tex|dvi TEST1=yes LATEX=mylatex LATEX_FLAGS=mylatex_flags LATEX_ENV=foo=bar
+#
+#  LATEX2HTML		= the LaTeX2HTML executable
+#  LATEX2HTML_ENV	= environment variables set when running the LaTeX2HTML executable
+#  LATEX2HTML_FLAGS	= flags passed to the LaTeX executable
+vars_latex2html||test1.tex|html TEST1=yes LATEX2HTML=mylatex2html LATEX2HTML_FLAGS=mylatex2html_flags LATEX2HTML_ENV=foo=bar USE_LATEX2HTML=yes
 #
 #  LPR		= executable to print postscript files
 #  LPR_FLAGS	= flags passed to the executable to print postscript files
