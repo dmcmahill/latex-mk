@@ -1,12 +1,28 @@
-## $Id: Makefile.am,v 1.1 2002/05/20 14:25:33 dan Exp $
+## $Id: Makefile.am,v 1.3 2002/08/15 02:50:28 dan Exp $
 
-MKFILES= \
-	latex.mk \
-	tgif.mk
 
-MKSRCS=	${MKFILES:.mk=.mk.in}
+MKSRCS=	latex.mk.in tgif.mk.in xfig.mk.in
 
-pkgdata_DATA= ${MKFILES}
+BMKFILES=	${MKSRCS:.mk.in=.mk}
+GMKFILES=	${MKSRCS:.mk.in=.gmk}
+
+pkgdata_DATA= ${BMKFILES} ${GMKFILES}
 
 EXTRA_DIST= ${MKSRCS}
+DISTCLEANFILES=	\
+	configure.lineno \
+	${BMKFILES} \
+	${GMKFILES}
+
+SUBDIRS=	doc
+
+SUFFIXES=	.mk.in .mk .gmk
+
+SED_COMMON=	-e 's;@pkgdatadir@;$(pkgdatadir);g'
+
+.mk.in.mk:
+	sed -e 's/^BMK://g' -e '/^GMK:/d' ${SED_COMMON} $<  > $@
+
+.mk.in.gmk:
+	sed -e 's/^GMK://g' -e '/^BMK:/d' ${SED_COMMON} $<  > $@
 

@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.1 2002/05/20 14:25:35 dan Exp $
+dnl $Id: configure.ac,v 1.3 2002/08/15 02:50:28 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002 Dan McMahill
@@ -33,46 +33,38 @@ dnl  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 dnl  SUCH DAMAGE.
 dnl    
 
-AC_INIT(latex.mk.in)
+AC_INIT(latex.mk.in.in)
 AM_INIT_AUTOMAKE(latex-mk, 0.1)
-#AM_CONFIG_HEADER(config.h)
 
 #
 # determine host type
 #
 AC_CANONICAL_HOST
 
-
 #
 # an install program
 #
 AC_PROG_INSTALL
 
-AC_PATH_PROG(MAKE, gmake make)
-AC_ARG_WITH([gnumake],
-[  --with-gnumake=scidir    Use the specified GNU make installation.  
-                          [default = search for an installed GNU make]],
-[
-if test "X$with_gnumake" = "Xno" ; then
-        SCI_WCALC=""
-else
-        SCI=$with_gnumake
-fi
-],
-[
-AC_PATH_PROG(SCILAB,)
-if test "X$SCILAB" != "X" ; then
-        AC_MSG_CHECKING([for the  base directory])
-        [SCI=`$AWK  '/^[ \t]*SCI[ \t]*=/ {print;}' $SCILAB | sed -e 's;.*SCI.*=;;g' -e 's;\";;g'`]
-        AC_MSG_RESULT([$SCI])
-else
-        SCI_WCALC=""
-fi
-])
 
+AC_PATH_PROG(BIBTEX, bibtex, bibtex)
+AC_PATH_PROG(DVIPS, dvips, dvips)
+AC_PATH_PROG(ECHO, echo, echo)
+AC_PATH_PROG(ENV_PROG, env, env)
+AC_PATH_PROG(FALSE, false, false)
+AC_PATH_PROG(GV, gv, gv)
+AC_PATH_PROG(LATEX, latex, latex)
+AC_PATH_PROG(LPR, lpr, lpr)
+AC_PATH_PROG(PS2PDF, ps2pdf, ps2pdf)
+AC_PATH_PROG(XDVI, xdvi, xdvi)
+AC_PATH_PROG(NOTME, notme, freddy)
+
+AC_PATH_PROG(RM,rm)
 
 AC_OUTPUT(
 	Makefile
-	latex.mk
-	tgif.mk
+	doc/Makefile
+	latex.mk.in
+	tgif.mk.in
+	xfig.mk.in
 )

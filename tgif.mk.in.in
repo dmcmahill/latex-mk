@@ -1,4 +1,4 @@
-# $Id: tgif.mk.in.in,v 1.1 2002/08/14 11:40:20 dan Exp $
+# $Id: tgif.mk.in.in,v 1.2 2002/08/15 02:50:29 dan Exp $
 #
 # Makefile fragment for processing tgif files to produce postscript
 #
@@ -55,7 +55,7 @@
 
 
 # how to call tgif to convert tgif files to postscript
-TGIF?=		tgif
+TGIF?=		@TGIF@
 TGIF_FLAGS?=	-color -print -eps
 
 # directory to look for tgif files in
