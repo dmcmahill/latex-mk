@@ -1,4 +1,4 @@
-# $Id: xfig.mk.in.in,v 1.2 2002/08/26 02:07:25 dan Exp $
+# $Id: xfig.mk.in.in,v 1.2.2.1 2002/10/29 02:14:42 dan Exp $
 #
 # Makefile fragment for processing xfig files to produce postscript
 #
@@ -43,7 +43,7 @@
 #	XFIGSRCS	= the xfig drawing files (.fig files)
 # in your top level Makefile.  You can also specify
 # XFIGDIRS which is a list of directories containing
-# xfig files.  All tgif files in the specified directories
+# xfig files.  All xfig files in the specified directories
 # are added to XFIGSRCS
 #
 # The following variables may be overridden in your top level Makefile
@@ -72,19 +72,52 @@ GMK:ifdef XFIGDIRS
 GMK:XFIGSRCS+= $(foreach __tmp__,$(XFIGDIRS),$(wildcard $(__tmp__)/*.fig))
 GMK:endif
 
-XFIGOBJS?=	$(XFIGSRCS:.fig=.eps)
+BMK:.for __name__ in ${NAME}
+BMK:.if defined(${__name__}_XFIGDIRS)
+BMK:.for __tmp__ in ${${__name__}_XFIGDIRS}
+BMK:.if exists(${__tmp__})
+BMK:_XFIG_ADD!=	ls ${__tmp__}/*.obj
+BMK:${__name__}_XFIGSRCS+=	${_XFIG_ADD}
+BMK:.endif
+BMK:.endfor
+BMK:.endif
+BMK:.endfor
 
-BMK:.ifdef XFIGSRCS
-GMK:ifdef XFIGSRCS
+
+GMK:define xfigdirs_template
+GMK:ifdef $(1)_XFIGDIRS
+GMK:$(1)_XFIGSRCS+= $(foreach __tmp2__,$($(1)_XFIGDIRS),$(wildcard $(__tmp2__)/*.obj))
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call xfigdirs_template,$(__tmp__))))
+
+XFIGOBJS?=	$(XFIGSRCS:.fig=.eps)
+ALLXFIGOBJS=	$(XFIGOBJS)
+
+BMK:.for __tmp__ in ${NAME}
+BMK:.if defined(${__tmp__}_XFIGSRCS)
+BMK:${__tmp__}_XFIGOBJS?=	${${__tmp__}_XFIGSRCS:.fig=.eps}
+BMK:${__tmp__}_OTHER+=	${${__tmp__}_XFIGOBJS}
+BMK:ALLXFIGOBJS+=	${${__tmp__}_XFIGOBJS}
+BMK:.endif
+BMK:.endfor
+
+
+GMK:define xfigdeps_template
+GMK:ifdef $(1)_XFIGSRCS
+GMK:$(1)_XFIGOBJS?=	${$(1)_XFIGSRCS:.fig=.eps}
+GMK:$(1)_OTHER+=	${$(1)_XFIGOBJS}
+GMK:ALLXFIGOBJS+=	${$(1)_XFIGOBJS}
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call xfigdeps_template,$(__tmp__))))
+
+
 OTHER+=	$(XFIGOBJS)
-all::		$(XFIGOBJS)
+all::		$(ALLXFIGOBJS)
 
 clean::
 	$(RM) -f $(XFIGOBJS)
-
-BMK:.endif
-GMK:endif
-
 
 .SUFFIXES : .fig .eps
 
