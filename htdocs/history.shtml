@@ -2,8 +2,8 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.10 2003/06/09 04:33:45 dan Exp $ -->
-<!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
+<!-- $Id: history.shtml,v 1.11 2004/03/17 20:40:20 dan Exp $ -->
+<!-- Copyright (c) 2002, 2003, 2004 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>LaTeX-Mk History</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -141,6 +141,33 @@ xfig,
     <LI>Added a POST_BIBTEX_HOOK variable which specifies a program to be
     run after a BibTeX run.  This gives users the ability to insert an
     additional processing step if desired.</LI>
+    </UL>
+    </p>
+
+    <H3>Version 1.2</H3>
+    <p>
+    LaTeX-Mk version 1.2 was released on March 21, 2004.
+    The significant changes/additions over the previous version are:
+    <UL>
+	<LI>Fixed a bug which prevented the POST_BIBTEX_HOOK hook from
+	actually doing anything.</LI>
+
+    	<LI>Dropped -Ppdf from the default DVIPS_FLAGS.  Users who wish
+	to keep -Ppdf as part of DVIPS_FLAGS can add it to the site
+	configuration file, user configuration file, or project Makefile.
+	</LI>
+
+	<LI>Added DVIPDFM_ENV variable for running @code{dvipdfm} inside
+	a customized environment. </LI>
+
+	<LI>Preliminary Rich Text Format (RTF) output support.
+	The new <tt>rtf</tt> target will use <tt>latex2rtf</tt> to produce an
+	RTF version of your document.  Use this when sending your documents
+	to the text-formatter-challenged.</LI>
+
+	<LI>Fixed a bug where a list of figures, list of tables, and
+	table of contents were sometimes not fully up to date in the final
+	output.</LI>
     </UL>
     </p>
 

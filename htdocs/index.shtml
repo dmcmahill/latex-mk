@@ -2,8 +2,8 @@
 
 <html>
   <head>
-    <!-- $Id: index.shtml,v 1.8 2003/06/09 04:33:46 dan Exp $ -->
-    <!-- Copyright (c) 2001
+    <!-- $Id: index.shtml,v 1.9 2004/03/17 20:40:21 dan Exp $ -->
+    <!-- Copyright (c) 2001, 2002, 2003, 2004
     Dan McMahill  ALL RIGHTS RESERVED. -->
     <link rev="made" href="mailto:danmc@users.sourceforge.net">
     <title>LaTeX-Mk</title>
@@ -51,6 +51,10 @@
     <ul>
 
       <!-- Recent news  -->
+
+      <li><font face="helvetica, arial" size="-1">
+	  <a href="news.html#20040321">LaTeX-Mk-1.2 released, 2004-03-21</a>
+	</font></li>
 
       <li><font face="helvetica, arial" size="-1">
 	  <a href="news.html#20030615">LaTeX-Mk-1.1 released, 2003-06-15</a>

@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.33 2003/11/17 22:48:33 dan Exp $
+@c $Id: latex-mk.texi,v 1.34 2004/03/17 20:40:19 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -16,7 +16,7 @@
 @ifinfo
 This file documents LaTeX-Mk-@value{VERSION}
 
-Copyright @copyright{} 2002, 2003 Dan McMahill
+Copyright @copyright{} 2002, 2003, 2004 Dan McMahill
 
 @quotation
 This code is derived from software written by Dan McMahill
@@ -1069,7 +1069,7 @@ additional processing step if desired.
 @end itemize
 
 @subsection Version 1.2
-Version 1.2 was released on 2003-??-??.
+Version 1.2 was released on 2004-03-21.
 The significant changes/additions over the previous version are:
 @itemize @bullet
 @item Fixed a bug which prevented the POST_BIBTEX_HOOK hook from
@@ -1086,6 +1086,10 @@ a customized environment.
 The new @code{rtf} target will use @code{latex2rtf} to produce an
 RTF version of your document.  Use this when sending your documents
 to the text-formatter-challenged.
+
+@item Fixed a bug where a list of figures, list of tables, and
+table of contents were sometimes not fully up to date in the final
+output.
 
 @end itemize
 
