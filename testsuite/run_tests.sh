@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.9 2003/06/11 12:23:49 dan Exp $
+# $Id: run_tests.sh,v 1.10 2003/06/12 21:58:07 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -107,8 +107,6 @@ DVIPS_FLAGS=
 ECHO=echo
 ENV_PROG=env
 FALSE=false
-FIND=find
-GREP=grep
 GV=gv
 GV_FLAGS=
 HACHA=hacha
@@ -134,7 +132,6 @@ PDFLATEX_ENV=
 PDFLATEX_FLAGS=
 PS2PDF=ps2pdf
 PS2PDF_FLAGS=
-RM=rm
 XDVI=xdvi
 XDVI_FLAGS=
 VIEWPDF=acroread
@@ -148,8 +145,6 @@ export DVIPS_FLAGS
 export ECHO
 export ENV_PROG
 export FALSE
-export FIND
-export GREP
 export GV
 export GV_FLAGS
 export HACHA
@@ -176,7 +171,6 @@ export PDFLATEX_ENV
 export PDFLATEX_FLAGS
 export PS2PDF
 export PS2PDF_FLAGS
-export RM
 export XDVI
 export XDVI_FLAGS
 export VIEWPDF
@@ -214,6 +208,7 @@ export FIG2DEV_FLAGS
 
 BMAKE=${BMAKE:-make}
 GMAKE=${GMAKE:-gmake}
+GMAKE_NAME=`basename $GMAKE`
 
 if test "X$BMAKE" = "Xnone" ; then
     with_bmake=no
@@ -242,11 +237,13 @@ export MFLAGS
 #######################################
 
 AWK=awk
+FIND=find
 GREP=grep
 RM=rm
 RMDIR=rm
 
 export AWK
+export FIND
 export GREP
 export RM
 export RMDIR
@@ -360,7 +357,11 @@ for t in $all_tests ; do
     # run the GNU make test
     if [ "X$with_gmake" = "Xyes" ]; then
     echo "Test:  (GNU make) $t"
-    cd ${rundir} && ${GMAKE}  $args > ${here}/${GMAKE_REF}/${t}.${sufx}
+    # we have to replace the actual name of the GNU make program with 'gmake' because
+    # some of the tests will contain the name of GNU make in the output.  This way if
+    # someone has installed GNU make as 'gnumake', the test will still pass even though
+    # I use 'gmake' on my system
+    cd ${rundir} && ${GMAKE}  $args | sed "s;${GMAKE_NAME};gmake;g" > ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
 	    if diff ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
