@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.3 2002/10/10 01:32:21 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.4 2002/10/29 02:50:04 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>LaTeX-Mk History</title>
@@ -74,13 +74,29 @@ xfig,
 	that others could also use.
     </p>
     <H2>The Modern Era of LaTeX-Mk</H2>
-    <p>
     <H3>Version 0.9</H3>
+    <p>
     Released on 2002-10-09, this was the first public release of LaTeX-Mk.  My reason for using 0.9
     instead of 1.0 is that LaTeX-Mk has not been tested or used much by others yet.  Even though
     it works well for me, as with any product, I'm sure others will quickly find other ways to
     use it that I had not anticipated.  My goal is to collect feedback over the first few months
     of public consumption and come out with a 1.0 version which incorporates the primary improvements.
+    </p>
+
+    <H3>Version 0.9</H3>
+    <p>
+    This is a bug fix version.  The significant changes over the previous
+    version are:
+    <UL>
+    <LI> Per-document Xfig dependencies are now supported.  This was
+         an oversight in the previous version.</LI>
+    <LI> A big non-portable GNU make hack has been removed.  Starting with this
+         version of LaTeX-Mk, you will need version 3.80 or newer of GNU make
+         (run <code>gmake --version</code> to check your GNU make version) if you are
+         using the GNU make interface to LaTeX-Mk.  The new implementation is
+         much cleaner and should continue to work with all newer versions of GNU
+         make.</LI>
+    </UL>
     </p>
 
     </font>
