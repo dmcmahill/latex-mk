@@ -1,4 +1,4 @@
-## $Id: golden.mk,v 1.6 2003/06/09 04:14:46 dan Exp $
+## $Id: golden.mk,v 1.7 2004/03/17 19:28:24 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -88,6 +88,7 @@ GOLDEN_FILES=	\
 	vars_hevea.ref \
 	vars_latex.ref \
 	vars_latex2html.ref \
+	vars_latex2rtf.ref \
 	vars_lpr.ref \
 	vars_pdflatex.ref \
 	vars_ps2pdf.ref \
