@@ -1,1 +1,1 @@
-env PDFLATEX=pdflatex PDFLATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS=  latex-mk --pdflatex  test1.tex
+env PDFLATEX=pdflatex PDFLATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk --pdflatex  test1.tex
