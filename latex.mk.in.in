@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.28 2003/02/15 14:17:16 dan Exp $
+# $Id: latex.mk.in.in,v 1.29 2003/02/15 20:07:04 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -144,6 +144,17 @@ default: all
 all:: dvi
 all:: view-all
 
+REAL_LATEX_ENV+=	LATEX=${LATEX}
+REAL_LATEX_ENV+=	LATEX_FLAGS=${LATEX_FLAGS}
+REAL_LATEX_ENV+=	BIBTEX=${BIBTEX}
+REAL_LATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+REAL_LATEX_ENV+=	${LATEX_ENV}
+
+REAL_PDFLATEX_ENV+=	PDFLATEX=${PDFLATEX}
+REAL_PDFLATEX_ENV+=	PDFLATEX_FLAGS=${PDFLATEX_FLAGS}
+REAL_PDFLATEX_ENV+=	BIBTEX=${BIBTEX}
+REAL_PDFLATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+REAL_PDFLATEX_ENV+=	${PDFLATEX_ENV}
 
 # Include other .mk files often times used with LaTeX
 
@@ -494,7 +505,7 @@ GMK:endif
 #######################################
 .PHONY: dvi
 .tex.dvi : 
-	$(ENV_PROG) $(LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) $<
+	$(ENV_PROG) $(REAL_LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) $<
 
 #######################################
 #
@@ -537,7 +548,7 @@ BMK:.elif defined(USE_PDFLATEX)
 GMK:else
 GMK:ifdef USE_PDFLATEX
 .tex.pdf : 
-	$(ENV_PROG) $(PDFLATEX_ENV) $(LATEX_MK) --pdflatex $(LATEX_MK_FLAGS) $<
+	$(ENV_PROG) $(REAL_PDFLATEX_ENV) $(LATEX_MK) --pdflatex $(LATEX_MK_FLAGS) $<
 BMK:.else
 GMK:else
 .ps.pdf :

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.10 2003/02/02 03:43:32 dan Exp $
+# $Id: latex-mk.in,v 1.11 2003/02/15 20:07:04 dan Exp $
 #
 # Copyright (c) 2002, 2003 Dan McMahill
 # All rights reserved.
@@ -38,8 +38,11 @@ VERSION=@VERSION@
 
 MAXITERS=${MAXITERS:-5}
 LATEX=${LATEX:-latex}
+LATEX_FLAGS=${LATEX_FLAGS:-}
 PDFLATEX=${PDFLATEX:-pdflatex}
+PDFLATEX_FLAGS=${PDFLATEX_FLAGS:-}
 BIBTEX=${BIBTEX:-bibtex}
+BIBTEX_FLAGS=${BIBTEX_FLAGS:-}
 LATEX_MK_LOG=${LOG:-latex-mk.log}
 
 sep="------------------------------------"
@@ -72,6 +75,7 @@ do
 
 	--pdflatex)
 		LATEX=$PDFLATEX
+		LATEX_FLAGS=$PDFLATEX_FLAGS
 		shift
 		;;
 
@@ -115,7 +119,7 @@ while test $cnt -lt $MAXITERS ; do
 	# run latex.  If it fails, manually remove the .dvi file since
 	# latex won't.  This will confuse 'make' because on the next
 	# invocation, the .dvi file will appear to be up to date already.
-	( ( ( $LATEX $INFILE 2>&1 ; echo $? >&4) | tee $LATEX_MK_LOG 1>&3) 4>&1 |  (read a; exit $a)) 3>&1
+	( ( ( $LATEX $LATEX_FLAGS $INFILE 2>&1 ; echo $? >&4) | tee $LATEX_MK_LOG 1>&3) 4>&1 |  (read a; exit $a)) 3>&1
 	if test $? -ne 0 -a "$ignore_errors" != "yes"  ; then
 		echo "$sep" 
 		echo "$0:  Error:  LaTeX failed" 
@@ -143,7 +147,7 @@ while test $cnt -lt $MAXITERS ; do
 			echo "$0:  Running bibtex to resolve citations"
 			echo "$sep"
 			bibtex_ran=yes
-			$BIBTEX $NAME
+			$BIBTEX $BIBTEX_FLAGS $NAME
 			if test $? -ne 0 -a "$ignore_errors" != "yes" ; then
 				echo "$sep" 
 				echo "$0:  Error:  BibTeX failed" 
