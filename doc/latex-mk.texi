@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.37 2004/03/18 20:24:10 dan Exp $
+@c $Id: latex-mk.texi,v 1.38 2004/03/18 20:31:45 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -599,7 +599,7 @@ Defaults to @samp{}.
 @defvar PNG2EPS
 The command to convert a Portable Network Graphic (PNG) file
 to an Encapsulated PostScript (EPS) file.
-Defaults to @samp{$\{CONVERT\}}.
+Defaults to @samp{$@{CONVERT@}}.
 @end defvar
 
 @defvar POST_BIBTEX_HOOK
