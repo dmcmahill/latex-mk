@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.41 2003/11/17 22:02:31 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.42 2004/03/18 12:31:35 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -750,8 +750,17 @@ GMK:endif
 
 
 .PHONY: clean
+
+GMK:define latex_mk_clean_template
 clean::
-	${LATEX_MK} --clean
+GMK:	${LATEX_MK} --clean $(1)
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call latex_mk_clean_template,$(__tmp__)))) 
+
+clean::
+BMK:.for __tmp__ in ${NAME}
+BMK:	${LATEX_MK} --clean ${__tmp__}
+BMK:.endfor
 	$(RM) -f *~ texput.log $(CLEAN_FILES)
 
 .PHONY: distclean
