@@ -1,9 +1,9 @@
 # -*- Makefile -*-
-# $Id: xfig.mk.in.in,v 1.7 2003/02/17 12:11:23 dan Exp $
+# $Id: xfig.mk.in.in,v 1.8 2004/07/29 02:34:05 dan Exp $
 #
 # Makefile fragment for processing xfig files to produce postscript
 #
-# Copyright (c) 2002, 2003 Dan McMahill
+# Copyright (c) 2002, 2003, 2004 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -57,7 +57,7 @@
 
 # how to call fig2dev to convert xfig files to postscript
 FIG2DEV?=		@FIG2DEV@
-FIG2DEV_FLAGS?=	-L ps
+FIG2DEV_FLAGS?=	-L eps
 
 #######################################
 #
