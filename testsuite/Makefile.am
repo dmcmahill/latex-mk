@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.2 2003/02/03 03:34:50 dan Exp $
+## $Id: Makefile.am,v 1.3 2003/02/03 11:41:49 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -47,6 +47,11 @@ DISTCLEANFILES=	\
 	${GMKFILES}
 
 SUBDIRS=	bmake gmake
+
+TESTS=	run_tests
+
+all-local:
+	chmod 755 run_tests
 
 SUFFIXES=	.mk.in .mk .gmk
 
