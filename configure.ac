@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.11 2002/09/16 11:12:22 dan Exp $
+dnl $Id: configure.ac,v 1.12 2002/09/20 11:58:07 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002 Dan McMahill
@@ -81,7 +81,7 @@ AC_PATH_PROG(FIG2DEV, fig2dev, fig2dev)
 
 AC_ARG_WITH([mkconf],
 [  --with-mkconf=mkconf    Use the specified file as the site configuration
-                          file for BSD make.  [default = /etc/mk.conf]],
+                          file for BSD make.  [default = /etc/latex-mk.conf]],
 [
 if test "X$with_mkconf" = "Xno" ; then
         AC_ERROR([--without-mkconf is not supported])
@@ -96,7 +96,7 @@ AC_SUBST(MAKECONF)
 
 AC_ARG_WITH([gmkconf],
 [  --with-gmkconf=gmkconf  Use the specified file as the site configuration
-                          file for GNU make.  [default = /etc/gmk.conf]],
+                          file for GNU make.  [default = /etc/latex-gmk.conf]],
 [
 if test "X$with_gmkconf" = "Xno" ; then
         AC_ERROR([--without-gmkconf is not supported])
@@ -113,7 +113,7 @@ AC_SUBST(GMAKECONF)
 AC_ARG_WITH([usermkconf],
 [  --with-mkconf=usermkconf
                           Use the specified file as the site configuration
-                          file for BSD make.  [default = $HOME/etc/mk.conf]],
+                          file for BSD make.  [default = $HOME/.latex-mk.conf]],
 [
 if test "X$with_usermkconf" = "Xno" ; then
         AC_ERROR([--without-usermkconf is not supported])
@@ -129,7 +129,7 @@ AC_SUBST(USERMAKECONF)
 AC_ARG_WITH([gmkconf],
 [  --with-usergmkconf=usergmkconf
                           Use the specified file as the user configuration
-                          file for GNU make.  [default = $HOME/etc/gmk.conf]],
+                          file for GNU make.  [default = $HOME/.latex-gmk.conf]],
 [
 if test "X$with_usergmkconf" = "Xno" ; then
         AC_ERROR([--without-usergmkconf is not supported])
