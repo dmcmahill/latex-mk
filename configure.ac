@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.27 2003/06/08 03:30:41 dan Exp $
+dnl $Id: configure.ac,v 1.28 2003/06/09 04:24:11 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002, 2003 Dan McMahill
@@ -34,7 +34,7 @@ dnl  SUCH DAMAGE.
 dnl    
 
 AC_INIT(latex.mk.in.in)
-AM_INIT_AUTOMAKE(latex-mk, 1.0A)
+AM_INIT_AUTOMAKE(latex-mk, 1.0B)
 
 #
 # determine host type
