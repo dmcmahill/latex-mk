@@ -1,4 +1,4 @@
-# $Id: latex.mk.in,v 1.1 2002/05/20 14:25:36 dan Exp $
+# $Id: latex.mk.in,v 1.3 2002/06/02 11:07:03 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -51,8 +51,8 @@
 #
 # The following variables may be overridden in your top level Makefile
 #
-#  BIBEX	= the BibTeX executable
-#  BIBEX_ENV	= environment variables set when running the BibTeX executable
+#  BIBTEX	= the BibTeX executable
+#  BIBTEX_ENV	= environment variables set when running the BibTeX executable
 #  BIBEX_FLAGS	= flags passed to the BibTeX executable
 #  DVIPS	= the dvips executable
 #  DVIPS_FLAGS	= flags passed to the dvips executable
@@ -110,12 +110,15 @@ RM?=		/bin/rm
 # target 'view' will only have latex run once.  Thus the preview
 # will not always have all the figure and equation references
 # up to date
+.PHONY: view
 view: $(NAME).dvi
 	$(XDVI) $(XDVI_FLAGS) $(NAME).dvi
 
+.PHONY: viewps
 viewps: $(NAME).ps
 	$(GV) $(GV_FLAGS) $(NAME).ps
 
+.PHONY:  print
 print: $(NAME).ps
 	$(LPR) $(LPR_FLAGS) $(NAME).ps
 
@@ -125,6 +128,7 @@ print: $(NAME).ps
 # DVI Output (latex)
 #
 #######################################
+.PHONY: dvi
 dvi:	$(NAME).dvi
 
 TEXSRCS+=	$(NAME).tex
@@ -144,6 +148,7 @@ $(NAME).dvi: $(TEXSRCS) $(BIBTEXSRCS) $(OTHER)
 # Postscript Output (dvips)
 #
 #######################################
+.PHONY:  ps
 ps: $(NAME).ps
 
 $(NAME).ps: $(NAME).dvi
@@ -156,6 +161,7 @@ $(NAME).ps: $(NAME).dvi
 # PDF Output (ps2pdf)
 #
 #######################################
+.PHONY:  pdf
 pdf: $(NAME).pdf
 
 $(NAME).pdf: $(NAME).ps
@@ -175,7 +181,19 @@ CLEAN_FILES+=	${TEXSRCS:.tex=.aux}
 CLEAN_FILES+=	${BIBTEXSRCS:.bib=.aux}
 .endif
 
+.PHONY: clean
 clean::
 	$(RM) -f *~ $(NAME).ps $(NAME).pdf $(NAME).aux $(NAME).log \
 		$(NAME).dvi $(NAME).log $(NAME).bbl $(NAME).blg texput.log $(CLEAN_FILES)
 
+.PHONY: distclean
+distclean: clean
+
+#######################################
+#
+# Some helpful debugging targets
+#
+#######################################
+.PHONY: show-var
+show-var:
+	@${ECHO} ${${VARNAME}}
