@@ -1,4 +1,4 @@
-# $Id: xfig.mk.in.in,v 1.1 2002/08/15 02:44:44 dan Exp $
+# $Id: xfig.mk.in.in,v 1.2 2002/08/26 02:07:25 dan Exp $
 #
 # Makefile fragment for processing xfig files to produce postscript
 #
@@ -56,7 +56,7 @@
 
 # how to call fig2dev to convert xfig files to postscript
 FIG2DEV?=		@FIG2DEV@
-XFIG2DEV_FLAGS?=	-color -print -eps
+XFIG2DEV_FLAGS?=	-L ps
 
 # directory to look for xfig files in
 BMK:.if defined(XFIGDIRS)
@@ -89,5 +89,5 @@ GMK:endif
 .SUFFIXES : .fig .eps
 
 .fig.eps : 
-	$(FIG2DEV) $(FIG2DEV_FLAGS) $*.fig
+	$(FIG2DEV) $(FIG2DEV_FLAGS) $*.fig $*.eps
 
