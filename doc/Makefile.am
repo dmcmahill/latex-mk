@@ -1,6 +1,7 @@
-## $Id: Makefile.am,v 1.5 2002/08/22 03:13:45 dan Exp $
+## $Id: Makefile.am,v 1.6 2002/08/24 04:14:08 dan Exp $
 
 info_TEXINFOS=	latex-mk.texi
+pkgdata_DATA=	latex-mk.ps latex-mk.pdf latex-mk.html
 
 html_docs=	${info_TEXINFOS:.texi=.html}
 ps_docs=	${info_TEXINFOS:.texi=.ps}
