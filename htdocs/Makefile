@@ -1,7 +1,7 @@
-## $Id: Makefile,v 1.6 2004/03/19 02:15:19 dan Exp $
+## $Id: Makefile,v 1.7 2004/03/19 02:28:05 dan Exp $
 ##
 
-## Copyright (c) 2002 Dan McMahill
+## Copyright (c) 2002, 2003, 2004 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
@@ -39,7 +39,7 @@ top_srcdir=	.
 AWK=	awk
 
 .PHONY: all
-all:: ${HTML_OUT}
+all: ${HTML_OUT} favicon.ico
 
 # the include= is a ':' seperated search path for SSI directives
 SHTML_INCLUDE_PATH= $(srcdir)
@@ -82,12 +82,12 @@ show-var:
 clean:
 	rm -f *~ ${HTML_OUT}
 
-.PHONY: all
-all:: ${HTML_OUT}
-
-all:: favicon.ico
 favicon.ico: favicon.xpm
 	xpmtoppm favicon.xpm | ppmtowinicon > $@
+
+latex-mk.html: ../doc/latex-mk.html
+	cd ../doc && gmake latex-mk.html
+	cp ../doc/latex-mk.html $@
 
 upload: all
 	rsync  -e ssh -vax --progress --delete  --include-from=./upload_list --exclude='*' . danmc@shell.sourceforge.net:/home/groups/l/la/latex-mk/htdocs
