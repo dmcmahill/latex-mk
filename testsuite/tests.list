@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.1 2003/02/03 03:34:52 dan Exp $
+# $Id: tests.list,v 1.2 2003/02/10 04:00:41 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -37,7 +37,11 @@
 # test_name | directories to create | files to touch | arguments to make
 #
 # make will be called with -n just to see that the right set of steps 
-# will be taken for each example. 
+# will be taken for each example.  
+#
+# By using the special character '@' in the 'files to touch' field,
+# a pause will be inserted to help avoid any timestamp issues with
+# touch being called to rapidly.
 #
 # Please note that more tests should be added here but that each added 
 # test should have the 'golden' output fully verified by hand.
@@ -90,7 +94,19 @@ basic_xfigsrcs||test.tex xfig1.fig xfig2.fig|dvi TEST4=yes
 basic_xfigdirs|xfigdir1 xfigdir2|test.tex xfigdir1/xfiga.fig xfigdir1/xfigb.fig xfigdir2/xfigc.fig |dvi TEST5=yes
 #
 # -----------------------------------------
-# Single project, single latex source tests
+# Single project, multiple latex source tests
 # -----------------------------------------
 #
+basic2_dvi1||test.tex a.tex b.tex|dvi TEST6=yes
+basic2_dvi2||test.tex @ test.dvi @ a.tex b.tex|dvi TEST6=yes
+basic2_dvi3||test.tex a.tex @ test.dvi @ b.tex|dvi TEST6=yes
+#
+# -----------------------------------------
+# Multidocument project
+# -----------------------------------------
+#
+multi1_dvi1||test1.tex test2.tex|test1.dvi TEST7=yes
+multi1_dvi2||test1.tex test2.tex|test2.dvi TEST7=yes
+multi1_dvi3||test1.tex test2.tex|dvi TEST7=yes
+
 

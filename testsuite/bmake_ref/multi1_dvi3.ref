@@ -1,0 +1,2 @@
+env  latex-mk  test1.tex
+env  latex-mk  test2.tex
