@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: faq.shtml,v 1.4 2002/10/31 14:59:56 dan Exp $ -->
+<!-- $Id: faq.shtml,v 1.5 2003/02/26 01:45:56 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>LaTeX-Mk F.A.Q.</title>
@@ -48,19 +48,17 @@ xfig,
 
     <H2>How can I tell if I have GNU make?</H2>
     <p>
-	Under some operating systems such as GNU/Linux, the program called <code>make</code> is 
-	often times GNU make.  To be sure, try running "<code>make --version</code>".  If you
+	Under some operating systems such as GNU/Linux, the program 
+	called <code>make</code> is 
+	often times GNU make.  To be sure, try running 
+	"<code>make --version</code>".  If you
 	get a message back like: <br>
 	<pre>
-	GNU Make version 3.79.1, by Richard Stallman and Roland McGrath.
-	Built for i386--netbsdelf
-	Copyright (C) 1988, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 2000
-		Free Software Foundation, Inc.
-	This is free software; see the source for copying conditions.
-	There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
-	PARTICULAR PURPOSE.
-
-	Report bugs to &lt;bug-make@gnu.org&gt;.
+        GNU Make 3.80
+        Copyright (C) 2002  Free Software Foundation, Inc.
+        This is free software; see the source for copying conditions.
+        There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+        PARTICULAR PURPOSE.
 	</pre>
 	Then you have GNU make.  Many times, GNU make is installed under the name "<code>gmake</code>"
 	to avoid a conflict with a system supplied make.  In that case, try running "<code>gmake --version</code>"
@@ -68,6 +66,16 @@ xfig,
 	you need at least version 3.80 of GNU make.
     </p>
     
+    <H2>I have GNU make but LaTeX-Mk Doesn't Work.</H2>
+    <p>
+    Make sure you have at least version 3.80 or newer of GNU make.
+    Try running	"<code>make --version</code>" or 
+    "<code>gmake --version</code>" to figure out what version
+    you have.  Unfortunately some important and powerful features did
+    not exist prior to this version and it is very unlikely that I
+    will figure out how to port LaTeX-Mk to older versions of GNU make.
+    </p>
+
     <H2>I don't use *BSD but want BSD make.  How can I get it?</H2>
     <p>
 	A portable snapshot of NetBSD's make can be downloaded from the files section of the
