@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.4 2003/02/15 19:43:59 dan Exp $
+# $Id: tests.list,v 1.5 2003/02/25 02:05:07 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -163,5 +163,20 @@ basic2_dvi3||test.tex a.tex @ test.dvi @ b.tex|dvi TEST6=yes
 multi1_dvi1||test1.tex test2.tex|test1.dvi TEST7=yes
 multi1_dvi2||test1.tex test2.tex|test2.dvi TEST7=yes
 multi1_dvi3||test1.tex test2.tex|dvi TEST7=yes
-
+#
+# foo_TEXSRCS
+#
+multi_texsrcs_dvi1||test1.tex test2.tex xtra1.tex xtra2.tex|test1.dvi TEST9=yes
+multi_texsrcs_dvi2||test1.tex test2.tex xtra1.tex xtra2.tex|test2.dvi TEST9=yes
+multi_texsrcs_dvi3||test1.tex test2.tex xtra1.tex xtra2.tex|dvi TEST9=yes
+multi_texsrcs_dvi4||test1.tex test2.tex  xtra1.tex @ test1.dvi test2.dvi @ xtra2.tex|test1.dvi TEST9=yes
+multi_texsrcs_dvi5||test1.tex test2.tex  xtra1.tex @ test1.dvi test2.dvi @ xtra2.tex|test2.dvi TEST9=yes
+#
+# foo_TGIFSRCS
+#
+multi_tgifsrcs_dvi1||test1.tex test2.tex fig1.obj fig2.obj|test1.dvi TEST10=yes
+multi_tgifsrcs_dvi2||test1.tex test2.tex fig1.obj fig2.obj|test2.dvi TEST10=yes
+multi_tgifsrcs_dvi3||test1.tex test2.tex fig1.obj fig2.obj|dvi TEST10=yes
+multi_tgifsrcs_dvi4||test1.tex test2.tex  fig1.obj fig2.obj @ fig1.eps @ test1.dvi test2.dvi|test1.dvi TEST10=yes
+multi_tgifsrcs_dvi5||test1.tex test2.tex  fig1.obj fig2.obj @ fig1.eps @ test1.dvi test2.dvi|test2.dvi TEST10=yes
 

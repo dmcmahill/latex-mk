@@ -1,0 +1,2 @@
+tgif -color -print -eps fig1.obj
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS=  latex-mk  test1.tex
