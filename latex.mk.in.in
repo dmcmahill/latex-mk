@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.25 2003/02/02 01:28:00 dan Exp $
+# $Id: latex.mk.in.in,v 1.26 2003/02/02 03:42:57 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -65,6 +65,9 @@
 #  LATEX_FLAGS	= flags passed to the LaTeX executable
 #  LPR		= executable to print postscript files
 #  LPR_FLAGS	= flags passed to the executable to print postscript files
+#  PDFLATEX     = pdflatex executable
+#  PDFLATEX_ENV = environment variables set when running the PDFLaTeX executable
+#  PDFLATEX_FLAGS= flags passed to the PDFLaTeX executable
 #  PS2PDF	= ps2pdf executable
 #  PS2PDF_FLAGS	= flags passed to the ps2pdf executable
 #  XDVI		= a .dvi previewer executable
@@ -72,6 +75,8 @@
 #
 #  USE_DVIPDFM  = set to use dvipdfm to create pdf files from dvi
 #                 instead of using dvips and ps2pdf
+#  USE_PDFLATEX = set to use pdflatex to create pdf files from .tex
+#                 files instead of using latex, dvips and ps2pdf
 #
 #######################################
 
@@ -115,6 +120,9 @@ LATEX?=		@LATEX@
 LATEX_ENV?=	
 LPR?=		@LPR@
 LPR_FLAGS?=	
+PDFLATEX?=	@PDFLATEX@
+PDFLATEX_ENV?=	
+PDFLATEX_FLAGS?=	
 PS2PDF?=	@PS2PDF@
 PS2PDF_FLAGS?=	
 XDVI?=		@XDVI@
@@ -371,6 +379,9 @@ ALLBIBTEXSRCS=	${BIBTEXSRCS}
 
 BMK:.for __tmp__ in ${NAME}
 BMK:${__tmp__}.dvi:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
+BMK:.if defined(USE_PDFLATEX)
+BMK:${__tmp__}.pdf:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
+BMK:.endif
 BMK:
 BMK:ALLTEXSRCS+=	${__tmp__}.tex ${${__tmp__}_TEXSRCS}
 BMK:ALLBIBTEXSRCS+=	${${__tmp__}_BIBTEXSRCS}
@@ -383,6 +394,9 @@ BMK:.endfor
 
 GMK:define dvideps_template
 GMK:$(1).dvi:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${BIBTEXSRCS} ${$(1)_BIBTEXSRCS} ${OTHER} ${$(1)_OTHER}
+GMK:ifdef USE_PDFLATEX
+GMK:$(1).pdf:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${BIBTEXSRCS} ${$(1)_BIBTEXSRCS} ${OTHER} ${$(1)_OTHER}
+GMK:endif
 GMK:
 GMK:ALLTEXSRCS+=	$(1).tex ${$(1)_TEXSRCS}
 GMK:ALLBIBTEXSRCS+=	${$(1)_BIBTEXSRCS}
@@ -517,11 +531,17 @@ BMK:.if defined(USE_DVIPDFM)
 GMK:ifdef USE_DVIPDFM
 .dvi.pdf :
 	$(DVIPDFM) $(DVIPDFM_FLAGS) $<
+BMK:.elif defined(USE_PDFLATEX)
+GMK:else
+GMK:ifdef USE_PDFLATEX
+.tex.pdf : 
+	$(ENV_PROG) $(PDFLATEX_ENV) $(LATEX-MK) --pdflatex $(LATEX-MK_FLAGS) $<
 BMK:.else
 GMK:else
 .ps.pdf :
 	$(PS2PDF) $(PS2PDF_FLAGS) $<
 BMK:.endif
+GMK:endif
 GMK:endif
 
 #######################################

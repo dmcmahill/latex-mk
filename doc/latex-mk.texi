@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.20 2003/02/02 02:33:53 dan Exp $
+@c $Id: latex-mk.texi,v 1.21 2003/02/02 03:42:58 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -481,6 +481,25 @@ LPR_FLAGS=	-Pbeernuts
 Defaults to @samp{}.
 @end defvar
 
+@defvar PDFLATEX
+The PDFLaTeX executible.
+Defaults to @samp{pdflatex}.
+@end defvar
+
+@defvar PDFLATEX_ENV
+A list of variables to be set in the environment when PDFLATEX
+is run.  For example:
+@example
+PDFLATEX_ENV+=	TEXINPUTS=.:/home/usr/tex:
+@end example
+Defaults to @samp{}.
+@end defvar
+
+@defvar PDFLATEX_FLAGS
+A list of flags to be passed to the PDFLATEX executible.
+Defaults to @samp{}.
+@end defvar
+
 @defvar PS2PDF
 The executible which produces PDF (@file{.pdf}) files from postscript
 (@file{.ps})  files.
@@ -497,7 +516,16 @@ When set, this variable causes the DVIPDFM program to be used to
 directly generate @file{.pdf} files from the @file{.dvi} files instead
 of using DVIPS to generate a postscript file and then PS2PDF to convert
 the postscript to PDF.  Please note that the use of this option
-currently precludes the genration of the -draft versions of PDF files.
+currently precludes the generation of the -draft versions of PDF files.
+@end defvar
+
+@defvar USE_PDFLATEX
+When set, this variable causes the PDFLATEX program to be used to 
+directly generate @file{.pdf} files from the @file{.tex} files instead
+of using LATEX to generate a @file{.dvi} file, DVIPS to generate a
+postscript file and then PS2PDF to convert 
+the postscript to PDF.  Please note that the use of this option
+currently precludes the generation of the -draft versions of PDF files.
 @end defvar
 
 @defvar VIEWPDF

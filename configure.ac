@@ -1,7 +1,7 @@
-dnl $Id: configure.ac,v 1.17 2003/02/02 01:28:00 dan Exp $
+dnl $Id: configure.ac,v 1.18 2003/02/02 03:42:56 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (c) 2002 Dan McMahill
+dnl Copyright (c) 2002, 2003 Dan McMahill
 dnl All rights reserved.
 dnl
 dnl This code is derived from software written by Dan McMahill
@@ -34,7 +34,7 @@ dnl  SUCH DAMAGE.
 dnl    
 
 AC_INIT(latex.mk.in.in)
-AM_INIT_AUTOMAKE(latex-mk, 0.9A)
+AM_INIT_AUTOMAKE(latex-mk, 0.9B)
 
 #
 # determine host type
@@ -63,6 +63,7 @@ AC_PATH_PROG(ECHO, echo, echo)
 AC_PATH_PROG(GV, gv, gv)
 AC_PATH_PROG(LATEX, latex, latex)
 AC_PATH_PROG(LPR, lpr, lpr)
+AC_PATH_PROG(PDFLATEX, pdflatex, pdflatex)
 AC_PATH_PROG(PS2PDF, ps2pdf, ps2pdf)
 AC_PATH_PROG(XDVI, xdvi, xdvi)
 
