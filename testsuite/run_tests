@@ -1,0 +1,138 @@
+#!/bin/sh
+#
+# $Id: run_tests,v 1.1 2003/02/02 12:38:33 dan Exp $
+#
+# Copyright (c) 2003 Dan McMahill
+# All rights reserved.
+#
+# This code is derived from software written by Dan McMahill
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by Dan McMahill
+#  4. The name of the author may not be used to endorse or promote products
+#     derived from this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+#  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+#  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+#  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+#  SUCH DAMAGE.
+#
+
+
+LATEX_MK_DIR=  ${top_srcdir}
+
+export LATEX_MK_DIR
+
+#######################################
+# 
+# general latex stuff
+#
+#######################################
+
+BIBTEX=bibtex
+DVIPDFM=dvipdfm
+DVIPDFM_FLAGS= 
+DVIPS=dvips
+DVIPS_FLAGS="-Ppdf -j0"
+ECHO=echo
+ENV_PROG=env
+FALSE=false
+GV=gv
+GV_FLAGS=
+LATEX-MK=latex-mk
+LATEX-MK_FLAGS=
+LATEX=latex
+LATEX_ENV=
+LPR=lpr
+LPR_FLAGS=
+PDFLATEX=pdflatex
+PDFLATEX_ENV=
+PDFLATEX_FLAGS=
+PS2PDF=ps2pdf
+PS2PDF_FLAGS=
+XDVI=xdvi
+XDVI_FLAGS=
+VIEWPDF=acroread
+VIEWPDF_FLAGS=
+
+export BIBTEX
+export DVIPDFM
+export DVIPDFM_FLAGS+
+export DVIPS
+export DVIPS_FLAGS+
+export ECHO
+export ENV_PROG
+export FALSE
+export GV
+export GV_FLAGS
+export LATEX-MK
+export LATEX-MK_FLAGS
+export LATEX
+export LATEX_ENV
+export LPR
+export LPR_FLAGS
+export PDFLATEX
+export PDFLATEX_ENV
+export PDFLATEX_FLAGS
+export PS2PDF
+export PS2PDF_FLAGS
+export XDVI
+export XDVI_FLAGS
+export VIEWPDF
+export VIEWPDF_FLAGS
+
+#######################################
+# 
+# tgif stuff
+#
+#######################################
+
+TGIF=tgif
+TGIF_FLAGS="-color -print -eps"
+
+export TGIF
+export TGIF_FLAGS
+
+#######################################
+# 
+# xfig stuff
+#
+#######################################
+
+FIG2DEV=fig2dev
+FIG2DEV_FLAGS="-L eps"
+
+export FIG2DEV
+export FIG2DEV_FLAGS
+
+#######################################
+#
+#
+#
+#######################################
+
+BMAKE=${BMAKE:-make}
+GMAKE=${GMAKE:-gmake}
+
+#######################################
+#
+#
+#
+#######################################
+

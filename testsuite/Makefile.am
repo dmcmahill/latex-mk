@@ -1,6 +1,6 @@
-## $Id: Makefile.am,v 1.14 2003/02/02 12:38:31 dan Exp $
+## $Id: Makefile.am,v 1.1 2003/02/02 12:38:33 dan Exp $
 ##
-## Copyright (c) 2002 Dan McMahill
+## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
@@ -33,23 +33,20 @@
 ##
 
 
-MKSRCS=	latex.mk.in tgif.mk.in xfig.mk.in
+EXTRA_DIST=	run_tests
+MKSRCS=	testfile.mk.in
 
 BMKFILES=	${MKSRCS:.mk.in=.mk}
 GMKFILES=	${MKSRCS:.mk.in=.gmk}
-PSFILES=	dated_draft.ps
 
-pkgdata_DATA=	${BMKFILES} ${GMKFILES} ${PSFILES}
-bin_SCRIPTS=	latex-mk ieee-copyout
+pkgtestdir=	${pkgdatadir}/testsuite
+pkgtest_DATA=	${BMKFILES} ${GMKFILES}
 
 DISTCLEANFILES=	\
 	configure.lineno \
 	${BMKFILES} \
 	${GMKFILES}
 
-EXTRA_DIST=	${PSFILES} TODO
-
-SUBDIRS=	doc example testsuite
 
 SUFFIXES=	.mk.in .mk .gmk
 
@@ -57,16 +54,8 @@ SED_COMMON=	-e 's;@pkgdatadir@;$(pkgdatadir);g' \
 	-e 's;@latexmkconfdir@;${sysconfdir};g' \
 	-e 's;@latexmkbindir@;${bindir};g'
 
-# make sure the latex-mk script is executible before installation so we
-# can give it a trial run here
-
-all-local:
-	chmod 755 latex-mk
-	chmod 755 ieee-copyout
-
 .mk.in.mk:
 	sed -e 's/^BMK://g' -e '/^GMK:/d' ${SED_COMMON} $<  > $@
 
 .mk.in.gmk:
 	sed -e 's/^GMK://g' -e '/^BMK:/d' ${SED_COMMON} $<  > $@
-
