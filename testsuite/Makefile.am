@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.5 2003/02/03 12:09:06 dan Exp $
+## $Id: Makefile.am,v 1.6 2003/02/05 15:28:42 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -32,14 +32,17 @@
 ##  SUCH DAMAGE.
 ##
 
-MKSRCS=	testfile.mk.in
+MKSRCS=		testfile.mk.in
+RUN_TESTS=	run_tests.sh
 
 BMKFILES=	${MKSRCS:.mk.in=.mk}
 GMKFILES=	${MKSRCS:.mk.in=.gmk}
 
 pkgtestdir=	${pkgdatadir}/testsuite
 pkgtest_DATA=	${BMKFILES} ${GMKFILES} tests.list
-pkgtest_SCRIPTS=	run_tests
+pkgtest_SCRIPTS=	${RUN_TESTS}
+
+check_SCRIPTS=		${RUN_TESTS}
 
 DISTCLEANFILES=	\
 	configure.lineno \
@@ -48,8 +51,9 @@ DISTCLEANFILES=	\
 
 SUBDIRS=	bmake gmake
 
-TESTS=		run_tests
-EXTRA_DIST=	${MKSRCS} run_tests tests.list
+TESTS=		${RUN_TESTS}
+
+EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list
 
 SUFFIXES=	.mk.in .mk .gmk
 

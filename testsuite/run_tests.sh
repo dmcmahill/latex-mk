@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests,v 1.4 2003/02/03 12:13:40 dan Exp $
+# $Id: run_tests.sh,v 1.1 2003/02/05 15:28:43 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -188,7 +188,12 @@ GMAKE="${GMAKE} -f ../${GMKF} ${MFLAGS}"
 # echo "BSD make command = $BMAKE"
 # echo "GNU make command = $GMAKE"
 
+# make sure we have the right paths when running this from inside the
+# source tree and also from outside the source tree.
 here=`pwd`
+srcdir=${srcdir:-$here}
+srcdir=`cd $srcdir && pwd`
+
 rundir=${here}/run
 
 if [ ! -d bmake ]; then
@@ -219,6 +224,9 @@ if test -z "$1" ; then
 else
     all_tests=$*
 fi
+
+echo "Starting tests in $here."
+echo "Source directory is $srcdir"
 
 for t in $all_tests ; do
 
@@ -251,8 +259,8 @@ for t in $all_tests ; do
     echo "Test:  (BSD make) $t"
     cd ${rundir} && ${BMAKE}  $args > ${here}/bmake/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
-	if [ -f ${here}/bmake/${t}.ref ]; then
-	    if diff ${here}/bmake/${t}.ref ${here}/bmake/${t}.log >/dev/null ; then
+	if [ -f ${srcdir}/bmake/${t}.ref ]; then
+	    if diff ${srcdir}/bmake/${t}.ref ${here}/bmake/${t}.log >/dev/null ; then
 		echo "PASS"
 		bpass=`expr $bpass + 1`
 	    else
@@ -271,8 +279,8 @@ for t in $all_tests ; do
     echo "Test:  (GNU make) $t"
     cd ${rundir} && ${GMAKE}  $args > ${here}/gmake/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
-	if [ -f ${here}/gmake/${t}.ref ]; then
-	    if diff ${here}/gmake/${t}.ref ${here}/gmake/${t}.log >/dev/null ; then
+	if [ -f ${srcdir}/gmake/${t}.ref ]; then
+	    if diff ${srcdir}/gmake/${t}.ref ${here}/gmake/${t}.log >/dev/null ; then
 		echo "PASS"
 		gpass=`expr $gpass + 1`
 	    else
