@@ -1,4 +1,4 @@
-# $Id: TODO,v 1.4 2003/05/27 10:42:25 dan Exp $
+# $Id: TODO,v 1.5 2004/03/17 21:41:07 dan Exp $
 #
 
 LaTeX-Mk Unofficial TODO List
@@ -14,8 +14,6 @@ LaTeX-Mk Unofficial TODO List
 - fix the ieee-copyout script
 
 - add a 'dist' target to tar up the project
-
-- add HTML output entries to the testsuite
 
 - add hacha support for HTML processing.
 
