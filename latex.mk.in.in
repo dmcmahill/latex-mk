@@ -1,8 +1,8 @@
-# $Id: latex.mk.in.in,v 1.22 2002/10/17 10:54:08 dan Exp $
+# $Id: latex.mk.in.in,v 1.23 2003/02/01 16:01:39 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
-# Copyright (c) 2001, 2002 Dan McMahill
+# Copyright (c) 2001, 2002, 2003 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -129,33 +129,88 @@ all:: view-all
 
 
 # Include other .mk files often times used with LaTeX
+
+#######################################
+#
+# Check for tgif
+#
+#######################################
+
 BMK:.if defined(TGIFSRCS) || defined(TGIFDIRS)
-BMK:.include "tgif.mk"
+BMK:_USE_TGIF_MK=	YES
 BMK:.endif
+BMK:.for __tmp__ in ${NAME}
+BMK:.if defined(${__tmp__}_TGIFSRCS) || defined(${__tmp__}_TGIFDIRS)
+BMK:_USE_TGIF_MK=	YES
+BMK:.endif
+BMK:.endfor
 
 GMK:ifdef TGIFSRCS
-_USE_TGIF_MK+=	YES
+GMK:_USE_TGIF_MK+=	YES
 GMK:endif
 GMK:ifdef TGIFDIRS
-_USE_TGIF_MK+=	YES
+GMK:_USE_TGIF_MK+=	YES
 GMK:endif
+GMK:define add_tgif_template
+GMK:ifdef $(1)_TGIFSRCS
+GMK:_USE_TGIF_MK+=	YES
+GMK:endif
+GMK:ifdef TGIFDIRS
+GMK:_USE_TGIF_MK+=	YES
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call add_tgif_template,$(__tmp__))))
+
+BMK:.if defined(_USE_TGIF_MK)
+BMK:.include "${LATEX_MK_DIR}/tgif.mk"
+BMK:.endif
 GMK:ifdef _USE_TGIF_MK
 GMK:include ${LATEX_MK_DIR}/tgif.gmk
 GMK:endif
 
+#######################################
+#
+# Check for xfig
+#
+#######################################
+
 BMK:.if defined(XFIGSRCS) || defined(XFIGDIRS)
-BMK:.include "xfig.mk"
+BMK:_USE_XFIG_MK=	YES
 BMK:.endif
+BMK:.for __tmp__ in ${NAME}
+BMK:.if defined(${__tmp__}_XFIGSRCS) || defined(${__tmp__}_XFIGDIRS)
+BMK:_USE_XFIG_MK=	YES
+BMK:.endif
+BMK:.endfor
 
 GMK:ifdef XFIGSRCS
-_USE_XFIG_MK+=	YES
+GMK:_USE_XFIG_MK+=	YES
 GMK:endif
 GMK:ifdef XFIGDIRS
-_USE_XFIG_MK+=	YES
+GMK:_USE_XFIG_MK+=	YES
 GMK:endif
+GMK:define add_xfig_template
+GMK:ifdef $(1)_XFIGSRCS
+GMK:_USE_XFIG_MK+=	YES
+GMK:endif
+GMK:ifdef XFIGDIRS
+GMK:_USE_XFIG_MK+=	YES
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call add_xfig_template,$(__tmp__))))
+
+BMK:.if defined(_USE_XFIG_MK)
+BMK:.include "${LATEX_MK_DIR}/xfig.mk"
+BMK:.endif
 GMK:ifdef _USE_XFIG_MK
 GMK:include ${LATEX_MK_DIR}/xfig.gmk
 GMK:endif
+
+#######################################
+#
+# Targets
+#
+#######################################
 
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: view_${__tmp__}
