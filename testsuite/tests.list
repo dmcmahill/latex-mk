@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.8 2004/03/17 19:34:03 dan Exp $
+# $Id: tests.list,v 1.9 2004/03/17 21:39:30 dan Exp $
 #
 # Copyright (c) 2003, 2004 Dan McMahill
 # All rights reserved.
@@ -144,7 +144,9 @@ vars_hevea||test1.tex|html TEST1=yes IMAGEN=myimagen HEVEA=myhevea HEVEA_FLAGS=m
 #  LATEX	= the LaTeX executable
 #  LATEX_ENV	= environment variables set when running the LaTeX executable
 #  LATEX_FLAGS	= flags passed to the LaTeX executable
-vars_latex||test1.tex|dvi TEST1=yes LATEX=mylatex LATEX_FLAGS=mylatex_flags LATEX_ENV=foo=bar
+#  POST_BIBTEX_HOOK
+#               = program to be run after a BibTeX run
+vars_latex||test1.tex|dvi TEST1=yes LATEX=mylatex LATEX_FLAGS=mylatex_flags LATEX_ENV=foo=bar POST_BIBTEX_HOOK=my_post_bibtex
 #
 #  LATEX2HTML		= the LaTeX2HTML executable
 #  LATEX2HTML_ENV	= environment variables set when running the LaTeX2HTML executable
