@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: examples.shtml,v 1.1 2002/09/12 02:54:11 dan Exp $ -->
+<!-- $Id: examples.shtml,v 1.2 2002/09/12 12:59:38 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@sourceforge.net">
 <title>LaTeX-Mk Examples</title>
@@ -33,11 +33,73 @@ xfig,
     <font face="helvetica, arial">
     <H2>Simple Project</H2>
     <p>
-    </p>
+    Consider a simple document which is completely contained in one LaTeX file.  
+<code>
+<br>
+latex mydoc.tex <br>
+latex mydoc.tex <br>
+latex mydoc.tex <br>
+dvips -Ppdf -j0 -o mydoc.ps mydoc.dvi <br>
+ps2pdf mydoc.ps mydoc.pdf <br>
+<br>
+</code>
+
+The triple invocation of <code>latex</code> is to ensure that all references
+have been properly resolved and any page layout changes due to inserting
+the references have been accounted for.  The sequence of commands isn't
+horrible, but it still is several commands and one of them,
+<code>dvips</code>, has some flags to remember.  To use LaTeX-Mk for this
+project, you would create a file called <code>Makefile</code> that contains the following.
+<pre>
+NAME=mydoc
+
+include /usr/local/share/latex-mk/latex.gmk
+</pre>
+Note that the "<code>include /usr/local/share/latex-mk/latex.gmk</code>"
+is the
+syntax for GNU make.  If you are using BSD make you would
+replace the include line with 
+"<code>.include "/usr/local/share/latex-mk/latex.mk"</code>".
+In both examples,
+you would replace <code>/usr/local</code> with the installation prefix
+on your system.  For the remainder of this document we will use the BSD
+style of include in the examples.
+Now to create a PDF file you simply run
+<code>make pdf</code>.  For larger projects which may need to run programs to
+export drawings to postscript files for inclusion or run BibTeX to
+generate bibliographies, the generation of PDF (or other) files
+becomes increasingly complicated to run manually.  With LaTeX-Mk, such
+operations are still very simple.
+
+</p>
 
     <H2>A More Complicated Example</H2>
     <p>
-    </p>
+As a more complicated example, consider a project whose LaTeX input
+is broken apart in to many <code>.tex</code> files.
+Also suppose the project
+includes a bibliography and a large number of figures created with the
+Tgif program.  An example <code>Makefile</code> for this project might look
+like:
+<br>
+<code>
+NAME=        mydoc <br>
+TEXSRCS=     ch1.tex ch2.tex ch3.tex refs.tex <br>
+BIBTEXSRCS=  mybib.bib <br>
+TGIFDIRS=    tgif_figs <br>
+<br>
+.include "/usr/local/share/latex-mk/latex.mk" <br>
+<br>
+</code>
+In this example is it assumed that all of the Tgif figures reside in a
+subdirectory called <code>tgif_figs</code>.  When the user issues a
+<code>make</code> command, all of the steps required to reformat the document
+are taken.  Because of the dependency structure imposed by <code>make</code>,
+only the steps which need to be taken are done.  This avoids
+re-exporting a large number of figures which may have not changed, but
+ensures that files which need processing are processed.  Also, the user 
+only needs to remember one simple command.
+</p>
 
 
     </font>
