@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.24 2003/05/07 11:09:52 dan Exp $
+dnl $Id: configure.ac,v 1.25 2003/05/25 04:07:06 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002, 2003 Dan McMahill
@@ -49,9 +49,12 @@ AC_PROG_INSTALL
 #
 # general
 #
+AC_PATH_PROG(AWK, awk nawk gawk mawk, awk)
 AC_PATH_PROG(ENV_PROG, env, env)
 AC_PATH_PROG(FALSE, false, false)
+AC_PATH_PROG(GREP, grep, grep)
 AC_PATH_PROG(RM,rm)
+AC_PATH_PROG(RMDIR,rmdir)
 
 #
 # for latex.mk
