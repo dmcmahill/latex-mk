@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.4 2002/10/29 02:50:04 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.5 2002/10/31 14:57:06 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>LaTeX-Mk History</title>
@@ -83,7 +83,7 @@ xfig,
     of public consumption and come out with a 1.0 version which incorporates the primary improvements.
     </p>
 
-    <H3>Version 0.9</H3>
+    <H3>Version 0.9.1</H3>
     <p>
     This is a bug fix version.  The significant changes over the previous
     version are:
