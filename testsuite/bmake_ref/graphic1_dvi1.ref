@@ -1,0 +1,5 @@
+convert jpg1.jpg jpg1.eps
+convert jpg2.jpg jpg2.eps
+convert png1.png png1.eps
+convert png2.png png2.eps
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex

@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.9 2004/03/17 21:39:30 dan Exp $
+# $Id: tests.list,v 1.10 2004/03/18 22:02:34 dan Exp $
 #
 # Copyright (c) 2003, 2004 Dan McMahill
 # All rights reserved.
@@ -210,4 +210,10 @@ multi_tgifsrcs_dvi2||test1.tex test2.tex fig1.obj fig2.obj|test2.dvi TEST10=yes
 multi_tgifsrcs_dvi3||test1.tex test2.tex fig1.obj fig2.obj|dvi TEST10=yes
 multi_tgifsrcs_dvi4||test1.tex test2.tex  fig1.obj fig2.obj @ fig1.eps @ test1.dvi test2.dvi|test1.dvi TEST10=yes
 multi_tgifsrcs_dvi5||test1.tex test2.tex  fig1.obj fig2.obj @ fig1.eps @ test1.dvi test2.dvi|test2.dvi TEST10=yes
-
+#
+# -----------------------------------------
+# Graphic file conversions
+# -----------------------------------------
+#
+graphic1_dvi1||test1.tex jpg1.jpg jpg2.jpg png1.png png2.png|dvi TEST11=yes
+#

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.12 2004/03/17 19:33:40 dan Exp $
+# $Id: run_tests.sh,v 1.13 2004/03/18 22:02:34 dan Exp $
 #
 # Copyright (c) 2003, 2004 Dan McMahill
 # All rights reserved.
@@ -100,6 +100,7 @@ echo "LATEX_MK_DIR = $LATEX_MK_DIR"
 #######################################
 
 BIBTEX=bibtex
+CONVERT=convert
 DVIPDFM=dvipdfm
 DVIPDFM_ENV=
 DVIPDFM_FLAGS=
@@ -142,6 +143,7 @@ VIEWPDF=acroread
 VIEWPDF_FLAGS=
 
 export BIBTEX
+export CONVERT
 export DVIPDFM
 export DVIPDFM_ENV
 export DVIPDFM_FLAGS

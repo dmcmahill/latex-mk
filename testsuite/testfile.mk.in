@@ -1,7 +1,7 @@
 # -*- Makefile -*-
-# $Id: testfile.mk.in,v 1.6 2003/02/25 02:05:07 dan Exp $
+# $Id: testfile.mk.in,v 1.7 2004/03/18 22:02:34 dan Exp $
 #
-# Copyright (c) 2003 Dan McMahill
+# Copyright (c) 2003, 2004 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -183,6 +183,26 @@ GMK:ifdef TEST10
 NAME= test1 test2
 test1_TGIFSRCS+=	fig1.obj
 test2_TGIFSRCS+=	fig2.obj
+
+BMK:.endif
+GMK:endif
+
+#######################################
+# 
+# TEST #11 (graphic file conversions)
+#
+#######################################
+
+BMK:.if defined(TEST11)
+GMK:ifdef TEST11
+
+NAME= test1
+
+JPGFILES= jpg1.jpg jpg2.jpg
+PNGFILES= png1.png png2.png
+
+OTHER+=	$(JPGFILES:.jpg=.eps)
+OTHER+=	$(PNGFILES:.png=.eps)
 
 BMK:.endif
 GMK:endif
