@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.21 2002/10/09 03:17:35 dan Exp $
+# $Id: latex.mk.in.in,v 1.22 2002/10/17 10:54:08 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -165,6 +165,15 @@ BMK:DEFAULTVIEW?=	view_${__tmp__}
 BMK:ALLVIEW+=	view_${__tmp__}
 BMK:.endfor
 
+GMK:define view_template
+GMK:.PHONY: view_$(1)
+GMK:view_$(1): $(1).dvi
+GMK:	$(XDVI) $(XDVI_FLAGS) $(1).dvi
+GMK:ALLVIEW+= view_$(1)
+GMK:DEFAULTVIEW?=	view_$(1)
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call view_template,$(__tmp__))))
+
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: viewps_${__tmp__}
 BMK:viewps_${__tmp__}: ${__tmp__}.ps
@@ -181,6 +190,23 @@ BMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
 BMK:	$(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $@ ${__tmp__}.dvi
 BMK:.endfor
 
+GMK:define viewps_template
+GMK:.PHONY: viewps_$(1)
+GMK:viewps_$(1): $(1).ps
+GMK:	$(GV) $(GV_FLAGS)  $(1).ps
+GMK:DEFAULTVIEWPS?=	viewps_$(1)
+GMK:ALLVIEWPS+=	viewps_$(1)
+GMK:.PHONY: viewps_$(1)-draft
+GMK:viewps_$(1)-draft: $(1)-draft.ps
+GMK:	$(GV) $(GV_FLAGS)  $(1)-draft.ps
+GMK:DEFAULTVIEWPS_DRAFT?=	viewps_$(1)-draft
+GMK:ALLVIEWPS_DRAFT+=	viewps_$(1)-draft
+GMK:$(1)-draft.ps: $(1).dvi
+GMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
+GMK:	$(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $@ $(1).dvi
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call viewps_template,$(__tmp__))))
+
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: viewpdf_${__tmp__}
 BMK:viewpdf_${__tmp__}: ${__tmp__}.pdf
@@ -193,6 +219,20 @@ BMK:	$(VIEWPDF) $(VIEWPDF_FLAGS)  ${__tmp__}-draft.pdf
 BMK:DEFAULTVIEWPDF_DRAFT?=	viewpdf_${__tmp__}-draft
 BMK:ALLVIEWPDF_DRAFT+=	viewpdf_${__tmp__}-draft
 BMK:.endfor
+
+GMK:define viewpdf_template
+GMK:.PHONY: viewpdf_$(1)
+GMK:viewpdf_$(1): $(1).pdf
+GMK:	$(VIEWPDF) $(VIEWPDF_FLAGS)  $(1).pdf
+GMK:DEFAULTVIEWPDF?=	viewpdf_$(1)
+GMK:ALLVIEWPDF+=	viewpdf_$(1)
+GMK:.PHONY: viewpdf_$(1)-draft
+GMK:viewpdf_$(1)-draft: $(1)-draft.pdf
+GMK:	$(VIEWPDF) $(VIEWPDF_FLAGS)  $(1)-draft.pdf
+GMK:DEFAULTVIEWPDF_DRAFT?=	viewpdf_$(1)-draft
+GMK:ALLVIEWPDF_DRAFT+=	viewpdf_$(1)-draft
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call viewpdf_template,$(__tmp__))))
 
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: print_${__tmp__}
@@ -207,9 +247,26 @@ BMK:DEFAULTPRINT_DRAFT?=	print_${__tmp__}-draft
 BMK:ALLPRINT_DRAFT+=	print_${__tmp__}-draft
 BMK:.endfor
 
+
+GMK:define print_template
+GMK:.PHONY: print_$(1)
+GMK:print_$(1): $(1).ps
+GMK:	$(LPR) $(LPR_FLAGS) $(1).ps
+GMK:DEFAULTPRINT?=	print_$(1)
+GMK:ALLPRINT+=	print_$(1)
+GMK:.PHONY: print_$(1)-draft
+GMK:print_$(1)-draft: $(1)-draft.ps
+GMK:	$(LPR) $(LPR_FLAGS) $(1)-draft.ps
+GMK:DEFAULTPRINT_DRAFT?=	print_$(1)-draft
+GMK:ALLPRINT_DRAFT+=	print_$(1)-draft
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call print_template,$(__tmp__))))
+
+
 ALLTEXSRCS=	${TEXSRCS}
 ALLBIBTEXSRCS=	${BIBTEXSRCS}
 # add the dependencies for each documents .dvi file
+
 BMK:.for __tmp__ in ${NAME}
 BMK:${__tmp__}.dvi:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
 BMK:
@@ -222,65 +279,19 @@ BMK:ps-draft:	${__tmp__}-draft.ps
 BMK:pdf-draft:	${__tmp__}-draft.pdf
 BMK:.endfor
 
-GMK:# here is where we wish that .for loops were commonly
-GMK:# supported in GNU make...
-GMK:# XXX -- we need to not assume its called 'Makefile'.  What if
-GMK:#        someone uses gmake -f foo.mk !!!  Stupid GNU make.
-GMK:LATEX_MK_TEXDEPS=	latex-mk-texdeps.mk
-GMK:LATEX_MK_TEXDEPS_STAMP=	${LATEX_MK_TEXDEPS}_stamp
-GMK:${LATEX_MK_TEXDEPS_STAMP}:
-GMK:	@touch $@ ; $(RM) ${LATEX_MK_TEXDEPS}
+GMK:define dvideps_template
+GMK:$(1).dvi:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${BIBTEXSRCS} ${$(1)_BIBTEXSRCS} ${OTHER} ${$(1)_OTHER}
 GMK:
-GMK:${LATEX_MK_TEXDEPS}: ${LATEX_MK_TEXDEPS_STAMP}
-GMK:	@-${RM} $@
-GMK:	@-${RM} ${LATEX_MK_TEXDEPS_STAMP}
-GMK:	@echo "#############################################" >> $@
-GMK:	@echo "### Generated file.  Do not edit directly ###" >> $@
-GMK:	@echo "#############################################" >> $@
-GMK:	@for tmp in ${NAME} ; do \
-GMK:		echo "# Targets for \"$${tmp}\"" >> $@ ; \
-GMK:		echo " " >> $@ ; \
-GMK:		echo ".PHONY: view_$${tmp}" >> $@ ; \
-GMK:		echo "view_$${tmp}: $${tmp}.dvi" >> $@ ; \
-GMK:		echo '	$$(XDVI) $$(XDVI_FLAGS) $$<' >> $@ ; \
-GMK:		echo "DEFAULTVIEW?= view_$${tmp}" >> $@ ; \
-GMK:		echo "ALLVIEW+= view_$${tmp}" >> $@ ; \
-GMK:		echo " " >> $@ ; \
-GMK:		echo ".PHONY: viewps_$${tmp}" >> $@ ; \
-GMK:		echo "viewps_$${tmp}: $${tmp}.ps" >> $@ ; \
-GMK:		echo '	$$(GV) $$(GV_FLAGS) $$<' >> $@ ; \
-GMK:		echo "DEFAULTVIEWPS?= viewps_$${tmp}" >> $@ ; \
-GMK:		echo "ALLVIEWPS+= viewps_$${tmp}" >> $@ ; \
-GMK:		echo ".PHONY: viewpdf_$${tmp}" >> $@ ; \
-GMK:		echo "viewpdf_$${tmp}: $${tmp}.pdf" >> $@ ; \
-GMK:		echo '	$$(VIEWPDF) $$(VIEWPDF_FLAGS) $$<' >> $@ ; \
-GMK:		echo "DEFAULTVIEWPDF?= viewpdf_$${tmp}" >> $@ ; \
-GMK:		echo "ALLVIEWPDF+= viewpdf_$${tmp}" >> $@ ; \
-GMK:		echo "$${tmp}.dvi: $${tmp}.tex \$${TEXSRCS} \$${$${tmp}_TEXSRCS} \\" >> $@ ; \
-GMK:		echo "	\$${BIBTEXSRCS} \$${$${tmp}_BIBTEXSRCS} \$${OTHER} \$${$${tmp}_OTHER}" >> $@ ; \
-GMK:		echo " " >> $@ ; \
-GMK:		echo ".PHONY: print_$${tmp}" >> $@ ; \
-GMK:		echo "print_$${tmp}: $${tmp}.ps" >> $@ ; \
-GMK:		echo '	$$(LPR) $$(LPR_FLAGS) $$<' >> $@ ; \
-GMK:		echo "DEFAULTPRINT?= print_$${tmp}" >> $@ ; \
-GMK:		echo "ALLPRINT+= print_$${tmp}" >> $@ ; \
-GMK:		echo " " >> $@ ; \
-GMK:		echo "# Dependencies for \"$${tmp}\"" >> $@ ; \
-GMK:		echo " " >> $@ ; \
-GMK:		echo "$${tmp}.dvi: $${tmp}.tex \$${TEXSRCS} \$${$${tmp}_TEXSRCS} \\" >> $@ ; \
-GMK:		echo "	\$${BIBTEXSRCS} \$${$${tmp}_BIBTEXSRCS} \$${OTHER} \$${$${tmp}_OTHER}" >> $@ ; \
-GMK:		echo " " >> $@ ; \
-GMK:		echo "ALLTEXSRCS+=	$${tmp}.tex \$${$${tmp}_TEXSRCS}" >> $@ ; \
-GMK:		echo "ALLBIBTEXSRCS+=	\$${$${tmp}_BIBTEXSRCS}" >> $@ ; \
-GMK:		echo "$${tmp}-draft.ps: $${tmp}.dvi" >> $@ ; \
-GMK:		echo '	sed "s;DATE;`date`;g" $${DATED_DRAFT_PS} > $${DRAFT_STAMP_PS}' >> $@ ; \
-GMK:		echo '	$$(DVIPS) -h $${DRAFT_STAMP_PS} $$(DVIPS_FLAGS) -o $$@ $${tmp}.dvi' >> $@ ; \
-GMK:		echo "dvi:	$${tmp}.dvi" >> $@ ; \
-GMK:		echo "ps:	$${tmp}.ps"  >> $@ ; \
-GMK:		echo "pdf:	$${tmp}.pdf" >> $@ ; \
-GMK:		echo " " >> $@ ; \
-GMK:	done
-GMK:include ${LATEX_MK_TEXDEPS}
+GMK:ALLTEXSRCS+=	$(1).tex ${$(1)_TEXSRCS}
+GMK:ALLBIBTEXSRCS+=	${$(1)_BIBTEXSRCS}
+GMK:dvi:	$(1).dvi
+GMK:ps:	$(1).ps
+GMK:pdf:	$(1).pdf
+GMK:ps-draft:	$(1)-draft.ps
+GMK:pdf-draft:	$(1)-draft.pdf
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call dvideps_template,$(__tmp__))))
+
 
 .PHONY: view
 view: ${DEFAULTVIEW}
@@ -393,8 +404,6 @@ CLEAN_FILES+=	${NAME:=.lot}
 CLEAN_FILES+=	${NAME:=.toc}
 CLEAN_FILES+=	${NAME:=.out}
 CLEAN_FILES+=	$(DRAFT_STAMP_PS)
-CLEAN_FILES+=	${LATEX_MK_TEXDEPS}
-CLEAN_FILES+=	${LATEX_MK_TEXDEPS_STAMP}
 
 .PHONY: clean
 clean::
