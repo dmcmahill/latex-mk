@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.16 2002/10/09 04:10:52 dan Exp $
+dnl $Id: configure.ac,v 1.17 2003/02/02 01:28:00 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002 Dan McMahill
@@ -57,6 +57,7 @@ AC_PATH_PROG(RM,rm)
 # for latex.mk
 #
 AC_PATH_PROG(BIBTEX, bibtex, bibtex)
+AC_PATH_PROG(DVIPDFM, dvipdfm, dvipdfm)
 AC_PATH_PROG(DVIPS, dvips, dvips)
 AC_PATH_PROG(ECHO, echo, echo)
 AC_PATH_PROG(GV, gv, gv)

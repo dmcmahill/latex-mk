@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.24 2003/02/02 00:14:08 dan Exp $
+# $Id: latex.mk.in.in,v 1.25 2003/02/02 01:28:00 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -54,6 +54,8 @@
 #  BIBTEX	= the BibTeX executable
 #  BIBTEX_ENV	= environment variables set when running the BibTeX executable
 #  BIBEX_FLAGS	= flags passed to the BibTeX executable
+#  DVIPDFM      = the dvipdfm executable
+#  DVIPDFM_FLAGS= flags passed to the dvipdfm executable
 #  DVIPS	= the dvips executable
 #  DVIPS_FLAGS	= flags passed to the dvips executable
 #  GV		= a postscript previewer executable
@@ -67,6 +69,9 @@
 #  PS2PDF_FLAGS	= flags passed to the ps2pdf executable
 #  XDVI		= a .dvi previewer executable
 #  XDVI_FLAGS	= flags passed to the .dvi previewer executable
+#
+#  USE_DVIPDFM  = set to use dvipdfm to create pdf files from dvi
+#                 instead of using dvips and ps2pdf
 #
 #######################################
 
@@ -95,6 +100,8 @@ GMK:include ${_CONFS}
 LATEX_MK_DIR?=	@pkgdatadir@
 
 BIBTEX?=	@BIBTEX@
+DVIPDFM?=	@DVIPDFM@
+DVIPDFM_FLAGS+=	
 DVIPS?=		@DVIPS@
 DVIPS_FLAGS+=	-Ppdf -j0
 ECHO?=		@ECHO@
@@ -230,6 +237,10 @@ GMK:endif
 #
 #######################################
 
+#######################################
+# target:  view_<proj>
+#######################################
+
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: view_${__tmp__}
 BMK:view_${__tmp__}: ${__tmp__}.dvi
@@ -246,6 +257,10 @@ GMK:ALLVIEW+= view_$(1)
 GMK:DEFAULTVIEW?=	view_$(1)
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call view_template,$(__tmp__))))
+
+#######################################
+# target:  viewps_<proj>
+#######################################
 
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: viewps_${__tmp__}
@@ -280,6 +295,10 @@ GMK:	$(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $@ $(1).dvi
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call viewps_template,$(__tmp__))))
 
+#######################################
+# target:  viewpdf_<proj>
+#######################################
+
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: viewpdf_${__tmp__}
 BMK:viewpdf_${__tmp__}: ${__tmp__}.pdf
@@ -306,6 +325,10 @@ GMK:DEFAULTVIEWPDF_DRAFT?=	viewpdf_$(1)-draft
 GMK:ALLVIEWPDF_DRAFT+=	viewpdf_$(1)-draft
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call viewpdf_template,$(__tmp__))))
+
+#######################################
+# target:  print_<proj>
+#######################################
 
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: print_${__tmp__}
@@ -335,10 +358,16 @@ GMK:ALLPRINT_DRAFT+=	print_$(1)-draft
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call print_template,$(__tmp__))))
 
+#######################################
 
 ALLTEXSRCS=	${TEXSRCS}
 ALLBIBTEXSRCS=	${BIBTEXSRCS}
+
+#######################################
+#
 # add the dependencies for each documents .dvi file
+#
+#######################################
 
 BMK:.for __tmp__ in ${NAME}
 BMK:${__tmp__}.dvi:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
@@ -366,41 +395,73 @@ GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call dvideps_template,$(__tmp__))))
 
 
+#######################################
+# target:  view, view-all
+#######################################
+
 .PHONY: view
 view: ${DEFAULTVIEW}
 .PHONY: view-all
 view-all: ${ALLVIEW}
 
 
+#######################################
+# target:  viewps, viewps-all
+#######################################
+
 .PHONY: viewps
 viewps: ${DEFAULTVIEWPS}
 .PHONY: viewps-all
 viewps-all: ${ALLVIEWPS}
+
+#######################################
+# target:  viewpdf, viewpdf-all
+#######################################
 
 .PHONY: viewpdf
 viewpdf: ${DEFAULTVIEWPDF}
 .PHONY: viewpdf-all
 viewpdf-all: ${ALLVIEWPDF}
 
+#######################################
+# target:  viewps-draft, viewps-all-draft
+#######################################
+
 .PHONY: viewps-draft
 viewps-draft: ${DEFAULTVIEWPS_DRAFT}
 .PHONY: viewps-all-draft
 viewps-all-draft: ${ALLVIEWPS_DRAFT}
+
+#######################################
+# target:  viewpdf-draft, viewpdf-all-draft
+#######################################
 
 .PHONY: viewpdf-draft
 viewpdf-draft: ${DEFAULTVIEWPDF_DRAFT}
 .PHONY: viewpdf-all-draft
 viewpdf-all-draft: ${ALLVIEWPDF_DRAFT}
 
+#######################################
+# target:  print, print-all
+#######################################
+
 .PHONY: print
 print: ${DEFAULTPRINT}
 .PHONY: print-all
 print-all: ${ALLPRINT}
 
+#######################################
+# target:  print-draft, print-all-draft
+#######################################
+
 .PHONY: print-draft
 print-draft: ${DEFAULTPRINT_DRAFT}
 .PHONY: print-all-draft
 print-all-draft: ${ALLPRINT_DRAFT}
+
+#######################################
+#
+#######################################
 
 .SUFFIXES : .tex .dvi .ps .pdf
 
@@ -451,9 +512,17 @@ GMK:endif
 #
 #######################################
 .PHONY:  pdf
+
+BMK:.if defined(USE_DVIPDFM)
+GMK:ifdef USE_DVIPDFM
+.dvi.pdf :
+	$(DVIPDFM) $(DVIPDFM_FLAGS) $<
+BMK:.else
+GMK:else
 .ps.pdf :
 	$(PS2PDF) $(PS2PDF_FLAGS) $<
-
+BMK:.endif
+GMK:endif
 
 #######################################
 #
