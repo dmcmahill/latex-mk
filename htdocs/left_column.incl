@@ -1,0 +1,42 @@
+<!-- $Id: left_column.incl,v 1.1 2002/08/31 04:06:57 dan Exp $ -->
+<!-- Copyright (c) 2002 Dan McMahill, All rights reserved. -->
+<tr>
+  <td valign="top">
+
+  <table width="100%" cellspacing=0 cellpadding=0 border=0>
+  <tr>
+  <td>
+  <img src="images/curved.png" width="131" height="63"
+   alt="[LaTeX-Mk Logo]">
+  </td></tr>
+  </table>
+
+  <br>
+  <table width="100%" cellspacing=0 cellpadding=2 border=0>
+  <tr>
+  <td bgcolor="#000000">
+    <table width="100%" cellspacing=0 cellpadding=4 border=0>
+  <tr><td bgcolor="#e0e0f0" nowrap>
+    <font face="helvetica, arial" color="#000066">
+      <b>Information</b>
+    </font>
+    </td></tr>
+   <tr><td bgcolor="#FFFFFF" nowrap>
+      <font face="helvetica, arial" size="-1">
+	&nbsp;<a href="bugs.html">Bug Reports</a><br>
+	&nbsp;<a href="index.html">Home</a><br>
+	&nbsp;<a href="faq.html">F.A.Q.</a><br>
+	&nbsp;<a href="latex-mk.html">Manual</a><br>
+	&nbsp;<a href="obtaining.html">Obtaining</a><br>
+	&nbsp;<a href="http://sourceforge.net/projects/latex-mk/">Sourceforge</a><br>
+	&nbsp;&nbsp;&nbsp;<a href="http://sourceforge.net/projects/latex-mk/">Project Page</a><br>
+      </font>
+    </td></tr></table>
+    </tr>
+  </table>
+
+  <br>
+
+  </td>
+</tr>
+
