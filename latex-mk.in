@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.18 2003/11/17 22:01:19 dan Exp $
+# $Id: latex-mk.in,v 1.19 2004/03/17 18:04:50 dan Exp $
 #
-# Copyright (c) 2002, 2003 Dan McMahill
+# Copyright (c) 2002, 2003, 2004 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -136,6 +136,10 @@ fi
 cnt=0
 bibcnt=0
 
+# list of files to monitor.  If they change, we will rerun 
+# LaTeX again.  These are all suffixes of ${NAME}
+monitor_files="lof lot toc"
+
 while test $cnt -lt $MAXITERS ; do
 	if test "X$debug" = "Xyes" ; then echo "$0 debug: cnt=$cnt" ; fi
 
@@ -216,9 +220,29 @@ while test $cnt -lt $MAXITERS ; do
 		bibcnt=`expr $bibcnt + 1`
 	fi
 
+	# Examine the list of figures, list of tables, table of contents, etc
+	# files because when these change, we need to re-run latex, but
+	# sometimes latex does not tell us this.
+	changed_file=""
+	for sfx in $monitor_files ; do
+		echo "Checking for ${NAME}.${sfx} ..."
+		if [ -f ${NAME}.${sfx} ]; then
+			if [ ! -f ${NAME}.${sfx}.old ]; then
+				echo "${NAME}.${sfx} is new.  LaTeX needs to be re-run"
+				changed_file="$changed_file ${NAME}.${sfx}"
+			elif cmp -s ${NAME}.${sfx}.old ${NAME}.${sfx} ; then
+				echo "no change"
+			else
+				echo "${NAME}.${sfx} has changed.  LaTeX needs to be re-run"
+				changed_file="$changed_file ${NAME}.${sfx}"
+			fi
+			cp -p ${NAME}.${sfx} ${NAME}.${sfx}.old
+		fi
+	done
+
 	#LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right
 	rerun=`grep "Rerun to get" $LATEX_MK_LOG`
-	if test -z "$rerun" -a -z "$needbib" ; then
+	if test -z "$rerun" -a -z "$needbib" -a -z "$changed_file" ; then
 		break;
 	fi
 	echo "$sep"
