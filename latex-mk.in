@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.12 2003/02/22 14:28:47 dan Exp $
+# $Id: latex-mk.in,v 1.13 2003/03/07 23:53:28 dan Exp $
 #
 # Copyright (c) 2002, 2003 Dan McMahill
 # All rights reserved.
@@ -67,6 +67,7 @@ do
 		echo "run LaTeX the appropriate number of times to resolve all"
 		echo "references and page changes associated with resolving"
 		echo "references."
+		exit 0
 		;;
 
 	--ignore-errors)
