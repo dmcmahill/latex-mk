@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.6 2003/02/05 15:28:42 dan Exp $
+## $Id: Makefile.am,v 1.7 2003/02/08 01:22:22 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -49,7 +49,7 @@ DISTCLEANFILES=	\
 	${BMKFILES} \
 	${GMKFILES}
 
-SUBDIRS=	bmake gmake
+SUBDIRS=	bmake_ref gmake_ref
 
 TESTS=		${RUN_TESTS}
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.1 2003/02/05 15:28:43 dan Exp $
+# $Id: run_tests.sh,v 1.2 2003/02/08 01:22:22 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -169,6 +169,10 @@ export FIG2DEV_FLAGS
 BMAKE=${BMAKE:-make}
 GMAKE=${GMAKE:-gmake}
 
+# golden directories
+BMAKE_REF=bmake_ref
+GMAKE_REF=gmake_ref
+
 # clear out some environment variables
 # which may be polluting the test
 MAKEFLAGS=
@@ -196,11 +200,11 @@ srcdir=`cd $srcdir && pwd`
 
 rundir=${here}/run
 
-if [ ! -d bmake ]; then
-    mkdir bmake
+if [ ! -d ${BMAKE_REF} ]; then
+    mkdir ${BMAKE_REF}
 fi
-if [ ! -d gmake ]; then
-    mkdir gmake
+if [ ! -d ${GMAKE_REF} ]; then
+    mkdir ${GMAKE_REF}
 fi
 
 TESTLIST=${srcdir}/tests.list
@@ -257,14 +261,14 @@ for t in $all_tests ; do
     
     # run the BSD make test
     echo "Test:  (BSD make) $t"
-    cd ${rundir} && ${BMAKE}  $args > ${here}/bmake/${t}.${sufx}
+    cd ${rundir} && ${BMAKE}  $args > ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
-	if [ -f ${srcdir}/bmake/${t}.ref ]; then
-	    if diff ${srcdir}/bmake/${t}.ref ${here}/bmake/${t}.log >/dev/null ; then
+	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
+	    if diff ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
 		echo "PASS"
 		bpass=`expr $bpass + 1`
 	    else
-		echo "FAILED:  See diff ${here}/bmake/${t}.ref ${here}/bmake/${t}.log"
+		echo "FAILED:  See diff ${here}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
 		bfail=`expr $bfail + 1`
 	    fi
 	else
@@ -277,14 +281,14 @@ for t in $all_tests ; do
 
     # run the GNU make test
     echo "Test:  (GNU make) $t"
-    cd ${rundir} && ${GMAKE}  $args > ${here}/gmake/${t}.${sufx}
+    cd ${rundir} && ${GMAKE}  $args > ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
-	if [ -f ${srcdir}/gmake/${t}.ref ]; then
-	    if diff ${srcdir}/gmake/${t}.ref ${here}/gmake/${t}.log >/dev/null ; then
+	if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
+	    if diff ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
 		echo "PASS"
 		gpass=`expr $gpass + 1`
 	    else
-		echo "FAILED:  See diff ${here}/gmake/${t}.ref ${here}/gmake/${t}.log"
+		echo "FAILED:  See diff ${here}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
 		gfail=`expr $gfail + 1`
 	    fi
 	else
