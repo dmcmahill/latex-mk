@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: examples.shtml,v 1.2 2002/09/12 12:59:38 dan Exp $ -->
+<!-- $Id: examples.shtml,v 1.3 2002/10/09 00:59:56 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@sourceforge.net">
 <title>LaTeX-Mk Examples</title>
@@ -34,6 +34,8 @@ xfig,
     <H2>Simple Project</H2>
     <p>
     Consider a simple document which is completely contained in one LaTeX file.  
+    To produce a postscript file for printing and a PDF file you might use the
+    following sequence of commands:
 <code>
 <br>
 latex mydoc.tex <br>
@@ -65,7 +67,7 @@ you would replace <code>/usr/local</code> with the installation prefix
 on your system.  For the remainder of this document we will use the BSD
 style of include in the examples.
 Now to create a PDF file you simply run
-<code>make pdf</code>.  For larger projects which may need to run programs to
+"<code>make pdf</code>".  For larger projects which may need to run programs to
 export drawings to postscript files for inclusion or run BibTeX to
 generate bibliographies, the generation of PDF (or other) files
 becomes increasingly complicated to run manually.  With LaTeX-Mk, such
@@ -74,7 +76,7 @@ operations are still very simple.
 </p>
 
     <H2>A More Complicated Example</H2>
-    <p>
+        <p>
 As a more complicated example, consider a project whose LaTeX input
 is broken apart in to many <code>.tex</code> files.
 Also suppose the project
@@ -99,6 +101,47 @@ only the steps which need to be taken are done.  This avoids
 re-exporting a large number of figures which may have not changed, but
 ensures that files which need processing are processed.  Also, the user 
 only needs to remember one simple command.
+</p>
+
+    <H2>A Multiple Document Example</H2>
+        <p>
+For the final example, consider a project that produces several
+different
+documents.  These documents share some common input files, a copyright
+section and an author biography section, but also have some unique
+inputs (otherwise they would be the same document).
+Also suppose the project
+includes a large number of figures created with the
+Xfig program.  In addition, some of the figures are common to both
+documents and some are not.
+An example <code>Makefile</code> for this project might look
+like:
+<br>
+<code>
+NAME=              mydoc otherdoc<br>
+TEXSRCS=           copyright.tex authorinfo.tex <br>
+mydoc_TEXSRCS=     ch1.tex ch2.tex ch3.tex refs.tex <br>
+otherdoc_TEXSRCS=  ch1a.tex ch2a.tex <br>
+XFIGDIRS=    common_xfig <br>
+mydoc_XFIGDIRS=    mydoc_xfig <br>
+otherdoc_XFIGDIRS=    other_xfig <br>
+<br>
+.include "/usr/local/share/latex-mk/latex.mk" <br>
+<br>
+</code>
+In this example is it assumed that all of the common Xfig 
+figures reside in a
+subdirectory called <code>common_xfig</code>, the Xfig figures
+specific to <code>mydoc</code> reside in a subdirectory called
+<code>mydoc_xfig</code> and the Xfig figures specific to 
+<code>otherdoc</code> reside in a subdirectory called
+<code>other_xfig</code>.
+ When the user issues a
+<code>make</code> command, all of the steps required to reformat the document
+are taken.  Because of the dependency structure imposed by <code>make</code>,
+only the steps which need to be taken are done.  This avoids
+re-exporting a large number of figures which may have not changed, but
+ensures that files which need processing are processed.
 </p>
 
 

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: bugs.shtml,v 1.1 2002/09/12 12:59:50 dan Exp $ -->
+<!-- $Id: bugs.shtml,v 1.2 2002/10/09 00:59:56 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@sourceforge.net">
 <title>Reporting LaTeX-Mk Bugs</title>
@@ -36,7 +36,7 @@ xfig,
     If you find a bug in LaTeX-Mk or have a suggestion on how to improve LaTeX-Mk, please visit the
     <a href="http://sourceforge.net/projects/latex-mk">LaTeX-Mk Sourceforge Project Page</a>.  Before
     filing a bug report, please check the bug database and see if the bug has already been reported.  If
-    note, file a bug report there.  Remember, your feedback is what helps to improve LaTeX-Mk!
+    not, file a bug report there.  Remember, your feedback is what helps to improve LaTeX-Mk!
     </p>
 
 

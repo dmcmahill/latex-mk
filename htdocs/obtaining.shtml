@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: obtaining.shtml,v 1.1 2002/08/31 04:06:58 dan Exp $ -->
+<!-- $Id: obtaining.shtml,v 1.2 2002/10/09 00:59:58 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@sourceforge.net">
 <title>How to Get LaTeX-Mk</title>
@@ -26,7 +26,6 @@ xfig,
     <font face="helvetica, arial" size="+2">
       How to Get LaTeX-Mk
     </font>
-    <em>downloads not available yet (soon though)</em>
     <br>
     <br>
     </center>
@@ -44,7 +43,7 @@ xfig,
 
     <H2>Native Packages</H2>
     <p>
-    LaTeX-Mk is also available as a native package for several operating
+    LaTeX-Mk is also available as a native package for the following operating
     systems.  Please note that these are maintained by groups other
     than the LaTeX-Mk maintainer:<br>
     <ul>

@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<!-- $Id: history.shtml,v 1.1 2002/10/09 00:59:57 dan Exp $ -->
+<!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
+<link rev="made" href="mailto:danmc@sourceforge.net">
+<title>LaTeX-Mk History</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="DESCRIPTION" content="LaTeX-Mk:  A makefile system for
+          LaTeX documents">
+<meta name="KEYWORDS" content="
+gmake,
+latex,
+make,
+tgif,
+xfig,
+">
+</head>
+
+<!-- Start the main page table -->
+<!--#include virtual="page_start.incl"-->
+
+<!-- The main action area -->
+    <center>
+    <font face="helvetica, arial" size="+2">
+      LaTeX-Mk History
+    </font>
+    <br>
+    <br>
+    </center>
+    
+    <font face="helvetica, arial">
+    <H2>The Dark Ages</H2>
+    <p>
+	In the beginning I used M$ word.  It worked for short papers, it was horrible for
+	medium to long documents, painful for equations, painful for figures.  Then I learned
+	LaTeX and life was much much better.
+    </p>
+    <H2>The Giant Per-Project Makefile</H2>
+    <p>
+	In graduate school, a friend showed me a makefile he had set up for his thesis.  It
+	contained all sorts of targets and some intellegence about running LaTeX multiple times
+	for resolving references.  I made a modified version of that for my thesis and even 
+	wrote a <a href="http://www.amazon.com/exec/obidos/ASIN/0792375890/qid%3D1004308158/sr%3D8-2/ref%3Dsr%5F8%5F3%5F2/104-1336994-4665513">book</a>
+	where I used yet another modified version of that makefile.  This approach was much better
+	than doing everything by hand because I had added a lot of functionality over my friends
+	makefile.  In particular, my new makefile automatically dealt with tgif figures and I had
+	many many figures in the thesis and the book.
+    </p><p>
+	Despite the utility of the large customized makefile I had, it was not maintainable in the
+	sense that every time I started a new document, I'd end up with another copy of a very large 
+	makefile to maintain.  If I fixed a bug in one, I'd have several other documents in progress
+	which needed updating.
+    </p>
+
+    <H2>Enter LaTeX-Mk</H2>
+    <p>
+	For those of you familiar with the build system used by the BSD operating systems, you'll
+	know that for each program, there is a very simple makefile which lists the source files
+	along with a couple of other variables which can optionally be set.  Then a system makefile
+	called <code>bsd.prog.mk</code> is included.  That included makefile fragment has all the
+	code required to provide all the standard targets, sets up the various compiler flags and
+	correctly handles all the dependencies.  It is maintainable because the bulk of the code
+	is common and only needs to be maintained in one place.
+    </p><p>
+	Being inspired by the BSD style makefile approach, I converted my most up to date giant
+	per-project makefile into an include-able makefile fragment and spent some time defining 
+	the interface a bit more generically than I'd done in the past.  Since that time I've
+	used the result, LaTeX-Mk, for the last few documents at school, some papers I've worked on 
+	since then and also for work related documentation.  So far, the makefile framework has
+	proven to be very useful and a big time saver for me.  Since I believe in open-source
+	software I felt it was appropriate to document my efforts and provide a packaged solution
+	that others could also use.
+    </p>
+    <H2>The Modern Era of LaTeX-Mk</H2>
+    <p>
+    <H3>Version 0.9</H3>
+    Released on XXXXX, this was the first public release of LaTeX-Mk.  My reason for using 0.9
+    instead of 1.0 is that LaTeX-Mk has not been tested or used much by others yet.  Even though
+    it works well for me, as with any product, I'm sure others will quickly find other ways to
+    use it that I had not anticipated.  My goal is to collect feedback over the first few months
+    of public consumption and come out with a 1.0 version which incorporates the primary improvements.
+    </p>
+
+    </font>
+
+  </td>
+
+</tr>
+
+<!-- The left hand column -->
+<!--#include virtual="left_column.incl"-->
+
+</table>
+<p>
+
+<!--#include virtual="main_footer.incl"-->
+
+
+</body>
+</html>

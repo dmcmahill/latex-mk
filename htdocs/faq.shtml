@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: faq.shtml,v 1.1 2002/08/31 04:06:56 dan Exp $ -->
+<!-- $Id: faq.shtml,v 1.2 2002/10/09 00:59:56 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@sourceforge.net">
 <title>LaTeX-Mk F.A.Q.</title>
@@ -36,6 +36,35 @@ xfig,
 	LaTeX-Mk is primarily developed under <a href="http://www.netbsd.org">NetBSD</a>,
 	but should quite portable.  The primary requirement is a BSD 
 	compatible <code>make</code> or <a href="http://www.gnu.org/software/make/">GNU make</a>.
+    </p>
+    <H2>How can I tell if I have BSD make?</H2>
+    <p>
+	If you are running a BSD operating system such as <a href="http://www.netbsd.org">NetBSD</a>
+	or <a href="http://www.freebsd.org">FreeBSD</a>, then you have BSD make.  If you are on another
+	operating system, it is possible that someone may have installed a BSD compatible make under
+	the name <code>bmake</code>.  However in this case you may wish to use GNU make to be sure that
+	you have a supported make program.
+    </p>
+
+    <H2>How can I tell if I have GNU make?</H2>
+    <p>
+	Under some operating systems such as GNU/Linux, the program called <code>make</code> is 
+	often times GNU make.  To be sure, try running "<code>make --version</code>".  If you
+	get a message back like: <br>
+	<pre>
+	GNU Make version 3.79.1, by Richard Stallman and Roland McGrath.
+	Built for i386--netbsdelf
+	Copyright (C) 1988, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 2000
+		Free Software Foundation, Inc.
+	This is free software; see the source for copying conditions.
+	There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+	PARTICULAR PURPOSE.
+
+	Report bugs to &lt;bug-make@gnu.org&gt;.
+	</pre>
+	Then you have GNU make.  Many times, GNU make is installed under the name "<code>gmake</code>"
+	to avoid a conflict with a system supplied make.  In that case, try running "<code>gmake --version</code>"
+	to see if you have a working GNU make installed under that name on your system.
     </p>
 
     </font>

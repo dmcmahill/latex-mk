@@ -1,4 +1,4 @@
-## $Id: Makefile,v 1.2 2002/09/12 12:59:49 dan Exp $
+## $Id: Makefile,v 1.3 2002/10/09 00:59:55 dan Exp $
 ##
 
 ## Copyright (c) 2002 Dan McMahill
@@ -47,6 +47,7 @@ SHTML_INCLUDE_PATH= $(srcdir)
 SHTML_IN=	\
 	bugs.shtml \
 	faq.shtml \
+	history.shtml \
 	examples.shtml \
 	index.shtml \
 	obtaining.shtml 
