@@ -1,10 +1,10 @@
-# $Id: TODO,v 1.1 2002/09/27 02:53:28 dan Exp $
+# $Id: TODO,v 1.2 2002/10/09 03:22:13 dan Exp $
 #
 
 LaTeX-Mk Unofficial TODO List
 -----------------------------
 
-- Support for pdftex
+- Support for pdflatex
 
 - Support for lgrind
 
@@ -12,4 +12,8 @@ LaTeX-Mk Unofficial TODO List
   may or may not be strictly latex-mk projects.  This could
   potentially be used when you have some other stuff which
   needs to be run to generate some inputs.
+
+- fix the ieee-copyout script
+
+- add a 'dist' target to tar up the project
 
