@@ -1,0 +1,143 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename latex-mk.info
+@settitle latex-mk
+@setchapternewpage off
+@c %**end of header
+
+@include version.texi
+
+@dircategory LaTex Project Tools
+@direntry
+* latex-mk: (latex-mk).		Managing LaTeX documents
+@end direntry
+
+@ifinfo
+This file documents latex-mk @value{VERSION}
+
+Copyright 2002 Dan McMahill
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+@ignore
+Permission is granted to process this file through TeX and print the
+results, provided the printed document carries copying permission
+notice identical to this one except for the removal of this paragraph
+
+
+@end ignore
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation approved
+by the author.
+@end ifinfo
+
+
+@titlepage
+@title Latex-Mk
+@subtitle For version @value{VERSION}, @value{UPDATED}
+@author Dan McMahill
+
+@page
+@vskip 0pt plus 1filll
+Copyright @copyright{} 2002 Dan McMahill
+@sp 2
+This is the first edition of the Latex-Mk documentation,@*
+and is consistent with Latex-Mk @value{VERSION}.@*
+@sp 2
+Published by Dan McMahill @*
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation
+approved by the author.
+@end titlepage
+
+@c Define an index of targets.
+@defcodeindex tr
+@c Define an index of variables.
+@defcodeindex vn
+
+
+@node Top, Introduction, (dir), (dir)
+@comment  node-name,  next,  previous,  up
+@top Latex-Mk
+
+This file documents the Latex-Mk package.  Latex-Mk is a progr
+which creates GNU standards-compliant Makefiles from template files.
+This edition documents version @value{VERSION}.
+
+@menu
+* Introduction::                Latex-Mk's purpose
+* Examples::                    Some examples
+* Variable Index::
+* General Index::
+@end menu
+
+
+@page
+@contents
+
+@node Introduction, Examples, Top, Top
+@chapter Introduction
+
+Latex-Mk is a tool for automatically generating @file{Makefile.in}s from
+files called @file{Makefile.am}.  Each @file{Makefile.am} is basically a
+series of @code{make} macro definitions (with rules being thrown in
+occasionally).  The generated @file{Makefile.in}s are compliant with the
+GNU Makefile standards.
+
+The typical Latex-Mk input file is simply a series of macro definitions.
+Each such file is processed to create a @file{Makefile.in}.  There
+should generally be one @file{Makefile.am} per directory of a project.
+
+
+@cindex BUGS, reporting
+@cindex Reporting BUGS
+@cindex E-mail, bug reports
+
+Mail suggestions and bug reports for Latex-Mk to
+@email{bug-latex-mk@@xxx.xxx}.
+
+
+@node Examples, , Introduction, Top
+@chapter General ideas
+
+The following sections cover a few basic ideas that will help you
+understand how Latex-Mk works.
+
+@vrindex VR_INDEX
+
+@trindex A_TR_INDEX
+
+@page
+@node Variable Index, General Index, Top, Top
+@unnumbered Variable Index
+
+@printindex vr
+
+
+@page
+@node General Index,  , Variable Index, Top
+@unnumbered General Index
+
+@printindex tr
+
+
+@bye
