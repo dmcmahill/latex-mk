@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.7 2003/06/04 12:28:59 dan Exp $
+# $Id: run_tests.sh,v 1.8 2003/06/08 03:42:28 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -208,6 +208,13 @@ export FIG2DEV_FLAGS
 
 BMAKE=${BMAKE:-make}
 GMAKE=${GMAKE:-gmake}
+
+if test "X$BMAKE" = "Xnone" ; then
+    with_bmake=no
+fi
+if test "X$GMAKE" = "Xnone" ; then
+    with_gmake=no
+fi
 
 # golden directories
 BMAKE_REF=bmake_ref
