@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.1 2002/09/16 11:12:23 dan Exp $
+## $Id: Makefile.am,v 1.2 2002/09/18 02:45:07 dan Exp $
 
 
 MKSRCS=	makefile.in
@@ -13,7 +13,7 @@ GMKFILES=	${MKSRCS:.in=.gmk}
 pkgexampledir=		${pkgdatadir}/example
 pkgexample_DATA=	${BMKFILES} ${GMKFILES} ${EXFILES}
 
-EXTRA_DIST=	${EXFILES}
+EXTRA_DIST=	${EXFILES} makefile.in
 
 DISTCLEANFILES=	\
 	${BMKFILES} \
@@ -33,9 +33,7 @@ SED_COMMON_TEST=	-e 's;@latexmkdatadir@;$(top_srcdir);g' \
 
 .in.mk:
 	sed -e 's/^BMK://g' -e '/^GMK:/d' ${SED_COMMON} $<  > $@
-	sed -e 's/^BMK://g' -e '/^GMK:/d' ${SED_COMMON_TEST} $<  > test_$@
 
 .in.gmk:
 	sed -e 's/^GMK://g' -e '/^BMK:/d' ${SED_COMMON} $<  > $@
-	sed -e 's/^GMK://g' -e '/^BMK:/d' ${SED_COMMON_TEST} $<  > test_$@
 

@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.10 2002/09/16 11:11:37 dan Exp $
+# $Id: latex.mk.in.in,v 1.11 2002/09/18 02:45:06 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -149,18 +149,42 @@ all:: view
 # target 'view' will only have latex run once.  Thus the preview
 # will not always have all the figure and equation references
 # up to date
+BMK:.for __tmp__ in ${NAME}
+.PHONY: view_${__tmp__}
+view_${__tmp__}: ${__tmp__}.dvi
+	$(XDVI) $(XDVI_FLAGS) ${__tmp__}.dvi
+DEFAULTVIEW?=	view_${__tmp__}
+ALLVIEW+=	view_${__tmp__}
+BMK:.endfor
 .PHONY: view
-view: $(NAME).dvi
-	$(XDVI) $(XDVI_FLAGS) $(NAME).dvi
+view: ${DEFAULTVIEW}
+.PHONY: view-all
+view-all: ${ALLVIEW}
 
+
+BMK:.for __tmp__ in ${NAME}
+.PHONY: viewps_${__tmp__}
+viewps_${__tmp__}: ${__tmp__}.ps
+	$(GV) $(GV_FLAGS)  ${__tmp__}.ps
+DEFAULTVIEWPS?=	viewps_${__tmp__}
+ALLVIEWPS+=	viewps_${__tmp__}
+BMK:.endfor
 .PHONY: viewps
-viewps: $(NAME).ps
-	$(GV) $(GV_FLAGS) $(NAME).ps
+viewps: ${DEFAULTVIEWPS}
+.PHONY: viewps-all
+viewps-all: ${ALLVIEWPS}
 
-.PHONY:  print
-print: $(NAME).ps
-	$(LPR) $(LPR_FLAGS) $(NAME).ps
-
+BMK:.for __tmp__ in ${NAME}
+.PHONY: print_${__tmp__}
+print_${__tmp__}: ${__tmp__}.ps
+	$(LPR) $(LPR_FLAGS) ${__tmp__}.ps
+DEFAULTPRINT?=	print_${__tmp__}
+ALLPRINT+=	print_${__tmp__}
+BMK:.endfor
+.PHONY: print
+print: ${DEFAULTPRINT}
+.PHONY: print-all
+print-all: ${ALLPRINT}
 
 #######################################
 #
@@ -168,23 +192,24 @@ print: $(NAME).ps
 #
 #######################################
 .PHONY: dvi
-dvi:	$(NAME).dvi
 
-TEXSRCS+=	$(NAME).tex
+ALLTEXSRCS=	${TEXSRCS}
+ALLBIBTEXSRCS=	${BIBTEXSRCS}
+# add the dependencies for each documents .dvi file
+BMK:.for __tmp__ in ${NAME}
+BMK:${__tmp__}.dvi:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
+BMK:
+BMK:ALLTEXSRCS+=	${__tmp__}.tex ${${__tmp__}_TEXSRCS}
+BMK:ALLBIBTEXSRCS+=	${${__tmp__}_BIBTEXSRCS}
+BMK:dvi:	${__tmp__}.dvi
+BMK:ps:	${__tmp__}.ps
+BMK:pdf:	${__tmp__}.pdf
+BMK:.endfor
 
-$(NAME).dvi: $(TEXSRCS) $(BIBTEXSRCS) $(OTHER)
-	$(ENV_PROG) $(LATEX_ENV) $(LATEX-MK) $(NAME)
-	#$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
-BMK:.ifdef BIBTEXSRCS
-GMK:ifdef BIBTEXSRCS
-	@$(ECHO) BibTeXing and rerunning LaTeX to get references right
-	$(ENV_PROG) $(BIBTEX_ENV) $(BIBTEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
-	#$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
-	$(ENV_PROG) $(LATEX_ENV) $(LATEX-MK) $(NAME)
-BMK:.endif
-GMK:endif
-	#$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
+.SUFFIXES : .tex .dvi .ps .pdf
 
+.tex.dvi : 
+	$(ENV_PROG) $(LATEX_ENV) $(LATEX-MK) $<
 
 #######################################
 #
@@ -192,12 +217,9 @@ GMK:endif
 #
 #######################################
 .PHONY:  ps
-ps: $(NAME).ps
 
-$(NAME).ps: $(NAME).dvi
-	@${ECHO} "running latex again to make sure all figure/equation references are up to date"
-	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
-	$(DVIPS) $(DVIPS_FLAGS) -o $(NAME).ps $(NAME).dvi
+.dvi.ps :
+	$(DVIPS) $(DVIPS_FLAGS) -o $@ $<
 
 #######################################
 #
@@ -205,10 +227,9 @@ $(NAME).ps: $(NAME).dvi
 #
 #######################################
 .PHONY:  pdf
-pdf: $(NAME).pdf
 
-$(NAME).pdf: $(NAME).ps
-	$(PS2PDF) $(PS2PDF_FLAGS) $(NAME).ps 
+.ps.pdf :
+	$(PS2PDF) $(PS2PDF_FLAGS) $<
 
 
 #######################################
@@ -216,23 +237,26 @@ $(NAME).pdf: $(NAME).ps
 # Clean up (clean)
 #
 #######################################
-BMK:.ifdef TEXSRCS
-GMK:ifdef TEXSRCS
-CLEAN_FILES+=	${TEXSRCS:.tex=.aux}
-BMK:.endif
-GMK:endif
-
-BMK:.ifdef BIBTEXSRCS
-GMK:ifdef BIBTEXSRCS
+CLEAN_FILES+=	${ALLTEXSRCS:.tex=.aux}
 CLEAN_FILES+=	${BIBTEXSRCS:.bib=.aux}
-BMK:.endif
-GMK:endif
+BMK:.for __tmp__ in ${NAME}
+CLEAN_FILES+=	${__tmp__}.ps
+CLEAN_FILES+=	${__tmp__}.pdf
+CLEAN_FILES+=	${__tmp__}.aux
+CLEAN_FILES+=	${__tmp__}.log
+CLEAN_FILES+=	${__tmp__}.dvi
+CLEAN_FILES+=	${__tmp__}.log
+CLEAN_FILES+=	${__tmp__}.bbl
+CLEAN_FILES+=	${__tmp__}.blg
+CLEAN_FILES+=	${__tmp__}.lof
+CLEAN_FILES+=	${__tmp__}.lot
+CLEAN_FILES+=	${__tmp__}.toc
+CLEAN_FILES+=	${__tmp__}.out
+BMK:.endfor
 
 .PHONY: clean
 clean::
-	$(RM) -f *~ $(NAME).ps $(NAME).pdf $(NAME).aux $(NAME).log \
-		$(NAME).dvi $(NAME).log $(NAME).bbl $(NAME).blg texput.log \
-		$(NAME).lof $(NAME).lot $(NAME).toc $(NAME).out $(CLEAN_FILES)
+	$(RM) -f *~ texput.log $(CLEAN_FILES)
 
 .PHONY: distclean
 distclean: clean

@@ -1,7 +1,7 @@
-# $Id: makefile.in,v 1.1 2002/09/16 11:12:23 dan Exp $
+# $Id: makefile.in,v 1.2 2002/09/18 02:45:07 dan Exp $
 #
 
-NAME=		example
+NAME=		example ex2
 TGIFDIRS=	tgif
 
 # normally we don't need to define this, but we do it here
