@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: news.shtml,v 1.8 2004/03/19 02:18:08 dan Exp $ -->
+<!-- $Id: news.shtml,v 1.9 2004/05/29 12:55:40 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -33,6 +33,23 @@ xfig,
     </center>
     
     <font face="helvetica, arial">
+
+    <HR>
+    <H2><A NAME="20040529">LaTeX-Mk-1.3 Released</A></H2>
+    <P>
+    May 29, 2004.  LaTeX-Mk version 1.3 has been released.
+    The significant changes/additions over the previous version are:
+    <UL>
+        <LI>Fixed a bug which prevented BibTeX from being run in the case
+        where the source document did not have explicit \cite{} commands
+        but rather used \nocite{}.  Bug report #927068.</LI>                          
+    
+        <LI>Fixed some file names in the examples/ directory to avoid a 
+        file name clash on file systems which are not case sensitive.  This
+        should fix a long standing bug where latex-mk would not build under
+        cywgin.  Bug report #946216.</LI>                            
+    </UL>
+    </P>
 
     <HR>
     <H2><A NAME="20040321">LaTeX-Mk-1.2 Released</A></H2>
