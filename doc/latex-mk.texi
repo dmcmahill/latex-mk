@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.31 2003/11/17 18:05:15 dan Exp $
+@c $Id: latex-mk.texi,v 1.32 2003/11/17 18:08:07 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -258,6 +258,14 @@ Sends the processed document to the printer.
 @trindex ps
 Performs all processing required to produce a Postscript
 file, @file{.ps}, for the project.
+@end deffn
+
+@deffn Target rtf
+@trindex rtf
+Performs all processing required to produce a RTF (Rich Text
+Format) file, @file{.rtf}, for the project.  Please note that
+the ability of LaTex to RTF converters to work correctly is
+somewhat limited.  Your mileage may vary.
 @end deffn
 
 @deffn Target show-var
