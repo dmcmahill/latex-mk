@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.18 2002/10/07 03:08:15 dan Exp $
+# $Id: latex.mk.in.in,v 1.19 2002/10/07 18:34:36 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -352,7 +352,7 @@ GMK:endif
 
 .dvi.ps :
 BMK:.if defined(__DRAFT)
-GMK:ifdef DRAFT
+GMK:ifdef __DRAFT
 	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
 	$(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $*-draft.ps $<
 BMK:.else
@@ -379,7 +379,9 @@ GMK:endif
 CLEAN_FILES+=	${ALLTEXSRCS:.tex=.aux}
 CLEAN_FILES+=	${BIBTEXSRCS:.bib=.aux}
 CLEAN_FILES+=	${NAME:=.ps}
+CLEAN_FILES+=	${NAME:=-draft.ps}
 CLEAN_FILES+=	${NAME:=.pdf}
+CLEAN_FILES+=	${NAME:=-draft.pdf}
 CLEAN_FILES+=	${NAME:=.aux}
 CLEAN_FILES+=	${NAME:=.log}
 CLEAN_FILES+=	${NAME:=.dvi}
