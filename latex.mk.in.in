@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.35 2003/05/26 19:14:43 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.36 2003/05/27 10:59:54 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -164,12 +164,17 @@ VIEWPDF_FLAGS?=	${GV_FLAGS}
 DRAFT_STAMP_PS?=	draft_stamp.ps
 DATED_DRAFT_PS?=	${LATEX_MK_DIR}/dated_draft.ps
 
+BMK:.if !target(default)
+.PHONY: default
+default: all
+BMK:.endif
+
+BMK:.if !target(all)
 .MAIN: all
 .PHONY: all
-default: all
-
 all:: dvi
 all:: view-all
+BMK:.endif
 
 REAL_LATEX_ENV+=	LATEX=${LATEX}
 REAL_LATEX_ENV+=	LATEX_FLAGS=${LATEX_FLAGS}
