@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.28 2003/05/27 11:10:05 dan Exp $
+@c $Id: latex-mk.texi,v 1.29 2003/06/01 20:46:37 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -548,6 +548,22 @@ Defaults to @samp{}.
 @defvar PDFLATEX_FLAGS
 A list of flags to be passed to the PDFLATEX executible.
 Defaults to @samp{}.
+@end defvar
+
+@defvar POST_BIBTEX_HOOK
+If this variable is set to the name of an executible, then LaTeX-Mk will
+run this program/script immediately after a BibTeX run.  This hook
+provides the ability to do postprocessing of the BibTeX output prior to
+the final LaTeX run(s).  This feature is likely to be of interest to
+advanced users only.  The program/script is run in the same environment
+as specified by LATEX_ENV and is given the project name as an argument.
+For example if your @file{Makefile} contains
+@example
+NAME= mydoc
+POST_BIBTEX_HOOK=  ./my_bib_fixup
+@end example
+then the after BibTeX is run, @samp{./my_bib_fixup mydoc} will be run.
+POST_BIBTEX_HOOK defaults to @samp{}.
 @end defvar
 
 @defvar PS2PDF
