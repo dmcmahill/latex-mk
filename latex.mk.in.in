@@ -1,4 +1,4 @@
-# $Id: latex.mk.in,v 1.3 2002/06/02 11:07:03 dan Exp $
+# $Id: latex.mk.in.in,v 1.1 2002/08/14 11:40:19 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -71,23 +71,28 @@
 #######################################
 
 
-MAKECONF?=			/etc/mk.conf
+MAKECONF?=	/etc/mk.conf
 USER_MAKECONF?=	${HOME}/etc/mk.conf
 
-.if exists(${MAKECONF})
-.include "${MAKECONF}"
-.endif
+BMK:.if exists(${MAKECONF})
+BMK:.include "${MAKECONF}"
+BMK:.endif
+BMK:
+BMK:.if exists(${USER_MAKECONF})
+BMK:.include "${USER_MAKECONF}"
+BMK:.endif
 
-.if exists(${USER_MAKECONF})
-.include "${USER_MAKECONF}"
-.endif
+GMK:_CONFS= $(wildcard ${MAKECONF})
+GMK:_CONFS+=        $(wildcard ${USER_MAKECONF})
+GMK:include ${_CONFS}
 
 
 BIBTEX?=	bibtex
 DVIPS?=		dvips
 DVIPS_FLAGS+=	-Ppdf -j0
 ECHO?=		echo
-ENV?=		env
+ENV_PROG?=	env
+FALSE?=		false
 GV?=		gv
 LATEX?=		latex
 LATEX_ENV?=	
@@ -101,11 +106,23 @@ XDVI_FLAGS?=
 RM?=		/bin/rm
 
 # Include other .mk files often times used with LaTeX
-.if defined(TGIFSRCS) || defined(TGIFDIRS)
-.include "tgif.mk"
-.endif
+BMK:.if defined(TGIFSRCS) || defined(TGIFDIRS)
+BMK:.include "tgif.mk"
+BMK:.endif
+
+GMK:ifdef TGIFSRCS
+_USE_TGIF_MK+=	YES
+GMK:endif
+GMK:ifdef TGIFDIRS
+_USE_TGIF_MK+=	YES
+GMK:endif
+GMK:ifdef _USE_TGIF_MK
+GMK:include ./tgif.mk
+GMK:endif
 
 .MAIN: view
+
+all:: view
 
 # target 'view' will only have latex run once.  Thus the preview
 # will not always have all the figure and equation references
@@ -134,13 +151,15 @@ dvi:	$(NAME).dvi
 TEXSRCS+=	$(NAME).tex
 
 $(NAME).dvi: $(TEXSRCS) $(BIBTEXSRCS) $(OTHER)
-	$(ENV) $(LATEX_ENV) $(LATEX) $(NAME)
-.ifdef BIBTEXSRCS
+	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
+BMK:.ifdef BIBTEXSRCS
+GMK:ifdef BIBTEXSRCS
 	@$(ECHO) BibTeXing and rerunning LaTeX to get references right
-	$(ENV) $(BIBTEX_ENV) $(BIBTEX) $(NAME)
-	$(ENV) $(LATEX_ENV) $(LATEX) $(NAME)
-.endif
-	$(ENV) $(LATEX_ENV) $(LATEX) $(NAME)
+	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
+	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
+BMK:.endif
+GMK:endif
+	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
 
 
 #######################################
@@ -153,7 +172,7 @@ ps: $(NAME).ps
 
 $(NAME).ps: $(NAME).dvi
 	@${ECHO} "running latex again to make sure all figure/equation references are up to date"
-	$(ENV) $(LATEX_ENV) $(LATEX) $(NAME)
+	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
 	$(DVIPS) $(DVIPS_FLAGS) -o $(NAME).ps $(NAME).dvi
 
 #######################################
@@ -173,18 +192,23 @@ $(NAME).pdf: $(NAME).ps
 # Clean up (clean)
 #
 #######################################
-.ifdef TEXSRCS
+BMK:.ifdef TEXSRCS
+GMK:ifdef TEXSRCS
 CLEAN_FILES+=	${TEXSRCS:.tex=.aux}
-.endif
+BMK:.endif
+GMK:endif
 
-.ifdef BIBTEXSRCS
+BMK:.ifdef BIBTEXSRCS
+GMK:ifdef BIBTEXSRCS
 CLEAN_FILES+=	${BIBTEXSRCS:.bib=.aux}
-.endif
+BMK:.endif
+GMK:endif
 
 .PHONY: clean
 clean::
 	$(RM) -f *~ $(NAME).ps $(NAME).pdf $(NAME).aux $(NAME).log \
-		$(NAME).dvi $(NAME).log $(NAME).bbl $(NAME).blg texput.log $(CLEAN_FILES)
+		$(NAME).dvi $(NAME).log $(NAME).bbl $(NAME).blg texput.log \
+		$(NAME).lof $(NAME).lot $(NAME).toc $(NAME).out $(CLEAN_FILES)
 
 .PHONY: distclean
 distclean: clean

@@ -1,4 +1,4 @@
-# $Id: tgif.mk.in,v 1.1 2002/05/20 14:25:36 dan Exp $
+# $Id: tgif.mk.in.in,v 1.1 2002/08/14 11:40:20 dan Exp $
 #
 # Makefile fragment for processing tgif files to produce postscript
 #
@@ -59,25 +59,31 @@ TGIF?=		tgif
 TGIF_FLAGS?=	-color -print -eps
 
 # directory to look for tgif files in
-.if defined(TGIFDIRS)
-.for __tmp__ in ${TGIFDIRS}
-.if exists(${__tmp__})
-_TGIF_ADD!=	ls ${__tmp__}/*.obj
-TGIFSRCS+=	${_TGIF_ADD}
-.endif
-.endfor
-.endif
+BMK:.if defined(TGIFDIRS)
+BMK:.for __tmp__ in ${TGIFDIRS}
+BMK:.if exists(${__tmp__})
+BMK:_TGIF_ADD!=	ls ${__tmp__}/*.obj
+BMK:TGIFSRCS+=	${_TGIF_ADD}
+BMK:.endif
+BMK:.endfor
+BMK:.endif
+
+GMK:ifdef TGIFDIRS
+GMK:TGIFSRCS+= $(foreach __tmp__,$(TGIFDIRS),$(wildcard $(__tmp__)/*.obj))
+GMK:endif
 
 TGIFOBJS?=	$(TGIFSRCS:.obj=.eps)
 
-.ifdef TGIFSRCS
+BMK:.ifdef TGIFSRCS
+GMK:ifdef TGIFSRCS
 OTHER+=	$(TGIFOBJS)
 all::		$(TGIFOBJS)
 
 clean::
 	$(RM) -f $(TGIFOBJS)
 
-.endif
+BMK:.endif
+GMK:endif
 
 
 .SUFFIXES : .obj .eps
