@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.6 2002/08/23 02:41:06 dan Exp $
+@c $Id: latex-mk.texi,v 1.7 2002/08/24 04:05:06 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -273,6 +273,26 @@ a per-project basis.
 @section Site Configuration Variables
 This section documents the variables which are typically set on a
 site-wide or user-wide basis.
+
+@subsection Site and User Configuration File
+@defvar MAKECONF
+This variable is set to the location of the site-wide configuration
+file.  If this file exists, it is sourced at the beginning of the
+LaTeX-Mk code.  Default is @file{/etc/mk.conf} for BSD make and
+@file{/etc/gmk.conf} for GNU make.  This is where system administrators
+can set system wide configuration variables.  Any variables defined
+here should be defined using the @code{VARIABLE?=  "new value"}
+instead of @code{VARIABLE=  "new value"} so that individual users
+can easily override the setting.
+@end defvar
+
+@defvar USER_MAKECONF
+This variable is set to the location of a users personal configuration
+file.  If this file exists, it is sourced at the beginning of the
+LaTeX-Mk code.  Default is @file{$HOME/etc/mk.conf} for BSD make and
+@file{$HOME/etc/gmk.conf} for GNU make.  This file is sourced before
+the file specified by @code{MAKECONF}.
+@end defvar
 
 @subsection Generic Project Variables
 This section documents the variables which are typically set on a
