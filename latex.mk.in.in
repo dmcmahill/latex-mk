@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.31 2003/03/08 00:04:23 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.32 2003/05/07 11:09:53 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -64,6 +64,11 @@
 #  LATEX	= the LaTeX executable
 #  LATEX_ENV	= environment variables set when running the LaTeX executable
 #  LATEX_FLAGS	= flags passed to the LaTeX executable
+#  LATEX2HTML   = LaTeX2HTML executable
+#  LATEX2HTML_ENV
+#               = environment variables et when running LATEX2HTML
+#  LATEX2HTML_FLAGS
+#               = flags passed to LATEX2HTML
 #  LPR		= executable to print postscript files
 #  LPR_FLAGS	= flags passed to the executable to print postscript files
 #  PDFLATEX     = pdflatex executable
@@ -115,12 +120,22 @@ DVIPS_FLAGS+=	-Ppdf -j0
 ECHO?=		@ECHO@
 ENV_PROG?=	@ENV_PROG@
 FALSE?=		@FALSE@
+FIND=		@FIND@
 GV?=		@GV@
-GV_FLAGS?=	
+GV_FLAGS?=
+HACHA?=		@HACHA@
+HACHA_ENV?=
+HACHA_FLAGS?=
+HEVEA?=		@HEVEA@
+HEVEA_ENV?=
+HEVEA_FLAGS?=	-fix
 LATEX_MK?=	@latexmkbindir@/latex-mk
 LATEX_MK_FLAGS?=
 LATEX?=		@LATEX@
 LATEX_ENV?=	
+LATEX2HTML?=	@LATEX2HTML@
+LATEX2HTML_ENV?=
+LATEX2HTML_FLAGS?=-image_type png -local_icons -show_section_numbers 
 LPR?=		@LPR@
 LPR_FLAGS?=	
 PDFLATEX?=	@PDFLATEX@
@@ -400,6 +415,7 @@ BMK:
 BMK:ALLTEXSRCS+=	${__tmp__}.tex ${${__tmp__}_TEXSRCS}
 BMK:ALLBIBTEXSRCS+=	${${__tmp__}_BIBTEXSRCS}
 BMK:dvi:	${__tmp__}.dvi
+# XXX add HTML
 BMK:ps:	${__tmp__}.ps
 BMK:pdf:	${__tmp__}.pdf
 BMK:ps-draft:	${__tmp__}-draft.ps
@@ -415,6 +431,7 @@ GMK:
 GMK:ALLTEXSRCS+=	$(1).tex ${$(1)_TEXSRCS}
 GMK:ALLBIBTEXSRCS+=	${$(1)_BIBTEXSRCS}
 GMK:dvi:	$(1).dvi
+# XXX add HTML
 GMK:ps:	$(1).ps
 GMK:pdf:	$(1).pdf
 GMK:ps-draft:	$(1)-draft.ps
@@ -491,7 +508,7 @@ print-all-draft: ${ALLPRINT_DRAFT}
 #
 #######################################
 
-.SUFFIXES : .tex .dvi .ps .pdf
+.SUFFIXES : .tex .dvi .ps .pdf .html
 
 BMK:.if defined(IGNORE_LATEX_ERRORS)
 GMK:ifdef IGNORE_LATEX_ERRORS
@@ -507,6 +524,35 @@ GMK:endif
 .PHONY: dvi
 .tex.dvi : 
 	$(ENV_PROG) $(REAL_LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) $<
+
+#######################################
+#
+# HTML Output (latex2html or HeVeA)
+#
+#######################################
+
+# note:  we have to use a time stamp file here to keep track of what files
+# get created by the html conversion.  Neither latex2html nor hevea provide
+# a convenient way to get a list of files to clean.  In addition, hevea
+# does not currently provide a DESTDIR type functionality which is needed
+# for dealing with multiple top level documents.
+.PHONY: html
+.tex.html : 
+BMK:.if defined(USE_LATEX2HTML)
+	touch $@.html-stamp
+GMK:ifdef USE_LATEX2HTML
+	@${ECHO} LaTeX-Mk:  Creating HTML output using latex2html
+	$(ENV_PROG) $(LATEX2HTML_ENV) $(LATEX2HTML) $(LATEX2HTML_FLAGS) -mkdir -dir $@ $<
+BMK:.elif defined(USE_HEVEA)
+GMK:else
+GMK:ifdef USE_HEVEA
+	@${ECHO} LaTeX-Mk:  Creating HTML output using HeVeA
+	$(ENV_PROG) $(HEVEA_ENV) $(HEVEA) $(HEVEA_FLAGS) $<
+BMK:.endif
+GMK:endif
+GMK:endif
+	${FIND} . -type f \( -name \*-name *.htm* -o -name *.gif -o -name *.png \) \
+		-newer $@.html-stamp -print > $@.www_files
 
 #######################################
 #
@@ -580,6 +626,13 @@ CLEAN_FILES+=	${NAME:=.lot}
 CLEAN_FILES+=	${NAME:=.toc}
 CLEAN_FILES+=	${NAME:=.out}
 CLEAN_FILES+=	$(DRAFT_STAMP_PS)
+
+
+BMK:.ifdef USE_HEVEA
+GMK:ifdef USE_HEVEA
+CLEAN_FILES+=	${NAME:=.haux}
+BMK:.endif
+GMK:endif
 
 .PHONY: clean
 clean::
