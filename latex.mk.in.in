@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.26 2003/02/02 03:42:57 dan Exp $
+# $Id: latex.mk.in.in,v 1.27 2003/02/03 03:34:49 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -114,8 +114,8 @@ ENV_PROG?=	@ENV_PROG@
 FALSE?=		@FALSE@
 GV?=		@GV@
 GV_FLAGS?=	
-LATEX-MK?=	@latexmkbindir@/latex-mk
-LATEX-MK_FLAGS?=
+LATEX_MK?=	@latexmkbindir@/latex-mk
+LATEX_MK_FLAGS?=
 LATEX?=		@LATEX@
 LATEX_ENV?=	
 LPR?=		@LPR@
@@ -481,7 +481,7 @@ print-all-draft: ${ALLPRINT_DRAFT}
 
 BMK:.if defined(IGNORE_LATEX_ERRORS)
 GMK:ifdef IGNORE_LATEX_ERRORS
-LATEX-MK_FLAGS+=	--ignore-errors
+LATEX_MK_FLAGS+=	--ignore-errors
 BMK:.endif
 GMK:endif
 
@@ -492,7 +492,7 @@ GMK:endif
 #######################################
 .PHONY: dvi
 .tex.dvi : 
-	$(ENV_PROG) $(LATEX_ENV) $(LATEX-MK) $(LATEX-MK_FLAGS) $<
+	$(ENV_PROG) $(LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) $<
 
 #######################################
 #
@@ -535,7 +535,7 @@ BMK:.elif defined(USE_PDFLATEX)
 GMK:else
 GMK:ifdef USE_PDFLATEX
 .tex.pdf : 
-	$(ENV_PROG) $(PDFLATEX_ENV) $(LATEX-MK) --pdflatex $(LATEX-MK_FLAGS) $<
+	$(ENV_PROG) $(PDFLATEX_ENV) $(LATEX_MK) --pdflatex $(LATEX_MK_FLAGS) $<
 BMK:.else
 GMK:else
 .ps.pdf :
@@ -569,7 +569,7 @@ CLEAN_FILES+=	$(DRAFT_STAMP_PS)
 
 .PHONY: clean
 clean::
-	${LATEX-MK} --clean
+	${LATEX_MK} --clean
 	$(RM) -f *~ texput.log $(CLEAN_FILES)
 
 .PHONY: distclean

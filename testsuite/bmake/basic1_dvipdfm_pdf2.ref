@@ -1,0 +1,2 @@
+env  latex-mk  test1.tex
+dvipdfm   test1.dvi

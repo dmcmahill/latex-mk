@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.2 2003/02/03 03:34:50 dan Exp $
+## $Id: Makefile.am,v 1.1 2003/02/03 03:34:57 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -32,30 +32,37 @@
 ##  SUCH DAMAGE.
 ##
 
-MKSRCS=	testfile.mk.in
 
-BMKFILES=	${MKSRCS:.mk.in=.mk}
-GMKFILES=	${MKSRCS:.mk.in=.gmk}
 
-pkgtestdir=	${pkgdatadir}/testsuite
-pkgtest_DATA=	${BMKFILES} ${GMKFILES} tests.list
-pkgtest_SCRIPTS=	run_tests
+pkgtestdir=	${pkgdatadir}/testsuite/gmake
+pkgtest_DATA=	${GOLDEN_FILES}
 
 DISTCLEANFILES=	\
-	configure.lineno \
-	${BMKFILES} \
-	${GMKFILES}
+	${LOG_FILES} 
 
-SUBDIRS=	bmake gmake
+EXTRA_DIST=	${GOLDEN_FILES}
+LOG_FILES=	${GOLDEN_FILES:.ref=.log}
 
-SUFFIXES=	.mk.in .mk .gmk
-
-SED_COMMON=	-e 's;@pkgdatadir@;$(pkgdatadir);g' \
-	-e 's;@latexmkconfdir@;${sysconfdir};g' \
-	-e 's;@latexmkbindir@;${bindir};g'
-
-.mk.in.mk:
-	sed -e 's/^BMK://g' -e '/^GMK:/d' ${SED_COMMON} $<  > $@
-
-.mk.in.gmk:
-	sed -e 's/^GMK://g' -e '/^BMK:/d' ${SED_COMMON} $<  > $@
+GOLDEN_FILES=	\
+	basic1_dvi1.ref \
+	basic1_dvi2.ref \
+	basic1_dvipdfm_dvi1.ref \
+	basic1_dvipdfm_dvi2.ref \
+	basic1_dvipdfm_pdf1.ref \
+	basic1_dvipdfm_pdf2.ref \
+	basic1_dvipdfm_ps1.ref \
+	basic1_dvipdfm_ps2.ref \
+	basic1_pdf1.ref \
+	basic1_pdf2.ref \
+	basic1_pdflatex_dvi1.ref \
+	basic1_pdflatex_dvi2.ref \
+	basic1_pdflatex_pdf1.ref \
+	basic1_pdflatex_pdf2.ref \
+	basic1_pdflatex_ps1.ref \
+	basic1_pdflatex_ps2.ref \
+	basic1_ps1.ref \
+	basic1_ps2.ref \
+	basic_tgifdirs.ref \
+	basic_tgifsrcs.ref \
+	basic_xfigdirs.ref \
+	basic_xfigsrcs.ref 

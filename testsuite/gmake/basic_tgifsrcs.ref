@@ -1,0 +1,3 @@
+tgif -color -print -eps tgif1.obj
+tgif -color -print -eps tgif2.obj
+env  latex-mk  test2.tex

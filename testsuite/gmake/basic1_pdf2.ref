@@ -1,0 +1,3 @@
+env  latex-mk  test1.tex
+dvips  -Ppdf -j0 -o test1.ps test1.dvi
+ps2pdf  test1.ps

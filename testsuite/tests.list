@@ -1,0 +1,96 @@
+# $Id: tests.list,v 1.1 2003/02/03 03:34:52 dan Exp $
+#
+# Copyright (c) 2003 Dan McMahill
+# All rights reserved.
+#
+# This code is derived from software written by Dan McMahill
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by Dan McMahill
+#  4. The name of the author may not be used to endorse or promote products
+#     derived from this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+#  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+#  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+#  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+#  SUCH DAMAGE.
+#
+#
+# Format:
+#
+# test_name | directories to create | files to touch | arguments to make
+#
+# make will be called with -n just to see that the right set of steps 
+# will be taken for each example. 
+#
+# Please note that more tests should be added here but that each added 
+# test should have the 'golden' output fully verified by hand.
+#
+# -----------------------------------------
+# Single project, single latex source tests
+# -----------------------------------------
+#
+# basic tests with the defaults
+#
+basic1_dvi1||test1.tex|dvi TEST1=yes
+basic1_dvi2||test1.tex|test1.dvi TEST1=yes
+basic1_ps1||test1.tex|ps TEST1=yes
+basic1_ps2||test1.tex|test1.ps TEST1=yes
+basic1_pdf1||test1.tex|pdf TEST1=yes
+basic1_pdf2||test1.tex|test1.pdf TEST1=yes
+#
+# basic tests with USE_DVIPDFM
+#
+basic1_dvipdfm_dvi1||test1.tex|dvi TEST1=yes USE_DVIPDFM=yes
+basic1_dvipdfm_dvi2||test1.tex|test1.dvi TEST1=yes USE_DVIPDFM=yes
+basic1_dvipdfm_ps1||test1.tex|ps TEST1=yes USE_DVIPDFM=yes
+basic1_dvipdfm_ps2||test1.tex|test1.ps TEST1=yes USE_DVIPDFM=yes
+basic1_dvipdfm_pdf1||test1.tex|pdf TEST1=yes USE_DVIPDFM=yes
+basic1_dvipdfm_pdf2||test1.tex|test1.pdf TEST1=yes USE_DVIPDFM=yes
+#
+# basic tests with USE_PDFLATEX
+#
+basic1_pdflatex_dvi1||test1.tex|dvi TEST1=yes USE_PDFLATEX=yes
+basic1_pdflatex_dvi2||test1.tex|test1.dvi TEST1=yes USE_PDFLATEX=yes
+basic1_pdflatex_ps1||test1.tex|ps TEST1=yes USE_PDFLATEX=yes
+basic1_pdflatex_ps2||test1.tex|test1.ps TEST1=yes USE_PDFLATEX=yes
+basic1_pdflatex_pdf1||test1.tex|pdf TEST1=yes USE_PDFLATEX=yes
+basic1_pdflatex_pdf2||test1.tex|test1.pdf TEST1=yes USE_PDFLATEX=yes
+#
+# TGIFSRCS test
+#
+basic_tgifsrcs||test2.tex tgif1.obj tgif2.obj|dvi TEST2=yes
+#
+# TGIFDIRS test
+#
+basic_tgifdirs|tgifdir1 tgifdir2|test3.tex tgifdir1/tgifa.obj tgifdir1/tgifb.obj tgifdir2/tgifc.obj |dvi TEST3=yes
+#
+# XFIGSRCS test
+#
+basic_xfigsrcs||test.tex xfig1.fig xfig2.fig|dvi TEST4=yes
+#
+# XFIGDIRS test
+#
+basic_xfigdirs|xfigdir1 xfigdir2|test.tex xfigdir1/xfiga.fig xfigdir1/xfigb.fig xfigdir2/xfigc.fig |dvi TEST5=yes
+#
+# -----------------------------------------
+# Single project, single latex source tests
+# -----------------------------------------
+#
+

@@ -1,0 +1,4 @@
+fig2dev -L eps xfigdir1/xfiga.fig xfigdir1/xfiga.eps
+fig2dev -L eps xfigdir1/xfigb.fig xfigdir1/xfigb.eps
+fig2dev -L eps xfigdir2/xfigc.fig xfigdir2/xfigc.eps
+env  latex-mk  test.tex
