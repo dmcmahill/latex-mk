@@ -1,4 +1,5 @@
 #!/bin/sh
+# $Id: mdate-sh,v 1.2 2002/05/21 01:50:41 dan Exp $
 # Get modification time of a file or directory and pretty-print it.
 # Copyright 1995, 1996, 1997 Free Software Foundation, Inc.
 # written by Ulrich Drepper <drepper@gnu.ai.mit.edu>, June 1995
