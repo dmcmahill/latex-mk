@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.27 2003/05/27 10:56:53 dan Exp $
+@c $Id: latex-mk.texi,v 1.28 2003/05/27 11:10:05 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -358,7 +358,7 @@ Draft version of the @code{viewps_<name>} target.
 @end deffn
 
 
-@node Variables, Obtaining, Targets, Top
+@node Variables, HTML, Targets, Top
 @chapter Variables
 The variables used by LaTeX-Mk can be categorized roughly into two
 groups.  The first set of variables are typically set during the
@@ -785,7 +785,7 @@ to your configuration file or to your project @file{Makefile}.
 
 To generate HTML output, simply run @samp{make html}.  The HTML output
 along with any image files will be placed in a subdirectory called
-@file{$\{NAME\}.html_dir}.  For example, if you have a project with two
+@file{$@{NAME@}.html_dir}.  For example, if you have a project with two
 top level documents, your @file{Makefile} might look like:
 @example
 NAME=  doc1 doc2
@@ -796,7 +796,7 @@ called @file{doc1.html_dir} and @file{doc2.html_dir} containing HTML
 versions of the two documents.
 
 To keep track of which files have been generated during the conversion,
-a temporary file, @file{$\{NAME\}.www_files} gets created and all
+a temporary file, @file{$@{NAME@}.www_files} gets created and all
 generated files are recorded there.  This allows the output produced by
 HeVeA to be moved to the correct subdirectory as well as allowing
 @samp{make clean} to work.
