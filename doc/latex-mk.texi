@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.22 2003/02/06 10:31:23 dan Exp $
+@c $Id: latex-mk.texi,v 1.23 2003/02/25 23:56:15 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -863,7 +863,7 @@ The history section of the manual was added.
 
 @subsection Version 1.0
 This is the long awaited 1.0 release!  Hopefully LaTeX-Mk can be considered
-production/stable at this point.  This release was made on.
+production/stable at this point.  This release was made on 2003-02-26.
 The significant changes/additions over the previous version are:
 @itemize @bullet
 @item Support for dvipdfm
@@ -884,6 +884,10 @@ bugs and should greatly contribute to the reliability and stability of this tool
 been fixed.
 
 @item Bugs related to per-project processing of foo_TGIFDIRS and foo_XFIGDIRS have been fixed.
+
+@item A bug in @code{latex-mk} relating to BibTeX has been
+    fixed.  Previously, after a BibTeX run, @code{latex-mk} failed to run
+    LaTeX the correct number of times.
 
 @end itemize
 

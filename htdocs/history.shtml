@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.6 2003/02/06 10:31:25 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.7 2003/02/25 23:56:14 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>LaTeX-Mk History</title>
@@ -120,6 +120,10 @@ xfig,
     <LI> Bugs related to processing multiple directories listed in TGIFDIRS and XFIGDIRS have
     been fixed.</LI>
     <LI> Bugs related to per-project processing of foo_TGIFDIRS and foo_XFIGDIRS have been fixed.
+    </LI>
+    <LI> A bug in latex-mk (the script) relating to BibTeX has been
+    fixed.  Previously, after a BibTeX run, latex-mk failed to run
+    LaTeX the correct number of times.
     </LI>
     </UL>
     </p>
