@@ -1,9 +1,9 @@
-## $Id: Makefile.am,v 1.1 2002/09/16 11:12:24 dan Exp $
+## $Id: Makefile.am,v 1.2 2002/10/08 13:46:39 dan Exp $
 
 TGIFSRCS=	myfig.obj
 
-pkgexampledir=		${pkgdatadir}/example
-pkgexample_DATA=	${TGIFSRCS}
+pkgexampletgifdir=	${pkgdatadir}/example/tgif
+pkgexampletgif_DATA=	${TGIFSRCS}
 
 EXTRA_DIST=	${TGIFSRCS}
 
