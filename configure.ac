@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.25 2003/05/25 04:07:06 dan Exp $
+dnl $Id: configure.ac,v 1.26 2003/05/26 19:15:06 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002, 2003 Dan McMahill
@@ -67,6 +67,7 @@ AC_PATH_PROG(FIND, find, find)
 AC_PATH_PROG(GV, gv, gv)
 AC_PATH_PROG(HEVEA, hevea, hevea)
 AC_PATH_PROG(HACHA, hacha, hacha)
+AC_PATH_PROG(IMAGEN, imagen, imagen)
 AC_PATH_PROG(LATEX, latex, latex)
 AC_PATH_PROG(LATEX2HTML, latex2html, latex2html)
 AC_PATH_PROG(LPR, lpr, lpr)
