@@ -1,0 +1,93 @@
+# $Id: xfig.mk.in.in,v 1.1 2002/08/15 02:44:44 dan Exp $
+#
+# Makefile fragment for processing xfig files to produce postscript
+#
+# Copyright (c) 2002 Dan McMahill
+# All rights reserved.
+#
+# This code is derived from software written by Dan McMahill
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by Dan McMahill
+#  4. The name of the author may not be used to endorse or promote products
+#     derived from this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+#  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+#  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+#  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+#  SUCH DAMAGE.
+#
+
+
+#######################################
+#
+# README:
+#
+# To use this makefile fragment, set the variable:
+#	XFIGSRCS	= the xfig drawing files (.fig files)
+# in your top level Makefile.  You can also specify
+# XFIGDIRS which is a list of directories containing
+# xfig files.  All tgif files in the specified directories
+# are added to XFIGSRCS
+#
+# The following variables may be overridden in your top level Makefile
+#
+#  XFIG			= the xfig executable
+#  FIG2DEV_FLAGS	= flags passed to fig2dev for exporting to eps
+#
+#######################################
+
+
+# how to call fig2dev to convert xfig files to postscript
+FIG2DEV?=		@FIG2DEV@
+XFIG2DEV_FLAGS?=	-color -print -eps
+
+# directory to look for xfig files in
+BMK:.if defined(XFIGDIRS)
+BMK:.for __tmp__ in ${XFIGDIRS}
+BMK:.if exists(${__tmp__})
+BMK:_XFIG_ADD!=	ls ${__tmp__}/*.fig
+BMK:XFIGSRCS+=	${_XFIG_ADD}
+BMK:.endif
+BMK:.endfor
+BMK:.endif
+
+GMK:ifdef XFIGDIRS
+GMK:XFIGSRCS+= $(foreach __tmp__,$(XFIGDIRS),$(wildcard $(__tmp__)/*.fig))
+GMK:endif
+
+XFIGOBJS?=	$(XFIGSRCS:.fig=.eps)
+
+BMK:.ifdef XFIGSRCS
+GMK:ifdef XFIGSRCS
+OTHER+=	$(XFIGOBJS)
+all::		$(XFIGOBJS)
+
+clean::
+	$(RM) -f $(XFIGOBJS)
+
+BMK:.endif
+GMK:endif
+
+
+.SUFFIXES : .fig .eps
+
+.fig.eps : 
+	$(FIG2DEV) $(FIG2DEV_FLAGS) $*.fig
+
