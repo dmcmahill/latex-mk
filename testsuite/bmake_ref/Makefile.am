@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.1 2003/02/08 01:22:30 dan Exp $
+## $Id: Makefile.am,v 1.2 2003/02/08 21:42:19 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -43,26 +43,5 @@ DISTCLEANFILES=	\
 EXTRA_DIST=	${GOLDEN_FILES}
 LOG_FILES=	${GOLDEN_FILES:.ref=.log}
 
-GOLDEN_FILES=	\
-	basic1_dvi1.ref \
-	basic1_dvi2.ref \
-	basic1_dvipdfm_dvi1.ref \
-	basic1_dvipdfm_dvi2.ref \
-	basic1_dvipdfm_pdf1.ref \
-	basic1_dvipdfm_pdf2.ref \
-	basic1_dvipdfm_ps1.ref \
-	basic1_dvipdfm_ps2.ref \
-	basic1_pdf1.ref \
-	basic1_pdf2.ref \
-	basic1_pdflatex_dvi1.ref \
-	basic1_pdflatex_dvi2.ref \
-	basic1_pdflatex_pdf1.ref \
-	basic1_pdflatex_pdf2.ref \
-	basic1_pdflatex_ps1.ref \
-	basic1_pdflatex_ps2.ref \
-	basic1_ps1.ref \
-	basic1_ps2.ref \
-	basic_tgifdirs.ref \
-	basic_tgifsrcs.ref \
-	basic_xfigdirs.ref \
-	basic_xfigsrcs.ref 
+include $(srcdir)/../golden.mk
+

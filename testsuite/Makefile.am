@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.7 2003/02/08 01:22:22 dan Exp $
+## $Id: Makefile.am,v 1.8 2003/02/08 21:42:18 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -53,7 +53,7 @@ SUBDIRS=	bmake_ref gmake_ref
 
 TESTS=		${RUN_TESTS}
 
-EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list
+EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list golden.mk
 
 SUFFIXES=	.mk.in .mk .gmk
 
