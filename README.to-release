@@ -1,0 +1,57 @@
+$Id: README.to-release,v 1.1 2002/10/05 20:18:19 dan Exp $
+
+To make a latex-mk release do the following:
+
+=)	regenerate the gif file in examples/ by running tgif and printing to gif.
+	also copy the gif file to doc/
+	also update the image size in doc/index.html
+
+=)	# make sure it makes distfiles ok:
+	make distclean ; autoconf && ./configure && make distfile
+
+=)	cvs ci
+
+=)	if this is a major release, then tag and branch:
+
+	1. Tag the base of the release branch
+		cvs tag latex-mk-1-4-base 
+
+	2. Create the release branch
+		cvs tag -R -b -r latex-mk-1-4-base latex-mk-1-4
+
+	3. On the trunk, update Makefile and verinfo.html to update the VERSION
+		for example 1.4A after releasing 1.4
+		cvs update -PdA
+		vi Makefile and verinfo.html
+		cvs ci Makefile and verinfo.html
+
+	4. On the release branch, update Makefile and verinfo.html to update the VERSION
+		for example 1.4_ALPHA.  Now pre-release snapshots can be made.
+		cvs update -PdA -r latex-mk-1-4
+
+	5. If desired tag an alpha release:
+		cvs update -PdA -r latex-mk-1-4
+		autoconf && ./configure
+		cvs tag -R -r latex-mk-1-4 latex-mk-1-4-ALPHA
+		cvs update -PdA -r latex-mk-1-4-ALPHA
+		autoconf && ./configure && make distfile
+
+	6. When the release branch is ready to go,  update Makefile and verinfo.html to
+	   get the final release VERSION.  Then tag the release.
+		autoconf && ./configure
+		cvs update -PdA -r latex-mk-1-4
+		vi Makefile and verinfo.html
+		cvs ci Makefile and verinfo.html
+		cvs tag -R -r latex-mk-1-4 latex-mk-1-4-RELEASE
+		cvs update -PdA -r latex-mk-1-4-RELEASE
+		autoconf && ./configure && make distfile
+
+	7. Return to your regularly scheduled trunk development
+		cvs update -PdA
+
+=) 	if this is a patch release, then simply make desired changes to the branch, and
+		autoconf && ./configure
+		cvs tag -R -r latex-mk-1-4 latex-mk-1-4-PATCH001
+
+=)	make distclean ; autoconf && ./configure && make distfile
+
