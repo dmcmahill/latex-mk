@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.23 2003/02/01 16:01:39 dan Exp $
+# $Id: latex.mk.in.in,v 1.24 2003/02/02 00:14:08 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -136,14 +136,11 @@ all:: view-all
 #
 #######################################
 
+# Check for TGIFSRCS and TGIFDIRS
+
 BMK:.if defined(TGIFSRCS) || defined(TGIFDIRS)
 BMK:_USE_TGIF_MK=	YES
 BMK:.endif
-BMK:.for __tmp__ in ${NAME}
-BMK:.if defined(${__tmp__}_TGIFSRCS) || defined(${__tmp__}_TGIFDIRS)
-BMK:_USE_TGIF_MK=	YES
-BMK:.endif
-BMK:.endfor
 
 GMK:ifdef TGIFSRCS
 GMK:_USE_TGIF_MK+=	YES
@@ -151,15 +148,27 @@ GMK:endif
 GMK:ifdef TGIFDIRS
 GMK:_USE_TGIF_MK+=	YES
 GMK:endif
-GMK:define add_tgif_template
+
+# Check for proj_TGIFSRCS and proj_TGIFDIRS
+
+BMK:.for __tmp__ in ${NAME}
+BMK:.if defined(${__tmp__}_TGIFSRCS) || defined(${__tmp__}_TGIFDIRS)
+BMK:_USE_TGIF_MK=	YES
+BMK:.endif
+BMK:.endfor
+
+GMK:
+GMK:define add_tgif_mk_template
 GMK:ifdef $(1)_TGIFSRCS
-GMK:_USE_TGIF_MK+=	YES
+GMK:_USE_TGIF_MK=	YES
 GMK:endif
-GMK:ifdef TGIFDIRS
-GMK:_USE_TGIF_MK+=	YES
+GMK:ifdef $(1)_TGIFDIRS
+GMK:_USE_TGIF_MK=	YES
 GMK:endif
 GMK:endef
-GMK:$(foreach __tmp__,$(NAME),$(eval $(call add_tgif_template,$(__tmp__))))
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call add_tgif_mk_template,$(__tmp__))))
+
+# pull in tgif.[g]mk if needed
 
 BMK:.if defined(_USE_TGIF_MK)
 BMK:.include "${LATEX_MK_DIR}/tgif.mk"
@@ -174,14 +183,11 @@ GMK:endif
 #
 #######################################
 
+# Check for XFIGSRCS and XFIGDIRS
+
 BMK:.if defined(XFIGSRCS) || defined(XFIGDIRS)
 BMK:_USE_XFIG_MK=	YES
 BMK:.endif
-BMK:.for __tmp__ in ${NAME}
-BMK:.if defined(${__tmp__}_XFIGSRCS) || defined(${__tmp__}_XFIGDIRS)
-BMK:_USE_XFIG_MK=	YES
-BMK:.endif
-BMK:.endfor
 
 GMK:ifdef XFIGSRCS
 GMK:_USE_XFIG_MK+=	YES
@@ -189,15 +195,27 @@ GMK:endif
 GMK:ifdef XFIGDIRS
 GMK:_USE_XFIG_MK+=	YES
 GMK:endif
-GMK:define add_xfig_template
+
+# Check for proj_XFIGSRCS and proj_XFIGDIRS
+
+BMK:.for __tmp__ in ${NAME}
+BMK:.if defined(${__tmp__}_XFIGSRCS) || defined(${__tmp__}_XFIGDIRS)
+BMK:_USE_XFIG_MK=	YES
+BMK:.endif
+BMK:.endfor
+
+GMK:
+GMK:define add_xfig_mk_template
 GMK:ifdef $(1)_XFIGSRCS
-GMK:_USE_XFIG_MK+=	YES
+GMK:_USE_XFIG_MK=	YES
 GMK:endif
-GMK:ifdef XFIGDIRS
-GMK:_USE_XFIG_MK+=	YES
+GMK:ifdef $(1)_XFIGDIRS
+GMK:_USE_XFIG_MK=	YES
 GMK:endif
 GMK:endef
-GMK:$(foreach __tmp__,$(NAME),$(eval $(call add_xfig_template,$(__tmp__))))
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call add_xfig_mk_template,$(__tmp__))))
+
+# pull in xfig.[g]mk if needed
 
 BMK:.if defined(_USE_XFIG_MK)
 BMK:.include "${LATEX_MK_DIR}/xfig.mk"
