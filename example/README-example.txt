@@ -1,4 +1,4 @@
-# $Id: README-example.txt,v 1.2 2002/10/09 03:13:50 dan Exp $
+# $Id: README-example.txt,v 1.3 2004/02/03 03:30:09 dan Exp $
 #
 
 
@@ -15,7 +15,7 @@ LATEX_MK_DIR
     this example, assume that the sources were extracted and built in 
     /tmp/latex-mk-0.2
 
-LATEX-MK
+LATEX_MK
 
     This should be set to the complete path to the latex-mk script.
 
@@ -23,14 +23,14 @@ LATEX-MK
 If you are using csh/tcsh:
 
 setenv LATEX_MK_DIR /tmp/latex-mk-0.2
-setenv LATEX-MK /tmp/latex-mk-0.2/latex-mk
+setenv LATEX_MK /tmp/latex-mk-0.2/latex-mk
 
 In you are using sh/bash:
 
 LATEX_MK_DIR=/tmp/latex-mk-0.2
 export LATEX_MK_DIR
-LATEX-MK=/tmp/latex-mk-0.2/latex-mk
-export LATEX-MK
+LATEX_MK=/tmp/latex-mk-0.2/latex-mk
+export LATEX_MK
 
 Now go to the "running the example" section.
 
