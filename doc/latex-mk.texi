@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.16 2002/10/10 01:34:31 dan Exp $
+@c $Id: latex-mk.texi,v 1.17 2002/10/10 12:50:43 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -478,8 +478,18 @@ A list of flags to be passed to the PS2PDF executible.
 Defaults to @samp{}.
 @end defvar
 
-@defvar XDVI
+@defvar VIEWPDF
 The executible which previews @file{.pdf} files. 
+Defaults to @samp{xdvi}.
+@end defvar
+
+@defvar VIEWPDF_FLAGS
+A list of flags to be passed to the VIEWPDF executible.
+Defaults to @samp{}.
+@end defvar
+
+@defvar XDVI
+The executible which previews @file{.dvi} files. 
 Defaults to @samp{xdvi}.
 @end defvar
 
