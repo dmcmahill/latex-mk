@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.40 2003/11/17 17:58:08 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.41 2003/11/17 22:02:31 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -153,6 +153,9 @@ LATEX_ENV?=
 LATEX2HTML?=	@LATEX2HTML@
 LATEX2HTML_ENV?=
 LATEX2HTML_FLAGS?=-image_type png -local_icons -show_section_numbers 
+LATEX2RTF?=	@LATEX2RTF@
+LATEX2RTF_ENV?=
+LATEX2RTF_FLAGS?=
 LPR?=		@LPR@
 LPR_FLAGS?=	
 PDFLATEX?=	@PDFLATEX@
@@ -449,6 +452,7 @@ BMK:ps:	${__tmp__}.ps
 BMK:pdf:	${__tmp__}.pdf
 BMK:ps-draft:	${__tmp__}-draft.ps
 BMK:pdf-draft:	${__tmp__}-draft.pdf
+BMK:${__tmp__}.rtf:	${__tmp__}.dvi
 BMK:rtf:	${__tmp__}.rtf
 BMK:clean::
 BMK:	if [ -f ${__tmp__}.www_files ]; then  \
@@ -484,6 +488,7 @@ GMK:ps:	$(1).ps
 GMK:pdf:	$(1).pdf
 GMK:ps-draft:	$(1)-draft.ps
 GMK:pdf-draft:	$(1)-draft.pdf
+GMK:$(1).rtf:	$(1).dvi
 GMK:rtf:	$(1).rtf
 GMK:clean::
 GMK:	if [ -f $(1).www_files ]; then  \
@@ -572,7 +577,7 @@ print-all-draft: ${ALLPRINT_DRAFT}
 #
 #######################################
 
-.SUFFIXES : .tex .dvi .ps .pdf .html-stamp
+.SUFFIXES : .tex .dvi .ps .pdf .rtf .html-stamp
 
 BMK:.if defined(IGNORE_LATEX_ERRORS)
 GMK:ifdef IGNORE_LATEX_ERRORS
@@ -699,7 +704,7 @@ GMK:endif
 .PHONY:  rtf
 
 .dvi.rtf :
-	$(ENV_PROG) $(LATEX2RTF_ENV) $(LATEX2RTF) $(LATEX2RTF_FLAGS) -o $@ $*
+	$(ENV_PROG) $(LATEX2RTF_ENV) $(LATEX2RTF) $(LATEX2RTF_FLAGS) -o $@ $*.tex
 
 #######################################
 #
