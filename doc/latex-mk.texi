@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.12 2002/09/21 02:39:01 dan Exp $
+@c $Id: latex-mk.texi,v 1.13 2002/09/21 02:56:30 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -574,23 +574,23 @@ common option is the @samp{--prefix=<installation prefix>} option.  This
 causes LaTeX-Mk to use @code{<installation prefix>} as the base
 directory for the installation.  
 
-Running @sample{configure --help} will give a list of the available
+Running @code{configure --help} will give a list of the available
 configuration options.  The ones which are specific to LaTeX-Mk, as
 opposed to being generic configure options are listed here.
 @code{--with-mkconf=<mkconf>}:  this option changes the default system
 configuration file for BSD make.  This file defaults to
-@file{\$\{sysconfdir\}/latex-mk.conf}.
+@file{$@{sysconfdir@}/latex-mk.conf}.
 @code{--with-gmkconf=<gmkconf>}:  this option changes the default system
 configuration file for GNU make.  This file defaults to
-@file{\$\{sysconfdir\}/latex-gmk.conf}. 
+@file{$@{sysconfdir@}/latex-gmk.conf}. 
 @code{--with-usermkconf=<usermkconf>}:  this option changes the default 
 user
 configuration file for BSD make.  This file defaults to
-@file{\$HOME/.latex-mk.conf}.
+@file{$HOME/.latex-mk.conf}.
 @code{--with-usergmkconf=<usergmkconf>}:  this option changes the
 default user
 configuration file for GNU make.  This file defaults to
-@file{\$HOME/.latex-gmk.conf}. 
+@file{$HOME/.latex-gmk.conf}. 
 
 @node Feedback, Target Index, Installation, Top
 @chapter Feedback
@@ -602,7 +602,7 @@ configuration file for GNU make.  This file defaults to
 To report bugs, provide feedback, suggest new features, etc. visit the
 LaTeX-Mk Project management page at
 @url{http://www.sourceforge.net/projects/latex-mk} or send email to the
-author at @email{danmc@sourceforge.net}.
+author at @email{danmc@@sourceforge.net}.
 For information on the current version of LaTeX-Mk, visit the LaTeX-Mk
 homepage at @url{http://latex-mk.sourceforge.net}.
 
