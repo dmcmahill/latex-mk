@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.13 2002/09/21 02:56:30 dan Exp $
+@c $Id: latex-mk.texi,v 1.14 2002/09/30 01:46:18 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -181,7 +181,8 @@ becomes increasingly complicated to run manually.  With LaTeX-Mk, such
 operations are still very simple.
 
 As a more complicated example, consider a project whose LaTeX input
-is broken apart in to many @file{.tex} files.  Also suppose the project
+is broken apart in to many @file{.tex} files which are all included by
+@file{mydoc.tex}.  Also suppose the project 
 includes a bibliography and a large number of figures created with the
 Tgif program.  An example @file{Makefile} for this project might look
 like:
@@ -218,6 +219,7 @@ the formatted document.  For additional information on the @samp{make}
 program, please refer to the documentation for your copy of
 @samp{make}. 
 
+@section Base Targets
 The targets provided by LaTeX-Mk are:
 
 @deffn Target clean
@@ -244,6 +246,12 @@ Format) file, @file{.pdf}, for the project.
 Sends the processed document to the printer.
 @end deffn
 
+@deffn Target ps
+@trindex ps
+Performs all processing required to produce a Postscript
+file, @file{.ps}, for the project.
+@end deffn
+
 @deffn Target show-var
 @trindex show-var
 This target is used to help debug users Makefiles as well as the
@@ -260,10 +268,83 @@ will display the value of the @code{TEXSRCS} variable.
 Previews the @file{.dvi} file.
 @end deffn
 
+@deffn Target viewpdf
+@trindex viewpdf
+Previews the PDF (@file{.pdf}) file.
+@end deffn
+
 @deffn Target viewps
 @trindex viewps
 Previews the Postscript (@file{.ps}) file.
 @end deffn
+
+@section Draft Targets
+LaTeX-Mk supports adding a DRAFT watermark and timestamp for the
+Postscript, PDF, and printed output.  To produce the draft versions,
+simply append @code{-draft} to the target.  The curently supported draft
+targets are:
+@deffn Target pdf-draft
+@trindex pdf-draft
+Draft version of the @code{pdf} target.
+@end deffn
+@deffn Target ps-draft
+@trindex ps-draft
+Draft version of the @code{ps} target.
+@end deffn
+@deffn Target print-draft
+@trindex print-draft
+Draft version of the @code{print} target.
+@end deffn
+@deffn Target viewpdf-draft
+@trindex viewpdf-draft
+Draft version of the @code{viewpdf} target.
+@end deffn
+@deffn Target viewps-draft
+@trindex viewps-draft
+Draft version of the @code{viewps} target.
+@end deffn
+
+@section Per Document Targets
+LaTeX-Mk supports multiple top level documents in a single directory
+controlled by a single makefile.  For each top level document specified
+in the @code{NAME} variable (more on variables later), there will be a 
+set of targets defined which are specific to the document.  The per
+document targets are:
+@deffn Target print_<name>
+@trindex print_<name>
+Prints the postscript file @file{<name>.ps}.
+@end deffn
+@deffn Target view_<name>
+@trindex view_<name>
+Previews the DVI file @file{<name>.dvi}.
+@end deffn
+@deffn Target viewpdf_<name>
+@trindex viewpdf_<name>
+Previews the PDF file @file{<name>.pdf}.
+@end deffn
+@deffn Target viewps_<name>
+@trindex viewps_<name>
+Previews the Postscript file @file{<name>.ps}.
+@end deffn
+
+In addition, draft versions of these targets exist:
+@deffn Target print_<name>-draft
+@trindex print_<name>-draft
+Draft version of the @code{print_<name>} target.
+@end deffn
+@deffn Target view_<name>-draft
+@trindex view_<name>-draft
+Draft version of the @code{view_<name>} target.
+@end deffn
+@deffn Target viewpdf_<name>-draft
+@trindex viewpdf_<name>-draft
+Draft version of the @code{viewpdf_<name>} target.
+@end deffn
+@deffn Target viewps_<name>-draft
+@trindex viewps_<name>-draft
+Draft version of the @code{viewps_<name>} target.
+@end deffn
+
 
 @node Variables, Obtaining, Targets, Top
 @chapter Variables
@@ -271,7 +352,7 @@ The variables used by LaTeX-Mk can be categorized roughly into two
 groups.  The first set of variables are typically set during the
 installation of LaTeX-Mk and these defaults used for all projects.
 These variables can be overridden on a per-user or per-project basis for
-maximal flexibility.  The second set of variables are set by the user on
+maximum flexibility.  The second set of variables are set by the user on
 a per-project basis.
 
 @section Site Configuration Variables
@@ -285,7 +366,7 @@ file.  If this file exists, it is sourced at the beginning of the
 LaTeX-Mk code.  Default is @file{$@{sysconfdir@}/latek-mk.conf} for BSD make and
 @file{$@{sysconfdir@}/latex-gmk.conf} for GNU make.  This is where system administrators
 can set system wide configuration variables.  Any variables defined
-here should be defined using the @code{VARIABLE?=  "new value"}
+here should be defined using @code{VARIABLE?=  "new value"}
 instead of @code{VARIABLE=  "new value"} so that individual users
 can easily override the setting.  The default setting may be
 changed during configuration of the package using the
@@ -307,7 +388,9 @@ changed during configuration of the package using the
 
 @subsection Generic Project Variables
 This section documents the variables which are typically set on a
-site-wide or user-wide basis.
+site-wide or user-wide basis.  In a typical installation these variables
+do not need to be explicitly set as they will take on reasonable
+defaults. 
 
 @defvar BIBTEX
 The bibtex executible.  Defaults to @samp{bibtex}.
@@ -438,7 +521,7 @@ This section documents variables which can be set in project Makefiles
 to accomodate other dependencies which may be added.
 
 @subsection Required Variables
-Every project must define the @code{name} variable.
+Every project must define the @code{NAME} variable.
 
 @defvar NAME
 Name of the project.  The top level LaTeX input file is assumed to be
@@ -509,7 +592,8 @@ OTHER+=         $(OTHER_EPS)
 All files listed in this variable are assumed to be LaTeX input files.
 Listing files in this variable will cause a dependency to be
 added to the top level project.  All LaTeX files used in the project
-should be listed in this variable.
+should be listed in this variable with the exception of the top level
+LaTeX file which is automatically included by LaTeX-Mk.
 @end defvar
 
 @subsection Per-Project Tgif Variables
