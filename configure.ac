@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.26 2003/05/26 19:15:06 dan Exp $
+dnl $Id: configure.ac,v 1.27 2003/06/08 03:30:41 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002, 2003 Dan McMahill
@@ -84,6 +84,14 @@ AC_PATH_PROG(TGIF, tgif, tgif)
 # for xfig.mk
 #
 AC_PATH_PROG(FIG2DEV, fig2dev, fig2dev)
+
+#
+# Look for a GNU make program and a BSD make program
+# This is used by the testsuite
+#
+
+AC_PATH_GNU_MAKE
+AC_PATH_BSD_MAKE
 
 #
 # system config files
