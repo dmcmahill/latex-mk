@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.29 2003/06/01 20:46:37 dan Exp $
+@c $Id: latex-mk.texi,v 1.30 2003/06/09 04:33:43 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -1021,13 +1021,18 @@ been fixed.
 @end itemize
 
 @subsection Version 1.1
-This is the "HTML Support" release.  Version 1.1 was released on 2003-??-??.
+This is the "HTML Support" release.  Version 1.1 was released on 2003-06-15.
 The significant changes/additions over the previous version are:
 @itemize @bullet
-@item Support for HTML output
+@item Support for HTML output.  Either LaTeX2HTML or HeVeA may be used.  
 
 @item Fixed a bug where bibtex was not run sometimes when it needed to
 be run.  This problem showed up with some versions of LaTeX.
+
+@item Added a POST_BIBTEX_HOOK variable which specifies a program to be
+run after a BibTeX run.  This gives users the ability to insert an
+additional processing step if desired.
+
 @end itemize
 
 @page

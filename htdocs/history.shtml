@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.9 2003/04/19 03:47:14 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.10 2003/06/09 04:33:45 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>LaTeX-Mk History</title>
@@ -125,6 +125,22 @@ xfig,
     fixed.  Previously, after a BibTeX run, latex-mk failed to run
     LaTeX the correct number of times.
     </LI>
+    </UL>
+    </p>
+
+    <H3>Version 1.1</H3>
+    <p>
+    LaTeX-Mk version 1.1 was released on June 15, 2003.
+    This is the "HTML Support" release.
+    The significant changes/additions over the previous version are:
+    <UL>
+    <LI>Support for HTML output.  Either LaTeX2HTML or HeVeA may be used.</LI>
+    <LI>Fixed a bug where bibtex was not run sometimes when it needed to
+    be run.  This problem showed up with some versions of LaTeX.</LI>
+
+    <LI>Added a POST_BIBTEX_HOOK variable which specifies a program to be
+    run after a BibTeX run.  This gives users the ability to insert an
+    additional processing step if desired.</LI>
     </UL>
     </p>
 

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: news.shtml,v 1.4 2003/02/25 23:56:14 dan Exp $ -->
+<!-- $Id: news.shtml,v 1.5 2003/06/09 04:33:46 dan Exp $ -->
 <!-- Copyright (c) 2002 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <title>LaTeX-Mk News</title>
@@ -31,6 +31,24 @@ xfig,
     </center>
     
     <font face="helvetica, arial">
+
+    <HR>
+    <H2><A NAME="20030615">LaTeX-Mk-1.1 Released</A></H2>
+    <p>
+    June 15, 2003.  LaTeX-Mk version 1.1 has been released.
+    This is the "HTML Support" release.
+    The significant changes/additions over the previous version are:
+    <UL>
+    <LI>Support for HTML output.  Either LaTeX2HTML or HeVeA may be used.</LI>
+    <LI>Fixed a bug where bibtex was not run sometimes when it needed to
+    be run.  This problem showed up with some versions of LaTeX.</LI>
+
+    <LI>Added a POST_BIBTEX_HOOK variable which specifies a program to be
+    run after a BibTeX run.  This gives users the ability to insert an
+    additional processing step if desired.</LI>
+    </UL>
+    </p>
+
     <HR>
     <H2><A NAME="20030326">LaTeX-Mk-1.0 Released</A></H2>
     <p>
