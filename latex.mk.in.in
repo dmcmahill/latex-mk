@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.16 2002/09/30 03:05:05 dan Exp $
+# $Id: latex.mk.in.in,v 1.17 2002/10/07 02:28:13 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -102,7 +102,7 @@ ENV_PROG?=	@ENV_PROG@
 FALSE?=		@FALSE@
 GV?=		@GV@
 GV_FLAGS?=	
-LATEX-MK?=	@bindir@/latex-mk
+LATEX-MK?=	@latexmkbindir@/latex-mk
 LATEX?=		@LATEX@
 LATEX_ENV?=	
 LPR?=		@LPR@

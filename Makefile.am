@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.11 2002/09/30 01:18:09 dan Exp $
+## $Id: Makefile.am,v 1.12 2002/10/07 02:28:12 dan Exp $
 ##
 ## Copyright (c) 2002 Dan McMahill
 ## All rights reserved.
@@ -55,7 +55,7 @@ SUFFIXES=	.mk.in .mk .gmk
 
 SED_COMMON=	-e 's;@pkgdatadir@;$(pkgdatadir);g' \
 	-e 's;@latexmkconfdir@;${sysconfdir};g' \
-	-e 's;@bindir@;${bindir};g'
+	-e 's;@latexmkbindir@;${bindir};g'
 
 .mk.in.mk:
 	sed -e 's/^BMK://g' -e '/^GMK:/d' ${SED_COMMON} $<  > $@
