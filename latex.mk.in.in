@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.8 2002/09/15 02:14:34 dan Exp $
+# $Id: latex.mk.in.in,v 1.9 2002/09/15 11:43:57 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -168,15 +168,17 @@ dvi:	$(NAME).dvi
 TEXSRCS+=	$(NAME).tex
 
 $(NAME).dvi: $(TEXSRCS) $(BIBTEXSRCS) $(OTHER)
-	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
+	$(ENV_PROG) $(LATEX_ENV) $(LATEX-MK) $(NAME)
+	#$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
 BMK:.ifdef BIBTEXSRCS
 GMK:ifdef BIBTEXSRCS
 	@$(ECHO) BibTeXing and rerunning LaTeX to get references right
 	$(ENV_PROG) $(BIBTEX_ENV) $(BIBTEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
-	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
+	#$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
+	$(ENV_PROG) $(LATEX_ENV) $(LATEX-MK) $(NAME)
 BMK:.endif
 GMK:endif
-	$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
+	#$(ENV_PROG) $(LATEX_ENV) $(LATEX) $(NAME) || (${RM} $(NAME).dvi && ${FALSE})
 
 
 #######################################

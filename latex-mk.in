@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.1 2002/09/14 11:34:19 dan Exp $
+# $Id: latex-mk.in,v 1.2 2002/09/15 11:43:57 dan Exp $
 #
 # Copyright (c) 2002 Dan McMahill
 # All rights reserved.
@@ -38,7 +38,10 @@ VERSION=@VERSION@
 
 MAXITERS=${MAXITERS:-5}
 LATEX=${LATEX:-latex}
+BIBTEX=${BIBTEX:-bibtex}
 LOG=${LOG:-latex-mk.log}
+
+sep="------------------------------------"
 
 while test -n "$1"
 do
@@ -69,22 +72,84 @@ if test -z "$INFILE" ; then
 	exit 1
 fi
 
-if ! test -f "$INFILE" ; then
-	echo "$0:   Input file $INFILE does not exist"
+if ! test -f "${INFILE}.tex" ; then
+	echo "$0:   Input file ${INFILE}.tex does not exist"
 	exit 1
 fi
 
 cnt=0
+bibcnt=0
+
 while test $cnt -lt $MAXITERS ; do
+	# run latex.  If it fails, manually remove the .dvi file since
+	# latex won't.  This will confuse 'make' because on the next
+	# invocation, the .dvi file will appear to be up to date already.
 	$LATEX $INFILE | tee $LOG
+	if test $? -ne 0 ; then
+		echo "$sep" 
+		echo "$0:  Error:  LaTeX failed" 
+		echo "$sep"
+		rm -f ${INFILE}.dvi
+		exit 1
+	fi
+
+	# if we need to run bibtex, we should end up with something like this:
+	#LaTeX Warning: Citation `foo' on page 1 undefined on input line 2
+	# and
+	#LaTeX Warning: There were undefined references.
+	#
+	# After bibtex is run, we will get one more latex run that has a citation
+	# complaint so we allow one more complaint from latex before declaring
+	# that there is a problem with the citations.  Just in case someone
+	# wants to keep running latex and viewing/printing the results with these
+	# errors present, provide a way to override this.
+	#
+	needbib=`grep "Citation.*on page.*undefined" $LOG`
+	if ! test -z "$needbib" ; then
+		if test $bibcnt -eq 0 ; then
+			echo "$sep"
+			echo "$0:  Running bibtex to resolve citations"
+			echo "$sep"
+			bibtex_ran=yes
+			$BIBTEX $INFILE 
+			if test $? -ne 0 ; then
+				echo "$sep" 
+				echo "$0:  Error:  BibTeX failed" 
+				echo "$sep"
+				rm -f ${INFILE}.dvi
+				exit 1
+			fi
+		elif test $bibcnt -eq 1 ; then
+			echo "$sep"
+			echo "$0:  BibTeX has already been run, but LaTeX is still reporting"
+			echo "    $needbib.
+			echo "    Trying LaTeX one more time...."
+			echo "$sep"
+		elif ! test -z "$IGNORE_CITATION_WARNS" ; then
+			echo "$sep"
+			echo "$0:  WARNING:  BibTeX has already been run, but LaTeX is still reporting"
+			echo "$0:  $needbib"
+			echo "$0:  You have set the IGNORE_CITATION_WARNS variable to override this, but"
+			echo "$0:  you probably do have an error in your citations."
+			echo "$sep"
+		else
+			echo "$sep"
+			echo "$0:  Error:  BibTeX has already been run, but LaTeX is still reporting"
+			echo "$0:  $needbib"
+			echo "$sep"
+			exit 1
+		fi
+		bibcnt=`expr $bibcnt + 1`
+	fi
+
 	#LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right
 	rerun=`grep "Rerun to get" $LOG`
 	if test -z "$rerun" ; then
 		break;
 	fi
-	echo "------------------------------------"
+	echo "$sep"
 	echo "$0:   LaTeX references have changed, another latex run is needed"
-	echo "------------------------------------"
+	echo "$sep"
 	cnt=`expr $cnt + 1`
 done
 
@@ -92,7 +157,7 @@ if test $cnt -eq $MAXITERS ; then
 	echo "------------------------------------"
 	echo "$0:   Failed to get LaTeX to converge after $MAXITERS tries"
 	echo "$0:   Please fix the document or try again if you think it"
-	echo "   should be ok"
+	echo "$0:   should be ok"
 	echo "------------------------------------"
 	exit 1
 fi
