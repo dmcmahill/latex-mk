@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.34 2004/03/17 20:40:19 dan Exp $
+@c $Id: latex-mk.texi,v 1.35 2004/03/17 21:10:59 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -861,10 +861,14 @@ several smaller files.
 The latest information and version of LaTeX-Mk can be found on the main
 LaTeX-Mk
 web site at @url{http://latex-mk.sourceforge.net}.
-A package for the NetBSD operating system (see @url{http://www.netbsd.org} for
+A package for the NetBSD operating system (see @url{http://www.NetBSD.org} for
 information about NetBSD)
 exists at
-@url{ftp://ftp.netbsd.org/pub/NetBSD/packages/pkgsrc/print/latex-mk/README.html}.
+@url{ftp://ftp.NetBSD.org/pub/NetBSD/packages/pkgsrc/print/latex-mk/README.html}.
+A port for the FreeBSD operating system (see @url{http://www.FreeBSD.org} for
+information about FreeBSD)
+exists at
+@url{href="http://www.FreeBSD.org/cgi/cvsweb.cgi/ports/misc/latex-mk/}.
 
 @node Installation, Feedback, Obtaining, Top
 @comment  node-name,  next,  previous,  up
