@@ -1,0 +1,2 @@
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
+myxdvi  myxdvi_landscape test1.dvi
