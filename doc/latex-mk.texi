@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.32 2003/11/17 18:08:07 dan Exp $
+@c $Id: latex-mk.texi,v 1.33 2003/11/17 22:48:33 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -1065,6 +1065,27 @@ be run.  This problem showed up with some versions of LaTeX.
 @item Added a POST_BIBTEX_HOOK variable which specifies a program to be
 run after a BibTeX run.  This gives users the ability to insert an
 additional processing step if desired.
+
+@end itemize
+
+@subsection Version 1.2
+Version 1.2 was released on 2003-??-??.
+The significant changes/additions over the previous version are:
+@itemize @bullet
+@item Fixed a bug which prevented the POST_BIBTEX_HOOK hook from
+actually doing anything.
+
+@item Dropped -Ppdf from the default DVIPS_FLAGS.  Users who wish
+to keep -Ppdf as part of DVIPS_FLAGS can add it to the site configuration file,
+user configuration file, or project Makefile.
+
+@item Added DVIPDFM_ENV variable for running @code{dvipdfm} inside
+a customized environment.
+
+@item Preliminary Rich Text Format (RTF) output support.
+The new @code{rtf} target will use @code{latex2rtf} to produce an
+RTF version of your document.  Use this when sending your documents
+to the text-formatter-challenged.
 
 @end itemize
 
