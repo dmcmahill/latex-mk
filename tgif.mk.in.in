@@ -1,4 +1,4 @@
-# $Id: tgif.mk.in.in,v 1.8 2003/02/02 00:14:09 dan Exp $
+# $Id: tgif.mk.in.in,v 1.9 2003/02/03 03:25:47 dan Exp $
 #
 # Makefile fragment for processing tgif files to produce postscript
 #
@@ -67,8 +67,8 @@ TGIF_FLAGS?=	-color -print -eps
 BMK:.if defined(TGIFDIRS)
 BMK:.for __tmp__ in ${TGIFDIRS}
 BMK:.if exists(${__tmp__})
-BMK:_TGIF_ADD!=	ls ${__tmp__}/*.obj
-BMK:TGIFSRCS+=	${_TGIF_ADD}
+BMK:_TGIF_ADD_${__tmp__}!=	ls ${__tmp__}/*.obj
+BMK:TGIFSRCS+=	${_TGIF_ADD_${__tmp__}}
 BMK:.endif
 BMK:.endfor
 BMK:.endif
@@ -87,8 +87,8 @@ BMK:.for __name__ in ${NAME}
 BMK:.if defined(${__name__}_TGIFDIRS)
 BMK:.for __tmp__ in ${${__name__}_TGIFDIRS}
 BMK:.if exists(${__tmp__})
-BMK:_TGIF_ADD!=	ls ${__tmp__}/*.obj
-BMK:${__name__}_TGIFSRCS+=	${_TGIF_ADD}
+BMK:_TGIF_ADD2_${__tmp__}!=	ls ${__tmp__}/*.obj
+BMK:${__name__}_TGIFSRCS+=	${_TGIF_ADD2_${__tmp__}}
 BMK:.endif
 BMK:.endfor
 BMK:.endif

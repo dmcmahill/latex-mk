@@ -1,4 +1,4 @@
-# $Id: xfig.mk.in.in,v 1.5 2003/02/02 12:07:03 dan Exp $
+# $Id: xfig.mk.in.in,v 1.6 2003/02/03 03:25:48 dan Exp $
 #
 # Makefile fragment for processing xfig files to produce postscript
 #
@@ -67,8 +67,8 @@ FIG2DEV_FLAGS?=	-L ps
 BMK:.if defined(XFIGDIRS)
 BMK:.for __tmp__ in ${XFIGDIRS}
 BMK:.if exists(${__tmp__})
-BMK:_XFIG_ADD!=	ls ${__tmp__}/*.fig
-BMK:XFIGSRCS+=	${_XFIG_ADD}
+BMK:_XFIG_ADD_${__tmp__}!=	ls ${__tmp__}/*.fig
+BMK:XFIGSRCS+=	${_XFIG_ADD_${__tmp__}}
 BMK:.endif
 BMK:.endfor
 BMK:.endif
@@ -87,8 +87,8 @@ BMK:.for __name__ in ${NAME}
 BMK:.if defined(${__name__}_XFIGDIRS)
 BMK:.for __tmp__ in ${${__name__}_XFIGDIRS}
 BMK:.if exists(${__tmp__})
-BMK:_XFIG_ADD!=	ls ${__tmp__}/*.fig
-BMK:${__name__}_XFIGSRCS+=	${_XFIG_ADD}
+BMK:_XFIG_ADD2_${__tmp__}!=	ls ${__tmp__}/*.fig
+BMK:${__name__}_XFIGSRCS+=	${_XFIG_ADD2_${__tmp__}}
 BMK:.endif
 BMK:.endfor
 BMK:.endif
