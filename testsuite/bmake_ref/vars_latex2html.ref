@@ -3,5 +3,5 @@ touch test1.html-stamp1
 echo LaTeX-Mk:  Creating HTML output using latex2html
 env foo=bar mylatex2html mylatex2html_flags -mkdir -dir test1.html_dir test1.tex
 if [ ! -f test1.www_files ]; then touch test1.www_files ; fi
-for f in `/usr/bin/find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif  -o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \)  -newer test1.html-stamp1 -print` ; do  fn=`basename $f` ;  if /usr/bin/grep $f test1.www_files >/dev/null ; then  echo "$f already recorded" ;  else  echo "recording file $f (test1.html_dir/$fn)" ;  echo "$f test1.html_dir/$fn" >> test1.www_files ;  fi ; done
+for f in `find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif  -o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \)  -newer test1.html-stamp1 -print` ; do  fn=`basename $f` ;  if grep $f test1.www_files >/dev/null ; then  echo "$f already recorded" ;  else  echo "recording file $f (test1.html_dir/$fn)" ;  echo "$f test1.html_dir/$fn" >> test1.www_files ;  fi ; done
 mv test1.html-stamp1 test1.html-stamp
