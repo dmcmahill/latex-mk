@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.4 2003/02/03 12:04:27 dan Exp $
+## $Id: Makefile.am,v 1.5 2003/02/03 12:09:06 dan Exp $
 ##
 ## Copyright (c) 2003 Dan McMahill
 ## All rights reserved.
@@ -50,9 +50,6 @@ SUBDIRS=	bmake gmake
 
 TESTS=		run_tests
 EXTRA_DIST=	${MKSRCS} run_tests tests.list
-
-all-local:
-	chmod 755 run_tests
 
 SUFFIXES=	.mk.in .mk .gmk
 
