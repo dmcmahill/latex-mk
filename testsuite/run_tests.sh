@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.10 2003/06/12 21:58:07 dan Exp $
+# $Id: run_tests.sh,v 1.11 2003/06/14 14:16:46 dan Exp $
 #
 # Copyright (c) 2003 Dan McMahill
 # All rights reserved.
@@ -391,7 +391,10 @@ echo "BSD make version:  Passed $bpass, failed $bfail, skipped $bskip out of $to
 echo "GNU make version:  Passed $gpass, failed $gfail, skipped $gskip out of $tot tests."
 
 rc=0
-if [ $bpass -ne $tot  -o $gpass -ne $tot ]; then
+if [ $bpass -ne $tot  -a "X$with_bmake" = "Xyes" ]; then
+    rc=1
+fi
+if [ $gpass -ne $tot  -a "X$with_gmake" = "Xyes" ]; then
     rc=1
 fi
 
