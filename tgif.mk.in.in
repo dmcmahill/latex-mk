@@ -1,4 +1,4 @@
-# $Id: tgif.mk.in.in,v 1.5 2002/09/21 14:40:36 dan Exp $
+# $Id: tgif.mk.in.in,v 1.5.2.1 2002/10/29 02:13:34 dan Exp $
 #
 # Makefile fragment for processing tgif files to produce postscript
 #
@@ -83,8 +83,17 @@ BMK:.endfor
 BMK:.endif
 BMK:.endfor
 
+
 TGIFOBJS?=	$(TGIFSRCS:.obj=.eps)
 ALLTGIFOBJS=	$(TGIFOBJS)
+
+GMK:define tgifdirs_template
+GMK:ifdef $(1)_TGIFDIRS
+GMK:$(1)_TGIFSRCS+= $(foreach __tmp2__,$($(1)_TGIFDIRS),$(wildcard $(__tmp2__)/*.obj))
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call tgifdirs_template,$(__tmp__))))
+
 BMK:.for __tmp__ in ${NAME}
 BMK:.if defined(${__tmp__}_TGIFSRCS)
 BMK:${__tmp__}_TGIFOBJS?=	${${__tmp__}_TGIFSRCS:.obj=.eps}
@@ -93,48 +102,21 @@ BMK:ALLTGIFOBJS+=	${${__tmp__}_TGIFOBJS}
 BMK:.endif
 BMK:.endfor
 
-LATEX_MK_TGIFDEPS=	latex-mk-tgifdeps.mk
-GMK:# here is where we wish that .for loops were commonly
-GMK:# supported in GNU make...
-GMK:# XXX -- we need to not assume its called 'Makefile'.  What if
-GMK:#        someone uses gmake -f foo.mk !!!  Stupid GNU make.
-GMK:LATEX_MK_TGIFDEPS_STAMP=	${LATEX_MK_TGIFDEPS}_stamp
-GMK:${LATEX_MK_TGIFDEPS_STAMP}:
-GMK:	@touch $@ ; $(RM) ${LATEX_MK_TGIFDEPS}
-GMK:
-GMK:${LATEX_MK_TGIFDEPS}: ${LATEX_MK_TGIFDEPS_STAMP}
-GMK:	@-${RM} $@
-GMK:	@-${RM} ${LATEX_MK_TGIFDEPS_STAMP}
-GMK:	@echo "#############################################" >> $@
-GMK:	@echo "### Generated file.  Do not edit directly ###" >> $@
-GMK:	@echo "#############################################" >> $@
-GMK:	@for tmp in ${NAME} ; do \
-GMK:		echo "# Tgif directory dependencies for \"$${tmp}\"" >> $@ ; \
-GMK:		echo "ifdef $${tmp}_TGIFDIRS" >> $@ ; \
-GMK:		echo "$${tmp}_TGIFSRCS+= \$$(foreach __tmp__,\$$($${tmp}_TGIFDIRS),\$$(wildcard $$(__tmp__)/*.obj))" >> $@ ; \
-GMK:		echo "endif" >> $@ ; \
-GMK:		echo " " >> $@ ; \
-GMK:		echo "ifdef $${tmp}_TGIFSRCS" >> $@ ; \
-GMK:		echo "$${tmp}_TGIFOBJS+= \$${$${tmp}_TGIFSRCS:.obj=.eps}" >> $@ ; \
-GMK:		echo "$${tmp}_OTHER+=	\$${$${tmp}_TGIFOBJS}" >> $@ ; \
-GMK:		echo "ALLTGIFOBJS+= \$${$${tmp}_TGIFOBJS}"  >> $@ ; \
-GMK:		echo "endif" >> $@ ; \
-GMK:		echo " " >> $@ ; \
-GMK:	done
-GMK:include ${LATEX_MK_TGIFDEPS}
+GMK:define tgifdeps_template
+GMK:ifdef $(1)_TGIFSRCS
+GMK:$(1)_TGIFOBJS?=	${$(1)_TGIFSRCS:.obj=.eps}
+GMK:$(1)_OTHER+=	${$(1)_TGIFOBJS}
+GMK:ALLTGIFOBJS+=	${$(1)_TGIFOBJS}
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call tgifdeps_template,$(__tmp__))))
 
 
-BMK:.ifdef TGIFSRCS
-GMK:ifdef TGIFSRCS
 OTHER+=	$(TGIFOBJS)
 all::		$(ALLTGIFOBJS)
 
 clean::
-	$(RM) -f $(ALLTGIFOBJS) $(LATEX_MK_TGIFDEPS) $(LATEX_MK_TGIFDEPS_STAMP)
-
-BMK:.endif
-GMK:endif
-
+	$(RM) -f $(ALLTGIFOBJS)
 
 .SUFFIXES : .obj .eps
 
