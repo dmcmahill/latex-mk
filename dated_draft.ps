@@ -1,0 +1,41 @@
+%!
+%%
+%% $Id: dated_draft.ps,v 1.1 2002/09/27 03:11:10 dan Exp $
+%%
+userdict
+begin
+/bop-hook {
+  gsave
+  /LucidaSans-Typewriter 12 selectfont
+  306 20
+  ( DATE ) 
+  dup
+  stringwidth pop 2 div
+  4 -1 roll exch sub
+  3 -1 roll moveto
+  show
+  306 34
+  ( DRAFT )
+  dup
+  stringwidth pop 2 div
+  4 -1 roll exch sub
+  3 -1 roll moveto
+  show
+  /Helvetica-Bold 144 selectfont  
+  306 396
+  moveto
+  -52.3 rotate
+  ( DRAFT )
+  dup
+  stringwidth 
+  pop -54                % the Y coordinate
+  exch
+  2 div 0 exch sub       % the X coordinate
+  exch
+  rmoveto
+  % 1 is white, 0 is black
+  0.8 setgray
+  show
+  grestore
+} def
+end

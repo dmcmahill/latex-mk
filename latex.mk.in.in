@@ -1,4 +1,4 @@
-# $Id: latex.mk.in.in,v 1.13 2002/09/21 14:40:35 dan Exp $
+# $Id: latex.mk.in.in,v 1.14 2002/09/27 03:11:10 dan Exp $
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -113,6 +113,9 @@ XDVI_FLAGS?=
 
 RM?=		@RM@
 
+DRAFT_STAMP_PS?=	draft_stamp.ps
+DATED_DRAFT_PS?=	${LATEX_MK_DIR}/dated_draft.ps
+
 .MAIN: all
 .PHONY: all
 default: all
@@ -164,6 +167,11 @@ BMK:viewps_${__tmp__}: ${__tmp__}.ps
 BMK:	$(GV) $(GV_FLAGS)  ${__tmp__}.ps
 BMK:DEFAULTVIEWPS?=	viewps_${__tmp__}
 BMK:ALLVIEWPS+=	viewps_${__tmp__}
+BMK:.PHONY: viewps_${__tmp__}-draft
+BMK:viewps_${__tmp__}-draft: ${__tmp__}-draft.ps
+BMK:	$(GV) $(GV_FLAGS)  ${__tmp__}-draft.ps
+BMK:DEFAULTVIEWPS_DRAFT?=	viewps_${__tmp__}-draft
+BMK:ALLVIEWPS_DRAFT+=	viewps_${__tmp__}-draft
 BMK:.endfor
 
 BMK:.for __tmp__ in ${NAME}
@@ -172,6 +180,11 @@ BMK:print_${__tmp__}: ${__tmp__}.ps
 BMK:	$(LPR) $(LPR_FLAGS) ${__tmp__}.ps
 BMK:DEFAULTPRINT?=	print_${__tmp__}
 BMK:ALLPRINT+=	print_${__tmp__}
+BMK:.PHONY: print_${__tmp__}-draft
+BMK:print_${__tmp__}-draft: ${__tmp__}-draft.ps
+BMK:	$(LPR) $(LPR_FLAGS) ${__tmp__}-draft.ps
+BMK:DEFAULTPRINT_DRAFT?=	print_${__tmp__}-draft
+BMK:ALLPRINT_DRAFT+=	print_${__tmp__}-draft
 BMK:.endfor
 
 ALLTEXSRCS=	${TEXSRCS}
@@ -250,10 +263,20 @@ viewps: ${DEFAULTVIEWPS}
 .PHONY: viewps-all
 viewps-all: ${ALLVIEWPS}
 
+.PHONY: viewps-draft
+viewps: ${DEFAULTVIEWPS_DRAFT}
+.PHONY: viewps-all-draft
+viewps-all: ${ALLVIEWPS_DRAFT}
+
 .PHONY: print
 print: ${DEFAULTPRINT}
 .PHONY: print-all
 print-all: ${ALLPRINT}
+
+.PHONY: print-draft
+print: ${DEFAULTPRINT_DRAFT}
+.PHONY: print-all-draft
+print-all: ${ALLPRINT_DRAFT}
 
 .SUFFIXES : .tex .dvi .ps .pdf
 
@@ -272,7 +295,19 @@ print-all: ${ALLPRINT}
 #
 #######################################
 .PHONY:  ps
+
+BMK:.if defined(DRAFT)
+GMK:ifdef DRAFT
+DVIPS_FLAGS+=	-h ${DRAFT_STAMP_PS}
+BMK:.endif
+GMK:endif
+
 .dvi.ps :
+BMK:.if defined(DRAFT)
+GMK:ifdef DRAFT
+	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
+BMK:.endif
+GMK:endif
 	$(DVIPS) $(DVIPS_FLAGS) -o $@ $<
 
 #######################################
