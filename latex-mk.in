@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.4 2002/09/21 02:31:29 dan Exp $
+# $Id: latex-mk.in,v 1.5 2002/09/21 02:32:54 dan Exp $
 #
 # Copyright (c) 2002 Dan McMahill
 # All rights reserved.
@@ -101,6 +101,7 @@ while test $cnt -lt $MAXITERS ; do
 		echo "$0:  Error:  LaTeX failed" 
 		echo "$sep"
 		rm -f ${NAME}.dvi
+		rm -f $LATEX_MK_LOG
 		exit 1
 	fi
 
@@ -128,6 +129,7 @@ while test $cnt -lt $MAXITERS ; do
 				echo "$0:  Error:  BibTeX failed" 
 				echo "$sep"
 				rm -f ${NAME}.dvi
+				rm -f $LATEX_MK_LOG
 				exit 1
 			fi
 		elif test $bibcnt -eq 1 ; then
@@ -148,6 +150,7 @@ while test $cnt -lt $MAXITERS ; do
 			echo "$0:  Error:  BibTeX has already been run, but LaTeX is still reporting"
 			echo "$0:  $needbib"
 			echo "$sep"
+			rm -f $LATEX_MK_LOG
 			exit 1
 		fi
 		bibcnt=`expr $bibcnt + 1`
@@ -170,8 +173,10 @@ if test $cnt -eq $MAXITERS ; then
 	echo "$0:   Please fix the document or try again if you think it"
 	echo "$0:   should be ok"
 	echo "$sep"
+	rm -f $LATEX_MK_LOG
 	exit 1
 fi
 
+rm -f $LATEX_MK_LOG
 exit 0
 
