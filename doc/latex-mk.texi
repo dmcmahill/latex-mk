@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.41 2004/05/29 13:07:01 dan Exp $
+@c $Id: latex-mk.texi,v 1.42 2004/05/29 13:09:15 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -894,7 +894,7 @@ exists at
 A port for the FreeBSD operating system (see @url{http://www.FreeBSD.org} for
 information about FreeBSD)
 exists at
-@url{href="http://www.FreeBSD.org/cgi/cvsweb.cgi/ports/misc/latex-mk/}.
+@url{http://www.freshports.org/misc/latex-mk}.
 
 @node Installation, Feedback, Obtaining, Top
 @comment  node-name,  next,  previous,  up
