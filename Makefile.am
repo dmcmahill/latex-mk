@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.9 2002/09/20 11:58:35 dan Exp $
+## $Id: Makefile.am,v 1.10 2002/09/27 02:53:28 dan Exp $
 ##
 ## Copyright (c) 2002 Dan McMahill
 ## All rights reserved.
@@ -37,14 +37,17 @@ MKSRCS=	latex.mk.in tgif.mk.in xfig.mk.in
 
 BMKFILES=	${MKSRCS:.mk.in=.mk}
 GMKFILES=	${MKSRCS:.mk.in=.gmk}
+PSFILES=	dated_draft.ps
 
-pkgdata_DATA=	${BMKFILES} ${GMKFILES}
+pkgdata_DATA=	${BMKFILES} ${GMKFILES} ${PSFILES}
 bin_SCRIPTS=	latex-mk
 
 DISTCLEANFILES=	\
 	configure.lineno \
 	${BMKFILES} \
 	${GMKFILES}
+
+EXTRA_DIST=	${PSFILES} TODO
 
 SUBDIRS=	doc example
 

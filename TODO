@@ -1,0 +1,15 @@
+# $Id: TODO,v 1.1 2002/09/27 02:53:28 dan Exp $
+#
+
+LaTeX-Mk Unofficial TODO List
+-----------------------------
+
+- Support for pdftex
+
+- Support for lgrind
+
+- Support for recursive make calls into subdirectories which
+  may or may not be strictly latex-mk projects.  This could
+  potentially be used when you have some other stuff which
+  needs to be run to generate some inputs.
+
