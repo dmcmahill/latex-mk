@@ -1,4 +1,5 @@
-# $Id: xfig.mk.in.in,v 1.6 2003/02/03 03:25:48 dan Exp $
+# -*- Makefile -*-
+# $Id: xfig.mk.in.in,v 1.7 2003/02/17 12:11:23 dan Exp $
 #
 # Makefile fragment for processing xfig files to produce postscript
 #

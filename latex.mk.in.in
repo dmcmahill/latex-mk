@@ -1,4 +1,5 @@
-# $Id: latex.mk.in.in,v 1.29 2003/02/15 20:07:04 dan Exp $
+# -*- Makefile -*-
+# $Id: latex.mk.in.in,v 1.30 2003/02/17 12:11:21 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #

@@ -1,4 +1,5 @@
-# $Id: tgif.mk.in.in,v 1.9 2003/02/03 03:25:47 dan Exp $
+# -*- Makefile -*-
+# $Id: tgif.mk.in.in,v 1.10 2003/02/17 12:11:22 dan Exp $
 #
 # Makefile fragment for processing tgif files to produce postscript
 #
