@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.11 2003/02/15 20:07:04 dan Exp $
+# $Id: latex-mk.in,v 1.12 2003/02/22 14:28:47 dan Exp $
 #
 # Copyright (c) 2002, 2003 Dan McMahill
 # All rights reserved.
@@ -67,6 +67,7 @@ do
 		echo "run LaTeX the appropriate number of times to resolve all"
 		echo "references and page changes associated with resolving"
 		echo "references."
+		;;
 
 	--ignore-errors)
 		ignore_errors=yes
@@ -141,7 +142,7 @@ while test $cnt -lt $MAXITERS ; do
 	# errors present, provide a way to override this.
 	#
 	needbib=`grep "Citation.*on page.*undefined" $LATEX_MK_LOG`
-	if test ! -z "$needbib" ; then
+	if test -n "$needbib" ; then
 		if test $bibcnt -eq 0 ; then
 			echo "$sep"
 			echo "$0:  Running bibtex to resolve citations"
@@ -162,7 +163,7 @@ while test $cnt -lt $MAXITERS ; do
 			echo "    $needbib."
 			echo "    Trying LaTeX one more time...."
 			echo "$sep"
-		elif test ! -z "$IGNORE_CITATION_WARNS" ; then
+		elif test -n "$IGNORE_CITATION_WARNS" ; then
 			echo "$sep"
 			echo "$0:  WARNING:  BibTeX has already been run, but LaTeX is still reporting"
 			echo "$0:  $needbib"
@@ -182,7 +183,7 @@ while test $cnt -lt $MAXITERS ; do
 
 	#LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right
 	rerun=`grep "Rerun to get" $LATEX_MK_LOG`
-	if test -z "$rerun" ; then
+	if test -z "$rerun" -a -z "$needbib" ; then
 		break;
 	fi
 	echo "$sep"
@@ -196,6 +197,7 @@ undefined=`grep "There were undefined references" $LATEX_MK_LOG`
 if test ! -z "$undefined" ; then
 	echo "$sep"
 	echo "$0:  There were undefined references.  Please correct this."
+	echo "$0:  I have already made $cnt passes."
 	#LaTeX Warning: Reference `tab:fuse_table' on page 3 undefined on input line 82.
 	grep "Reference.*on page.*undefined" $LATEX_MK_LOG
 	echo "$sep"
