@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.21 2004/03/18 12:28:40 dan Exp $
+# $Id: latex-mk.in,v 1.22 2004/05/29 12:46:07 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004 Dan McMahill
 # All rights reserved.
@@ -181,7 +181,18 @@ while test $cnt -lt $MAXITERS ; do
 	# wants to keep running latex and viewing/printing the results with these
 	# errors present, provide a way to override this.
 	#
+	# Evidently, we may also simply get the following complaint:
+	#
+	# No file foo.bbl
+	#
+	# instead of the above warning.  This can happen if you only have
+	# something line \nocite{*} in your document instead of \cite{x}
+
 	needbib=`grep "Citation.*undefined" $LATEX_MK_LOG`
+	if test -z "$needbib" ; then
+	    echo "Checking for missing .bbl files in latex log ..."
+	    needbib=`grep "No file.*\.bbl" $LATEX_MK_LOG`
+	fi
 	if test -n "$needbib" ; then
 		if test $bibcnt -eq 0 ; then
 			echo "$sep"
