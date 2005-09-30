@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.34 2005/09/30 10:52:31 dan Exp $
+dnl $Id: configure.ac,v 1.35 2005/09/30 11:01:47 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill
@@ -97,6 +97,21 @@ AC_PATH_PROG(FIG2DEV, fig2dev, fig2dev)
 
 AC_PATH_GNU_MAKE
 AC_PATH_BSD_MAKE
+
+if test "X${BMAKE}" = "Xnone" -a "X${GMAKE}" = "Xnone" ; then
+	AC_MSG_NOTICE([
+
+************************ WARNING ************************
+I could not find GNU make >= version 3.80 _or_
+a suitable BSD make on your system.  This package
+will still install correctly, but you will not actually
+be able to use it or run the testsuite until you 
+install a suitable make program.
+************************ WARNING ************************
+
+]
+)
+fi
 
 #
 # system config files
