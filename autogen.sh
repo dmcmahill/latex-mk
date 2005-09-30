@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# $Id: autogen.sh,v 1.2 2003/02/26 01:28:17 dan Exp $
+# $Id: autogen.sh,v 1.3 2005/09/30 00:05:20 dan Exp $
 #
 # Run the various GNU autotools to bootstrap the build
 # system.  Should only need to be done once.
@@ -9,8 +9,25 @@
 CONFIG_SHELL=/bin/sh
 export CONFIG_SHELL
 
-aclocal
-#autoheader
-automake -a -c --gnu
-autoconf
+echo "Running aclocal..."
+aclocal $ACLOCAL_FLAGS || exit 1
+echo "Done with aclocal"
+
+echo "Running autoheader..."
+autoheader || exit 1
+echo "Done with autoheader"
+
+echo "Running automake..."
+automake -a -c --foreign || exit 1
+echo "Done with automake"
+
+echo "Running autoconf..."
+autoconf || exit 1
+echo "Done with autoconf"
+
+echo "Running ./configure $@"
+./configure $@ || exit 1
+echo "Done with configure"
+
+echo "All done with autogen.sh"
 
