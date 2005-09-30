@@ -1,0 +1,172 @@
+# -*- Makefile -*-
+# $Id: lgrind.mk.in.in,v 1.1 2005/09/30 22:11:39 dan Exp $
+#
+# Makefile fragment for processing lgrind files to produce postscript
+#
+# Copyright (c) 2005 Peter Bex
+# All rights reserved.
+#
+# This code is derived from software written by Dan McMahill
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by Dan McMahill
+#  4. The name of the author may not be used to endorse or promote products
+#     derived from this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+#  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+#  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+#  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+#  SUCH DAMAGE.
+#
+
+
+#######################################
+#
+# TODO:
+# - Add support for other source files than .c and .h
+# - Add support for inline lgrind sources using the %(...)% notation
+#
+# README:
+#
+# To use this makefile fragment, set the variable:
+#	LGRINDSRCS	= the source files to process
+# in your top level Makefile.  You can also specify
+# LGRINDDIRS which is a list of directories containing
+# source files.  All source files in the specified directories
+# are added to LGRINDSRCS
+#
+# The following variables may be overridden in your top level Makefile
+#
+#  LGRIND	= the lgrind executable
+#  LGRIND_FLAGS	= flags passed to lgrind for exporting to tex
+#
+#######################################
+
+
+# how to call lgrind to convert source files to TeX
+LGRIND?=	@LGRIND@
+LGRIND_FLAGS?=	-i
+
+#######################################
+#
+# Process LGRINDDIRS, adding to LGRINDSRCS
+#
+#######################################
+
+BMK:.if defined(LGRINDDIRS)
+BMK:.for __tmp__ in ${LGRINDDIRS}
+BMK:.if exists(${__tmp__})
+BMK:_LGRIND_ADD_${__tmp__}!=	ls ${__tmp__}/*.[ch]
+BMK:LGRINDSRCS+=	${_LGRIND_ADD_${__tmp__}}
+BMK:.endif
+BMK:.endfor
+BMK:.endif
+
+GMK:ifdef LGRINDDIRS
+GMK:LGRINDSRCS+= $(foreach __tmp__,$(LGRINDDIRS),$(wildcard $(__tmp__)/*.[ch]))
+GMK:endif
+
+#######################################
+#
+# Process proj_LGRINDDIRS, adding to proj_LGRINDSRCS
+#
+#######################################
+
+BMK:.for __name__ in ${NAME}
+BMK:.if defined(${__name__}_LGRINDDIRS)
+BMK:.for __tmp__ in ${${__name__}_LGRINDDIRS}
+BMK:.if exists(${__tmp__})
+BMK:_LGRIND_ADD2_${__tmp__}!=	ls ${__tmp__}/*.[ch]
+BMK:${__name__}_LGRINDSRCS+=	${_LGRIND_ADD2_${__tmp__}}
+BMK:.endif
+BMK:.endfor
+BMK:.endif
+BMK:.endfor
+
+GMK:define lgrinddirs_template
+GMK:ifdef $(1)_LGRINDDIRS
+GMK:$(1)_LGRINDSRCS+= $(foreach __tmp2__,$($(1)_LGRINDDIRS),$(wildcard $(__tmp2__)/*.[ch]))
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call lgrinddirs_template,$(__tmp__))))
+
+#######################################
+# 
+# Process proj_LGRINDSRCS to add to
+# prog_OTHER dependencies
+#
+#######################################
+
+LGRINDOBJS?=	$(LGRINDSRCS:=.tex)
+ALLLGRINDOBJS+=	$(LGRINDOBJS)
+
+BMK:.for __tmp__ in ${NAME}
+BMK:.if defined(${__tmp__}_LGRINDSRCS)
+BMK:${__tmp__}_LGRINDOBJS?=	${${__tmp__}_LGRINDSRCS:=.tex}
+BMK:${__tmp__}_OTHER+=	${${__tmp__}_LGRINDOBJS}
+BMK:ALLLGRINDOBJS+=	${${__tmp__}_LGRINDOBJS}
+BMK:.endif
+BMK:.endfor
+
+GMK:# note, this had to be done in two steps (create proj_LGRINDOBJS,
+GMK:# and then add to proj_OTHER and ALLLGRINDOBJS) with GNU make 3.80
+GMK:# don't really know why.
+GMK:define lgrindobjs_template
+GMK:ifdef $(1)_LGRINDSRCS
+GMK:$(1)_LGRINDOBJS?=	${$(1)_LGRINDSRCS:=.tex}
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call lgrindobjs_template,$(__tmp__))))
+
+GMK:define lgrinddeps_template
+GMK:ifdef $(1)_LGRINDSRCS
+GMK:$(1)_OTHER+=	${$(1)_LGRINDOBJS}
+GMK:ALLLGRINDOBJS+=	${$(1)_LGRINDOBJS}
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call lgrinddeps_template,$(__tmp__))))
+
+
+#######################################
+# 
+# Add the dependencies
+#
+#######################################
+
+
+OTHER+=	$(LGRINDOBJS)
+all::		$(ALLLGRINDOBJS)
+
+clean::
+	$(RM) -f $(ALLLGRINDOBJS)
+
+#######################################
+# 
+# The suffix rules
+#
+#######################################
+
+.SUFFIXES : .c .h .c.tex .h.tex
+
+.c.c.tex : 
+	$(LGRIND) $(LGRIND_FLAGS) -o $@ $*.c
+
+.h.h.tex : 
+	$(LGRIND) $(LGRIND_FLAGS) -o $@ $*.h
+

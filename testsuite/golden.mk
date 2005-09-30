@@ -1,4 +1,4 @@
-## $Id: golden.mk,v 1.11 2005/09/30 13:45:16 dan Exp $
+## $Id: golden.mk,v 1.12 2005/09/30 22:11:39 dan Exp $
 ##
 ## Copyright (c) 2003, 2004, 2005 Dan McMahill
 ## All rights reserved.
@@ -69,6 +69,8 @@ GOLDEN_FILES=	\
 	basic1_pdflatex_ps2.ref \
 	basic1_ps1.ref \
 	basic1_ps2.ref \
+	basic_lgrinddirs.ref \
+	basic_lgrindsrcs.ref \
 	basic_tgifdirs.ref \
 	basic_tgifsrcs.ref \
 	basic_xfigdirs.ref \

@@ -1,7 +1,7 @@
 # -*- Makefile -*-
-# $Id: testfile.mk.in,v 1.7 2004/03/18 22:02:34 dan Exp $
+# $Id: testfile.mk.in,v 1.8 2005/09/30 22:11:40 dan Exp $
 #
-# Copyright (c) 2003, 2004 Dan McMahill
+# Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -74,6 +74,36 @@ GMK:ifdef TEST3
 
 NAME= test3
 TGIFDIRS=	tgifdir1 tgifdir2
+
+BMK:.endif
+GMK:endif
+
+#######################################
+# 
+# TEST #2A (simple with LGRINDSRCS)
+#
+#######################################
+
+BMK:.if defined(TEST2A)
+GMK:ifdef TEST2A
+
+NAME= test2
+LGRINDSRCS=	src1.c src2.c src2.h
+
+BMK:.endif
+GMK:endif
+
+#######################################
+# 
+# TEST #3A (simple with LGRINDDIRS)
+#
+#######################################
+
+BMK:.if defined(TEST3A)
+GMK:ifdef TEST3A
+
+NAME= test3
+LGRINDDIRS=	lgrinddir1 lgrinddir2
 
 BMK:.endif
 GMK:endif

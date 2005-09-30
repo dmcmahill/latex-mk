@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.46 2005/09/30 14:09:53 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.47 2005/09/30 22:11:38 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -227,6 +227,53 @@ REAL_PDFLATEX_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
 REAL_PDFLATEX_ENV+=	${PDFLATEX_ENV}
 
 # Include other .mk files often times used with LaTeX
+
+#######################################
+#
+# Check for lgrind
+#
+#######################################
+
+# Check for LGRINDSRCS and LGRINDDIRS
+
+BMK:.if defined(LGRINDSRCS) || defined(LGRINDDIRS)
+BMK:_USE_LGRIND_MK=	YES
+BMK:.endif
+
+GMK:ifdef LGRINDSRCS
+GMK:_USE_LGRIND_MK+=	YES
+GMK:endif
+GMK:ifdef LGRINDDIRS
+GMK:_USE_LGRIND_MK+=	YES
+GMK:endif
+
+# Check for proj_LGRINDSRCS and proj_LGRINDDIRS
+
+BMK:.for __tmp__ in ${NAME}
+BMK:.if defined(${__tmp__}_LGRINDSRCS) || defined(${__tmp__}_LGRINDDIRS)
+BMK:_USE_LGRIND_MK=	YES
+BMK:.endif
+BMK:.endfor
+
+GMK:
+GMK:define add_lgrind_mk_template
+GMK:ifdef $(1)_LGRINDSRCS
+GMK:_USE_LGRIND_MK=	YES
+GMK:endif
+GMK:ifdef $(1)_LGRINDDIRS
+GMK:_USE_LGRIND_MK=	YES
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call add_lgrind_mk_template,$(__tmp__))))
+
+# pull in lgrind.[g]mk if needed
+
+BMK:.if defined(_USE_LGRIND_MK)
+BMK:.include "${LATEX_MK_DIR}/lgrind.mk"
+BMK:.endif
+GMK:ifdef _USE_LGRIND_MK
+GMK:include ${LATEX_MK_DIR}/lgrind.gmk
+GMK:endif
 
 #######################################
 #

@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.12 2005/09/30 13:45:16 dan Exp $
+# $Id: tests.list,v 1.13 2005/09/30 22:11:40 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -107,6 +107,14 @@ basic_bibtexsrcs_dvi1||test.tex foo.bib|dvi TEST8=yes
 basic_bibtexsrcs_dvi2||test.tex foo.bib @ test.dvi @ |dvi TEST8=yes
 # this one should want to re-run
 basic_bibtexsrcs_dvi3||test.tex test.dvi @ foo.bib|dvi TEST8=yes
+#
+# LGRINDSRCS test
+#
+basic_lgrindsrcs||test2.tex src1.c src2.c src2.h|dvi TEST2A=yes
+#
+# LGRINDDIRS test
+#
+basic_lgrinddirs|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/src1.h lgrinddir2/src3.c |dvi TEST3A=yes
 #
 # TGIFSRCS test
 #
