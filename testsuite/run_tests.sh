@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.13 2004/03/18 22:02:34 dan Exp $
+# $Id: run_tests.sh,v 1.14 2005/09/30 02:52:33 dan Exp $
 #
-# Copyright (c) 2003, 2004 Dan McMahill
+# Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -239,6 +239,12 @@ MFLAGS=""
 export MAKEFLAGS
 export MAKELEVEL
 export MFLAGS
+
+MAKECONF="/dev/null"
+USER_MAKECONF="/dev/null"
+
+export MAKECONF
+export USER_MAKECONF
 
 #######################################
 #
