@@ -1,7 +1,39 @@
-## $Id: Makefile.am,v 1.7 2002/10/07 21:15:59 dan Exp $
+## $Id: Makefile.am,v 1.8 2005/09/30 10:52:57 dan Exp $
+##
+## Copyright (c) 2002, 2005 Dan McMahill
+## All rights reserved.
+##
+## This code is derived from software written by Dan McMahill
+##
+## Redistribution and use in source and binary forms, with or without
+## modification, are permitted provided that the following conditions
+## are met:
+## 1. Redistributions of source code must retain the above copyright
+##    notice, this list of conditions and the following disclaimer.
+## 2. Redistributions in binary form must reproduce the above copyright
+##    notice, this list of conditions and the following disclaimer in the
+##    documentation and/or other materials provided with the distribution.
+## 3. All advertising materials mentioning features or use of this software
+##    must display the following acknowledgement:
+##        This product includes software developed by Dan McMahill
+##  4. The name of the author may not be used to endorse or promote products
+##     derived from this software without specific prior written permission.
+## 
+##  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+##  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+##  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+##  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+##  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+##  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+##  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+##  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+##  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+##  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+##  SUCH DAMAGE.
+##
 
 info_TEXINFOS=	latex-mk.texi
-pkgdata_DATA=	latex-mk.ps latex-mk.pdf latex-mk.html
+pkgdata_DATA=	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
 
 html_docs=	${info_TEXINFOS:.texi=.html}
 ps_docs=	${info_TEXINFOS:.texi=.ps}
@@ -10,26 +42,17 @@ dvi_docs=	${info_TEXINFOS:.texi=.dvi}
 
 EXTRA_DIST=	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
 
-SUFFIXES=	.html .pdf
+# put the html manual into 1 file instead of multiple files
+AM_MAKEINFOHTMLFLAGS=  --no-split
 
-DISTCLEANFILES= \
-	*.fns \
-	*.pdf \
-	*.trs \
-	*.vrs
+# use this to avoid having the clean target delete latex-mk.{dvi,html,pdf,ps}
+# which unfortunately deletes files which are part of the distfile
+mostlyclean-aminfo:
+	-rm -rf latex-mk.aux latex-mk.cp latex-mk.cps latex-mk.fn \
+		latex-mk.fns latex-mk.ky latex-mk.kys latex-mk.log \
+		latex-mk.pg latex-mk.pgs latex-mk.tmp latex-mk.toc \
+		latex-mk.tp latex-mk.tps latex-mk.vr latex-mk.vrs 
 
-.ps.pdf:
-	ps2pdf $<
-
-.texi.html:
-	$(MAKEINFO) --html $<
-
-.PHONY: html
-html: version.texi $(html_docs)
-
-.PHONY: ps
-ps: version.texi $(ps_docs)
-
-.PHONY: pdf
-pdf: version.texi $(pdf_docs)
+MAINTAINERCLEANFILES= \
+	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
 
