@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.45 2005/09/30 13:45:13 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.46 2005/09/30 14:09:53 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -199,7 +199,6 @@ BMK:.endif
 BMK:.if !target(all)
 .MAIN: all
 .PHONY: all
-all:: dvi
 all:: view-all
 BMK:.endif
 
@@ -335,16 +334,24 @@ GMK:endif
 
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: view_${__tmp__}
+BMK:.if defined(USE_PDFLATEX)
+BMK:view_${__tmp__}: viewpdf_${__tmp__}
+BMK:.else
 BMK:view_${__tmp__}: ${__tmp__}.dvi
 BMK:	$(XDVI) $(XDVI_FLAGS) ${__tmp__}.dvi
+BMK:.endif
 BMK:DEFAULTVIEW?=	view_${__tmp__}
 BMK:ALLVIEW+=	view_${__tmp__}
 BMK:.endfor
 
 GMK:define view_template
 GMK:.PHONY: view_$(1)
+GMK:ifdef USE_PDFLATEX
+GMK:view_$(1): viewpdf_$(1)
+GMK:else
 GMK:view_$(1): $(1).dvi
 GMK:	$(XDVI) $(XDVI_FLAGS) $(1).dvi
+GMK:endif
 GMK:ALLVIEW+= view_$(1)
 GMK:DEFAULTVIEW?=	view_$(1)
 GMK:endef
