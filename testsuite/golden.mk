@@ -1,6 +1,6 @@
-## $Id: golden.mk,v 1.9 2004/03/18 23:11:52 dan Exp $
+## $Id: golden.mk,v 1.10 2005/09/30 03:02:09 dan Exp $
 ##
-## Copyright (c) 2003, 2004 Dan McMahill
+## Copyright (c) 2003, 2004, 2005 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
@@ -51,6 +51,12 @@ GOLDEN_FILES=	\
 	basic1_html4.ref \
 	basic1_html5.ref \
 	basic1_html6.ref \
+	basic1_landscape_dvipdfm.ref \
+	basic1_landscape_pdf.ref \
+	basic1_landscape_ps.ref \
+	basic1_landscape_view.ref \
+	basic1_landscape_viewpdf.ref \
+	basic1_landscape_viewps.ref \
 	basic1_pdf1.ref \
 	basic1_pdf2.ref \
 	basic1_pdflatex_dvi1.ref \
@@ -84,8 +90,11 @@ GOLDEN_FILES=	\
 	multi_tgifsrcs_dvi5.ref \
 	vars_bibtex.ref \
 	vars_dvipdfm.ref \
+	vars_dvipdfm_landscape.ref \
 	vars_dvips.ref \
+	vars_dvips_landscape.ref \
 	vars_gv.ref \
+	vars_gv_landscape.ref \
 	vars_hevea.ref \
 	vars_latex.ref \
 	vars_latex2html.ref \
@@ -94,6 +103,8 @@ GOLDEN_FILES=	\
 	vars_pdflatex.ref \
 	vars_ps2pdf.ref \
 	vars_viewpdf.ref \
-	vars_xdvi.ref
+	vars_viewpdf_landscape.ref \
+	vars_xdvi.ref \
+	vars_xdvi_landscape.ref
 
 

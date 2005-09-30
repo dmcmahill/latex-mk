@@ -1,6 +1,6 @@
-# $Id: tests.list,v 1.10 2004/03/18 22:02:34 dan Exp $
+# $Id: tests.list,v 1.11 2005/09/30 03:02:09 dan Exp $
 #
-# Copyright (c) 2003, 2004 Dan McMahill
+# Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -58,6 +58,11 @@ basic1_ps1||test1.tex|ps TEST1=yes
 basic1_ps2||test1.tex|test1.ps TEST1=yes
 basic1_pdf1||test1.tex|pdf TEST1=yes
 basic1_pdf2||test1.tex|test1.pdf TEST1=yes
+basic1_landscape_pdf||test1.tex|pdf TEST1=yes LANDSCAPE=yes
+basic1_landscape_ps||test1.tex|ps TEST1=yes LANDSCAPE=yes
+basic1_landscape_view||test1.tex|view TEST1=yes LANDSCAPE=yes
+basic1_landscape_viewps||test1.tex|viewps TEST1=yes LANDSCAPE=yes
+basic1_landscape_viewpdf||test1.tex|viewpdf TEST1=yes LANDSCAPE=yes
 #
 # HTML output -- LaTeX2HTML
 #
@@ -75,6 +80,7 @@ basic1_html6||test1.tex|test1.html TEST1=yes USE_HEVEA=yes
 #
 basic1_dvipdfm_dvi1||test1.tex|dvi TEST1=yes USE_DVIPDFM=yes
 basic1_dvipdfm_dvi2||test1.tex|test1.dvi TEST1=yes USE_DVIPDFM=yes
+basic1_landscape_dvipdfm||test1.tex|pdf TEST1=yes USE_DVIPDFM=yes LANDSCAPE=yes
 basic1_dvipdfm_ps1||test1.tex|ps TEST1=yes USE_DVIPDFM=yes
 basic1_dvipdfm_ps2||test1.tex|test1.ps TEST1=yes USE_DVIPDFM=yes
 basic1_dvipdfm_pdf1||test1.tex|pdf TEST1=yes USE_DVIPDFM=yes
@@ -126,14 +132,17 @@ vars_bibtex||test1.tex|dvi TEST1=yes BIBTEX=mybibtex BIBTEX_FLAGS=mybibtex_flags
 #  DVIPDFM_ENV  = environment variables set when running the dvipdfm executable
 #  DVIPDFM_FLAGS= flags passed to the dvipdfm executable
 vars_dvipdfm||test1.tex|pdf TEST1=yes DVIPDFM=mydvipdfm DVIPDFM_FLAGS=mydvipdfm_flags DVIPDFM_ENV=foo=dvipdfm USE_DVIPDFM=yes
+vars_dvipdfm_landscape||test1.tex|pdf TEST1=yes DVIPDFM=mydvipdfm DVIPDFM_ENV=foo=dvipdfm USE_DVIPDFM=yes DVIPDFM_LANDSCAPE_FLAGS=mydvipdfm_landscape LANDSCAPE=yes
 #
 #  DVIPS	= the dvips executable
 #  DVIPS_FLAGS	= flags passed to the dvips executable
 vars_dvips||test1.tex|ps TEST1=yes DVIPS=mydvips DVIPS_FLAGS=mydvips_flags
+vars_dvips_landscape||test1.tex|ps TEST1=yes DVIPS=mydvips DVIPS_LANDSCAPE_FLAGS=mydvips_landscape LANDSCAPE=yes
 #
 #  GV		= a postscript previewer executable
 #  GV_FLAGS	= flags passed to the postscript previewer executable
 vars_gv||test1.tex|viewps TEST1=yes GV=mygv GV_FLAGS=mygv_flags
+vars_gv_landscape||test1.tex|viewps TEST1=yes GV=mygv GV_LANDSCAPE_FLAGS=mygv_landscape LANDSCAPE=yes
 #
 #  HEVEA	= the Hevea executable
 #  HEVEA_ENV	= environment variables set when running the Hevea executable
@@ -174,10 +183,12 @@ vars_ps2pdf||test1.tex|pdf TEST1=yes PS2PDF=myps2pdf PS2PDF_FLAGS=myps2pdf_flags
 #  VIEWPDF      = PDF viewer
 #  VIEWPDF_FLAGS= PDF viewer flags
 vars_viewpdf||test1.tex|viewpdf TEST1=yes VIEWPDF=myviewpdf VIEWPDF_FLAGS=myviewpdf_flags
+vars_viewpdf_landscape||test1.tex|viewpdf TEST1=yes VIEWPDF=myviewpdf VIEWPDF_LANDSCAPE_FLAGS=myviewpdf_landscape LANDSCAPE=yes
 #
 #  XDVI		= a .dvi previewer executable
 #  XDVI_FLAGS	= flags passed to the .dvi previewer executable
 vars_xdvi||test1.tex|view TEST1=yes XDVI=myxdvi XDVI_FLAGS=myxdvi_flags
+vars_xdvi_landscape||test1.tex|view TEST1=yes XDVI=myxdvi XDVI_LANDSCAPE_FLAGS=myxdvi_landscape LANDSCAPE=yes
 #
 # -----------------------------------------
 # Single project, multiple latex source tests

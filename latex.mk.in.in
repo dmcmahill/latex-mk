@@ -1,9 +1,9 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.43 2004/03/18 20:22:46 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.44 2005/09/30 03:02:06 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
-# Copyright (c) 2001, 2002, 2003 Dan McMahill
+# Copyright (c) 2001, 2002, 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -134,8 +134,10 @@ CONVERT?=	@CONVERT@
 DVIPDFM?=	@DVIPDFM@
 DVIPDFM_ENV?=	
 DVIPDFM_FLAGS+=	
+DVIPDFM_LANDSCAPE_FLAGS?=	-l
 DVIPS?=		@DVIPS@
 DVIPS_FLAGS+=	-j0
+DVIPS_LANDSCAPE_FLAGS?=	-t landscape
 ECHO?=		@ECHO@
 ENV_PROG?=	@ENV_PROG@
 FALSE?=		@FALSE@
@@ -143,6 +145,7 @@ FIND?=		@FIND@
 GREP?=		@GREP@
 GV?=		@GV@
 GV_FLAGS?=
+GV_LANDSCAPE_FLAGS?=	-landscape
 HACHA?=		@HACHA@
 HACHA_ENV?=
 HACHA_FLAGS?=
@@ -174,8 +177,10 @@ PS2PDF?=	@PS2PDF@
 PS2PDF_FLAGS?=	
 XDVI?=		@XDVI@
 XDVI_FLAGS?=	
+XDVI_LANDSCAPE_FLAGS?=	-paper usr
 VIEWPDF?=	${GV}
 VIEWPDF_FLAGS?=	${GV_FLAGS}
+VIEWPDF_LANDSCAPE_FLAGS?=	${GV_LANDSCAPE_FLAGS}
 
 
 DRAFT_STAMP_PS?=	draft_stamp.ps
@@ -192,6 +197,16 @@ BMK:.if !target(all)
 all:: dvi
 all:: view-all
 BMK:.endif
+
+BMK:.if defined(LANDSCAPE)
+GMK:ifdef LANDSCAPE
+DVIPS_FLAGS+=	${DVIPS_LANDSCAPE_FLAGS}
+DVIPDFM_FLAGS+=	${DVIPDFM_LANDSCAPE_FLAGS}
+GV_FLAGS+=	${GV_LANDSCAPE_FLAGS}
+XDVI_FLAGS+=	${XDVI_LANDSCAPE_FLAGS}
+VIEWPDF_FLAGS+=	${VIEWPDF_LANDSCAPE_FLAGS}
+BMK:.endif
+GMK:endif
 
 REAL_LATEX_ENV+=	LATEX=${LATEX}
 REAL_LATEX_ENV+=	LATEX_FLAGS=${LATEX_FLAGS}
