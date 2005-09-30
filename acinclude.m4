@@ -1,6 +1,6 @@
-dnl $Id: acinclude.m4,v 1.3 2003/06/11 11:43:15 dan Exp $
+dnl $Id: acinclude.m4,v 1.4 2005/09/30 10:53:53 dan Exp $
 dnl
-dnl Copyright (c) 2003 Dan McMahill
+dnl Copyright (c) 2003, 2005 Dan McMahill
 dnl All rights reserved.
 dnl
 dnl This code is derived from software written by Dan McMahill
@@ -34,7 +34,7 @@ dnl
 
 # Look for GNU make
 
-AC_DEFUN(AC_PATH_GNU_MAKE,
+AC_DEFUN([AC_PATH_GNU_MAKE],
 [#AC_MSG_CHECKING([for GNU make])
 gnu_make=
 for mk in "$GMAKE" "$MAKE" gmake make gnumake ; do
@@ -69,7 +69,7 @@ fi
 
 
 # Look for BSD make
-AC_DEFUN(AC_PATH_BSD_MAKE,
+AC_DEFUN([AC_PATH_BSD_MAKE],
 [
 cat > tmp.mk << EOF
 # include some of the "." commands that we need from a 
