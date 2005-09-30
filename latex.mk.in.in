@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.44 2005/09/30 03:02:06 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.45 2005/09/30 13:45:13 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -116,10 +116,12 @@ GMK:_CONFS+=        $(wildcard ${USER_MAKECONF})
 GMK:include ${_CONFS}
 
 # Make sure we set at least 1 way for creating html files
-BMK:.if !defined(USE_HEVEA)
+BMK:.if !defined(USE_HEVEA) && !defined(USE_TEX2PAGE)
 GMK:ifndef USE_HEVEA
+GMK:ifndef USE_TEX2PAGE
 USE_LATEX2HTML=	YES
 BMK:.endif
+GMK:endif
 GMK:endif
 
 # The location of the latex-mk .mk and .gmk files
@@ -175,6 +177,9 @@ RM?=		@RM@
 RMDIR?=		@RMDIR@
 PS2PDF?=	@PS2PDF@
 PS2PDF_FLAGS?=	
+TEX2PAGE?=	@TEX2PAGE@
+TEX2PAGE_ENV?=
+TEX2PAGE_FLAGS?=
 XDVI?=		@XDVI@
 XDVI_FLAGS?=	
 XDVI_LANDSCAPE_FLAGS?=	-paper usr
@@ -646,6 +651,12 @@ BMK:.if defined(USE_LATEX2HTML)
 GMK:ifdef USE_LATEX2HTML
 	@${ECHO} LaTeX-Mk:  Creating HTML output using latex2html
 	$(ENV_PROG) $(LATEX2HTML_ENV) $(LATEX2HTML) $(LATEX2HTML_FLAGS) -mkdir -dir $*.html_dir $<
+BMK:.elif defined(USE_TEX2PAGE)
+GMK:else
+GMK:ifdef USE_TEX2PAGE
+	@${ECHO} LaTeX-Mk:  Creating HTML output using tex2page
+	${ECHO} "$*.html_dir" > $*.hdir
+	$(ENV_PROG) $(TEX2PAGE_ENV) $(TEX2PAGE) $(TEX2PAGE_FLAGS) $<
 BMK:.elif defined(USE_HEVEA)
 GMK:else
 GMK:ifdef USE_HEVEA
@@ -657,9 +668,11 @@ GMK:ifdef USE_HEVEA
 BMK:.endif
 GMK:endif
 GMK:endif
+GMK:endif
 	if [ ! -f $*.www_files ]; then touch $*.www_files ; fi
 	for f in `${FIND} . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
-		-o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \) \
+		-o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \
+		-o -name \*.scm -o -name \*.hlog \) \
 		-newer $@1 -print` ; do \
 		fn=`basename $$f` ; \
 		if ${GREP} $$f $*.www_files >/dev/null ; then \
@@ -777,6 +790,13 @@ BMK:.ifdef USE_LATEX2HTML
 GMK:ifdef USE_LATEX2HTML
 CLEAN_FILES+=	${NAME:=.haux}
 CLEAN_FILES+=	${NAME:=.image.tex}
+BMK:.endif
+GMK:endif
+
+
+BMK:.ifdef USE_TEX2PAGE
+GMK:ifdef USE_TEX2PAGE
+CLEAN_FILES+=	${NAME:=.hdir}
 BMK:.endif
 GMK:endif
 

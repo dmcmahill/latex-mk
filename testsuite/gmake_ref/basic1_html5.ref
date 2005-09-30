@@ -7,7 +7,8 @@ env  imagen  `basename test1.tex .tex`
 env  hevea  test1.tex 
 if [ ! -f test1.www_files ]; then touch test1.www_files ; fi
 for f in `find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
-	-o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \) \
+	-o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \
+	-o -name \*.scm -o -name \*.hlog \) \
 	-newer test1.html-stamp1 -print` ; do \
 	fn=`basename $f` ; \
 	if grep $f test1.www_files >/dev/null ; then \

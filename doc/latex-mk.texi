@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.43 2005/09/30 03:02:07 dan Exp $
+@c $Id: latex-mk.texi,v 1.44 2005/09/30 13:45:14 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -647,6 +647,25 @@ A list of flags to be passed to the PS2PDF executible.
 Defaults to @samp{}.
 @end defvar
 
+@defvar TEX2PAGE
+The tex2page executible.
+Defaults to @samp{tex2page}.
+@end defvar
+
+@defvar TEX2PAGE_ENV
+A list of variables to be set in the environment when TEX2PAGE
+is run.  For example:
+@example
+TEX2PAGE_ENV+=	TEXINPUTS=.:/home/usr/tex:
+@end example
+Defaults to @samp{}.
+@end defvar
+
+@defvar TEX2PAGE_FLAGS
+A list of flags to be passed to the TEX2PAGE executible.
+Defaults to @samp{}.
+@end defvar
+
 @defvar USE_DVIPDFM
 When set, this variable causes the DVIPDFM program to be used to
 directly generate @file{.pdf} files from the @file{.dvi} files instead
@@ -672,6 +691,11 @@ of using LATEX to generate a @file{.dvi} file, DVIPS to generate a
 postscript file and then PS2PDF to convert 
 the postscript to PDF.  Please note that the use of this option
 currently precludes the generation of the -draft versions of PDF files.
+@end defvar
+
+@defvar USE_TEX2PAGE
+When set, this variable causes the TEX2PAGE program to be used to
+generate HTML output.  
 @end defvar
 
 @defvar VIEWPDF
@@ -871,11 +895,14 @@ automatically re-exported to postscript as required.
 
 @node HTML, Obtaining, Variables, Top
 @chapter HTML Output
-LaTeX-Mk includes support for generating HTML output.  Currently either
-Latex2HTML (see @url{http://www.latex2html.org}) or HeVeA (see
-@url{http://para.inria.fr/~maranget/hevea/}) can be used for producing
+LaTeX-Mk includes support for generating HTML output.  Currently 
+Latex2HTML (see @url{http://www.latex2html.org}), HeVeA (see
+@url{http://para.inria.fr/~maranget/hevea/}), or tex2page
+(see @url{http://www.ccs.neu.edu/home/dorai/tex2page/})
+can be used for producing
 an HTML version of your document.  The selection of which program to
-use is done with the USE_LATEX2HTML and USE_HEVEA variables.  Simply
+use is done with the USE_HEVEA, USE_LATEX2HTML, and USE_TEX2PAGE
+variables.  Simply
 define one of these in your @file{$@{sysconfdir@}/latex-mk.conf} file
 (for site-wide configuration) or @file{$HOME/.latex-mk.conf} (for
 per-user configuration).  If you are using GNU make, the variable would

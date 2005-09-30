@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.11 2005/09/30 03:02:09 dan Exp $
+# $Id: tests.list,v 1.12 2005/09/30 13:45:16 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -75,6 +75,11 @@ basic1_html4||test1.tex|html TEST1=yes
 #
 basic1_html5||test1.tex|html TEST1=yes USE_HEVEA=yes
 basic1_html6||test1.tex|test1.html TEST1=yes USE_HEVEA=yes
+#
+# HTML output -- tex2page
+#
+basic1_html7||test1.tex|html TEST1=yes USE_TEX2PAGE=yes
+basic1_html8||test1.tex|test1.html TEST1=yes USE_TEX2PAGE=yes
 #
 # basic tests with USE_DVIPDFM
 #
@@ -179,6 +184,12 @@ vars_pdflatex||test1.tex|pdf TEST1=yes PDFLATEX=mypdflatex PDFLATEX_FLAGS=mypdfl
 #  PS2PDF	= ps2pdf executable
 #  PS2PDF_FLAGS	= flags passed to the ps2pdf executable
 vars_ps2pdf||test1.tex|pdf TEST1=yes PS2PDF=myps2pdf PS2PDF_FLAGS=myps2pdf_flags
+#
+#  TEX2PAGE		= the tex2page executable
+#  TEX2PAGE_ENV		= environment variables set when running the tex2page executable
+#  TEX2PAGE_FLAGS	= flags passed to the tex2page executable
+vars_tex2page||test1.tex|html TEST1=yes TEX2PAGE=mytex2page TEX2PAGE_FLAGS=mytex2page_flags TEX2PAGE_ENV=foo=bar USE_TEX2PAGE=yes
+#
 #
 #  VIEWPDF      = PDF viewer
 #  VIEWPDF_FLAGS= PDF viewer flags
