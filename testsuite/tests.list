@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.13 2005/09/30 22:11:40 dan Exp $
+# $Id: tests.list,v 1.14 2005/10/01 02:37:45 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -179,6 +179,10 @@ vars_latex2html||test1.tex|html TEST1=yes LATEX2HTML=mylatex2html LATEX2HTML_FLA
 #  LATEX2RTF_ENV	= environment variables set when running the latex2rtf executable
 #  LATEX2RTF_FLAGS	= flags passed to the latex2rtf executable
 vars_latex2rtf||test1.tex|rtf TEST1=yes LATEX2RTF=mylatex2rtf LATEX2RTF_FLAGS=mylatex2rtf_flags LATEX2RTF_ENV=foortf=barrtf
+#
+#  LGRIND	= lgrind executable
+#  LGRIND_FLAGS	= flags passed to LGRIND
+vars_lgrind||test2.tex src1.c src2.c src2.h|dvi TEST2A=yes LGRIND=mylgrind LGRIND_FLAGS=mylgrind_flags
 #
 #  LPR		= executable to print postscript files
 #  LPR_FLAGS	= flags passed to the executable to print postscript files
