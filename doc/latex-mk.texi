@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.44 2005/09/30 13:45:14 dan Exp $
+@c $Id: latex-mk.texi,v 1.45 2005/10/01 02:46:29 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -730,6 +730,29 @@ is set.
 Defaults to @samp{-paper usr}.
 @end defvar
 
+@subsection Lgrind Site Configuration Variables
+This section documents the variables related to lgrind source code
+processing.  Lgrind is a source code formatter which takes source
+code files in various programming languages and formats them for 
+inclusion in a LaTeX document.  Currently LaTeX-Mk only supports
+@file{.c} and @file{.h} files.
+
+@defvar LGRIND
+The lgrind executible used for formatting source code for inclusion
+into a LaTeX document.
+Defaults to @samp{lgrind}.
+@end defvar
+
+@defvar LGRIND_FLAGS
+A list of flags to be passed to the LGRIND executible.
+For example:
+@example
+LGRIND_FLAGS=	-i -t 4 -d /my/private/lgrindef
+@end example
+Defaults to @samp{-i}.
+@end defvar
+
+
 @subsection Tgif Site Configuration Variables
 This section documents the variables related to Tgif file processing.
 Tgif (@url{http://bourbon.usc.edu:8001/tgif/tgif.html}) 
@@ -859,6 +882,25 @@ added to the top level project.  All LaTeX files used in the project
 should be listed in this variable with the exception of the top level
 LaTeX file which is automatically included by LaTeX-Mk.
 @end defvar
+
+@subsection Per-Project Lgrind Variables
+@defvar LGRINDSRCS
+All files listed in this variable are assumed to be source code files
+to be processed by lgrind.
+Listing files in this variable will cause a dependency to be
+added to the top level project and will cause these files to be
+automatically re-formatted as required.
+@end defvar
+
+@defvar LGRINDDIRS
+A list of directories containing source code can be listed in this
+variable.  All @file{.c} and @file{.h} files found in those directories
+will be formated using lgrind.
+These files will be added to the top
+level dependency list and will be
+automatically re-formatted as required.
+@end defvar
+
 
 @subsection Per-Project Tgif Variables
 @defvar TGIFSRCS
