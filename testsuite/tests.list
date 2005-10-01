@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.14 2005/10/01 02:37:45 dan Exp $
+# $Id: tests.list,v 1.15 2005/10/01 02:38:59 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -41,7 +41,8 @@
 #
 # By using the special character '@' in the 'files to touch' field,
 # a pause will be inserted to help avoid any timestamp issues with
-# touch being called to rapidly.
+# touch being called to rapidly.  This may be unreasonable paranoia,
+# but I'd rather not have to deal with debugging someones buggy filesystem.
 #
 # Please note that more tests should be added here but that each added 
 # test should have the 'golden' output fully verified by hand.
