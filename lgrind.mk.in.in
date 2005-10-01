@@ -1,7 +1,9 @@
 # -*- Makefile -*-
-# $Id: lgrind.mk.in.in,v 1.1 2005/09/30 22:11:39 dan Exp $
+# $Id: lgrind.mk.in.in,v 1.2 2005/10/01 03:19:17 dan Exp $
 #
 # Makefile fragment for processing lgrind files to produce postscript
+#
+# Copyright (c) 2005 Dan McMahill
 #
 # Copyright (c) 2005 Peter Bex
 # All rights reserved.
@@ -39,7 +41,14 @@
 #######################################
 #
 # TODO:
-# - Add support for other source files than .c and .h
+# - Add a way to deal with specifying the language on a per-file
+#   or maybe per-directory basis.  Maybe per-directory is a good
+#   start.
+#
+# - Add support for files with no extension.  Need to make sure
+#   we don't have problems with CVS/ directories.  In fact, we
+#   need to make sure we don't have issues with foo.bar directories.
+#
 # - Add support for inline lgrind sources using the %(...)% notation
 #
 # README:
@@ -69,17 +78,24 @@ LGRIND_FLAGS?=	-i
 #
 #######################################
 
+# pick out $(LGRINDDIRS)/*.* except for *.tex for each
+# specified directory.  This is how we will
+# deal with basically any source code file type.  The
+# exception will be things like Makefiles which do not
+# have an extension usually.
+
 BMK:.if defined(LGRINDDIRS)
 BMK:.for __tmp__ in ${LGRINDDIRS}
 BMK:.if exists(${__tmp__})
-BMK:_LGRIND_ADD_${__tmp__}!=	ls ${__tmp__}/*.[ch]
+BMK:_LGRIND_ADDALL_${__tmp__}!=	ls ${__tmp__}/*.*
+BMK:_LGRIND_ADD_${__tmp__}=	${_LGRIND_ADDALL_${__tmp__}:C/.*.tex$//g}
 BMK:LGRINDSRCS+=	${_LGRIND_ADD_${__tmp__}}
 BMK:.endif
 BMK:.endfor
 BMK:.endif
 
 GMK:ifdef LGRINDDIRS
-GMK:LGRINDSRCS+= $(foreach __tmp__,$(LGRINDDIRS),$(wildcard $(__tmp__)/*.[ch]))
+GMK:LGRINDSRCS+= $(foreach __tmp__,$(LGRINDDIRS),$(filter-out %.tex,$(wildcard $(__tmp__)/*.*)))
 GMK:endif
 
 #######################################
@@ -93,7 +109,8 @@ BMK:.if defined(${__name__}_LGRINDDIRS)
 BMK:.for __tmp__ in ${${__name__}_LGRINDDIRS}
 BMK:.if exists(${__tmp__})
 BMK:_LGRIND_ADD2_${__tmp__}!=	ls ${__tmp__}/*.[ch]
-BMK:${__name__}_LGRINDSRCS+=	${_LGRIND_ADD2_${__tmp__}}
+BMK:${__name__}_LGRINDSRCS+=	${_LGRIND_ADDALL2_${__tmp__}:C/.*.tex$//g}
+BMK:_LGRIND_ADDALL2_${__tmp__}!=ls ${__tmp__}/*.*
 BMK:.endif
 BMK:.endfor
 BMK:.endif
@@ -101,7 +118,7 @@ BMK:.endfor
 
 GMK:define lgrinddirs_template
 GMK:ifdef $(1)_LGRINDDIRS
-GMK:$(1)_LGRINDSRCS+= $(foreach __tmp2__,$($(1)_LGRINDDIRS),$(wildcard $(__tmp2__)/*.[ch]))
+GMK:$(1)_LGRINDSRCS+= $(foreach __tmp2__,$($(1)_LGRINDDIRS),$(filter-out %.tex,$(wildcard $(__tmp2__)/*.*)))
 GMK:endif
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call lgrinddirs_template,$(__tmp__))))
@@ -156,17 +173,26 @@ all::		$(ALLLGRINDOBJS)
 clean::
 	$(RM) -f $(ALLLGRINDOBJS)
 
+
 #######################################
+#
+# And add the build rules.
 # 
-# The suffix rules
+# Note that we do this as a loop with explicit
+# rules for each file rather than a suffix
+# rule because we want to work on any input 
+# file that lgrind can deal with
 #
 #######################################
 
-.SUFFIXES : .c .h .c.tex .h.tex
+BMK:.for __tmp__ in ${ALLLGRINDOBJS}
+BMK:${__tmp__}: ${__tmp__:.tex=}
+BMK:	$(LGRIND) $(LGRIND_FLAGS) -o $@ ${__tmp__:.tex=}
+BMK:.endfor
 
-.c.c.tex : 
-	$(LGRIND) $(LGRIND_FLAGS) -o $@ $*.c
-
-.h.h.tex : 
-	$(LGRIND) $(LGRIND_FLAGS) -o $@ $*.h
+GMK:define lgrindrun_template
+GMK:$(1): $(1:.tex=)
+GMK:	$(LGRIND) $(LGRIND_FLAGS) -o $(1) $(1:.tex=)
+GMK:endef
+GMK:$(foreach __tmp__,$(ALLLGRINDOBJS),$(eval $(call lgrindrun_template,$(__tmp__))))
 

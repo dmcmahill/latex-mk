@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.45 2005/10/01 02:46:29 dan Exp $
+@c $Id: latex-mk.texi,v 1.46 2005/10/01 03:19:18 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -734,8 +734,7 @@ Defaults to @samp{-paper usr}.
 This section documents the variables related to lgrind source code
 processing.  Lgrind is a source code formatter which takes source
 code files in various programming languages and formats them for 
-inclusion in a LaTeX document.  Currently LaTeX-Mk only supports
-@file{.c} and @file{.h} files.
+inclusion in a LaTeX document.
 
 @defvar LGRIND
 The lgrind executible used for formatting source code for inclusion
@@ -894,8 +893,9 @@ automatically re-formatted as required.
 
 @defvar LGRINDDIRS
 A list of directories containing source code can be listed in this
-variable.  All @file{.c} and @file{.h} files found in those directories
-will be formated using lgrind.
+variable.  All files found in those directories which have extensions
+will be formated using lgrind.  Files without a @file{.*} extension
+will be ignored.
 These files will be added to the top
 level dependency list and will be
 automatically re-formatted as required.
