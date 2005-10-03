@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.47 2005/10/03 02:23:02 dan Exp $
+@c $Id: latex-mk.texi,v 1.48 2005/10/03 18:10:53 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -766,8 +766,20 @@ Defaults to @samp{tgif}.
 
 @defvar TGIF_FLAGS
 A list of flags to be passed to the TGIF executible to cause it to print
-to an encapsulated postscript, @file{.eps}, file.
-Defaults to @samp{-color -print -eps}.
+to a file.  These flags will be used for both PDF and EPS export.
+Defaults to @samp{-color -print}.
+@end defvar
+
+@defvar TGIF_EPS_FLAGS
+A list of flags to be passed to the TGIF executible when exporting to
+an encapsulated postscript, @file{.eps}, file.
+Defaults to @samp{-eps}.
+@end defvar
+
+@defvar TGIF_PDF_FLAGS
+A list of flags to be passed to the TGIF executible when exporting to
+a PDF, @file{.pdf}, file.
+Defaults to @samp{-pdf}.
 @end defvar
 
 @subsection Xfig Site Configuration Variables
@@ -783,7 +795,20 @@ Defaults to @code{fig2dev}.
 
 @defvar FIG2DEV_FLAGS
 A list of flags to be passed to the FIG2DEV executible to cause it to print
-to an encapsulated postscript, @file{.eps}, file.
+to a file.  These flags will be used for both PDF and EPS export.
+Defaults to @samp{}.     
+@end defvar
+
+@defvar FIG2DEV_EPS_FLAGS
+A list of flags to be passed to the FIG2DEV executible when exporting to
+an encapsulated postscript, @file{.eps}, file.
+Defaults to @samp{-L eps}.
+@end defvar
+
+@defvar FIG2DEV_PDF_FLAGS
+A list of flags to be passed to the FIG2DEV executible when exporting to
+a PDF, @file{.pdf}, file.
+Defaults to @samp{-L pdf}.
 @end defvar
 
 @section Per-Project Variables

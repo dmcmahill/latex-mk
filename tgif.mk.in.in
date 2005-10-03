@@ -1,9 +1,9 @@
 # -*- Makefile -*-
-# $Id: tgif.mk.in.in,v 1.10 2003/02/17 12:11:22 dan Exp $
+# $Id: tgif.mk.in.in,v 1.11 2005/10/03 18:10:52 dan Exp $
 #
 # Makefile fragment for processing tgif files to produce postscript
 #
-# Copyright (c) 2001, 2002, 2003 Dan McMahill
+# Copyright (c) 2001, 2002, 2003, 2005 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -49,15 +49,19 @@
 #
 # The following variables may be overridden in your top level Makefile
 #
-#  TGIF		= the tgif executable
-#  TGIF_FLAGS	= flags passed to tgif for exporting to eps
+#  TGIF		  = the tgif executable
+#  TGIF_FLAGS	  = flags passed to tgif for any exporting 
+#  TGIF_EPS_FLAGS = flags passed to tgif for exporting to eps
+#  TGIF_PDF_FLAGS = flags passed to tgif for exporting to pdf
 #
 #######################################
 
 
 # how to call tgif to convert tgif files to postscript
 TGIF?=		@TGIF@
-TGIF_FLAGS?=	-color -print -eps
+TGIF_FLAGS?=		-color -print
+TGIF_EPS_FLAGS?=	-eps
+TGIF_PDF_FLAGS?=	-pdf
 
 #######################################
 #
@@ -109,7 +113,17 @@ GMK:$(foreach __tmp__,$(NAME),$(eval $(call tgifdirs_template,$(__tmp__))))
 #
 #######################################
 
-TGIFOBJS?=	$(TGIFSRCS:.obj=.eps)
+# if we are using pdflatex, then don't bother with the .eps files
+# but create .pdf files instead
+
+BMK:.if defined(USE_PDFLATEX)
+GMK:ifdef USE_PDFLATEX
+TGIFOBJS?=      $(TGIFSRCS:.obj=.pdf)
+BMK:.else
+GMK:else
+TGIFOBJS?=      $(TGIFSRCS:.obj=.eps)
+BMK:.endif
+GMK:endif
 ALLTGIFOBJS+=	$(TGIFOBJS)
 
 BMK:.for __tmp__ in ${NAME}
@@ -158,8 +172,11 @@ clean::
 #
 #######################################
 
-.SUFFIXES : .obj .eps
+.SUFFIXES : .obj .eps .pdf
 
 .obj.eps : 
-	$(TGIF) $(TGIF_FLAGS) $*.obj
+	$(TGIF) $(TGIF_FLAGS) $(TGIF_EPS_FLAGS) $*.obj
+
+.obj.pdf : 
+	$(TGIF) $(TGIF_FLAGS) $(TGIF_PDF_FLAGS) $*.obj
 

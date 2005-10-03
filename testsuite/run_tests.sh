@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.14 2005/09/30 02:52:33 dan Exp $
+# $Id: run_tests.sh,v 1.15 2005/10/03 18:10:55 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -193,10 +193,14 @@ export VIEWPDF_FLAGS
 #######################################
 
 TGIF=tgif
-TGIF_FLAGS="-color -print -eps"
+TGIF_FLAGS="-color -print"
+TGIF_EPS_FLAGS="-eps"
+TGIF_PDF_FLAGS="-pdf"
 
 export TGIF
 export TGIF_FLAGS
+export TGIF_EPS_FLAGS
+export TGIF_PDF_FLAGS
 
 #######################################
 # 
@@ -205,10 +209,14 @@ export TGIF_FLAGS
 #######################################
 
 FIG2DEV=fig2dev
-FIG2DEV_FLAGS="-L eps"
+FIG2DEV_FLAGS=""
+FIG2DEV_EPS_FLAGS="-L eps"
+FIG2DEV_PDF_FLAGS="-L pdf"
 
 export FIG2DEV
 export FIG2DEV_FLAGS
+export FIG2DEV_EPS_FLAGS
+export FIG2DEV_PDF_FLAGS
 
 #######################################
 #

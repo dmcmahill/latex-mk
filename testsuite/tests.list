@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.17 2005/10/03 17:00:42 dan Exp $
+# $Id: tests.list,v 1.18 2005/10/03 18:10:55 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -136,6 +136,7 @@ basic_lgrinddirs3|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/s
 # -----------------------------------------
 #
 basic_tgifsrcs||test2.tex tgif1.obj tgif2.obj|dvi TEST2=yes
+tgif_pdflatex_dvi1||test2.tex tgif1.obj tgif2.obj|dvi TEST2=yes USE_PDFLATEX=yes
 #
 # -----------------------------------------
 # TGIFDIRS test
@@ -148,6 +149,7 @@ basic_tgifdirs|tgifdir1 tgifdir2|test3.tex tgifdir1/tgifa.obj tgifdir1/tgifb.obj
 # -----------------------------------------
 #
 basic_xfigsrcs||test.tex xfig1.fig xfig2.fig|dvi TEST4=yes
+xfig_pdflatex_dvi1||test.tex xfig1.fig xfig2.fig|dvi TEST4=yes USE_PDFLATEX=yes
 #
 # -----------------------------------------
 # XFIGDIRS test

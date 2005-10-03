@@ -1,9 +1,9 @@
 # -*- Makefile -*-
-# $Id: xfig.mk.in.in,v 1.8 2004/07/29 02:34:05 dan Exp $
+# $Id: xfig.mk.in.in,v 1.9 2005/10/03 18:10:53 dan Exp $
 #
 # Makefile fragment for processing xfig files to produce postscript
 #
-# Copyright (c) 2002, 2003, 2004 Dan McMahill
+# Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -50,14 +50,18 @@
 # The following variables may be overridden in your top level Makefile
 #
 #  FIG2DEV		= the fig2dev executable
-#  FIG2DEV_FLAGS	= flags passed to fig2dev for exporting to eps
+#  FIG2DEV_FLAGS	= flags passed to fig2dev for all exporting
+#  FIG2DEV_EPS_FLAGS	= flags passed to fig2dev for exporting to eps
+#  FIG2DEV_PDF_FLAGS	= flags passed to fig2dev for exporting to pdf
 #
 #######################################
 
 
 # how to call fig2dev to convert xfig files to postscript
 FIG2DEV?=		@FIG2DEV@
-FIG2DEV_FLAGS?=	-L eps
+FIG2DEV_FLAGS?=
+FIG2DEV_EPS_FLAGS?=	-L eps
+FIG2DEV_PDF_FLAGS?=	-L pdf
 
 #######################################
 #
@@ -109,7 +113,17 @@ GMK:$(foreach __tmp__,$(NAME),$(eval $(call xfigdirs_template,$(__tmp__))))
 #
 #######################################
 
+# if we are using pdflatex, then don't bother with the .eps files
+# but create .pdf files instead
+
+BMK:.if defined(USE_PDFLATEX)
+GMK:ifdef USE_PDFLATEX
+XFIGOBJS?=	$(XFIGSRCS:.fig=.pdf)
+BMK:.else
+GMK:else
 XFIGOBJS?=	$(XFIGSRCS:.fig=.eps)
+BMK:.endif
+GMK:endif
 ALLXFIGOBJS+=	$(XFIGOBJS)
 
 BMK:.for __tmp__ in ${NAME}
@@ -158,8 +172,11 @@ clean::
 #
 #######################################
 
-.SUFFIXES : .fig .eps
+.SUFFIXES : .fig .eps .pdf
 
 .fig.eps : 
-	$(FIG2DEV) $(FIG2DEV_FLAGS) $*.fig $*.eps
+	$(FIG2DEV) $(FIG2DEV_FLAGS) $(FIG2DEV_EPS_FLAGS) $*.fig $*.eps
+
+.fig.pdf : 
+	$(FIG2DEV) $(FIG2DEV_FLAGS) $(FIG2DEV_PDF_FLAGS) $*.fig $*.eps
 
