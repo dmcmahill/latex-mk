@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.46 2005/10/01 03:19:18 dan Exp $
+@c $Id: latex-mk.texi,v 1.47 2005/10/03 02:23:02 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -901,6 +901,27 @@ level dependency list and will be
 automatically re-formatted as required.
 @end defvar
 
+@defvar foo_LGRIND_FLAGS
+This variable sets specific flags which should be passed to lgrind
+when processing the source file @file{foo}.  For example,
+@example
+mymodule.v_LGRIND_FLAGS=        -lverilog
+@end example
+
+If @file{foo} is a directory which has been listed in LGRINDDIRS, then
+foo_LGRIND_FLAGS will be used for all files in the specified
+directory.  You can define flags for an entire directory and then
+override it for a single file if needed.  For example, suppose you
+want to use 4 as the tab width for all sources in the directory
+@file{srcs} except for @file{srcs/funny.c} where you want to use a tab
+width of 8.  You would achieve this with
+
+@example
+srcs_LGRIND_FLAGS=              -t 4
+srcs/funny.c_LGRIND_FLAGS=      -t 8
+@end example
+
+@end defvar
 
 @subsection Per-Project Tgif Variables
 @defvar TGIFSRCS

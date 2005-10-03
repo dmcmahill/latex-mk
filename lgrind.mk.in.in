@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: lgrind.mk.in.in,v 1.2 2005/10/01 03:19:17 dan Exp $
+# $Id: lgrind.mk.in.in,v 1.3 2005/10/03 02:23:01 dan Exp $
 #
 # Makefile fragment for processing lgrind files to produce postscript
 #
@@ -90,6 +90,11 @@ BMK:.if exists(${__tmp__})
 BMK:_LGRIND_ADDALL_${__tmp__}!=	ls ${__tmp__}/*.*
 BMK:_LGRIND_ADD_${__tmp__}=	${_LGRIND_ADDALL_${__tmp__}:C/.*.tex$//g}
 BMK:LGRINDSRCS+=	${_LGRIND_ADD_${__tmp__}}
+BMK:.  if defined(${__tmp__}_LGRIND_FLAGS)
+BMK:.    for __tmp2__ in ${_LGRIND_ADD_${__tmp__}}
+BMK:${__tmp2__}_LGRIND_FLAGS?=	${${__tmp__}_LGRIND_FLAGS}
+BMK:.    endfor
+BMK:.  endif
 BMK:.endif
 BMK:.endfor
 BMK:.endif
@@ -111,6 +116,11 @@ BMK:.if exists(${__tmp__})
 BMK:_LGRIND_ADD2_${__tmp__}!=	ls ${__tmp__}/*.[ch]
 BMK:${__name__}_LGRINDSRCS+=	${_LGRIND_ADDALL2_${__tmp__}:C/.*.tex$//g}
 BMK:_LGRIND_ADDALL2_${__tmp__}!=ls ${__tmp__}/*.*
+BMK:.  if defined(${__tmp__}_LGRIND_FLAGS)
+BMK:.    for __tmp2__ in ${_LGRIND_ADD2_${__tmp__}}
+BMK:${__tmp2__}_LGRIND_FLAGS?=	${${__tmp__}_LGRIND_FLAGS}
+BMK:.    endfor
+BMK:.  endif
 BMK:.endif
 BMK:.endfor
 BMK:.endif
@@ -187,12 +197,13 @@ clean::
 
 BMK:.for __tmp__ in ${ALLLGRINDOBJS}
 BMK:${__tmp__}: ${__tmp__:.tex=}
-BMK:	$(LGRIND) $(LGRIND_FLAGS) -o $@ ${__tmp__:.tex=}
+BMK:	$(LGRIND) $(LGRIND_FLAGS) ${${__tmp__:.tex=}_LGRIND_FLAGS} \
+BMK:		-o $@ ${__tmp__:.tex=}
 BMK:.endfor
 
 GMK:define lgrindrun_template
 GMK:$(1): $(1:.tex=)
-GMK:	$(LGRIND) $(LGRIND_FLAGS) -o $(1) $(1:.tex=)
+GMK:	$(LGRIND) $(LGRIND_FLAGS) $($(1:.tex=)_LGRIND_FLAGS) -o $(1) $(1:.tex=)
 GMK:endef
 GMK:$(foreach __tmp__,$(ALLLGRINDOBJS),$(eval $(call lgrindrun_template,$(__tmp__))))
 

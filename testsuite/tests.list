@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.15 2005/10/01 02:38:59 dan Exp $
+# $Id: tests.list,v 1.16 2005/10/03 02:23:04 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -112,10 +112,16 @@ basic_bibtexsrcs_dvi3||test.tex test.dvi @ foo.bib|dvi TEST8=yes
 # LGRINDSRCS test
 #
 basic_lgrindsrcs||test2.tex src1.c src2.c src2.h|dvi TEST2A=yes
+basic_lgrindsrcs2||test2.tex src1.c src2.c src2.h|dvi TEST2A=yes src1.c_LGRIND_FLAGS=-myflag1 src2.c_LGRIND_FLAGS=-myflag2
 #
 # LGRINDDIRS test
 #
 basic_lgrinddirs|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/src1.h lgrinddir2/src3.c |dvi TEST3A=yes
+basic_lgrinddirs2|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/src1.h lgrinddir2/src3.c |dvi TEST3A=yes lgrinddir1_LGRIND_FLAGS=-mydir1flags lgrinddir2_LGRIND_FLAGS=-mydir2flags
+#
+# make sure we can override the directory flags with a file specific flag
+#
+basic_lgrinddirs3|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/src1.h lgrinddir2/src3.c |dvi TEST3A=yes lgrinddir1_LGRIND_FLAGS=-mydir1flags lgrinddir1/src1.h_LGRIND_FLAGS=-mysrcflag
 #
 # TGIFSRCS test
 #
