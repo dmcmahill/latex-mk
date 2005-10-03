@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: testfile.mk.in,v 1.8 2005/09/30 22:11:40 dan Exp $
+# $Id: testfile.mk.in,v 1.9 2005/10/03 17:00:42 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -196,6 +196,38 @@ GMK:ifdef TEST9
 NAME= test1 test2
 test1_TEXSRCS+=	xtra1.tex
 test2_TEXSRCS+=	xtra2.tex
+
+BMK:.endif
+GMK:endif
+
+#######################################
+# 
+# multiple documents with foo_LGRINDDIRS
+#
+#######################################
+
+BMK:.if defined(TEST_MULTI_LGRINDDIRS)
+GMK:ifdef TEST_MULTI_LGRINDDIRS
+
+NAME= test1 test2
+test1_LGRINDDIRS+=	lgd1
+test2_LGRINDDIRS+=	lgd2
+
+BMK:.endif
+GMK:endif
+
+#######################################
+# 
+# multiple documents with foo_LGRINDSRCS
+#
+#######################################
+
+BMK:.if defined(TEST_MULTI_LGRINDSRCS)
+GMK:ifdef TEST_MULTI_LGRINDSRCS
+
+NAME= test1 test2
+test1_LGRINDSRCS+=	src1.c
+test2_LGRINDSRCS+=	src2.c
 
 BMK:.endif
 GMK:endif

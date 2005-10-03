@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.16 2005/10/03 02:23:04 dan Exp $
+# $Id: tests.list,v 1.17 2005/10/03 17:00:42 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -92,7 +92,9 @@ basic1_dvipdfm_ps2||test1.tex|test1.ps TEST1=yes USE_DVIPDFM=yes
 basic1_dvipdfm_pdf1||test1.tex|pdf TEST1=yes USE_DVIPDFM=yes
 basic1_dvipdfm_pdf2||test1.tex|test1.pdf TEST1=yes USE_DVIPDFM=yes
 #
+# -----------------------------------------
 # basic tests with USE_PDFLATEX
+# -----------------------------------------
 #
 basic1_pdflatex_dvi1||test1.tex|dvi TEST1=yes USE_PDFLATEX=yes
 basic1_pdflatex_dvi2||test1.tex|test1.dvi TEST1=yes USE_PDFLATEX=yes
@@ -101,7 +103,9 @@ basic1_pdflatex_ps2||test1.tex|test1.ps TEST1=yes USE_PDFLATEX=yes
 basic1_pdflatex_pdf1||test1.tex|pdf TEST1=yes USE_PDFLATEX=yes
 basic1_pdflatex_pdf2||test1.tex|test1.pdf TEST1=yes USE_PDFLATEX=yes
 #
+# -----------------------------------------
 # BIBTEXSRCS test
+# -----------------------------------------
 #
 basic_bibtexsrcs_dvi1||test.tex foo.bib|dvi TEST8=yes
 # this one shouldn't do anything:
@@ -109,12 +113,16 @@ basic_bibtexsrcs_dvi2||test.tex foo.bib @ test.dvi @ |dvi TEST8=yes
 # this one should want to re-run
 basic_bibtexsrcs_dvi3||test.tex test.dvi @ foo.bib|dvi TEST8=yes
 #
+# -----------------------------------------
 # LGRINDSRCS test
+# -----------------------------------------
 #
 basic_lgrindsrcs||test2.tex src1.c src2.c src2.h|dvi TEST2A=yes
 basic_lgrindsrcs2||test2.tex src1.c src2.c src2.h|dvi TEST2A=yes src1.c_LGRIND_FLAGS=-myflag1 src2.c_LGRIND_FLAGS=-myflag2
 #
+# -----------------------------------------
 # LGRINDDIRS test
+# -----------------------------------------
 #
 basic_lgrinddirs|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/src1.h lgrinddir2/src3.c |dvi TEST3A=yes
 basic_lgrinddirs2|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/src1.h lgrinddir2/src3.c |dvi TEST3A=yes lgrinddir1_LGRIND_FLAGS=-mydir1flags lgrinddir2_LGRIND_FLAGS=-mydir2flags
@@ -123,19 +131,27 @@ basic_lgrinddirs2|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/s
 #
 basic_lgrinddirs3|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/src1.h lgrinddir2/src3.c |dvi TEST3A=yes lgrinddir1_LGRIND_FLAGS=-mydir1flags lgrinddir1/src1.h_LGRIND_FLAGS=-mysrcflag
 #
+# -----------------------------------------
 # TGIFSRCS test
+# -----------------------------------------
 #
 basic_tgifsrcs||test2.tex tgif1.obj tgif2.obj|dvi TEST2=yes
 #
+# -----------------------------------------
 # TGIFDIRS test
+# -----------------------------------------
 #
 basic_tgifdirs|tgifdir1 tgifdir2|test3.tex tgifdir1/tgifa.obj tgifdir1/tgifb.obj tgifdir2/tgifc.obj |dvi TEST3=yes
 #
+# -----------------------------------------
 # XFIGSRCS test
+# -----------------------------------------
 #
 basic_xfigsrcs||test.tex xfig1.fig xfig2.fig|dvi TEST4=yes
 #
+# -----------------------------------------
 # XFIGDIRS test
+# -----------------------------------------
 #
 basic_xfigdirs|xfigdir1 xfigdir2|test.tex xfigdir1/xfiga.fig xfigdir1/xfigb.fig xfigdir2/xfigc.fig |dvi TEST5=yes
 #
@@ -243,6 +259,25 @@ multi_texsrcs_dvi2||test1.tex test2.tex xtra1.tex xtra2.tex|test2.dvi TEST9=yes
 multi_texsrcs_dvi3||test1.tex test2.tex xtra1.tex xtra2.tex|dvi TEST9=yes
 multi_texsrcs_dvi4||test1.tex test2.tex  xtra1.tex @ test1.dvi test2.dvi @ xtra2.tex|test1.dvi TEST9=yes
 multi_texsrcs_dvi5||test1.tex test2.tex  xtra1.tex @ test1.dvi test2.dvi @ xtra2.tex|test2.dvi TEST9=yes
+#
+# foo_LGRINDSRCS
+#
+multi_lgrindsrcs_dvi1||test1.tex test2.tex src1.c src2.c|test1.dvi TEST_MULTI_LGRINDSRCS=yes
+multi_lgrindsrcs_dvi2||test1.tex test2.tex src1.c src2.c|test2.dvi TEST_MULTI_LGRINDSRCS=yes
+multi_lgrindsrcs_dvi3||test1.tex test2.tex src1.c src2.c|dvi TEST_MULTI_LGRINDSRCS=yes
+multi_lgrindsrcs_dvi4||test1.tex test2.tex src1.c src2.c @ src1.c.tex @ test1.dvi test2.dvi|test1.dvi TEST_MULTI_LGRINDSRCS=yes
+multi_lgrindsrcs_dvi5||test1.tex test2.tex src1.c src2.c @ src1.c.tex @ test1.dvi test2.dvi|test2.dvi TEST_MULTI_LGRINDSRCS=yes
+multi_lgrindsrcs_dvi6||test1.tex test2.tex src1.c src2.c|dvi TEST_MULTI_LGRINDSRCS=yes src1.c_LGRIND_FLAGS=-myflag1
+multi_lgrindsrcs_dvi7||test1.tex test2.tex src1.c src2.c|dvi TEST_MULTI_LGRINDSRCS=yes src1.c_LGRIND_FLAGS=-myflag1 src2.c_LGRIND_FLAGS=-myflag2
+#
+# foo_LGRINDDIRS
+#
+multi_lgrinddirs_dvi1|lgd1 lgd2|test1.tex test2.tex lgd1/src1.c lgd1/src2.c lgd2/src1.c|test1.dvi TEST_MULTI_LGRINDDIRS=yes
+multi_lgrinddirs_dvi2|lgd1 lgd2|test1.tex test2.tex lgd1/src1.c lgd1/src2.c lgd2/src1.c|test2.dvi TEST_MULTI_LGRINDDIRS=yes
+multi_lgrinddirs_dvi3|lgd1 lgd2|test1.tex test2.tex lgd1/src1.c lgd1/src2.c lgd2/src1.c|dvi TEST_MULTI_LGRINDDIRS=yes
+multi_lgrinddirs_dvi4|lgd1 lgd2|test1.tex test2.tex lgd1/src1.c lgd1/src2.c lgd2/src1.c|dvi TEST_MULTI_LGRINDDIRS=yes lgd1_LGRIND_FLAGS=-myflags1
+multi_lgrinddirs_dvi5|lgd1 lgd2|test1.tex test2.tex lgd1/src1.c lgd1/src2.c lgd2/src1.c|dvi TEST_MULTI_LGRINDDIRS=yes lgd1_LGRIND_FLAGS=-myflags1 lgd2_LGRIND_FLAGS=-myflags2
+multi_lgrinddirs_dvi6|lgd1 lgd2|test1.tex test2.tex lgd1/src1.c lgd1/src2.c lgd2/src1.c|dvi TEST_MULTI_LGRINDDIRS=yes lgd1_LGRIND_FLAGS=-myflags1 lgd1/src1.c_LGRIND_FLAGS=-myspecialflag lgd2_LGRIND_FLAGS=-myflags2
 #
 # foo_TGIFSRCS
 #

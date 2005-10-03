@@ -1,0 +1,2 @@
+lgrind -i   -o lgd2/src1.c.tex lgd2/src1.c
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test2.tex

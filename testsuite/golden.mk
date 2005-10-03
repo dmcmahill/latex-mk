@@ -1,4 +1,4 @@
-## $Id: golden.mk,v 1.14 2005/10/03 02:23:04 dan Exp $
+## $Id: golden.mk,v 1.15 2005/10/03 17:00:42 dan Exp $
 ##
 ## Copyright (c) 2003, 2004, 2005 Dan McMahill
 ## All rights reserved.
@@ -85,6 +85,19 @@ GOLDEN_FILES=	\
 	multi1_dvi1.ref \
 	multi1_dvi2.ref \
 	multi1_dvi3.ref \
+	multi_lgrinddirs_dvi1.ref \
+	multi_lgrinddirs_dvi2.ref \
+	multi_lgrinddirs_dvi3.ref \
+	multi_lgrinddirs_dvi4.ref \
+	multi_lgrinddirs_dvi5.ref \
+	multi_lgrinddirs_dvi6.ref \
+	multi_lgrindsrcs_dvi1.ref \
+	multi_lgrindsrcs_dvi2.ref \
+	multi_lgrindsrcs_dvi3.ref \
+	multi_lgrindsrcs_dvi4.ref \
+	multi_lgrindsrcs_dvi5.ref \
+	multi_lgrindsrcs_dvi6.ref \
+	multi_lgrindsrcs_dvi7.ref \
 	multi_texsrcs_dvi1.ref \
 	multi_texsrcs_dvi2.ref \
 	multi_texsrcs_dvi3.ref \

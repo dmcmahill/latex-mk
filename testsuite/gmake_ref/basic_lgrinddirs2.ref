@@ -1,4 +1,4 @@
-lgrind -i -mydir1flags  -o lgrinddir1/src1.c.tex lgrinddir1/src1.c
-lgrind -i -mydir1flags  -o lgrinddir1/src1.h.tex lgrinddir1/src1.h
-lgrind -i -mydir2flags  -o lgrinddir2/src3.c.tex lgrinddir2/src3.c
+lgrind -i -mydir1flags -o lgrinddir1/src1.c.tex lgrinddir1/src1.c
+lgrind -i -mydir1flags -o lgrinddir1/src1.h.tex lgrinddir1/src1.h
+lgrind -i -mydir2flags -o lgrinddir2/src3.c.tex lgrinddir2/src3.c
 env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test3.tex

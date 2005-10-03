@@ -1,0 +1,4 @@
+lgrind -i -myflag1  -o src1.c.tex src1.c
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
+lgrind -i -myflag2  -o src2.c.tex src2.c
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test2.tex
