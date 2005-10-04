@@ -1,2 +1,12 @@
-tar cf - test1.tex  xtra1.tex     ../testfile.gmk | gzip > test1.tar.gz
-tar cf - test2.tex  xtra2.tex     ../testfile.gmk | gzip > test2.tar.gz
+tar cf - test1.tex  xtra1.tex     ../testfile.gmk   | gzip > test1.tar.gz
+echo "******* Distfile left in test1.tar.gz *******"
+tar cf - test2.tex  xtra2.tex     ../testfile.gmk   | gzip > test2.tar.gz
+echo "******* Distfile left in test2.tar.gz *******"
+rm -fr test1_test2
+mkdir test1_test2
+for f in test1.tar.gz test2.tar.gz ; do \
+	gzcat $f | (cd test1_test2 && tar xpf -) ; \
+done
+tar cf - test1_test2 | gzip > test1_test2.tar.gz
+rm -fr test1_test2
+echo "******* Distfile left in test1_test2.tar.gz *******"

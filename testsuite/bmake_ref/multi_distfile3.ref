@@ -1,4 +1,12 @@
 lgrind -i   -o src1.c.tex src1.c
-tar cf - src1.c  test1.tex      src1.c.tex ../testfile.mk | gzip > test1.tar.gz
+tar cf - src1.c  test1.tex      src1.c.tex ../testfile.mk   | gzip > test1.tar.gz
+echo "******* Distfile left in test1.tar.gz *******"
 lgrind -i   -o src2.c.tex src2.c
-tar cf - src2.c  test2.tex      src2.c.tex ../testfile.mk | gzip > test2.tar.gz
+tar cf - src2.c  test2.tex      src2.c.tex ../testfile.mk   | gzip > test2.tar.gz
+echo "******* Distfile left in test2.tar.gz *******"
+rm -fr test1_test2
+mkdir test1_test2
+for f in test1.tar.gz test2.tar.gz ; do  gzcat $f | (cd test1_test2 && tar xpf -) ;  done
+tar cf - test1_test2 | gzip > test1_test2.tar.gz
+rm -fr test1_test2
+echo "******* Distfile left in test1_test2.tar.gz *******"

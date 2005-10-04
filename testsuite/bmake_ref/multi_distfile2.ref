@@ -1,4 +1,12 @@
 tgif -color -print -eps fig1.obj
-tar cf - fig1.obj  test1.tex      fig1.eps ../testfile.mk | gzip > test1.tar.gz
+tar cf - fig1.obj  test1.tex      fig1.eps ../testfile.mk   | gzip > test1.tar.gz
+echo "******* Distfile left in test1.tar.gz *******"
 tgif -color -print -eps fig2.obj
-tar cf - fig2.obj  test2.tex      fig2.eps ../testfile.mk | gzip > test2.tar.gz
+tar cf - fig2.obj  test2.tex      fig2.eps ../testfile.mk   | gzip > test2.tar.gz
+echo "******* Distfile left in test2.tar.gz *******"
+rm -fr test1_test2
+mkdir test1_test2
+for f in test1.tar.gz test2.tar.gz ; do  gzcat $f | (cd test1_test2 && tar xpf -) ;  done
+tar cf - test1_test2 | gzip > test1_test2.tar.gz
+rm -fr test1_test2
+echo "******* Distfile left in test1_test2.tar.gz *******"
