@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.49 2005/10/04 01:36:25 dan Exp $
+@c $Id: latex-mk.texi,v 1.50 2005/10/04 10:45:19 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -58,7 +58,7 @@ are met:
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 2002, 2003, 2004 Dan McMahill
+Copyright @copyright{} 2002, 2003, 2004, 2005 Dan McMahill
 @sp 2
 @iftex
 @smallformat
