@@ -2,8 +2,8 @@
 
 <html>
 <head>
-<!-- $Id: news.shtml,v 1.9 2004/05/29 12:55:40 dan Exp $ -->
-<!-- Copyright (c) 2002, 2003, 2004 Dan McMahill  ALL RIGHTS RESERVED. -->
+<!-- $Id: news.shtml,v 1.10 2005/10/04 21:51:31 dan Exp $ -->
+<!-- Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -33,6 +33,34 @@ xfig,
     </center>
     
     <font face="helvetica, arial">
+
+    <HR>
+    <H2><A NAME="20051007">LaTeX-Mk-1.4 Released</A></H2>
+    <P>
+    October 7, 2005.  LaTeX-Mk version 1.4 has been released.
+    The significant changes/additions over the previous version are:
+    <UL>
+        <LI>Added support for lgrind.</LI>
+
+        <LI>Added a <tt>dist</tt> target for creating a distribution archive
+        of all source files.</LI>
+
+        <LI>Added support for using tex2page for html output.</LI>
+
+        <LI>When using pdflatex, directly convert tgif and xfig drawings
+        to PDF instead of to encapsulated postscript.</LI>
+
+        <LI>When using pdflatex, do not create @file{.dvi} files as part
+        of the default target.</LI>
+
+        <LI>Added a LANDSCAPE variable which when set will add landscape
+        flags to various tools.</LI>
+
+        <LI>Make the default flag for exporting xfig drawings to encapsulated
+        postscript be <tt>-L eps</tt> instead of <tt>-L ps</tt>.</LI>
+    </UL>
+    </P>
+   
 
     <HR>
     <H2><A NAME="20040529">LaTeX-Mk-1.3 Released</A></H2>
@@ -65,7 +93,7 @@ xfig,
 	configuration file, user configuration file, or project Makefile.
 	</LI>
 
-	<LI>Added DVIPDFM_ENV variable for running @code{dvipdfm} inside
+	<LI>Added DVIPDFM_ENV variable for running <tt>dvipdfm</tt> inside
 	a customized environment. </LI>
 
 	<LI>Preliminary Rich Text Format (RTF) output support.

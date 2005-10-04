@@ -1,7 +1,7 @@
-## $Id: Makefile,v 1.8 2004/05/29 13:03:19 dan Exp $
+## $Id: Makefile,v 1.9 2005/10/04 21:51:30 dan Exp $
 ##
 
-## Copyright (c) 2002, 2003, 2004 Dan McMahill
+## Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
@@ -36,7 +36,7 @@
 
 srcdir=	.
 top_srcdir=	.
-AWK=	awk
+AWK=	gawk
 
 .PHONY: default
 default: all
