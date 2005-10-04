@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.51 2005/10/04 10:52:42 dan Exp $
+@c $Id: latex-mk.texi,v 1.52 2005/10/04 21:51:20 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -238,7 +238,9 @@ It contains the source files and additionally some generated files
 which are generated with tools which someone else may not have
 installed.  For example, any tgif drawings are included both in tgif
 @file{.obj} form as well as encapsulated postscript (or PDF if you are
-using pdflatex).
+using pdflatex).  For a multiple document project, a master @file{.tar.gz}
+file is created containing the entire project as well as smaller
+@file{.tar.gz} files for each document.
 @end deffn
 
 @deffn Target dvi
@@ -508,6 +510,16 @@ is set.
 Defaults to @samp{-landscape}.
 @end defvar
 
+@defvar GZCAT
+The gzcat file decompression utility.
+Defaults to @samp{gzcat}.
+@end defvar
+
+@defvar GZIP
+The gzip file compression utility.
+Defaults to @samp{gzip}.
+@end defvar
+
 @defvar HEVEA
 The Hevea executible.
 Defaults to @samp{hevea}.
@@ -655,6 +667,11 @@ Defaults to @samp{ps2pdf}.
 @defvar PS2PDF_FLAGS
 A list of flags to be passed to the PS2PDF executible.
 Defaults to @samp{}.
+@end defvar
+
+@defvar TAR
+The tar tape archiver utility.
+Defaults to @samp{tar}.
 @end defvar
 
 @defvar TEX2PAGE
@@ -881,6 +898,14 @@ will add @file{my_leftover_file} and @file{foo.bak} to the list of files
 to be removed when @samp{make clean} is run.
 @end defvar
 
+@defvar EXTRA_DIST
+Files listed in this variable will be added to the archive file created
+with the @code{dist} target.
+@example
+EXTRA_DIST+=   README.txt
+@end example
+@end defvar
+
 @defvar OTHER
 Files listed in this variable will be added to the dependency list for
 the @file{.dvi} file.  For example if you want to add all @file{.eps}
@@ -1075,7 +1100,10 @@ operating system (which of course includes BSD make), see
 non-BSD system, you can try downloading one of the bmake snapshots from
 files area of the LaTeX-Mk sourceforge project page at
 @url{http://www.sourceforge.net/projects/latex-mk}.
-
+The GNU make version requirement is firm.  LaTeX-Mk will not work
+with versions of GNU make prior to 3.80.  It is highly unlikely that
+LaTeX-Mk will be ported to older GNU make versions due to the lack of
+some important features in older versions.
 @end enumerate
 
 @section Installation
@@ -1296,6 +1324,30 @@ cywgin.  Bug report #946216.
         
 @end itemize
 
+@subsection Version 1.4
+Version 1.4 was released on 2005-10-07.
+The significant changes/additions over the previous version are:
+@itemize @bullet
+@item Added support for lgrind.
+    
+@item Added a @code{dist} target for creating a distribution archive
+of all source files.
+
+@item Added support for using tex2page for html output.
+
+@item When using pdflatex, directly convert tgif and xfig drawings
+to PDF instead of to encapsulated postscript.
+
+@item When using pdflatex, do not create @file{.dvi} files as part
+of the default target.
+
+@item Added a LANDSCAPE variable which when set will add landscape
+flags to various tools.
+
+@item Make the default flag for exporting xfig drawings to encapsulated
+postscript be @code{-L eps} instead of @code{-L ps}.
+
+@end itemize
 @page
 @node Target Index, Variable Index, History, Top
 @unnumbered Target Index
