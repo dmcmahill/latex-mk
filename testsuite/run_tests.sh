@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.16 2005/10/04 01:36:27 dan Exp $
+# $Id: run_tests.sh,v 1.17 2005/10/04 21:51:02 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -109,6 +109,7 @@ DVIPS_FLAGS=
 ECHO=echo
 ENV_PROG=env
 FALSE=false
+GZCAT=gzcat
 GZIP=gzip
 GV=gv
 GV_FLAGS=
@@ -156,6 +157,7 @@ export ENV_PROG
 export FALSE
 export GV
 export GV_FLAGS
+export GZCAT
 export GZIP
 export HACHA
 export HACHA_ENV
