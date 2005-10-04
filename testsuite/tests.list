@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.18 2005/10/03 18:10:55 dan Exp $
+# $Id: tests.list,v 1.19 2005/10/04 01:36:27 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -261,6 +261,12 @@ multi_texsrcs_dvi2||test1.tex test2.tex xtra1.tex xtra2.tex|test2.dvi TEST9=yes
 multi_texsrcs_dvi3||test1.tex test2.tex xtra1.tex xtra2.tex|dvi TEST9=yes
 multi_texsrcs_dvi4||test1.tex test2.tex  xtra1.tex @ test1.dvi test2.dvi @ xtra2.tex|test1.dvi TEST9=yes
 multi_texsrcs_dvi5||test1.tex test2.tex  xtra1.tex @ test1.dvi test2.dvi @ xtra2.tex|test2.dvi TEST9=yes
+#
+# distfiles
+#
+multi_distfile1||test1.tex test2.tex  xtra1.tex xtra2.tex|dist TEST9=yes
+multi_distfile2||test1.tex test2.tex fig1.obj fig2.obj|dist TEST10=yes
+multi_distfile3||test1.tex test2.tex src1.c src2.c|dist TEST_MULTI_LGRINDSRCS=yes
 #
 # foo_LGRINDSRCS
 #

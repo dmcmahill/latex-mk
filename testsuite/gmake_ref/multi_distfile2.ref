@@ -1,0 +1,4 @@
+tgif -color -print -eps fig1.obj
+tar cf - fig1.obj   test1.tex      fig1.eps ../testfile.gmk | gzip > test1.tar.gz
+tgif -color -print -eps fig2.obj
+tar cf - fig2.obj   test2.tex      fig2.eps ../testfile.gmk | gzip > test2.tar.gz

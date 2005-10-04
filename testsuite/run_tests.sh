@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.15 2005/10/03 18:10:55 dan Exp $
+# $Id: run_tests.sh,v 1.16 2005/10/04 01:36:27 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -109,6 +109,7 @@ DVIPS_FLAGS=
 ECHO=echo
 ENV_PROG=env
 FALSE=false
+GZIP=gzip
 GV=gv
 GV_FLAGS=
 HACHA=hacha
@@ -137,6 +138,7 @@ PDFLATEX_ENV=
 PDFLATEX_FLAGS=
 PS2PDF=ps2pdf
 PS2PDF_FLAGS=
+TAR=tar
 XDVI=xdvi
 XDVI_FLAGS=
 VIEWPDF=acroread
@@ -154,6 +156,7 @@ export ENV_PROG
 export FALSE
 export GV
 export GV_FLAGS
+export GZIP
 export HACHA
 export HACHA_ENV
 export HACHA_FLAGS
@@ -181,6 +184,7 @@ export PDFLATEX_ENV
 export PDFLATEX_FLAGS
 export PS2PDF
 export PS2PDF_FLAGS
+export TAR
 export XDVI
 export XDVI_FLAGS
 export VIEWPDF

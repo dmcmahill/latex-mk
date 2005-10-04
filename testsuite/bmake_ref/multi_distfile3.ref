@@ -1,0 +1,4 @@
+lgrind -i   -o src1.c.tex src1.c
+tar cf - src1.c  test1.tex      src1.c.tex ../testfile.mk | gzip > test1.tar.gz
+lgrind -i   -o src2.c.tex src2.c
+tar cf - src2.c  test2.tex      src2.c.tex ../testfile.mk | gzip > test2.tar.gz

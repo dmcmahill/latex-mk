@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.48 2005/10/03 18:10:53 dan Exp $
+@c $Id: latex-mk.texi,v 1.49 2005/10/04 01:36:25 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -229,6 +229,16 @@ The targets provided by LaTeX-Mk are:
 Cleans the current working directory by removing all LaTeX output and
 other output files created during processing of the project.  In
 addition, emacs @file{~} files are removed.
+@end deffn
+
+@deffn Target dist
+@trindex dist
+Creates a @file{.tar.gz} file containing an archive of the project.
+It contains the source files and additionally some generated files
+which are generated with tools which someone else may not have
+installed.  For example, any tgif drawings are included both in tgif
+@file{.obj} form as well as encapsulated postscript (or PDF if you are
+using pdflatex).
 @end deffn
 
 @deffn Target dvi

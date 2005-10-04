@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.47 2005/09/30 22:11:38 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.48 2005/10/04 01:36:23 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -61,6 +61,7 @@
 #  DVIPDFM_FLAGS= flags passed to the dvipdfm executable
 #  DVIPS	= the dvips executable
 #  DVIPS_FLAGS	= flags passed to the dvips executable
+#  GZIP		= gzip program
 #  GV		= a postscript previewer executable
 #  GV_FLAGS	= flags passed to the postscript previewer executable
 #  JPG2EPS      = program and flags used to convert JPEG files to EPS
@@ -85,6 +86,7 @@
 #  PNG2EPS      = program and flags used to convert PNG files to EPS
 #  PS2PDF	= ps2pdf executable
 #  PS2PDF_FLAGS	= flags passed to the ps2pdf executable
+#  TAR          = tape archiver program
 #  VIEWPDF      = PDF viewer
 #  VIEWPDF_FLAGS= PDF viewer flags
 #  XDVI		= a .dvi previewer executable
@@ -97,6 +99,7 @@
 #
 #######################################
 
+GMK:MAKEFILE:=	$(word 1,${MAKEFILE_LIST})
 
 BMK:MAKECONF?=	@MAKECONF@
 BMK:USER_MAKECONF?=	@USERMAKECONF@
@@ -148,6 +151,7 @@ GREP?=		@GREP@
 GV?=		@GV@
 GV_FLAGS?=
 GV_LANDSCAPE_FLAGS?=	-landscape
+GZIP?=		@GZIP@
 HACHA?=		@HACHA@
 HACHA_ENV?=
 HACHA_FLAGS?=
@@ -177,6 +181,7 @@ RM?=		@RM@
 RMDIR?=		@RMDIR@
 PS2PDF?=	@PS2PDF@
 PS2PDF_FLAGS?=	
+TAR?=		@TAR@
 TEX2PAGE?=	@TEX2PAGE@
 TEX2PAGE_ENV?=
 TEX2PAGE_FLAGS?=
@@ -523,6 +528,7 @@ BMK:.endif
 BMK:
 BMK:ALLTEXSRCS+=	${__tmp__}.tex ${${__tmp__}_TEXSRCS}
 BMK:ALLBIBTEXSRCS+=	${${__tmp__}_BIBTEXSRCS}
+BMK:dist:	${__tmp__}.tar.gz
 BMK:dvi:	${__tmp__}.dvi
 BMK:html:	${__tmp__}.html-stamp
 BMK:.PHONY: ${__tmp__}.html
@@ -549,6 +555,13 @@ BMK:	${RM} -f ${__tmp__}.html_dir/images.out
 BMK:	${RM} -f ${__tmp__}.html_dir/images.tex
 BMK:.endif
 BMK:	if [ -d ${__tmp__}.html_dir ]; then ${RMDIR} ${__tmp__}.html_dir ; fi
+BMK:
+BMK:# And add dependencies for a source tarball
+BMK:${__tmp__}_DIST+=	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER} ${MAKEFILE}
+BMK:ALL_DIST+=	${${__tmp__}_DIST}
+BMK:
+BMK:${__tmp__}.tar.gz: ${${__tmp__}_DIST}
+BMK:	${TAR} cf - ${${__tmp__}_DIST} | ${GZIP} > $@
 BMK:.endfor
 
 GMK:define dvideps_template
@@ -559,6 +572,7 @@ GMK:endif
 GMK:
 GMK:ALLTEXSRCS+=	$(1).tex ${$(1)_TEXSRCS}
 GMK:ALLBIBTEXSRCS+=	${$(1)_BIBTEXSRCS}
+GMK:dist:	$(1).tar.gz
 GMK:dvi:	$(1).dvi
 GMK:html:	$(1).html-stamp
 GMK:$(1).html-stamp:	$(1).dvi
@@ -585,9 +599,21 @@ GMK:	${RM} -f $(1).html_dir/images.out
 GMK:	${RM} -f $(1).html_dir/images.tex
 GMK:endif
 GMK:	if [ -d $(1).html_dir ] ; then ${RMDIR} $(1).html_dir ; fi
+GMK:
+GMK:# And add dependencies for a source tarball
+GMK:$(1)_DIST+=	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${BIBTEXSRCS} ${$(1)_BIBTEXSRCS} ${OTHER} ${$(1)_OTHER} ${MAKEFILE}
+GMK:
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call dvideps_template,$(__tmp__))))
 
+GMK:define dist_template
+GMK:ALL_DIST+=	$($(1)_DIST)
+GMK:
+GMK:$(1).tar.gz: $($(1)_DIST)
+GMK:	${TAR} cf - ${$(1)_DIST} | ${GZIP} > $(1).tar.gz
+GMK:
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call dist_template,$(__tmp__))))
 
 #######################################
 # target:  view, view-all
@@ -675,6 +701,13 @@ GMK:endif
 
 .png.eps : 
 	$(PNG2EPS) $< $@
+
+#######################################
+#
+# Distribution output (tarfile)
+#
+#######################################
+.PHONY: dist
 
 #######################################
 #

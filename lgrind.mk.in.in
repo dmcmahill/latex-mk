@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: lgrind.mk.in.in,v 1.4 2005/10/03 17:00:41 dan Exp $
+# $Id: lgrind.mk.in.in,v 1.5 2005/10/04 01:36:24 dan Exp $
 #
 # Makefile fragment for processing lgrind files to produce postscript
 #
@@ -134,9 +134,9 @@ BMK:.for __name__ in ${NAME}
 BMK:.if defined(${__name__}_LGRINDDIRS)
 BMK:.for __tmp__ in ${${__name__}_LGRINDDIRS}
 BMK:.if exists(${__tmp__})
-BMK:_LGRIND_ADD2_${__tmp__}!=	ls ${__tmp__}/*.[ch]
-BMK:${__name__}_LGRINDSRCS+=	${_LGRIND_ADDALL2_${__tmp__}:C/.*.tex$//g}
 BMK:_LGRIND_ADDALL2_${__tmp__}!=ls ${__tmp__}/*.*
+BMK:_LGRIND_ADD2_${__tmp__}=	${_LGRIND_ADDALL2_${__tmp__}:C/.*.tex$//g}
+BMK:${__name__}_LGRINDSRCS+=	${_LGRIND_ADD2_${__tmp__}}
 BMK:.  if defined(${__tmp__}_LGRIND_FLAGS)
 BMK:.    for __tmp2__ in ${_LGRIND_ADD2_${__tmp__}}
 BMK:${__tmp2__}_LGRIND_FLAGS?=	${${__tmp__}_LGRIND_FLAGS}
@@ -145,6 +145,7 @@ BMK:.  endif
 BMK:.endif
 BMK:.endfor
 BMK:.endif
+BMK:${__name__}_DIST+=	${${__name__}_LGRINDSRCS} ${LGRINDSRCS}
 BMK:.endfor
 
 
@@ -164,6 +165,7 @@ GMK:ifdef $(1)_LGRINDDIRS
 GMK:$(foreach __tmp2__,$($(1)_LGRINDDIRS),$(eval $(call proj_lgrinddirs_template,$(__tmp2__))))
 GMK:$(foreach __tmp2__,$($(1)_LGRINDDIRS),$(eval $(call proj_lgrindsrcs_add_template,$(__tmp2__),$(1))))
 GMK:endif
+GMK:$(1)_DIST+=	$($(1)_LGRINDSRCS) $(LGRINDSRCS)
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call proj_lgrind_template,$(__tmp__))))
 

@@ -1,0 +1,2 @@
+tar cf - test1.tex  xtra1.tex     ../testfile.mk | gzip > test1.tar.gz
+tar cf - test2.tex  xtra2.tex     ../testfile.mk | gzip > test2.tar.gz
