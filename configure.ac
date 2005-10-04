@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.39 2005/10/04 21:51:01 dan Exp $
+dnl $Id: configure.ac,v 1.40 2005/10/04 23:07:58 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill
@@ -34,7 +34,7 @@ dnl  SUCH DAMAGE.
 dnl    
 
 AC_INIT(latex.mk.in.in)
-AM_INIT_AUTOMAKE(latex-mk, 1.3A)
+AM_INIT_AUTOMAKE(latex-mk, 1.4A)
 
 AM_MAINTAINER_MODE
 
