@@ -1,3 +1,291 @@
+2005-10-04 06:57  dan
+
+	* AUTHORS: add note about lgrind
+
+2005-10-04 06:52  dan
+
+	* doc/latex-mk.texi: the v1.3 section was incorrectly identified as
+	  v1.2
+
+2005-10-04 06:45  dan
+
+	* doc/latex-mk.texi: bump copyright date
+
+2005-10-03 21:36  dan
+
+	* configure.ac, latex.mk.in.in, lgrind.mk.in.in, tgif.mk.in.in,
+	  xfig.mk.in.in, doc/latex-mk.texi, testsuite/golden.mk,
+	  testsuite/run_tests.sh, testsuite/tests.list,
+	  testsuite/bmake_ref/multi_distfile1.ref,
+	  testsuite/bmake_ref/multi_distfile2.ref,
+	  testsuite/bmake_ref/multi_distfile3.ref,
+	  testsuite/gmake_ref/multi_distfile1.ref,
+	  testsuite/gmake_ref/multi_distfile2.ref,
+	  testsuite/gmake_ref/multi_distfile3.ref: add a 'dist' target
+	  which currently produces a distfile for each project.  I still
+	  need the master distfile.
+
+2005-10-03 14:10  dan
+
+	* tgif.mk.in.in, xfig.mk.in.in, doc/latex-mk.texi,
+	  testsuite/golden.mk, testsuite/run_tests.sh,
+	  testsuite/tests.list, testsuite/bmake_ref/basic_xfigdirs.ref,
+	  testsuite/bmake_ref/basic_xfigsrcs.ref,
+	  testsuite/bmake_ref/tgif_pdflatex_dvi1.ref,
+	  testsuite/bmake_ref/xfig_pdflatex_dvi1.ref,
+	  testsuite/gmake_ref/basic_xfigdirs.ref,
+	  testsuite/gmake_ref/basic_xfigsrcs.ref,
+	  testsuite/gmake_ref/tgif_pdflatex_dvi1.ref,
+	  testsuite/gmake_ref/xfig_pdflatex_dvi1.ref: when using pdflatex,
+	  export tgif and xfig directly to pdf rather than eps.
+
+2005-10-03 13:00  dan
+
+	* lgrind.mk.in.in, testsuite/golden.mk, testsuite/testfile.mk.in,
+	  testsuite/tests.list,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi1.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi2.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi3.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi4.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi5.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi6.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi1.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi2.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi3.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi4.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi5.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi6.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi7.ref,
+	  testsuite/gmake_ref/basic_lgrinddirs2.ref,
+	  testsuite/gmake_ref/basic_lgrinddirs3.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi1.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi2.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi3.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi4.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi5.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi6.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi1.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi2.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi3.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi4.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi5.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi6.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi7.ref: fix up GNU make
+	  support for foo_LGRIND_FLAGS.  Add lots of tests to veryify that
+	  this stuff is working right.
+
+2005-10-03 08:03  dan
+
+	* testsuite/: bmake_ref/vars_lgrind.ref, gmake_ref/vars_lgrind.ref:
+	  Update for some whitespace changes which resulted from expanded
+	  lgrind flags support.
+
+2005-10-02 22:23  dan
+
+	* lgrind.mk.in.in, doc/latex-mk.texi, testsuite/golden.mk,
+	  testsuite/tests.list, testsuite/bmake_ref/basic_lgrinddirs.ref,
+	  testsuite/bmake_ref/basic_lgrinddirs2.ref,
+	  testsuite/bmake_ref/basic_lgrinddirs3.ref,
+	  testsuite/bmake_ref/basic_lgrindsrcs.ref,
+	  testsuite/bmake_ref/basic_lgrindsrcs2.ref,
+	  testsuite/gmake_ref/basic_lgrinddirs.ref,
+	  testsuite/gmake_ref/basic_lgrinddirs2.ref,
+	  testsuite/gmake_ref/basic_lgrinddirs3.ref,
+	  testsuite/gmake_ref/basic_lgrindsrcs.ref,
+	  testsuite/gmake_ref/basic_lgrindsrcs2.ref: Fix up the lgrind
+	  support quite a bit by adding per directory and per file
+	  variables for setting flags to lgrind.  Fully works with BSD
+	  make, not fully working yet with GNU make.
+
+2005-10-01 09:47  dan
+
+	* testsuite/golden.mk: add vars_lgrind
+
+2005-09-30 23:19  dan
+
+	* lgrind.mk.in.in, doc/latex-mk.texi: remove the *.c *.h only
+	  restriction on lgrind inputs
+
+2005-09-30 22:46  dan
+
+	* doc/latex-mk.texi: document lgrind support
+
+2005-09-30 22:38  dan
+
+	* testsuite/tests.list: expand on comments for the @ special
+	  character
+
+2005-09-30 22:37  dan
+
+	* testsuite/: tests.list, bmake_ref/vars_lgrind.ref,
+	  gmake_ref/vars_lgrind.ref: add tsts for LGRIND and LGRIND_FLAGS
+	  variables
+
+2005-09-30 18:11  dan
+
+	* Makefile.am, configure.ac, latex.mk.in.in, lgrind.mk.in.in,
+	  testsuite/golden.mk, testsuite/testfile.mk.in,
+	  testsuite/tests.list, testsuite/bmake_ref/basic_lgrinddirs.ref,
+	  testsuite/bmake_ref/basic_lgrindsrcs.ref,
+	  testsuite/gmake_ref/basic_lgrinddirs.ref,
+	  testsuite/gmake_ref/basic_lgrindsrcs.ref: add initial support for
+	  lgrind based on patches from Peter Bex
+
+2005-09-30 18:11  dan
+
+	* testsuite/Makefile.am: make sure the test makefile gets built
+	  properly
+
+2005-09-30 10:09  dan
+
+	* latex.mk.in.in: if we have USE_PDFLATEX set, then do not build a
+	  .dvi file by default.  Make the default view_${NAME} target be
+	  one which views the pdf file instead of the dvi file.  Patch
+	  provided in bug #977584 by Peter Bex.
+
+2005-09-30 09:45  dan
+
+	* configure.ac, latex.mk.in.in, doc/latex-mk.texi,
+	  testsuite/golden.mk, testsuite/tests.list,
+	  testsuite/bmake_ref/basic1_html1.ref,
+	  testsuite/bmake_ref/basic1_html2.ref,
+	  testsuite/bmake_ref/basic1_html4.ref,
+	  testsuite/bmake_ref/basic1_html5.ref,
+	  testsuite/bmake_ref/basic1_html6.ref,
+	  testsuite/bmake_ref/basic1_html7.ref,
+	  testsuite/bmake_ref/basic1_html8.ref,
+	  testsuite/bmake_ref/vars_hevea.ref,
+	  testsuite/bmake_ref/vars_latex2html.ref,
+	  testsuite/bmake_ref/vars_tex2page.ref,
+	  testsuite/gmake_ref/basic1_html1.ref,
+	  testsuite/gmake_ref/basic1_html2.ref,
+	  testsuite/gmake_ref/basic1_html4.ref,
+	  testsuite/gmake_ref/basic1_html5.ref,
+	  testsuite/gmake_ref/basic1_html6.ref,
+	  testsuite/gmake_ref/basic1_html7.ref,
+	  testsuite/gmake_ref/basic1_html8.ref,
+	  testsuite/gmake_ref/vars_hevea.ref,
+	  testsuite/gmake_ref/vars_latex2html.ref,
+	  testsuite/gmake_ref/vars_tex2page.ref: Add support for tex2page
+	  for generating html output.  Initial patch supplied by Peter Bex.
+	  Documentation, testsuite, and GNU make fixes by me.
+
+2005-09-30 07:01  dan
+
+	* configure.ac: if GNUmake >= 3.80 is not found _and_ no BSD make
+	  is found, then print a loud warning message about it.
+
+2005-09-30 06:53  dan
+
+	* acinclude.m4: improve quoting to keep more recent aclocal happy
+
+2005-09-30 06:52  dan
+
+	* doc/Makefile.am: clean up this file now that html, pdf, ps
+	  targets are dealt with by automake
+
+2005-09-30 06:52  dan
+
+	* configure.ac: add AM_MAINTAINER_MODE
+
+2005-09-29 23:02  dan
+
+	* COPYING, latex.mk.in.in, doc/latex-mk.texi, testsuite/golden.mk,
+	  testsuite/tests.list: add a LANDSCAPE variable which will trigger
+	  various other flags like DVIPS_LANDSCAPE_FLAGS, etc to be added
+	  the the appropriate tools.
+
+2005-09-29 22:57  dan
+
+	* testsuite/bmake_ref/: basic1_landscape_view.ref,
+	  vars_xdvi_landscape.ref: repair some broken golden files that had
+	  some of my .latex-mk.conf settings in them
+
+2005-09-29 22:52  dan
+
+	* testsuite/run_tests.sh: make sure we don't pull in a users
+	  MAKECONF or USER_MAKECONF which can completely throw off these
+	  tests.
+
+2005-09-29 20:07  dan
+
+	* autogen.sh: oops. no need to run autoheader.
+
+2005-09-29 20:05  dan
+
+	* autogen.sh: be a bit more verbose and abort on errors
+
+2004-07-28 22:34  dan
+
+	* xfig.mk.in.in: use -L eps instead of -L ps for FIG2DEV_FLAGS.
+	  Bug #972353
+
+2004-06-26 16:33  dan
+
+	* testsuite/: bmake_ref/vars_dvipdfm_landscape.ref,
+	  bmake_ref/vars_dvips_landscape.ref,
+	  bmake_ref/vars_gv_landscape.ref,
+	  bmake_ref/vars_viewpdf_landscape.ref,
+	  bmake_ref/vars_xdvi_landscape.ref,
+	  gmake_ref/vars_dvipdfm_landscape.ref,
+	  gmake_ref/vars_dvips_landscape.ref,
+	  gmake_ref/vars_gv_landscape.ref,
+	  gmake_ref/vars_viewpdf_landscape.ref,
+	  gmake_ref/vars_xdvi_landscape.ref: add more landscape checks
+
+2004-06-26 16:03  dan
+
+	* testsuite/: bmake_ref/basic1_landscape_dvipdfm.ref,
+	  bmake_ref/basic1_landscape_pdf.ref,
+	  bmake_ref/basic1_landscape_ps.ref,
+	  bmake_ref/basic1_landscape_view.ref,
+	  bmake_ref/basic1_landscape_viewpdf.ref,
+	  bmake_ref/basic1_landscape_viewps.ref,
+	  gmake_ref/basic1_landscape_dvipdfm.ref,
+	  gmake_ref/basic1_landscape_pdf.ref,
+	  gmake_ref/basic1_landscape_ps.ref,
+	  gmake_ref/basic1_landscape_view.ref,
+	  gmake_ref/basic1_landscape_viewpdf.ref,
+	  gmake_ref/basic1_landscape_viewps.ref: add various tests for the
+	  landscape variables
+
+2004-05-29 09:18  dan
+
+	* configure.ac: set to version 1.3
+
+2004-05-29 09:17  dan
+
+	* configure.ac: welcome to 1.3A
+
+2004-05-29 09:09  dan
+
+	* example/Makefile.am: add ex4.tex and ex4.bib
+
+2004-05-29 09:09  dan
+
+	* doc/latex-mk.texi: correct location of freebsd port
+
+2004-05-29 09:07  dan
+
+	* doc/latex-mk.texi: add latex-mk-1.3 notes
+
+2004-05-29 09:03  dan
+
+	* htdocs/Makefile: make this stupid makefile actually work
+
+2004-05-29 08:59  dan
+
+	* example/Makefile.am: makefile.in -> mkfile.in
+
+2004-05-29 08:55  dan
+
+	* htdocs/: history.shtml, index.shtml, news.shtml: latex-mk-1.3
+	  updates
+
+2004-05-29 08:49  dan
+
+	* ChangeLog: update with latest using cvs2cl.pl
+
 2004-05-29 08:46  dan
 
 	* latex-mk.in: Correctly detect that a bibtex run is needed in the
@@ -784,20 +1072,9 @@
 
 2003-02-07 20:22  dan
 
-	* testsuite/: Makefile.am, run_tests.sh, bmake/Makefile.am,
-	  bmake/basic1_dvi1.ref, bmake/basic1_dvi2.ref,
-	  bmake/basic1_dvipdfm_dvi1.ref, bmake/basic1_dvipdfm_dvi2.ref,
-	  bmake/basic1_dvipdfm_pdf1.ref, bmake/basic1_dvipdfm_pdf2.ref,
-	  bmake/basic1_dvipdfm_ps1.ref, bmake/basic1_dvipdfm_ps2.ref,
-	  bmake/basic1_pdf1.ref, bmake/basic1_pdf2.ref,
-	  bmake/basic1_pdflatex_dvi1.ref, bmake/basic1_pdflatex_dvi2.ref,
-	  bmake/basic1_pdflatex_pdf1.ref, bmake/basic1_pdflatex_pdf2.ref,
-	  bmake/basic1_pdflatex_ps1.ref, bmake/basic1_pdflatex_ps2.ref,
-	  bmake/basic1_ps1.ref, bmake/basic1_ps2.ref,
-	  bmake/basic_tgifdirs.ref, bmake/basic_tgifsrcs.ref,
-	  bmake/basic_xfigdirs.ref, bmake/basic_xfigsrcs.ref,
-	  bmake_ref/Makefile.am, bmake_ref/basic1_dvi1.ref,
-	  bmake_ref/basic1_dvi2.ref, bmake_ref/basic1_dvipdfm_dvi1.ref,
+	* testsuite/: Makefile.am, run_tests.sh, bmake_ref/Makefile.am,
+	  bmake_ref/basic1_dvi1.ref, bmake_ref/basic1_dvi2.ref,
+	  bmake_ref/basic1_dvipdfm_dvi1.ref,
 	  bmake_ref/basic1_dvipdfm_dvi2.ref,
 	  bmake_ref/basic1_dvipdfm_pdf1.ref,
 	  bmake_ref/basic1_dvipdfm_pdf2.ref,
@@ -811,20 +1088,9 @@
 	  bmake_ref/basic1_pdflatex_ps2.ref, bmake_ref/basic1_ps1.ref,
 	  bmake_ref/basic1_ps2.ref, bmake_ref/basic_tgifdirs.ref,
 	  bmake_ref/basic_tgifsrcs.ref, bmake_ref/basic_xfigdirs.ref,
-	  bmake_ref/basic_xfigsrcs.ref, gmake/Makefile.am,
-	  gmake/basic1_dvi1.ref, gmake/basic1_dvi2.ref,
-	  gmake/basic1_dvipdfm_dvi1.ref, gmake/basic1_dvipdfm_dvi2.ref,
-	  gmake/basic1_dvipdfm_pdf1.ref, gmake/basic1_dvipdfm_pdf2.ref,
-	  gmake/basic1_dvipdfm_ps1.ref, gmake/basic1_dvipdfm_ps2.ref,
-	  gmake/basic1_pdf1.ref, gmake/basic1_pdf2.ref,
-	  gmake/basic1_pdflatex_dvi1.ref, gmake/basic1_pdflatex_dvi2.ref,
-	  gmake/basic1_pdflatex_pdf1.ref, gmake/basic1_pdflatex_pdf2.ref,
-	  gmake/basic1_pdflatex_ps1.ref, gmake/basic1_pdflatex_ps2.ref,
-	  gmake/basic1_ps1.ref, gmake/basic1_ps2.ref,
-	  gmake/basic_tgifdirs.ref, gmake/basic_tgifsrcs.ref,
-	  gmake/basic_xfigdirs.ref, gmake/basic_xfigsrcs.ref,
-	  gmake_ref/Makefile.am, gmake_ref/basic1_dvi1.ref,
-	  gmake_ref/basic1_dvi2.ref, gmake_ref/basic1_dvipdfm_dvi1.ref,
+	  bmake_ref/basic_xfigsrcs.ref, gmake_ref/Makefile.am,
+	  gmake_ref/basic1_dvi1.ref, gmake_ref/basic1_dvi2.ref,
+	  gmake_ref/basic1_dvipdfm_dvi1.ref,
 	  gmake_ref/basic1_dvipdfm_dvi2.ref,
 	  gmake_ref/basic1_dvipdfm_pdf1.ref,
 	  gmake_ref/basic1_dvipdfm_pdf2.ref,
@@ -885,49 +1151,10 @@
 2003-02-02 22:34  dan
 
 	* latex.mk.in.in, testsuite/Makefile.am, testsuite/run_tests,
-	  testsuite/testfile.mk.in, testsuite/tests.list,
-	  testsuite/bmake/Makefile.am, testsuite/bmake/basic1_dvi1.ref,
-	  testsuite/bmake/basic1_dvi2.ref,
-	  testsuite/bmake/basic1_dvipdfm_dvi1.ref,
-	  testsuite/bmake/basic1_dvipdfm_dvi2.ref,
-	  testsuite/bmake/basic1_dvipdfm_pdf1.ref,
-	  testsuite/bmake/basic1_dvipdfm_pdf2.ref,
-	  testsuite/bmake/basic1_dvipdfm_ps1.ref,
-	  testsuite/bmake/basic1_dvipdfm_ps2.ref,
-	  testsuite/bmake/basic1_pdf1.ref, testsuite/bmake/basic1_pdf2.ref,
-	  testsuite/bmake/basic1_pdflatex_dvi1.ref,
-	  testsuite/bmake/basic1_pdflatex_dvi2.ref,
-	  testsuite/bmake/basic1_pdflatex_pdf1.ref,
-	  testsuite/bmake/basic1_pdflatex_pdf2.ref,
-	  testsuite/bmake/basic1_pdflatex_ps1.ref,
-	  testsuite/bmake/basic1_pdflatex_ps2.ref,
-	  testsuite/bmake/basic1_ps1.ref, testsuite/bmake/basic1_ps2.ref,
-	  testsuite/bmake/basic_tgifdirs.ref,
-	  testsuite/bmake/basic_tgifsrcs.ref,
-	  testsuite/bmake/basic_xfigdirs.ref,
-	  testsuite/bmake/basic_xfigsrcs.ref, testsuite/gmake/Makefile.am,
-	  testsuite/gmake/basic1_dvi1.ref, testsuite/gmake/basic1_dvi2.ref,
-	  testsuite/gmake/basic1_dvipdfm_dvi1.ref,
-	  testsuite/gmake/basic1_dvipdfm_dvi2.ref,
-	  testsuite/gmake/basic1_dvipdfm_pdf1.ref,
-	  testsuite/gmake/basic1_dvipdfm_pdf2.ref,
-	  testsuite/gmake/basic1_dvipdfm_ps1.ref,
-	  testsuite/gmake/basic1_dvipdfm_ps2.ref,
-	  testsuite/gmake/basic1_pdf1.ref, testsuite/gmake/basic1_pdf2.ref,
-	  testsuite/gmake/basic1_pdflatex_dvi1.ref,
-	  testsuite/gmake/basic1_pdflatex_dvi2.ref,
-	  testsuite/gmake/basic1_pdflatex_pdf1.ref,
-	  testsuite/gmake/basic1_pdflatex_pdf2.ref,
-	  testsuite/gmake/basic1_pdflatex_ps1.ref,
-	  testsuite/gmake/basic1_pdflatex_ps2.ref,
-	  testsuite/gmake/basic1_ps1.ref, testsuite/gmake/basic1_ps2.ref,
-	  testsuite/gmake/basic_tgifdirs.ref,
-	  testsuite/gmake/basic_tgifsrcs.ref,
-	  testsuite/gmake/basic_xfigdirs.ref,
-	  testsuite/gmake/basic_xfigsrcs.ref: import the first pass at part
-	  of a testsuite.  As a bonus I've already caught a bug with this.
-	  Testsuite still needs to be incorporated into the 'make check'
-	  part of the automake build system.
+	  testsuite/testfile.mk.in, testsuite/tests.list: import the first
+	  pass at part of a testsuite.	As a bonus I've already caught a
+	  bug with this.  Testsuite still needs to be incorporated into the
+	  'make check' part of the automake build system.
 
 2003-02-02 22:27  dan
 
