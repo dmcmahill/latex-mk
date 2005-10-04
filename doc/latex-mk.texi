@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.52 2005/10/04 21:51:20 dan Exp $
+@c $Id: latex-mk.texi,v 1.53 2005/10/04 22:04:19 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -1325,7 +1325,7 @@ cywgin.  Bug report #946216.
 @end itemize
 
 @subsection Version 1.4
-Version 1.4 was released on 2005-10-07.
+Version 1.4 was released on 2005-10-04.
 The significant changes/additions over the previous version are:
 @itemize @bullet
 @item Added support for lgrind.

@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <!-- $Id: index.shtml,v 1.12 2005/10/04 21:51:31 dan Exp $ -->
+    <!-- $Id: index.shtml,v 1.13 2005/10/04 22:04:21 dan Exp $ -->
     <!-- Copyright (c) 2001, 2002, 2003, 2004
     Dan McMahill  ALL RIGHTS RESERVED. -->
     <link rev="made" href="mailto:danmc@users.sourceforge.net">
@@ -55,7 +55,7 @@
       <!-- Recent news  -->
 
       <li><font face="helvetica, arial" size="-1">
-	  <a href="news.html#20051007">LaTeX-Mk-1.4 released, 2005-10-07</a>
+	  <a href="news.html#20051004">LaTeX-Mk-1.4 released, 2005-10-04</a>
 	</font></li>
 
       <li><font face="helvetica, arial" size="-1">

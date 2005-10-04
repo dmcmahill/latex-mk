@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.15 2005/10/04 21:51:30 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.16 2005/10/04 22:04:21 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -196,7 +196,7 @@ xfig,
 
     <H3>Version 1.4</H3>
     <P>
-    LaTeX-Mk version 1.4 was released on October 7, 2005.
+    LaTeX-Mk version 1.4 was released on October 4, 2005.
     The significant changes/additions over the previous version are:
     <UL>
         <LI>Added support for lgrind.</LI>
