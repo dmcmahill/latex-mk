@@ -1,3 +1,44 @@
+2005-10-04 18:08  dan
+
+	* README.to-release: update these notes a bit
+
+2005-10-04 18:04  dan
+
+	* doc/latex-mk.texi, htdocs/history.shtml, htdocs/index.shtml,
+	  htdocs/news.shtml: set the release date to today!
+
+2005-10-04 17:51  dan
+
+	* latex.mk.in.in, testsuite/bmake_ref/multi_distfile1.ref,
+	  testsuite/bmake_ref/multi_distfile2.ref,
+	  testsuite/bmake_ref/multi_distfile3.ref,
+	  testsuite/gmake_ref/multi_distfile1.ref,
+	  testsuite/gmake_ref/multi_distfile2.ref,
+	  testsuite/gmake_ref/multi_distfile3.ref: improve the dist target
+	  to support a tar of all documents
+
+2005-10-04 17:51  dan
+
+	* htdocs/: Makefile, history.shtml, index.shtml, main_footer.incl,
+	  news.shtml: add v1.4 release notes
+
+2005-10-04 17:51  dan
+
+	* doc/latex-mk.texi: add some missing variables and add v1.4 notes
+
+2005-10-04 17:51  dan
+
+	* ChangeLog: regen with cvs2cl.pl
+
+2005-10-04 17:51  dan
+
+	* configure.ac, testsuite/run_tests.sh: add gzcat/GZCAT used by the
+	  dist target
+
+2005-10-04 08:51  dan
+
+	* TODO: lgrind support and dist target now exist
+
 2005-10-04 06:57  dan
 
 	* AUTHORS: add note about lgrind
