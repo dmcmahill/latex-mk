@@ -1,10 +1,8 @@
-# $Id: TODO,v 1.5 2004/03/17 21:41:07 dan Exp $
+# $Id: TODO,v 1.6 2005/10/04 12:51:55 dan Exp $
 #
 
 LaTeX-Mk Unofficial TODO List
 -----------------------------
-
-- Support for lgrind
 
 - Support for recursive make calls into subdirectories which
   may or may not be strictly latex-mk projects.  This could
@@ -12,8 +10,6 @@ LaTeX-Mk Unofficial TODO List
   needs to be run to generate some inputs.
 
 - fix the ieee-copyout script
-
-- add a 'dist' target to tar up the project
 
 - add hacha support for HTML processing.
 
