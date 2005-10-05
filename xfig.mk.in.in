@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: xfig.mk.in.in,v 1.10 2005/10/04 01:36:25 dan Exp $
+# $Id: xfig.mk.in.in,v 1.11 2005/10/05 13:20:19 dan Exp $
 #
 # Makefile fragment for processing xfig files to produce postscript
 #
@@ -135,8 +135,8 @@ BMK:${__tmp__}_XFIGOBJS?=	${${__tmp__}_XFIGSRCS:.fig=.eps}
 BMK:.endif
 BMK:${__tmp__}_OTHER+=	${${__tmp__}_XFIGOBJS}
 BMK:ALLXFIGOBJS+=	${${__tmp__}_XFIGOBJS}
-BMK:${__tmp__}_DIST+=	${${__tmp__}_XFIGSRCS} ${XFIGSRCS}
 BMK:.endif
+BMK:${__tmp__}_DIST+=	${${__tmp__}_XFIGSRCS} ${XFIGSRCS}
 BMK:.endfor
 
 GMK:# note, this had to be done in two steps (create proj_XFIGOBJS,
@@ -149,8 +149,8 @@ GMK:$(1)_XFIGOBJS?=	${$(1)_XFIGSRCS:.fig=.pdf}
 GMK:else
 GMK:$(1)_XFIGOBJS?=	${$(1)_XFIGSRCS:.fig=.eps}
 GMK:endif
-GMK:$(1)_DIST+=		${$(1)_XFIGSRCS}  ${XFIGSRCS}
 GMK:endif
+GMK:$(1)_DIST+=		${$(1)_XFIGSRCS}  ${XFIGSRCS}
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call xfigobjs_template,$(__tmp__))))
 
