@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.17 2005/10/04 21:51:02 dan Exp $
+# $Id: run_tests.sh,v 1.18 2005/10/05 01:37:41 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -132,6 +132,8 @@ LATEX2HTML_FLAGS=
 LATEX2RTF=latex2rtf
 LATEX2RTF_ENV=
 LATEX2RTF_FLAGS=
+LGRIND=lgrind
+LGRIND_FLAGS=
 LPR=lpr
 LPR_FLAGS=
 PDFLATEX=pdflatex
@@ -179,6 +181,8 @@ export LATEX2HTML_FLAGS
 export LATEX2RTF
 export LATEX2RTF_ENV
 export LATEX2RTF_FLAGS
+export LGRIND
+export LGRIND_FLAGS
 export LPR
 export LPR_FLAGS
 export PDFLATEX
