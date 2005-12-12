@@ -1,4 +1,3 @@
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
 touch test1.html-stamp1
 echo LaTeX-Mk:  Creating HTML output using HeVeA
 mkdir -p test1.html_dir

@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.49 2005/10/04 21:51:47 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.50 2005/12/12 21:53:42 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -565,6 +565,7 @@ BMK:.for __tmp__ in ${NAME}
 BMK:${__tmp__}.dvi:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
 BMK:.if defined(USE_PDFLATEX)
 BMK:${__tmp__}.pdf:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
+BMK:${__tmp__}.html-stamp:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
 BMK:.endif
 BMK:
 BMK:ALLTEXSRCS+=	${__tmp__}.tex ${${__tmp__}_TEXSRCS}
@@ -574,7 +575,12 @@ BMK:dvi:	${__tmp__}.dvi
 BMK:html:	${__tmp__}.html-stamp
 BMK:.PHONY: ${__tmp__}.html
 BMK:${__tmp__}.html:	${__tmp__}.html-stamp
+BMK:
+BMK:# latex2html needs latex to run first because it makes use of the
+BMK:# .aux file.  It seems that tex2page and hevea do not require this.
+BMK:.if defined(USE_LATEX2HTML)
 BMK:${__tmp__}.html-stamp:	${__tmp__}.dvi
+BMK:.endif
 BMK:ps:	${__tmp__}.ps
 BMK:pdf:	${__tmp__}.pdf
 BMK:ps-draft:	${__tmp__}-draft.ps
@@ -611,13 +617,18 @@ GMK:$(1).dvi:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${BIBTEXSRCS} ${$(1)_BIBTEXSRC
 GMK:ifdef USE_PDFLATEX
 GMK:$(1).pdf:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${BIBTEXSRCS} ${$(1)_BIBTEXSRCS} ${OTHER} ${$(1)_OTHER}
 GMK:endif
+GMK:$(1).html-stamp:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${BIBTEXSRCS} ${$(1)_BIBTEXSRCS} ${OTHER} ${$(1)_OTHER}
 GMK:
 GMK:ALLTEXSRCS+=	$(1).tex ${$(1)_TEXSRCS}
 GMK:ALLBIBTEXSRCS+=	${$(1)_BIBTEXSRCS}
 GMK:dist:	$(1).tar.gz
 GMK:dvi:	$(1).dvi
 GMK:html:	$(1).html-stamp
+GMK:# latex2html needs latex to run first because it makes use of the
+GMK:# .aux file.  It seems that tex2page and hevea do not require this.
+GMK:ifdef USE_LATEX2HTML
 GMK:$(1).html-stamp:	$(1).dvi
+GMK:endif
 GMK:.PHONY: $(1).html
 GMK:$(1).html:	$(1).html-stamp
 GMK:ps:	$(1).ps
