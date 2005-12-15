@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.50 2005/12/12 21:53:42 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.51 2005/12/15 02:37:47 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -562,11 +562,21 @@ BMK:.endif
 #######################################
 
 BMK:.for __tmp__ in ${NAME}
-BMK:${__tmp__}.dvi:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
-BMK:.if defined(USE_PDFLATEX)
-BMK:${__tmp__}.pdf:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
-BMK:${__tmp__}.html-stamp:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
+BMK:${__tmp__}.dvi:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
+BMK:.if !empty(BIBTEXSRCS) || !empty(${__tmp__}_BIBTEXSRCS)
+BMK:${__tmp__}.dvi:		${__tmp__}.bib-stamp
+BMK:${__tmp__}.html-stamp:	${__tmp__}.bib-stamp
 BMK:.endif
+BMK:.if defined(USE_PDFLATEX)
+BMK:${__tmp__}.pdf:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
+BMK:.  if !empty(BIBTEXSRCS) || !empty(${__tmp__}_BIBTEXSRCS)
+BMK:${__tmp__}.pdf:	${__tmp__}.bib-stamp
+BMK:.  endif
+BMK:.endif
+BMK:${__tmp__}.html-stamp:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
+BMK:${__tmp__}.bib-stamp:	${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS}
+BMK:	$(ENV_PROG) $(REAL_LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) --bibtex ${__tmp__}.tex
+BMK:	touch $@
 BMK:
 BMK:ALLTEXSRCS+=	${__tmp__}.tex ${${__tmp__}_TEXSRCS}
 BMK:ALLBIBTEXSRCS+=	${${__tmp__}_BIBTEXSRCS}
@@ -613,11 +623,21 @@ BMK:	@${ECHO} "******* Distfile left in $@ *******"
 BMK:.endfor
 
 GMK:define dvideps_template
-GMK:$(1).dvi:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${BIBTEXSRCS} ${$(1)_BIBTEXSRCS} ${OTHER} ${$(1)_OTHER}
-GMK:ifdef USE_PDFLATEX
-GMK:$(1).pdf:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${BIBTEXSRCS} ${$(1)_BIBTEXSRCS} ${OTHER} ${$(1)_OTHER}
+GMK:$(1).dvi:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${OTHER} ${$(1)_OTHER}
+GMK:ifneq ($(strip $(BIBTEXSRCS)$($(1)_BIBTEXSRCS)),)
+GMK:$(1).dvi:		$(1).bib-stamp
+GMK:$(1).html-stamp:	$(1).bib-stamp
 GMK:endif
-GMK:$(1).html-stamp:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${BIBTEXSRCS} ${$(1)_BIBTEXSRCS} ${OTHER} ${$(1)_OTHER}
+GMK:ifdef USE_PDFLATEX
+GMK:$(1).pdf:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${OTHER} ${$(1)_OTHER}
+GMK:ifneq ($(strip $(BIBTEXSRCS)$($(1)_BIBTEXSRCS)),)
+GMK:$(1).pdf:		$(1).bib-stamp
+GMK:endif
+GMK:endif
+GMK:$(1).html-stamp:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${OTHER} ${$(1)_OTHER}
+GMK:$(1).bib-stamp:	${BIBTEXSRCS} ${$(1)_BIBTEXSRCS}
+GMK:	$(ENV_PROG) $(REAL_LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) --bibtex $(1).tex
+GMK:	touch $(1).bib-stamp
 GMK:
 GMK:ALLTEXSRCS+=	$(1).tex ${$(1)_TEXSRCS}
 GMK:ALLBIBTEXSRCS+=	${$(1)_BIBTEXSRCS}
@@ -915,6 +935,7 @@ CLEAN_FILES+=	${NAME:=.lot}
 CLEAN_FILES+=	${NAME:=.toc}
 CLEAN_FILES+=	${NAME:=.out}
 CLEAN_FILES+=	$(DRAFT_STAMP_PS)
+CLEAN_FILES+=	${NAME:=.bib-stamp}
 
 # HTML generation
 CLEAN_FILES+=	${NAME:=.html-stamp}

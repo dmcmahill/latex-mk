@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.19 2005/10/04 01:36:27 dan Exp $
+# $Id: tests.list,v 1.20 2005/12/15 02:37:50 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -109,7 +109,7 @@ basic1_pdflatex_pdf2||test1.tex|test1.pdf TEST1=yes USE_PDFLATEX=yes
 #
 basic_bibtexsrcs_dvi1||test.tex foo.bib|dvi TEST8=yes
 # this one shouldn't do anything:
-basic_bibtexsrcs_dvi2||test.tex foo.bib @ test.dvi @ |dvi TEST8=yes
+basic_bibtexsrcs_dvi2||test.tex foo.bib @ test.bib-stamp @ test.dvi @ |dvi TEST8=yes
 # this one should want to re-run
 basic_bibtexsrcs_dvi3||test.tex test.dvi @ foo.bib|dvi TEST8=yes
 #

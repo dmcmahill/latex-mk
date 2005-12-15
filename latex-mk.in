@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.22 2004/05/29 12:46:07 dan Exp $
+# $Id: latex-mk.in,v 1.23 2005/12/15 02:37:46 dan Exp $
 #
-# Copyright (c) 2002, 2003, 2004 Dan McMahill
+# Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -54,11 +54,17 @@ sep="------------------------------------"
 ignore_errors=no
 debug=no
 do_clean=no
+force_bibtex=no
 
 while test -n "$1"
 do
 	case "$1"
 	in
+
+	-b|--bibtex)
+		force_bibtex=yes
+		shift
+		;;
 
 	--clean)
 		do_clean=yes
@@ -151,12 +157,12 @@ if [ "X$do_clean" = "Xyes" ]; then
 	exit 0
 fi
 
-cnt=0
-bibcnt=0
+#######################################################################
+#
+# run_latex()
+#
 
-while test $cnt -lt $MAXITERS ; do
-	if test "X$debug" = "Xyes" ; then echo "$0 debug: cnt=$cnt" ; fi
-
+run_latex() {
 	# run latex.  If it fails, manually remove the .dvi file since
 	# latex won't.  This will confuse 'make' because on the next
 	# invocation, the .dvi file will appear to be up to date already.
@@ -169,6 +175,59 @@ while test $cnt -lt $MAXITERS ; do
 		rm -f $LATEX_MK_LOG
 		exit 1
 	fi
+
+}
+
+#
+#######################################################################
+
+#######################################################################
+#
+# run_bibtex()
+#
+
+run_bibtex() {
+	$BIBTEX $BIBTEX_FLAGS $NAME
+	rc=$?
+	if test $rc -ne 0 -a "$ignore_errors" != "yes" ; then
+		echo "$sep" 
+		echo "$0:  Error:  BibTeX failed" 
+		echo "$sep"
+		rm -f ${NAME}.dvi ${NAME}.pdf
+		rm -f $LATEX_MK_LOG
+		exit $rc
+	fi
+
+	# run the post-bibtex hook if its been defined
+	if test "X$POST_BIBTEX_HOOK" != "X" ; then
+	    if test -x $POST_BIBTEX_HOOK ; then
+		$POST_BIBTEX_HOOK $NAME
+		rc=$?
+		if test $rc -ne 0 ; then
+		    echo "$POST_BIBTEX_HOOK $NAME failed"
+		    rm -f ${NAME}.dvi ${NAME}.pdf
+		    rm -f $LATEX_MK_LOG
+		    exit $rc
+		fi
+	    fi
+	fi
+}
+
+#
+#######################################################################
+
+if [ "X$force_bibtex" = "Xyes" ] ; then
+	run_latex
+	run_bibtex
+	exit 0
+fi
+
+
+cnt=0
+bibcnt=0
+
+while test $cnt -lt $MAXITERS ; do
+	run_latex
 
 	# if we need to run bibtex, we should end up with something like this:
 	#LaTeX Warning: Citation `foo' on page 1 undefined on input line 2
@@ -199,28 +258,7 @@ while test $cnt -lt $MAXITERS ; do
 			echo "$0:  Running bibtex to resolve citations"
 			echo "$sep"
 			bibtex_ran=yes
-			$BIBTEX $BIBTEX_FLAGS $NAME
-			if test $? -ne 0 -a "$ignore_errors" != "yes" ; then
-				echo "$sep" 
-				echo "$0:  Error:  BibTeX failed" 
-				echo "$sep"
-				rm -f ${NAME}.dvi ${NAME}.pdf
-				rm -f $LATEX_MK_LOG
-				exit 1
-			fi
-			# run the post-bibtex hook if its been defined
-			if test "X$POST_BIBTEX_HOOK" != "X" ; then
-			    if test -x $POST_BIBTEX_HOOK ; then
-				$POST_BIBTEX_HOOK $NAME
-				rc=$?
-				if test $rc -ne 0 ; then
-				    echo "$POST_BIBTEX_HOOK $NAME failed"
-				    rm -f ${NAME}.dvi ${NAME}.pdf
-				    rm -f $LATEX_MK_LOG
-				    exit $rc
-				fi
-			    fi
-			fi
+			run_bibtex
 		elif test $bibcnt -eq 1 ; then
 			echo "$sep"
 			echo "$0:  BibTeX has already been run, but LaTeX is still reporting"
