@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.51 2005/12/15 02:37:47 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.52 2005/12/15 18:04:37 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -563,6 +563,10 @@ BMK:.endif
 
 BMK:.for __tmp__ in ${NAME}
 BMK:${__tmp__}.dvi:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
+BMK:# some older bmake versions will fail on the empty test if these variables
+BMK:# do not already exist
+BMK:BIBTEXSRCS?=
+BMK:${__tmp__}_BIBTEXSRCS?=
 BMK:.if !empty(BIBTEXSRCS) || !empty(${__tmp__}_BIBTEXSRCS)
 BMK:${__tmp__}.dvi:		${__tmp__}.bib-stamp
 BMK:${__tmp__}.html-stamp:	${__tmp__}.bib-stamp
