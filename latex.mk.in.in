@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.52 2005/12/15 18:04:37 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.53 2005/12/16 22:03:29 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -840,11 +840,22 @@ GMK:endif
 		-o -name \*.scm -o -name \*.hlog \) \
 		-newer $@1 -print` ; do \
 		fn=`basename $$f` ; \
-		if ${GREP} $$f $*.www_files >/dev/null ; then \
+		if ${GREP} "^$$f " $*.www_files >/dev/null ; then \
 			echo "$$f already recorded" ; \
 		else \
 			echo "recording file $$f ($*.html_dir/$$fn)" ; \
 			echo "$$f $*.html_dir/$$fn" >> $*.www_files ; \
+		fi ;\
+	done
+	for f in `${FIND} . -type f -name .Z\*.tex -newer $@1 -print` ; do \
+		fn=`basename $$f` ; \
+		if ${GREP} "^$$f " $*.www_files >/dev/null ; then \
+			echo "$$f already recorded" ; \
+		elif test "`dirname $$f`" != "." ; then \
+			echo "$$f is not in this directory, skipping" ; \
+		else \
+			echo "recording file $$f (./$$fn)" ; \
+			echo "$$f ./$$fn" >> $*.www_files ; \
 		fi ;\
 	done
 BMK:.if defined(USE_HEVEA)
