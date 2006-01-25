@@ -10,7 +10,7 @@ for f in `find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
 	-o -name \*.scm -o -name \*.hlog \) \
 	-newer test1.html-stamp1 -print` ; do \
 	fn=`basename $f` ; \
-	if grep $f test1.www_files >/dev/null ; then \
+	if grep "^$f " test1.www_files >/dev/null ; then \
 		echo "$f already recorded" ; \
 	else \
 		echo "recording file $f (test1.html_dir/$fn)" ; \

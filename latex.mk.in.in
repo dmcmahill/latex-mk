@@ -1,9 +1,9 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.53 2005/12/16 22:03:29 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.54 2006/01/25 20:13:27 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
-# Copyright (c) 2001, 2002, 2003, 2004, 2005 Dan McMahill
+# Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -233,6 +233,13 @@ REAL_PDFLATEX_ENV+=	BIBTEX=${BIBTEX}
 REAL_PDFLATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
 REAL_PDFLATEX_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
 REAL_PDFLATEX_ENV+=	${PDFLATEX_ENV}
+
+REAL_TEX2PAGE_ENV+=	TEX2PAGE=${TEX2PAGE}
+REAL_TEX2PAGE_ENV+=	TEX2PAGE_FLAGS=${TEX2PAGE_FLAGS}
+REAL_TEX2PAGE_ENV+=	BIBTEX=${BIBTEX}
+REAL_TEX2PAGE_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+REAL_TEX2PAGE_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
+REAL_TEX2PAGE_ENV+=	${TEX2PAGE_ENV}
 
 # Include other .mk files often times used with LaTeX
 
@@ -821,7 +828,7 @@ GMK:else
 GMK:ifdef USE_TEX2PAGE
 	@${ECHO} LaTeX-Mk:  Creating HTML output using tex2page
 	${ECHO} "$*.html_dir" > $*.hdir
-	$(ENV_PROG) $(TEX2PAGE_ENV) $(TEX2PAGE) $(TEX2PAGE_FLAGS) $<
+	$(ENV_PROG) $(REAL_TEX2PAGE_ENV) $(LATEX_MK) --tex2page $(LATEX_MK_FLAGS) $<
 BMK:.elif defined(USE_HEVEA)
 GMK:else
 GMK:ifdef USE_HEVEA
@@ -847,7 +854,11 @@ GMK:endif
 			echo "$$f $*.html_dir/$$fn" >> $*.www_files ; \
 		fi ;\
 	done
-	for f in `${FIND} . -type f -name .Z\*.tex -newer $@1 -print` ; do \
+BMK:.if defined(USE_TEX2PAGE)
+GMK:ifdef USE_TEX2PAGE
+	for f in `${FIND} . -type f \( -name \*-Z-G-\*.tex -o -name \*-Z-G-\*.aux \
+		-o -name \*-Z-G-\*.log -o -name \*-Z-G-\*.dvi -o -name \*-Z-G-\*.ps \
+		-o -name .Z\*.tex \) -newer $@1 -print` ; do \
 		fn=`basename $$f` ; \
 		if ${GREP} "^$$f " $*.www_files >/dev/null ; then \
 			echo "$$f already recorded" ; \
@@ -858,6 +869,8 @@ GMK:endif
 			echo "$$f ./$$fn" >> $*.www_files ; \
 		fi ;\
 	done
+BMK:.endif
+GMK:endif
 BMK:.if defined(USE_HEVEA)
 GMK:ifdef USE_HEVEA
 	for f in `${AWK} '{print $$1}' $*.www_files` ; do \

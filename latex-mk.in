@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.23 2005/12/15 02:37:46 dan Exp $
+# $Id: latex-mk.in,v 1.24 2006/01/25 20:13:26 dan Exp $
 #
-# Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill
+# Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -41,6 +41,8 @@ LATEX=${LATEX:-latex}
 LATEX_FLAGS=${LATEX_FLAGS:-}
 PDFLATEX=${PDFLATEX:-pdflatex}
 PDFLATEX_FLAGS=${PDFLATEX_FLAGS:-}
+TEX2PAGE=${TEX2PAGE:-tex2page}
+TEX2PAGE_FLAGS=${TEX2PAGE_FLAGS:-}
 BIBTEX=${BIBTEX:-bibtex}
 BIBTEX_FLAGS=${BIBTEX_FLAGS:-}
 LATEX_MK_LOG=${LOG:-latex-mk.log}
@@ -94,6 +96,12 @@ do
 	--pdflatex)
 		LATEX=$PDFLATEX
 		LATEX_FLAGS=$PDFLATEX_FLAGS
+		shift
+		;;
+
+	--tex2page)
+		LATEX=$TEX2PAGE
+		LATEX_FLAGS=$TEX2PAGE_FLAGS
 		shift
 		;;
 
@@ -303,8 +311,13 @@ while test $cnt -lt $MAXITERS ; do
 		fi
 	done
 
+	# with latex, you might see:
 	#LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right
-	rerun=`grep "Rerun to get" $LATEX_MK_LOG`
+	# 
+	# with tex2page, you may get:
+	#Rerun: tex2page week5.tex
+	#
+	rerun=`grep "Rerun" $LATEX_MK_LOG`
 	if test -z "$rerun" -a -z "$needbib" -a -z "$changed_file" ; then
 		break;
 	fi
