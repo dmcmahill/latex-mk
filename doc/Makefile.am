@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.8 2005/09/30 10:52:57 dan Exp $
+## $Id: Makefile.am,v 1.9 2006/01/25 20:11:03 dan Exp $
 ##
 ## Copyright (c) 2002, 2005 Dan McMahill
 ## All rights reserved.
@@ -40,19 +40,19 @@ ps_docs=	${info_TEXINFOS:.texi=.ps}
 pdf_docs=	${info_TEXINFOS:.texi=.pdf}
 dvi_docs=	${info_TEXINFOS:.texi=.dvi}
 
-EXTRA_DIST=	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
+#EXTRA_DIST=	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
 
 # put the html manual into 1 file instead of multiple files
 AM_MAKEINFOHTMLFLAGS=  --no-split
 
 # use this to avoid having the clean target delete latex-mk.{dvi,html,pdf,ps}
 # which unfortunately deletes files which are part of the distfile
-mostlyclean-aminfo:
-	-rm -rf latex-mk.aux latex-mk.cp latex-mk.cps latex-mk.fn \
-		latex-mk.fns latex-mk.ky latex-mk.kys latex-mk.log \
-		latex-mk.pg latex-mk.pgs latex-mk.tmp latex-mk.toc \
-		latex-mk.tp latex-mk.tps latex-mk.vr latex-mk.vrs 
+#mostlyclean-aminfo:
+#	-rm -rf latex-mk.aux latex-mk.cp latex-mk.cps latex-mk.fn \
+#		latex-mk.fns latex-mk.ky latex-mk.kys latex-mk.log \
+#		latex-mk.pg latex-mk.pgs latex-mk.tmp latex-mk.toc \
+#		latex-mk.tp latex-mk.tps latex-mk.vr latex-mk.vrs 
 
-MAINTAINERCLEANFILES= \
-	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
+#MAINTAINERCLEANFILES= \
+#	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
 
