@@ -2,8 +2,8 @@
 
 <html>
 <head>
-<!-- $Id: news.shtml,v 1.13 2005/12/15 02:37:50 dan Exp $ -->
-<!-- Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill  ALL RIGHTS RESERVED. -->
+<!-- $Id: news.shtml,v 1.14 2006/01/25 20:24:49 dan Exp $ -->
+<!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -35,9 +35,9 @@ xfig,
     <font face="helvetica, arial">
 
     <HR>
-    <H2><A NAME="20051218">LaTeX-Mk-1.5 Released</A></H2>
+    <H2><A NAME="20060128">LaTeX-Mk-1.5 Released</A></H2>
     <P>
-    December 18, 2005.  LaTeX-Mk version 1.5 has been released.
+    January 28, 2006.  LaTeX-Mk version 1.5 has been released.
     The significant changes/additions over the previous version are:
     <UL>
         <LI>
@@ -49,7 +49,15 @@ xfig,
 	Fixed a bug where if the BibTeX input file was modified LaTeX would
 	be run again but not BibTeX.
         </LI>
-    
+        <LI>
+	Added a --tex2page mode for <code>latex-mk</code> (the script) which
+	allows <code>latex-mk</code> to run tex2page the appropriate number
+	of times to resolves all references.
+	</LI>
+	<LI>
+	Improve the cleaning of tex2page generated output.
+	</LI>
+
     </UL>
     </P>
 
