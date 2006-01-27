@@ -1,6 +1,7 @@
-# $Id: latex.subdir.mk.in.in,v 1.1 2002/08/28 23:53:44 dan Exp $
+# -*- makefile -*-
+# $Id: latex.subdir.mk.in.in,v 1.2 2006/01/27 17:21:01 dan Exp $
 #
-# Copyright (c) 2002 Dan McMahill
+# Copyright (c) 2002, 2006 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -32,61 +33,90 @@
 #  SUCH DAMAGE.
 #
 
+ECHO?=		@ECHO@
 
 #
 # This Makefile fragment is included at the very end of users custom
 # Makefiles in subdirectories of a top level latex-mk Makefile.  This
 # makes sure the standard set of targets exist so a recursive make
 # will not fail due to undefined targets
+
+# An example is:
+#
+# SUBDIR+=	document1
+# SUBDIR+=	document2
+# SUBDIR+=	document3
+BMK:# .include "/path/to/latex.subdir.mk"
+GMK:# include /path/to/latex.subdir.gmk
 #
 
-.if !target(all)
-all:: view
-.endif
 
-.if !target(view)
-.PHONY: view
-view:
-.endif
+# note:  we put "default" first because when we do not specify a target
+# we want to use "default" because thats what latex.mk has for its own
+# default
+_ALL_TARGETS= default all clean dist distclean dvi html pdf print print-all \
+	ps rtf show-var view viewall viewpdf viewps
 
-.if !target(viewps)
-.PHONY: viewps
-viewps:
-.endif
+BMK:.for __target in ${_ALL_TARGETS}
+BMK:.if !target(${__target})
+BMK:.PHONY: ${__target}
+BMK:${__target}: _SUBDIRUSE
+BMK:.endif
+BMK:.endfor
+BMK:
+BMK:#       
+BMK:#       Derived from NetBSD Id: bsd.pkg.subdir.mk,v 1.60 2005/11/14 04:44:25 rillig Exp
+BMK:#       Which in turn says:
+BMK:#       Derived from: FreeBSD Id: bsd.port.subdir.mk,v 1.19 1997/03/09 23:10:56 wosch Exp
+BMK:#       from: @(#)bsd.subdir.mk 5.9 (Berkeley) 2/1/91
 
-.if !target(print)
-.PHONY:  print
-print:
-.endif
+BMK:.if !target(_SUBDIRUSE)
+BMK:_SUBDIRUSE: .USE
+BMK:	@for entry in "" ${SUBDIR} ; do \
+BMK:		if [ "$$entry" != "" ] ; then \
+BMK:			OK=""; \
+BMK:			if [ -d ${.CURDIR}/$${entry} ]; then \
+BMK:				edir=$${entry}; \
+BMK:			else \
+BMK:				OK="false"; \
+BMK:				${ECHO} "===> ${_THISDIR_}$${entry} non-existent"; \
+BMK:			fi; \
+BMK:			if [ "$$OK" = "" ]; then \
+BMK:				cd ${.CURDIR}/$${edir}; \
+BMK:				${ECHO} "===> ${_THISDIR_}$${edir}"; \
+BMK:				${MAKE} ${MAKEFLAGS} "_THISDIR_=${_THISDIR_}$${edir}/" \
+BMK:			   	 ${.TARGET} || true; \
+BMK:			fi; \
+BMK:		fi ; \
+BMK:	done
+BMK:.endif
 
-.if !target(dvi)
-.PHONY: dvi
-dvi:
-.endif
 
-.if !target(ps)
-.PHONY:  ps
-ps:
-.endif
+GMK:define _SUBDIRUSE_TEMPLATE
+GMK:.PHONY: $(1)
+GMK:$(1):
+GMK:	for entry in "" ${SUBDIR} ; do \
+GMK:		if [ "$$$$entry" != "" ] ; then \
+GMK:			OK=""; \
+GMK:			if [ -d $$$${entry} ]; then \
+GMK:				edir=$$$${entry}; \
+GMK:			else \
+GMK:				OK="false"; \
+GMK:				${ECHO} "===> ${_THISDIR_}$$$${entry} non-existent"; \
+GMK:			fi; \
+GMK:			if [ "$$$$OK" = "" ]; then \
+GMK:				cd $$$${edir}; \
+GMK:				${ECHO} "===> ${_THISDIR_}$$$${edir}"; \
+GMK:				${MAKE} ${MAKEFLAGS} "_THISDIR_=${_THISDIR_}$$$${edir}/" \
+GMK:			   		$(1) || true; \
+GMK:			fi; \
+GMK:		fi ; \
+GMK:	done
+GMK:endef
+GMK:$(foreach __tmp__,$(_ALL_TARGETS),$(eval $(call _SUBDIRUSE_TEMPLATE,$(__tmp__))))
 
-.if !target(pdf)
-.PHONY:  pdf
-pdf:
-.endif
 
-.if !target(clean)
-.PHONY: clean
-clean::
-.endif
 
-.if !target(distclean)
-.PHONY: distclean
-distclean: clean
-.endif
 
-.if !target(show-var)
-.PHONY: show-var
-show-var:
-	@${ECHO} ${${VARNAME}}
-.endif
+
 
