@@ -1,6 +1,6 @@
-# $Id: tests.list,v 1.20 2005/12/15 02:37:50 dan Exp $
+# $Id: tests.list,v 1.21 2006/01/27 19:43:33 dan Exp $
 #
-# Copyright (c) 2003, 2004, 2005 Dan McMahill
+# Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -37,12 +37,21 @@
 # test_name | directories to create | files to touch | arguments to make
 #
 # make will be called with -n just to see that the right set of steps 
-# will be taken for each example.  
+# will be taken for each example.  If the test_name is prefixed by a '*'
+# then make will be called _without_ -n.
 #
 # By using the special character '@' in the 'files to touch' field,
 # a pause will be inserted to help avoid any timestamp issues with
 # touch being called to rapidly.  This may be unreasonable paranoia,
 # but I'd rather not have to deal with debugging someones buggy filesystem.
+#
+# Specific files can be copied into the run area by using the following
+# syntax in the "files to touch" section:
+#
+#  < @S@/srcfile @R@/destfile >
+#
+# The @S@ refers to the source directory and the @R@ refers to the run
+# directory.  The white space around the "<" and ">" are required.
 #
 # Please note that more tests should be added here but that each added 
 # test should have the 'golden' output fully verified by hand.
@@ -301,3 +310,14 @@ multi_tgifsrcs_dvi5||test1.tex test2.tex  fig1.obj fig2.obj @ fig1.eps @ test1.d
 #
 graphic1_dvi1||test1.tex jpg1.jpg jpg2.jpg png1.png png2.png|dvi TEST11=yes
 #
+#
+# -----------------------------------------
+# Graphic file conversions
+# -----------------------------------------
+#
+*subdir1|||TEST_SUBDIR=yes
+*subdir2|dir2|< @S@/simple.mk @R@/dir2/Makefile >|TEST_SUBDIR=yes
+*subdir3|dir1 dir2|< @S@/simple.mk @R@/dir1/Makefile > < @S@/simple.mk @R@/dir2/Makefile >|TEST_SUBDIR=yes
+*subdir4|dir1 dir2 dir3|< @S@/simple.mk @R@/dir2/Makefile >|TEST_SUBDIR=yes
+*subdir5|dir2|< @S@/simple.mk @R@/dir2/Makefile >|TEST_SUBDIR=yes view
+

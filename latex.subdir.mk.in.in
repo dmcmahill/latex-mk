@@ -1,5 +1,5 @@
 # -*- makefile -*-
-# $Id: latex.subdir.mk.in.in,v 1.2 2006/01/27 17:21:01 dan Exp $
+# $Id: latex.subdir.mk.in.in,v 1.3 2006/01/27 19:43:30 dan Exp $
 #
 # Copyright (c) 2002, 2006 Dan McMahill
 # All rights reserved.
@@ -95,7 +95,7 @@ BMK:.endif
 GMK:define _SUBDIRUSE_TEMPLATE
 GMK:.PHONY: $(1)
 GMK:$(1):
-GMK:	for entry in "" ${SUBDIR} ; do \
+GMK:	@for entry in "" ${SUBDIR} ; do \
 GMK:		if [ "$$$$entry" != "" ] ; then \
 GMK:			OK=""; \
 GMK:			if [ -d $$$${entry} ]; then \
@@ -107,7 +107,7 @@ GMK:			fi; \
 GMK:			if [ "$$$$OK" = "" ]; then \
 GMK:				cd $$$${edir}; \
 GMK:				${ECHO} "===> ${_THISDIR_}$$$${edir}"; \
-GMK:				${MAKE} ${MAKEFLAGS} "_THISDIR_=${_THISDIR_}$$$${edir}/" \
+GMK:				${MAKE} ${MAKEFLAGS:%=-%} "_THISDIR_=${_THISDIR_}$$$${edir}/" \
 GMK:			   		$(1) || true; \
 GMK:			fi; \
 GMK:		fi ; \

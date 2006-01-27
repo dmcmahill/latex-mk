@@ -1,0 +1,8 @@
+===> dir1
+
+make: stopped in testsuite/run/dir1
+===> dir2
+default target
+===> dir3
+
+make: stopped in testsuite/run/dir3

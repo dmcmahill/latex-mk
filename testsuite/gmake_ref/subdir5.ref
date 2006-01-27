@@ -1,0 +1,6 @@
+===> dir1 non-existent
+===> dir2
+gmake[1]: Entering directory `testsuite/run/dir2'
+view target
+gmake[1]: Leaving directory `testsuite/run/dir2'
+===> dir3 non-existent

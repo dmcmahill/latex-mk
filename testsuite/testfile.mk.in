@@ -1,7 +1,7 @@
 # -*- Makefile -*-
-# $Id: testfile.mk.in,v 1.9 2005/10/03 17:00:42 dan Exp $
+# $Id: testfile.mk.in,v 1.10 2006/01/27 19:43:33 dan Exp $
 #
-# Copyright (c) 2003, 2004, 2005 Dan McMahill
+# Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -270,10 +270,32 @@ BMK:.endif
 GMK:endif
 
 #######################################
+# 
+# Subdirectory tests
+#
+#######################################
+
+BMK:.if defined(TEST_SUBDIR)
+GMK:ifdef TEST_SUBDIR
+SUBDIR= dir1 dir2 dir3
+
+SKIP_LATEX_MK=	yes
+BMK:.include "${LATEX_MK_DIR}/latex.subdir.mk"
+GMK:include ${LATEX_MK_DIR}/latex.subdir.gmk
+
+BMK:.endif
+GMK:endif
+
+#######################################
 #
 # The LaTeX-Mk include
 #
 #######################################
 
+BMK:.if !defined(SKIP_LATEX_MK)
+GMK:ifndef SKIP_LATEX_MK
 BMK:.include "${LATEX_MK_DIR}/latex.mk"
 GMK:include ${LATEX_MK_DIR}/latex.gmk
+BMK:.endif
+GMK:endif
+

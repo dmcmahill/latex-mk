@@ -1,6 +1,6 @@
-## $Id: golden.mk,v 1.17 2005/10/04 01:36:27 dan Exp $
+## $Id: golden.mk,v 1.18 2006/01/27 19:43:31 dan Exp $
 ##
-## Copyright (c) 2003, 2004, 2005 Dan McMahill
+## Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
@@ -111,6 +111,11 @@ GOLDEN_FILES=	\
 	multi_tgifsrcs_dvi3.ref \
 	multi_tgifsrcs_dvi4.ref \
 	multi_tgifsrcs_dvi5.ref \
+	subdir1.ref \
+	subdir2.ref \
+	subdir3.ref \
+	subdir4.ref \
+	subdir5.ref \
 	tgif_pdflatex_dvi1.ref \
 	vars_bibtex.ref \
 	vars_dvipdfm.ref \

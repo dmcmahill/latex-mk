@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.19 2005/10/05 01:39:04 dan Exp $
+# $Id: run_tests.sh,v 1.20 2006/01/27 19:43:32 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -289,7 +289,7 @@ export RMDIR
 #######################################
 BMKF=testfile.mk
 GMKF=testfile.gmk
-MFLAGS="LATEX_MK_DIR=${LATEX_MK_DIR} -n"
+MFLAGS="LATEX_MK_DIR=${LATEX_MK_DIR}"
 BMAKE="${BMAKE} -f ../${BMKF} ${MFLAGS}"
 GMAKE="${GMAKE} -f ../${GMKF} ${MFLAGS}"
 # echo "BSD make command = $BMAKE"
@@ -337,9 +337,25 @@ echo "Source directory is $srcdir"
 
 for t in $all_tests ; do
 
-    dirs=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $2}'`
-    files=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $3}'`
-    args=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $4}'`
+    noexec_mode=yes
+    case "$t" in
+	\**)
+	    t=`echo $t | sed 's;^\*;;g'`
+	    rt="\*${t}"
+	    noexec_mode=no
+	    ;;
+	*)
+	    rt="${t}"
+	    ;;
+    esac
+    t=`echo $t | sed 's;^\*;;g'`
+
+    dirs=`grep "^[ \t]*${rt}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $2}'`
+    files=`grep "^[ \t]*${rt}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $3}'`
+    args=`grep "^[ \t]*${rt}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $4}'`
+    if [ "$noexec_mode" = "yes" ] ; then
+	args="-n $args"
+    fi
 
     tot=`expr $tot + 1`
 
@@ -357,19 +373,51 @@ for t in $all_tests ; do
 
     # Create the files needed
     if [ ! -z "$files" ]; then
+	copy_mode=no
 	for f in $files ; do
-	    if [ "$f" = "@" ]; then
+	    case "$f" in
+		@) 
 		sleep 2
-	    else
-		touch ${rundir}/${f}
-	    fi
+		;;
+		
+		"<" )
+		    copy="cp"
+		    copy_mode=yes
+		    ;;
+		
+		">")
+		    eval $copy
+		    copy_mode=no
+		    ;;
+		
+		*)
+		    if [ "$copy_mode" = "yes" ]; then
+			f=`echo $f | sed -e "s;@S@;${srcdir};g" -e "s;@R@;${rundir};g"`
+			copy="$copy $f"
+		    else
+			touch ${rundir}/${f}
+		    fi
+		    ;;
+	    esac
 	done
+	if [ "$copy_mode" = "yes" ]; then
+	    echo "ERROR:  copy_mode is still yes for test ${t}"
+	    echo "        This indicates a bug in tests.list"
+	    echo " "
+	    exit 1
+	fi
     fi
     
     # run the BSD make test
+    #
+    # normalize messages like:
+    # make: stopped in /export/disk1/src/local-cvs/localsrc/misc/latex-mk/testsuite/run/dir1
+    # to avoid developer paths
     if [ "X$with_bmake" = "Xyes" ]; then
     echo "Test:  (BSD make) $t"
-    cd ${rundir} && ${BMAKE}  $args > ${here}/${BMAKE_REF}/${t}.${sufx}
+    cd ${rundir} && ${BMAKE}  $args | sed \
+	-e "s;stopped in .*/testsuite/run/;stopped in testsuite/run/;g" \
+	> ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
 	    if diff ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
@@ -390,12 +438,17 @@ for t in $all_tests ; do
 
     # run the GNU make test
     if [ "X$with_gmake" = "Xyes" ]; then
-    echo "Test:  (GNU make) $t"
+	echo "Test:  (GNU make) $t"
     # we have to replace the actual name of the GNU make program with 'gmake' because
     # some of the tests will contain the name of GNU make in the output.  This way if
     # someone has installed GNU make as 'gnumake', the test will still pass even though
     # I use 'gmake' on my system
-    cd ${rundir} && ${GMAKE}  $args | sed "s;${GMAKE_NAME};gmake;g" > ${here}/${GMAKE_REF}/${t}.${sufx}
+    #
+    # Also, we have to watch out for the gmake entering/leaving directory messages.
+    # those will have the full system path so we have to normalize it here
+    cd ${rundir} && ${GMAKE}  $args | sed -e "s;${GMAKE_NAME};gmake;g" \
+	-e "s;directory .*/testsuite/run/;directory \`testsuite/run/;g" \
+	> ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
 	    if diff ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then

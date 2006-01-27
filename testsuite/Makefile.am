@@ -1,6 +1,6 @@
-## $Id: Makefile.am,v 1.13 2005/09/30 22:11:14 dan Exp $
+## $Id: Makefile.am,v 1.14 2006/01/27 19:43:31 dan Exp $
 ##
-## Copyright (c) 2003 Dan McMahill
+## Copyright (c) 2003, 2006 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
@@ -43,7 +43,7 @@ BMKFILES=	${MKSRCS:.mk.in=.mk}
 GMKFILES=	${MKSRCS:.mk.in=.gmk}
 
 #pkgtestdir=	${pkgdatadir}/testsuite
-#pkgtest_DATA=	${BMKFILES} ${GMKFILES} tests.list
+#pkgtest_DATA=	${BMKFILES} ${GMKFILES} simple.mk tests.list
 #pkgtest_SCRIPTS=	${RUN_TESTS}
 
 check_SCRIPTS=		${RUN_TESTS}
@@ -58,7 +58,7 @@ SUBDIRS=	bmake_ref gmake_ref
 
 TESTS=		${RUN_TESTS}
 
-EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list golden.mk README.txt
+EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list golden.mk simple.mk README.txt
 
 all-local:	${BMKFILES} ${GMKFILES}
 
