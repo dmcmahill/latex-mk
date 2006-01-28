@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.9 2006/01/25 20:11:03 dan Exp $
+## $Id: Makefile.am,v 1.9.2.1 2006/01/28 05:32:21 dan Exp $
 ##
 ## Copyright (c) 2002, 2005 Dan McMahill
 ## All rights reserved.
@@ -40,7 +40,7 @@ ps_docs=	${info_TEXINFOS:.texi=.ps}
 pdf_docs=	${info_TEXINFOS:.texi=.pdf}
 dvi_docs=	${info_TEXINFOS:.texi=.dvi}
 
-#EXTRA_DIST=	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
+EXTRA_DIST=	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
 
 # put the html manual into 1 file instead of multiple files
 AM_MAKEINFOHTMLFLAGS=  --no-split
@@ -53,6 +53,6 @@ AM_MAKEINFOHTMLFLAGS=  --no-split
 #		latex-mk.pg latex-mk.pgs latex-mk.tmp latex-mk.toc \
 #		latex-mk.tp latex-mk.tps latex-mk.vr latex-mk.vrs 
 
-#MAINTAINERCLEANFILES= \
-#	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
+MAINTAINERCLEANFILES= \
+	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
 
