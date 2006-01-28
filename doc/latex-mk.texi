@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.56 2006/01/25 20:24:47 dan Exp $
+@c $Id: latex-mk.texi,v 1.57 2006/01/28 04:25:23 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -119,6 +119,7 @@ This edition documents version @value{VERSION}.
 * Targets::                     Available Targets
 * Variables::                   Variables
 * HTML::                        HTML Output Support
+* Recursive::                   Using LaTeX-Mk Recursively
 * Obtaining::                   How to get LaTeX-Mk
 * Installation::                How to configure and install LaTeX-Mk
 * Feedback::                    How to contribute
@@ -1016,7 +1017,7 @@ level dependency list and will be
 automatically re-exported to postscript as required.
 @end defvar
 
-@node HTML, Obtaining, Variables, Top
+@node HTML, Recursive, Variables, Top
 @chapter HTML Output
 LaTeX-Mk includes support for generating HTML output.  Currently 
 Latex2HTML (see @url{http://www.latex2html.org}), HeVeA (see
@@ -1062,7 +1063,33 @@ which may be useful that have not been integrated.  For example the
 program @file{hacha} could be used for breaking the HeVeA output into
 several smaller files.
 
-@node Obtaining, Installation, HTML, Top
+@node Recursive, Obtaining, HTML, Top
+@chapter Using LaTeX-Mk Recursively
+In some cases you may wish to organize multiple documents into their
+own subdirectories but still be able to build all of them with a
+single make call.  This is supported in LaTeX-Mk via the use of the
+@file{latex.subdir.mk} makefile fragment.  To use recursion, create a
+@file{Makefile}, in your top level directory which looks something
+like the following example.
+
+@example
+
+SUBDIR+=        project1
+SUBDIR+=        project2
+SUBDIR+=        project3
+
+.include "/usr/local/share/latex-mk/latex.subdir.mk"
+
+@end example
+Now create your usual LaTeX-Mk Makefiles in the @file{project1},
+@file{project2}, and @file{project3} subdirectories.  Additional
+subdirectories are added to the @code{SUBDIR} variable.  Multiple
+levels of subdirectories make be used.  Please note that currently the
+use of both @file{latex.mk} and @file{latex.subdir.mk} in a single
+Makefile is not supported.
+
+
+@node Obtaining, Installation, Recursive, Top
 @chapter Obtaining LaTeX-Mk
 The latest information and version of LaTeX-Mk can be found on the main
 LaTeX-Mk
@@ -1364,6 +1391,8 @@ allows @code{latex-mk} to run tex2page the appropriate number
 of times to resolves all references.
 
 @item Improve the cleaning of tex2page generated output.
+
+@item Added @file{latex.subdir.mk} to support recursive builds.
 
 @end itemize
 

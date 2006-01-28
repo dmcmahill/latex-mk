@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.19 2006/01/25 20:24:48 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.20 2006/01/28 04:25:25 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -241,6 +241,9 @@ xfig,
 	</LI>
 	<LI>
 	Improve the cleaning of tex2page generated output.
+	</LI>
+        <LI>
+	Added <code>latex.subdir.mk</code> to support recursive builds.
 	</LI>
     </UL>
     </P>
