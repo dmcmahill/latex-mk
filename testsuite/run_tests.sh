@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.20 2006/01/27 19:43:32 dan Exp $
+# $Id: run_tests.sh,v 1.21 2006/01/28 04:39:02 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -424,7 +424,7 @@ for t in $all_tests ; do
 		echo "PASS"
 		bpass=`expr $bpass + 1`
 	    else
-		echo "FAILED:  See diff ${here}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
+		echo "FAILED:  See diff ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
 		bfail=`expr $bfail + 1`
 	    fi
 	else
@@ -455,7 +455,7 @@ for t in $all_tests ; do
 		echo "PASS"
 		gpass=`expr $gpass + 1`
 	    else
-		echo "FAILED:  See diff ${here}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
+		echo "FAILED:  See diff ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
 		gfail=`expr $gfail + 1`
 	    fi
 	else
