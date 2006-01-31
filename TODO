@@ -1,15 +1,13 @@
-# $Id: TODO,v 1.6 2005/10/04 12:51:55 dan Exp $
+# $Id: TODO,v 1.7 2006/01/31 13:24:40 dan Exp $
 #
 
 LaTeX-Mk Unofficial TODO List
 -----------------------------
 
-- Support for recursive make calls into subdirectories which
-  may or may not be strictly latex-mk projects.  This could
-  potentially be used when you have some other stuff which
-  needs to be run to generate some inputs.
-
 - fix the ieee-copyout script
 
 - add hacha support for HTML processing.
+
+- improve variable quoting all over the place to deal with spaces
+  in file names or path names.
 
