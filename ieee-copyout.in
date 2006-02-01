@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: ieee-copyout.in,v 1.1 2002/10/07 02:27:55 dan Exp $
+# $Id: ieee-copyout.in,v 1.2 2006/02/01 14:33:24 dan Exp $
 #
 # Copyright (c) 2002 Dan McMahill
 # All rights reserved.
@@ -51,7 +51,7 @@ BIBTEX=${BIBTEX:-bibtex}
 IEEE_COPYOUT_LOG=${LOG:-ieee-copyout.log}
 
 SED_FILE=ieee-copyout.sed.$$$$
-if [ -f $SED_FILE ]; the
+if [ -f $SED_FILE ]; then
     rm -f $SED_FILE
 fi
 
