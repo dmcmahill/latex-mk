@@ -1,8 +1,18 @@
-# $Id: AUTHORS,v 1.3 2005/10/04 10:57:26 dan Exp $
+# $Id: AUTHORS,v 1.4 2006/04/04 22:11:53 dan Exp $
 
 latex-mk was written over the course of several years
 (1998-2002/present) by Dan McMahill <dmcmahill@NetBSD.org>
 
 The initial lgrind support was written by Peter Bex and
 later expanded and documented by Dan McMahill.
+
+
+--------------
+Contributers:
+--------------
+The following people have made significant contributions to LaTeX-Mk
+through one or more of  bug reports, patch submissions, and feature
+suggestions.
+
+Peter Bex
 
