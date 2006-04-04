@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.57 2006/01/28 04:25:23 dan Exp $
+@c $Id: latex-mk.texi,v 1.58 2006/04/04 22:09:32 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -1393,6 +1393,17 @@ of times to resolves all references.
 @item Improve the cleaning of tex2page generated output.
 
 @item Added @file{latex.subdir.mk} to support recursive builds.
+
+@end itemize
+
+@subsection Version 1.6
+
+@itemize @bullet 
+@item Fix a syntax error in the (not used yet) ieee-copyout script.
+@item Fix a bug in the @code{latex-mk} script when BibTex is used.
+@item Add quoting of command names in the BSD makefiles.  This will
+properly deal with pathnames to the programs which contain spaces.
+Currently GNU make will not properly deal with this.
 
 @end itemize
 

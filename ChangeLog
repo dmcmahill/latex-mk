@@ -1,3 +1,65 @@
+2006-04-04 17:41  dan
+
+	* latex-mk.in: When run with --force-bibtex, run latex once, run
+	  bibtex once and continue on instead of exiting.  Bug noted by
+	  Peter Bex.
+
+2006-04-04 17:27  dan
+
+	* latex.mk.in.in: fix a typo in last commit caught via the
+	  testsuite (yay!)
+
+2006-04-04 16:32  dan
+
+	* latex-mk.in, latex.mk.in.in, lgrind.mk.in.in, tgif.mk.in.in,
+	  xfig.mk.in.in: Add a bunch of quoting to deal with spaces in the
+	  program path names.  Patch supplied by Peter Bex with a few minor
+	  additions from me.
+
+2006-02-01 09:33  dan
+
+	* ieee-copyout.in: fix a syntax error noted by Rafael Laboissiere
+	  (rafael at debian dot org)
+
+2006-02-01 09:30  dan
+
+	* config.sub, config.guess: update to the version from
+	  automake-1.9.6
+
+2006-01-31 08:24  dan
+
+	* TODO: - recursive make support + improved variable quoting
+
+2006-01-28 00:51  dan
+
+	* doc/Makefile.am: distribute the pre-built docs
+
+2006-01-28 00:32  dan
+
+	* doc/Makefile.am: distribute and install the formatted docs
+
+2006-01-27 23:53  dan
+
+	* configure.ac: set version to 1.5 for release
+
+2006-01-27 23:52  dan
+
+	* configure.ac: welcome to 1.5A
+
+2006-01-27 23:43  dan
+
+	* latex.subdir.mk.in.in: fix one last bug in the gmake version with
+	  multiple subdirectories
+
+2006-01-27 23:39  dan
+
+	* testsuite/run_tests.sh: fix reference file directory in messages
+	  for failed tests when building outside the source tree
+
+2006-01-27 23:32  dan
+
+	* ChangeLog: update for 1.5 release
+
 2006-01-27 23:30  dan
 
 	* README.to-release: - be sure to use --enable-maintainer-mode to
