@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.55 2006/04/04 20:32:33 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.56 2006/04/04 21:27:45 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -852,7 +852,7 @@ BMK:	${ENV_PROG:Q} ${REAL_LATEX_ENV} ${LATEX_MK:Q} ${LATEX_MK_FLAGS} $<
 BMK:.if defined(USE_LATEX2HTML)
 GMK:ifdef USE_LATEX2HTML
 GMK:	@${ECHO} LaTeX-Mk:  Creating HTML output using latex2html
-GMKL	$(ENV_PROG) $(LATEX2HTML_ENV) $(LATEX2HTML) $(LATEX2HTML_FLAGS) -mkdir -dir $*.html_dir $<
+GMK:	$(ENV_PROG) $(LATEX2HTML_ENV) $(LATEX2HTML) $(LATEX2HTML_FLAGS) -mkdir -dir $*.html_dir $<
 BMK:	@${ECHO:Q} LaTeX-Mk:  Creating HTML output using latex2html
 BMK:	${ENV_PROG:Q} ${LATEX2HTML_ENV} ${LATEX2HTML:Q} ${LATEX2HTML_FLAGS} -mkdir -dir $*.html_dir $<
 BMK:.elif defined(USE_TEX2PAGE)
