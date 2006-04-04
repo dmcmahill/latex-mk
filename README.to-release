@@ -1,4 +1,4 @@
-$Id: README.to-release,v 1.5 2006/04/04 22:09:32 dan Exp $
+$Id: README.to-release,v 1.6 2006/04/04 23:14:30 dan Exp $
 
 To make a latex-mk release do the following:
 
@@ -64,7 +64,7 @@ To make a latex-mk release do the following:
 =)      Create checksums
 
                 digest sha1 latex-mk-1.6.tar.gz  > latex-mk-1.6.SHA1
-                digest md6 latex-mk-1.6.tar.gz > latex-mk-1.6.MD5
+                digest md5 latex-mk-1.6.tar.gz > latex-mk-1.6.MD5
 
 =)      Upload the .tar.gz, .MD5, and .SHA1 files
         to ftp://upload.sourceforge.net/incoming/
