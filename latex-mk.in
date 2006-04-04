@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.24 2006/01/25 20:13:26 dan Exp $
+# $Id: latex-mk.in,v 1.25 2006/04/04 20:32:33 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -144,7 +144,7 @@ if test "X$debug" = "Xyes" ; then
 	echo "$0 debug: processed INFILE=$INFILE"
 fi
 
-NAME=`basename ${INFILE} .tex`
+NAME=`basename "${INFILE}" .tex`
 
 if test "X$debug" = "Xyes" ; then
 	echo "$0 debug: NAME=$NAME"
@@ -152,14 +152,14 @@ fi
 
 if [ "X$do_clean" = "Xyes" ]; then
 	echo "$0: Cleaning for project: ${NAME}"
-	if [ -f $LATEX_MK_LOG ]; then
-		rm -f $LATEX_MK_LOG
+	if [ -f "$LATEX_MK_LOG" ]; then
+		rm -f "$LATEX_MK_LOG"
 	fi
 	# clean up any of the .old versions of files we were
 	# monitoring
 	for sfx in $monitor_files ; do
-		if [ -f ${NAME}.${sfx}.old ]; then
-			rm -f ${NAME}.${sfx}.old
+		if [ -f "${NAME}.${sfx}.old" ]; then
+			rm -f "${NAME}.${sfx}.old"
 		fi
 	done
 	exit 0
@@ -174,13 +174,13 @@ run_latex() {
 	# run latex.  If it fails, manually remove the .dvi file since
 	# latex won't.  This will confuse 'make' because on the next
 	# invocation, the .dvi file will appear to be up to date already.
-	( ( ( $LATEX $LATEX_FLAGS $INFILE 2>&1 ; echo $? >&4) | tee $LATEX_MK_LOG 1>&3) 4>&1 |  (read a; exit $a)) 3>&1
+	( ( ( "$LATEX" $LATEX_FLAGS "$INFILE" 2>&1 ; echo $? >&4) | tee "$LATEX_MK_LOG" 1>&3) 4>&1 |  (read a; exit $a)) 3>&1
 	if test $? -ne 0 -a "$ignore_errors" != "yes"  ; then
 		echo "$sep" 
 		echo "$0:  Error:  LaTeX failed" 
 		echo "$sep"
-		rm -f ${NAME}.dvi ${NAME}.pdf
-		rm -f $LATEX_MK_LOG
+		rm -f "${NAME}.dvi" "${NAME}.pdf"
+		rm -f "$LATEX_MK_LOG"
 		exit 1
 	fi
 
@@ -195,26 +195,26 @@ run_latex() {
 #
 
 run_bibtex() {
-	$BIBTEX $BIBTEX_FLAGS $NAME
+	"$BIBTEX" $BIBTEX_FLAGS "$NAME"
 	rc=$?
 	if test $rc -ne 0 -a "$ignore_errors" != "yes" ; then
 		echo "$sep" 
 		echo "$0:  Error:  BibTeX failed" 
 		echo "$sep"
-		rm -f ${NAME}.dvi ${NAME}.pdf
-		rm -f $LATEX_MK_LOG
+		rm -f "${NAME}.dvi" "${NAME}.pdf"
+		rm -f "$LATEX_MK_LOG"
 		exit $rc
 	fi
 
 	# run the post-bibtex hook if its been defined
 	if test "X$POST_BIBTEX_HOOK" != "X" ; then
 	    if test -x $POST_BIBTEX_HOOK ; then
-		$POST_BIBTEX_HOOK $NAME
+		$POST_BIBTEX_HOOK "$NAME"
 		rc=$?
 		if test $rc -ne 0 ; then
-		    echo "$POST_BIBTEX_HOOK $NAME failed"
-		    rm -f ${NAME}.dvi ${NAME}.pdf
-		    rm -f $LATEX_MK_LOG
+		    echo "$POST_BIBTEX_HOOK "$NAME" failed"
+		    rm -f "${NAME}.dvi" "${NAME}.pdf"
+		    rm -f "$LATEX_MK_LOG"
 		    exit $rc
 		fi
 	    fi
@@ -255,10 +255,10 @@ while test $cnt -lt $MAXITERS ; do
 	# instead of the above warning.  This can happen if you only have
 	# something line \nocite{*} in your document instead of \cite{x}
 
-	needbib=`grep "Citation.*undefined" $LATEX_MK_LOG`
+	needbib=`grep "Citation.*undefined" "$LATEX_MK_LOG"`
 	if test -z "$needbib" ; then
 	    echo "Checking for missing .bbl files in latex log ..."
-	    needbib=`grep "No file.*\.bbl" $LATEX_MK_LOG`
+	    needbib=`grep "No file.*\.bbl" "$LATEX_MK_LOG"`
 	fi
 	if test -n "$needbib" ; then
 		if test $bibcnt -eq 0 ; then
@@ -285,7 +285,7 @@ while test $cnt -lt $MAXITERS ; do
 			echo "$0:  Error:  BibTeX has already been run, but LaTeX is still reporting"
 			echo "$0:  $needbib"
 			echo "$sep"
-			rm -f $LATEX_MK_LOG
+			rm -f "$LATEX_MK_LOG"
 			if test "$ignore_errors" = "yes" ; then exit 0 ; else exit 1 ; fi
 		fi
 		bibcnt=`expr $bibcnt + 1`
@@ -297,17 +297,17 @@ while test $cnt -lt $MAXITERS ; do
 	changed_file=""
 	for sfx in $monitor_files ; do
 		echo "Checking for ${NAME}.${sfx} ..."
-		if [ -f ${NAME}.${sfx} ]; then
-			if [ ! -f ${NAME}.${sfx}.old ]; then
+		if [ -f "${NAME}.${sfx}" ]; then
+			if [ ! -f "${NAME}.${sfx}.old" ]; then
 				echo "${NAME}.${sfx} is new.  LaTeX needs to be re-run"
 				changed_file="$changed_file ${NAME}.${sfx}"
-			elif cmp -s ${NAME}.${sfx}.old ${NAME}.${sfx} ; then
+			elif cmp -s "${NAME}.${sfx}.old" "${NAME}.${sfx}" ; then
 				echo "no change"
 			else
 				echo "${NAME}.${sfx} has changed.  LaTeX needs to be re-run"
 				changed_file="$changed_file ${NAME}.${sfx}"
 			fi
-			cp -p ${NAME}.${sfx} ${NAME}.${sfx}.old
+			cp -p "${NAME}.${sfx}" "${NAME}.${sfx}.old"
 		fi
 	done
 
@@ -317,7 +317,7 @@ while test $cnt -lt $MAXITERS ; do
 	# with tex2page, you may get:
 	#Rerun: tex2page week5.tex
 	#
-	rerun=`grep "Rerun" $LATEX_MK_LOG`
+	rerun=`grep "Rerun" "$LATEX_MK_LOG"`
 	if test -z "$rerun" -a -z "$needbib" -a -z "$changed_file" ; then
 		break;
 	fi
@@ -329,24 +329,24 @@ while test $cnt -lt $MAXITERS ; do
 done
 
 #LaTeX Warning: There were undefined references.
-undefined=`grep "There were undefined references" $LATEX_MK_LOG`
+undefined=`grep "There were undefined references" "$LATEX_MK_LOG"`
 if test -n "$undefined" ; then
 	echo "$sep"
 	echo "$0:  There were undefined references.  Please correct this."
 	echo "$0:  I have already made $cnt passes."
 	#LaTeX Warning: Reference `tab:fuse_table' on page 3 undefined on input line 82.
-	grep "Reference.*on page.*undefined" $LATEX_MK_LOG
+	grep "Reference.*on page.*undefined" "$LATEX_MK_LOG"
 	echo "$sep"
 fi
 
 #LaTeX Warning: There were multiply-defined labels.
-mult=`grep "multiply-defined labels" $LATEX_MK_LOG`
+mult=`grep "multiply-defined labels" "$LATEX_MK_LOG"`
 if test -n "$mult" ; then
 	echo "$sep"
 	echo "$0:  There were multiply defined labels."
 	echo "$0:  You may wish to correct this"
 	#LaTeX Warning: Label `fig:myfig' multiply defined.
-	grep "multiply defined" $LATEX_MK_LOG
+	grep "multiply defined" "$LATEX_MK_LOG"
 	echo "$sep"
 fi
 
@@ -356,10 +356,10 @@ if test $cnt -eq $MAXITERS ; then
 	echo "$0:   Please fix the document or try again if you think it"
 	echo "$0:   should be ok"
 	echo "$sep"
-	rm -f $LATEX_MK_LOG
+	rm -f "$LATEX_MK_LOG"
 	if test "$ignore_errors" = "yes" ; then exit 0 ; else exit 1 ; fi
 fi
 
-rm -f $LATEX_MK_LOG
+rm -f "$LATEX_MK_LOG"
 exit 0
 

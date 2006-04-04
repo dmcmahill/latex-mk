@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.54 2006/01/25 20:13:27 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.55 2006/04/04 20:32:33 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -220,26 +220,47 @@ VIEWPDF_FLAGS+=	${VIEWPDF_LANDSCAPE_FLAGS}
 BMK:.endif
 GMK:endif
 
-REAL_LATEX_ENV+=	LATEX=${LATEX}
-REAL_LATEX_ENV+=	LATEX_FLAGS=${LATEX_FLAGS}
-REAL_LATEX_ENV+=	BIBTEX=${BIBTEX}
-REAL_LATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
-REAL_LATEX_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
-REAL_LATEX_ENV+=	${LATEX_ENV}
+BMK:REAL_LATEX_ENV+=	LATEX=${LATEX:Q}
+BMK:REAL_LATEX_ENV+=	LATEX_FLAGS=${LATEX_FLAGS}
+BMK:REAL_LATEX_ENV+=	BIBTEX=${BIBTEX:Q}
+BMK:REAL_LATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+BMK:REAL_LATEX_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
+BMK:REAL_LATEX_ENV+=	${LATEX_ENV}
+BMK:
+BMK:REAL_PDFLATEX_ENV+=	PDFLATEX=${PDFLATEX:Q}
+BMK:REAL_PDFLATEX_ENV+=	PDFLATEX_FLAGS=${PDFLATEX_FLAGS}
+BMK:REAL_PDFLATEX_ENV+=	BIBTEX=${BIBTEX:Q}
+BMK:REAL_PDFLATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+BMK:REAL_PDFLATEX_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
+BMK:REAL_PDFLATEX_ENV+=	${PDFLATEX_ENV}
+BMK:
+BMK:REAL_TEX2PAGE_ENV+=	TEX2PAGE=${TEX2PAGE:Q}
+BMK:REAL_TEX2PAGE_ENV+=	TEX2PAGE_FLAGS=${TEX2PAGE_FLAGS}
+BMK:REAL_TEX2PAGE_ENV+=	BIBTEX=${BIBTEX:Q}
+BMK:REAL_TEX2PAGE_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+BMK:REAL_TEX2PAGE_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
+BMK:REAL_TEX2PAGE_ENV+=	${TEX2PAGE_ENV}
 
-REAL_PDFLATEX_ENV+=	PDFLATEX=${PDFLATEX}
-REAL_PDFLATEX_ENV+=	PDFLATEX_FLAGS=${PDFLATEX_FLAGS}
-REAL_PDFLATEX_ENV+=	BIBTEX=${BIBTEX}
-REAL_PDFLATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
-REAL_PDFLATEX_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
-REAL_PDFLATEX_ENV+=	${PDFLATEX_ENV}
-
-REAL_TEX2PAGE_ENV+=	TEX2PAGE=${TEX2PAGE}
-REAL_TEX2PAGE_ENV+=	TEX2PAGE_FLAGS=${TEX2PAGE_FLAGS}
-REAL_TEX2PAGE_ENV+=	BIBTEX=${BIBTEX}
-REAL_TEX2PAGE_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
-REAL_TEX2PAGE_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
-REAL_TEX2PAGE_ENV+=	${TEX2PAGE_ENV}
+GMK:REAL_LATEX_ENV+=	LATEX=${LATEX}
+GMK:REAL_LATEX_ENV+=	LATEX_FLAGS=${LATEX_FLAGS}
+GMK:REAL_LATEX_ENV+=	BIBTEX=${BIBTEX}
+GMK:REAL_LATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+GMK:REAL_LATEX_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
+GMK:REAL_LATEX_ENV+=	${LATEX_ENV}
+GMK:
+GMK:REAL_PDFLATEX_ENV+=	PDFLATEX=${PDFLATEX}
+GMK:REAL_PDFLATEX_ENV+=	PDFLATEX_FLAGS=${PDFLATEX_FLAGS}
+GMK:REAL_PDFLATEX_ENV+=	BIBTEX=${BIBTEX}
+GMK:REAL_PDFLATEX_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+GMK:REAL_PDFLATEX_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
+GMK:REAL_PDFLATEX_ENV+=	${PDFLATEX_ENV}
+GMK:
+GMK:REAL_TEX2PAGE_ENV+=	TEX2PAGE=${TEX2PAGE}
+GMK:REAL_TEX2PAGE_ENV+=	TEX2PAGE_FLAGS=${TEX2PAGE_FLAGS}
+GMK:REAL_TEX2PAGE_ENV+=	BIBTEX=${BIBTEX}
+GMK:REAL_TEX2PAGE_ENV+=	BIBTEX_FLAGS=${BIBTEX_FLAGS}
+GMK:REAL_TEX2PAGE_ENV+=	POST_BIBTEX_HOOK=${POST_BIBTEX_HOOK}
+GMK:REAL_TEX2PAGE_ENV+=	${TEX2PAGE_ENV}
 
 # Include other .mk files often times used with LaTeX
 
@@ -400,7 +421,7 @@ BMK:.if defined(USE_PDFLATEX)
 BMK:view_${__tmp__}: viewpdf_${__tmp__}
 BMK:.else
 BMK:view_${__tmp__}: ${__tmp__}.dvi
-BMK:	$(XDVI) $(XDVI_FLAGS) ${__tmp__}.dvi
+BMK:	${XDVI:Q} ${XDVI_FLAGS} ${__tmp__}.dvi
 BMK:.endif
 BMK:DEFAULTVIEW?=	view_${__tmp__}
 BMK:ALLVIEW+=	view_${__tmp__}
@@ -426,17 +447,17 @@ GMK:$(foreach __tmp__,$(NAME),$(eval $(call view_template,$(__tmp__))))
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: viewps_${__tmp__}
 BMK:viewps_${__tmp__}: ${__tmp__}.ps
-BMK:	$(GV) $(GV_FLAGS)  ${__tmp__}.ps
+BMK:	${GV:Q} ${GV_FLAGS}  ${__tmp__}.ps
 BMK:DEFAULTVIEWPS?=	viewps_${__tmp__}
 BMK:ALLVIEWPS+=	viewps_${__tmp__}
 BMK:.PHONY: viewps_${__tmp__}-draft
 BMK:viewps_${__tmp__}-draft: ${__tmp__}-draft.ps
-BMK:	$(GV) $(GV_FLAGS)  ${__tmp__}-draft.ps
+BMK:	${GV:Q} ${GV_FLAGS}  ${__tmp__}-draft.ps
 BMK:DEFAULTVIEWPS_DRAFT?=	viewps_${__tmp__}-draft
 BMK:ALLVIEWPS_DRAFT+=	viewps_${__tmp__}-draft
 BMK:${__tmp__}-draft.ps: ${__tmp__}.dvi ${DATED_DRAFT_PS}
-BMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
-BMK:	$(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $@ ${__tmp__}.dvi
+BMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS:Q} > ${DRAFT_STAMP_PS:Q}
+BMK:	${DVIPS:Q} -h ${DRAFT_STAMP_PS:Q} ${DVIPS_FLAGS} -o $@ ${__tmp__}.dvi
 BMK:.endfor
 
 GMK:define viewps_template
@@ -463,12 +484,12 @@ GMK:$(foreach __tmp__,$(NAME),$(eval $(call viewps_template,$(__tmp__))))
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: viewpdf_${__tmp__}
 BMK:viewpdf_${__tmp__}: ${__tmp__}.pdf
-BMK:	$(VIEWPDF) $(VIEWPDF_FLAGS)  ${__tmp__}.pdf
+BMK:	${VIEWPDF:Q} ${VIEWPDF_FLAGS}  ${__tmp__}.pdf
 BMK:DEFAULTVIEWPDF?=	viewpdf_${__tmp__}
 BMK:ALLVIEWPDF+=	viewpdf_${__tmp__}
 BMK:.PHONY: viewpdf_${__tmp__}-draft
 BMK:viewpdf_${__tmp__}-draft: ${__tmp__}-draft.pdf
-BMK:	$(VIEWPDF) $(VIEWPDF_FLAGS)  ${__tmp__}-draft.pdf
+BMK:	${VIEWPDF:Q} ${VIEWPDF_FLAGS}  ${__tmp__}-draft.pdf
 BMK:DEFAULTVIEWPDF_DRAFT?=	viewpdf_${__tmp__}-draft
 BMK:ALLVIEWPDF_DRAFT+=	viewpdf_${__tmp__}-draft
 BMK:.endfor
@@ -494,12 +515,12 @@ GMK:$(foreach __tmp__,$(NAME),$(eval $(call viewpdf_template,$(__tmp__))))
 BMK:.for __tmp__ in ${NAME}
 BMK:.PHONY: print_${__tmp__}
 BMK:print_${__tmp__}: ${__tmp__}.ps
-BMK:	$(LPR) $(LPR_FLAGS) ${__tmp__}.ps
+BMK:	${LPR:Q} ${LPR_FLAGS} ${__tmp__}.ps
 BMK:DEFAULTPRINT?=	print_${__tmp__}
 BMK:ALLPRINT+=	print_${__tmp__}
 BMK:.PHONY: print_${__tmp__}-draft
 BMK:print_${__tmp__}-draft: ${__tmp__}-draft.ps
-BMK:	$(LPR) $(LPR_FLAGS) ${__tmp__}-draft.ps
+BMK:	${LPR:Q} ${LPR_FLAGS} ${__tmp__}-draft.ps
 BMK:DEFAULTPRINT_DRAFT?=	print_${__tmp__}-draft
 BMK:ALLPRINT_DRAFT+=	print_${__tmp__}-draft
 BMK:.endfor
@@ -551,14 +572,20 @@ BMK:.if ${ALLNAME} != ${NAME}
 GMK:ifneq (${ALLNAME}, ${NAME})
 dist:	${ALLNAME}.tar.gz
 ${ALLNAME}.tar.gz: ${NAME:=.tar.gz}
-	${RM} -fr ${ALLNAME}
-	mkdir ${ALLNAME}
+GMK:	${RM} -fr ${ALLNAME}
+BMK:	${RM:Q} -fr ${ALLNAME:Q}
+GMK:	mkdir ${ALLNAME}
+BMK:	mkdir ${ALLNAME:Q}
 	for f in ${NAME:=.tar.gz} ; do \
-		${GZCAT} $$f | (cd ${ALLNAME} && ${TAR} xpf -) ; \
+GMK:		${GZCAT} $$f | (cd ${ALLNAME} && ${TAR} xpf -) ; \
+BMK:		${GZCAT:Q} $$f | (cd ${ALLNAME:Q} && ${TAR:Q} xpf -) ; \
 	done
-	${TAR} cf - ${ALLNAME} | ${GZIP} > $@
-	${RM} -fr ${ALLNAME}
-	@${ECHO} "******* Distfile left in ${ALLNAME}.tar.gz *******"
+GMK:	${TAR} cf - ${ALLNAME} | ${GZIP} > $@
+BMK:	${TAR:Q} cf - ${ALLNAME:Q} | ${GZIP:Q} > $@
+GMK:	${RM} -fr ${ALLNAME}
+BMK:	${RM:Q} -fr ${ALLNAME:Q}
+GMK:	@${ECHO} "******* Distfile left in ${ALLNAME}.tar.gz *******"
+BMK:	@${ECHO:Q} "******* Distfile left in ${ALLNAME}.tar.gz *******"
 GMK:endif
 BMK:.endif
 
@@ -586,7 +613,7 @@ BMK:.  endif
 BMK:.endif
 BMK:${__tmp__}.html-stamp:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
 BMK:${__tmp__}.bib-stamp:	${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS}
-BMK:	$(ENV_PROG) $(REAL_LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) --bibtex ${__tmp__}.tex
+BMK:	${ENV_PROG:Q} ${REAL_LATEX_ENV} ${LATEX_MK:Q} ${LATEX_MK_FLAGS} --bibtex ${__tmp__}.tex
 BMK:	touch $@
 BMK:
 BMK:ALLTEXSRCS+=	${__tmp__}.tex ${${__tmp__}_TEXSRCS}
@@ -610,27 +637,27 @@ BMK:${__tmp__}.rtf:	${__tmp__}.dvi
 BMK:rtf:	${__tmp__}.rtf
 BMK:clean::
 BMK:	if [ -f ${__tmp__}.www_files ]; then  \
-BMK:		for f in `${AWK} '{print $$2}' ${__tmp__}.www_files` ; do \
-BMK:			if [ -f $$f ]; then ${RM} -f $$f ; fi ;\
+BMK:		for f in `${AWK:Q} '{print $$2}' ${__tmp__}.www_files` ; do \
+BMK:			if [ -f $$f ]; then ${RM:Q} -f $$f ; fi ;\
 BMK:		done ;\
 BMK:	fi
-BMK:	${RM} -f ${__tmp__}.www_files
+BMK:	${RM:Q} -f ${__tmp__}.www_files
 BMK:.if defined(USE_LATEX2HTML)
-BMK:	${RM} -f ${__tmp__}.html_dir/images.aux
-BMK:	${RM} -f ${__tmp__}.html_dir/images.bbl
-BMK:	${RM} -f ${__tmp__}.html_dir/images.log
-BMK:	${RM} -f ${__tmp__}.html_dir/images.out
-BMK:	${RM} -f ${__tmp__}.html_dir/images.tex
+BMK:	${RM:Q} -f ${__tmp__}.html_dir/images.aux
+BMK:	${RM:Q} -f ${__tmp__}.html_dir/images.bbl
+BMK:	${RM:Q} -f ${__tmp__}.html_dir/images.log
+BMK:	${RM:Q} -f ${__tmp__}.html_dir/images.out
+BMK:	${RM:Q} -f ${__tmp__}.html_dir/images.tex
 BMK:.endif
-BMK:	if [ -d ${__tmp__}.html_dir ]; then ${RMDIR} ${__tmp__}.html_dir ; fi
+BMK:	if [ -d ${__tmp__}.html_dir ]; then ${RMDIR:Q} ${__tmp__}.html_dir ; fi
 BMK:
 BMK:# And add dependencies for a source tarball
 BMK:${__tmp__}_DIST+=	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS} ${OTHER} ${${__tmp__}_OTHER} ${MAKEFILE} ${${__tmp__}_EXTRA_DIST} ${EXTRA_DIST}
 BMK:ALL_DIST+=	${${__tmp__}_DIST}
 BMK:
 BMK:${__tmp__}.tar.gz: ${${__tmp__}_DIST}
-BMK:	${TAR} cf - ${${__tmp__}_DIST} | ${GZIP} > $@
-BMK:	@${ECHO} "******* Distfile left in $@ *******"
+BMK:	${TAR:Q} cf - ${${__tmp__}_DIST} | ${GZIP:Q} > $@
+BMK:	@${ECHO:Q} "******* Distfile left in $@ *******"
 BMK:.endfor
 
 GMK:define dvideps_template
@@ -782,10 +809,12 @@ GMK:endif
 #
 #######################################
 .jpg.eps : 
-	$(JPG2EPS) $< $@
+GMK:	$(JPG2EPS) $< $@
+BMK:	${JPG2EPS:Q} $< $@
 
 .png.eps : 
-	$(PNG2EPS) $< $@
+GMK:	$(PNG2EPS) $< $@
+BMK:	${PNG2EPS:Q} $< $@
 
 #######################################
 #
@@ -801,7 +830,8 @@ GMK:endif
 #######################################
 .PHONY: dvi
 .tex.dvi : 
-	$(ENV_PROG) $(REAL_LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) $<
+GMK:	$(ENV_PROG) $(REAL_LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) $<
+BMK:	${ENV_PROG:Q} ${REAL_LATEX_ENV} ${LATEX_MK:Q} ${LATEX_MK_FLAGS} $<
 
 #######################################
 #
@@ -821,33 +851,44 @@ GMK:endif
 	touch $@1
 BMK:.if defined(USE_LATEX2HTML)
 GMK:ifdef USE_LATEX2HTML
-	@${ECHO} LaTeX-Mk:  Creating HTML output using latex2html
-	$(ENV_PROG) $(LATEX2HTML_ENV) $(LATEX2HTML) $(LATEX2HTML_FLAGS) -mkdir -dir $*.html_dir $<
+GMK:	@${ECHO} LaTeX-Mk:  Creating HTML output using latex2html
+GMKL	$(ENV_PROG) $(LATEX2HTML_ENV) $(LATEX2HTML) $(LATEX2HTML_FLAGS) -mkdir -dir $*.html_dir $<
+BMK:	@${ECHO:Q} LaTeX-Mk:  Creating HTML output using latex2html
+BMK:	${ENV_PROG:Q} ${LATEX2HTML_ENV} ${LATEX2HTML:Q} ${LATEX2HTML_FLAGS} -mkdir -dir $*.html_dir $<
 BMK:.elif defined(USE_TEX2PAGE)
 GMK:else
 GMK:ifdef USE_TEX2PAGE
-	@${ECHO} LaTeX-Mk:  Creating HTML output using tex2page
-	${ECHO} "$*.html_dir" > $*.hdir
-	$(ENV_PROG) $(REAL_TEX2PAGE_ENV) $(LATEX_MK) --tex2page $(LATEX_MK_FLAGS) $<
+GMK:	@${ECHO} LaTeX-Mk:  Creating HTML output using tex2page
+GMK:	${ECHO} "$*.html_dir" > $*.hdir
+GMK:	$(ENV_PROG) $(REAL_TEX2PAGE_ENV) $(LATEX_MK) --tex2page $(LATEX_MK_FLAGS) $<
+BMK:	@${ECHO:Q} LaTeX-Mk:  Creating HTML output using tex2page
+BMK:	${ECHO:Q} "$*.html_dir" > $*.hdir
+BMK:	${ENV_PROG:Q} ${REAL_TEX2PAGE_ENV} ${LATEX_MK:Q} --tex2page ${LATEX_MK_FLAGS} $<
 BMK:.elif defined(USE_HEVEA)
 GMK:else
 GMK:ifdef USE_HEVEA
-	@${ECHO} LaTeX-Mk:  Creating HTML output using HeVeA
+GMK:	@${ECHO} LaTeX-Mk:  Creating HTML output using HeVeA
+BMK:	@${ECHO:Q} LaTeX-Mk:  Creating HTML output using HeVeA
 	mkdir -p $*.html_dir
-	-$(ENV_PROG) $(HEVEA_ENV) $(HEVEA) $(HEVEA_FLAGS) $< 
-	-$(ENV_PROG) $(HEVEA_ENV) ${IMAGEN}  `basename $< .tex`
-	-$(ENV_PROG) $(HEVEA_ENV) $(HEVEA) $(HEVEA_FLAGS) $< 
+GMK:	-$(ENV_PROG) $(HEVEA_ENV) $(HEVEA) $(HEVEA_FLAGS) $< 
+GMK:	-$(ENV_PROG) $(HEVEA_ENV) ${IMAGEN}  `basename $< .tex`
+GMK:	-$(ENV_PROG) $(HEVEA_ENV) $(HEVEA) $(HEVEA_FLAGS) $< 
+BMK:	-${ENV_PROG:Q} ${HEVEA_ENV} ${HEVEA:Q} $(HEVEA_FLAGS) $< 
+BMK:	-${ENV_PROG:Q} ${HEVEA_ENV} ${IMAGEN:Q}  `basename $< .tex`
+BMK:	-${ENV_PROG:Q} ${HEVEA_ENV} ${HEVEA:Q} $(HEVEA_FLAGS) $< 
 BMK:.endif
 GMK:endif
 GMK:endif
 GMK:endif
 	if [ ! -f $*.www_files ]; then touch $*.www_files ; fi
-	for f in `${FIND} . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
+GMK:	for f in `${FIND} . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
+BMK:	for f in `${FIND:Q} . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
 		-o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \
 		-o -name \*.scm -o -name \*.hlog \) \
 		-newer $@1 -print` ; do \
 		fn=`basename $$f` ; \
-		if ${GREP} "^$$f " $*.www_files >/dev/null ; then \
+GMK:		if ${GREP} "^$$f " $*.www_files >/dev/null ; then \
+BMK:		if ${GREP:Q} "^$$f " $*.www_files >/dev/null ; then \
 			echo "$$f already recorded" ; \
 		else \
 			echo "recording file $$f ($*.html_dir/$$fn)" ; \
@@ -856,11 +897,13 @@ GMK:endif
 	done
 BMK:.if defined(USE_TEX2PAGE)
 GMK:ifdef USE_TEX2PAGE
-	for f in `${FIND} . -type f \( -name \*-Z-G-\*.tex -o -name \*-Z-G-\*.aux \
+GMK:	for f in `${FIND} . -type f \( -name \*-Z-G-\*.tex -o -name \*-Z-G-\*.aux \
+BMK:	for f in `${FIND} . -type f \( -name \*-Z-G-\*.tex -o -name \*-Z-G-\*.aux \
 		-o -name \*-Z-G-\*.log -o -name \*-Z-G-\*.dvi -o -name \*-Z-G-\*.ps \
 		-o -name .Z\*.tex \) -newer $@1 -print` ; do \
 		fn=`basename $$f` ; \
-		if ${GREP} "^$$f " $*.www_files >/dev/null ; then \
+GMK:		if ${GREP} "^$$f " $*.www_files >/dev/null ; then \
+BMK:		if ${GREP:Q} "^$$f " $*.www_files >/dev/null ; then \
 			echo "$$f already recorded" ; \
 		elif test "`dirname $$f`" != "." ; then \
 			echo "$$f is not in this directory, skipping" ; \
@@ -873,8 +916,10 @@ BMK:.endif
 GMK:endif
 BMK:.if defined(USE_HEVEA)
 GMK:ifdef USE_HEVEA
-	for f in `${AWK} '{print $$1}' $*.www_files` ; do \
-		${ECHO} "Moving $$f to $*.html_dir" ; mv $$f $*.html_dir ; \
+GMK:	for f in `${AWK} '{print $$1}' $*.www_files` ; do \
+GMK:		${ECHO} "Moving $$f to $*.html_dir" ; mv $$f $*.html_dir ; \
+BMK:	for f in `${AWK:Q} '{print $$1}' $*.www_files` ; do \
+BMK:		${ECHO:Q} "Moving $$f to $*.html_dir" ; mv $$f $*.html_dir ; \
 	done
 BMK:.endif
 GMK:endif
@@ -898,11 +943,14 @@ GMK:endif
 .dvi.ps :
 BMK:.if defined(__DRAFT)
 GMK:ifdef __DRAFT
-	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
-	$(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $*-draft.ps $<
+GMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
+GMK	$(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $*-draft.ps $<
+BMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS:Q} > ${DRAFT_STAMP_PS:Q}
+BMK:	${DVIPS:Q} -h ${DRAFT_STAMP_PS:Q} ${DVIPS_FLAGS} -o $*-draft.ps $<
 BMK:.else
+BMK:	${DVIPS:Q} ${DVIPS_FLAGS} -o $@ $<
 GMK:else
-	$(DVIPS) $(DVIPS_FLAGS) -o $@ $<
+GMK:	$(DVIPS) $(DVIPS_FLAGS) -o $@ $<
 BMK:.endif
 GMK:endif
 
@@ -916,16 +964,19 @@ GMK:endif
 BMK:.if defined(USE_DVIPDFM)
 GMK:ifdef USE_DVIPDFM
 .dvi.pdf :
-	$(ENV_PROG) $(DVIPDFM_ENV) $(DVIPDFM) $(DVIPDFM_FLAGS) $<
+GMK:	$(ENV_PROG) $(DVIPDFM_ENV) $(DVIPDFM) $(DVIPDFM_FLAGS) $<
+BMK:	${ENV_PROG:Q} ${DVIPDFM_ENV} ${DVIPDFM:Q} ${DVIPDFM_FLAGS} $<
 BMK:.elif defined(USE_PDFLATEX)
 GMK:else
 GMK:ifdef USE_PDFLATEX
 .tex.pdf : 
-	$(ENV_PROG) $(REAL_PDFLATEX_ENV) $(LATEX_MK) --pdflatex $(LATEX_MK_FLAGS) $<
+GMK:	$(ENV_PROG) $(REAL_PDFLATEX_ENV) $(LATEX_MK) --pdflatex $(LATEX_MK_FLAGS) $<
+BMK:	${ENV_PROG:Q} ${REAL_PDFLATEX_ENV} ${LATEX_MK:Q} --pdflatex ${LATEX_MK_FLAGS} $<
 BMK:.else
 GMK:else
 .ps.pdf :
-	$(PS2PDF) $(PS2PDF_FLAGS) $<
+GMK:	$(PS2PDF) $(PS2PDF_FLAGS) $<
+BMK:	${PS2PDF:Q} ${PS2PDF_FLAGS} $<
 BMK:.endif
 GMK:endif
 GMK:endif
@@ -938,7 +989,8 @@ GMK:endif
 .PHONY:  rtf
 
 .dvi.rtf :
-	$(ENV_PROG) $(LATEX2RTF_ENV) $(LATEX2RTF) $(LATEX2RTF_FLAGS) -o $@ $*.tex
+GMK:	$(ENV_PROG) $(LATEX2RTF_ENV) $(LATEX2RTF) $(LATEX2RTF_FLAGS) -o $@ $*.tex
+BMK:	${ENV_PROG:Q} ${LATEX2RTF_ENV} ${LATEX2RTF:Q} ${LATEX2RTF_FLAGS} -o $@ $*.tex
 
 #######################################
 #
@@ -1001,9 +1053,10 @@ GMK:$(foreach __tmp__,$(NAME),$(eval $(call latex_mk_clean_template,$(__tmp__)))
 
 clean::
 BMK:.for __tmp__ in ${NAME}
-BMK:	${LATEX_MK} --clean ${__tmp__}
+BMK:	${LATEX_MK:Q} --clean ${__tmp__}
 BMK:.endfor
-	$(RM) -f *~ texput.log $(CLEAN_FILES)
+BMK:	${RM:Q} -f *~ texput.log ${CLEAN_FILES}
+GMK:	$(RM) -f *~ texput.log $(CLEAN_FILES)
 
 .PHONY: distclean
 distclean: clean
@@ -1015,5 +1068,6 @@ distclean: clean
 #######################################
 .PHONY: show-var
 show-var:
-	@${ECHO} ${${VARNAME}}
+GMK:	@${ECHO} ${${VARNAME}}
+BMK:	@${ECHO:Q} ${${VARNAME}}
 

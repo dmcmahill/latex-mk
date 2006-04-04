@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: lgrind.mk.in.in,v 1.5 2005/10/04 01:36:24 dan Exp $
+# $Id: lgrind.mk.in.in,v 1.6 2006/04/04 20:32:34 dan Exp $
 #
 # Makefile fragment for processing lgrind files to produce postscript
 #
@@ -218,7 +218,7 @@ OTHER+=	$(LGRINDOBJS)
 all::		$(ALLLGRINDOBJS)
 
 clean::
-	$(RM) -f $(ALLLGRINDOBJS)
+	$(RM) -f $(ALLLGRINDOBJS:Q)
 
 
 #######################################
@@ -234,7 +234,7 @@ clean::
 
 BMK:.for __tmp__ in ${ALLLGRINDOBJS}
 BMK:${__tmp__}: ${__tmp__:.tex=}
-BMK:	$(LGRIND) $(LGRIND_FLAGS) ${${__tmp__:.tex=}_LGRIND_FLAGS} \
+BMK:	$(LGRIND:Q) $(LGRIND_FLAGS) ${${__tmp__:.tex=}_LGRIND_FLAGS} \
 BMK:		-o $@ ${__tmp__:.tex=}
 BMK:.endfor
 
