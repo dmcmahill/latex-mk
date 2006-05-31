@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.58 2006/04/04 22:09:32 dan Exp $
+@c $Id: latex-mk.texi,v 1.59 2006/05/31 04:44:57 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -178,7 +178,7 @@ on your system.  For the remainder of this document we will use the BSD
 style of include in the examples.
 Now to create a @file{.pdf} file you simply run
 @samp{make pdf}.  For larger projects which may need to run programs to
-export drawings to postscript files for inclusion or run BibTeX to
+export drawings to Postscript files for inclusion or run BibTeX to
 generate bibliographies, the generation of @file{.pdf} (or other) files
 becomes increasingly complicated to run manually.  With LaTeX-Mk, such
 operations are still very simple.
@@ -238,7 +238,7 @@ Creates a @file{.tar.gz} file containing an archive of the project.
 It contains the source files and additionally some generated files
 which are generated with tools which someone else may not have
 installed.  For example, any tgif drawings are included both in tgif
-@file{.obj} form as well as encapsulated postscript (or PDF if you are
+@file{.obj} form as well as encapsulated Postscript (or PDF if you are
 using pdflatex).  For a multiple document project, a master @file{.tar.gz}
 file is created containing the entire project as well as smaller
 @file{.tar.gz} files for each document.
@@ -341,7 +341,7 @@ set of targets defined which are specific to the document.  The per
 document targets are:
 @deffn Target print_<name>
 @trindex print_<name>
-Prints the postscript file @file{<name>.ps}.
+Prints the Postscript file @file{<name>.ps}.
 @end deffn
 @deffn Target view_<name>
 @trindex view_<name>
@@ -453,7 +453,7 @@ Defaults to @samp{convert}.
 @defvar DVIPDFM
 The executible which produces PDF files from @file{.dvi} files.
 Defaults to @samp{dvipdfm}.  Note that the default behaviour is to use
-DVIPS to produce postscript and then PS2PDF to produce a PDF file.  To
+DVIPS to produce Postscript and then PS2PDF to produce a PDF file.  To
 use DVIPDFM to directly produce PDF from DVI, set the USE_DVIPDFM
 variable. 
 @end defvar
@@ -476,7 +476,7 @@ Defaults to @samp{-l}.
 @end defvar
 
 @defvar DVIPS
-The executible which produces postscript files from @file{.dvi} files.
+The executible which produces Postscript files from @file{.dvi} files.
 Defaults to @samp{dvips}.
 @end defvar
 
@@ -496,7 +496,7 @@ Defaults to @samp{-t landscape}.
 @end defvar
 
 @defvar GV
-The executible which previews postscript files. 
+The executible which previews Postscript files. 
 Defaults to @samp{gv}.
 @end defvar
 
@@ -605,7 +605,7 @@ Defaults to @samp{}.
 @end defvar
 
 @defvar LPR
-The executible which spools postscript files to a printer.
+The executible which spools Postscript files to a printer.
 Defaults to @samp{lpr}.
 @end defvar
 
@@ -660,7 +660,7 @@ POST_BIBTEX_HOOK defaults to @samp{}.
 @end defvar
 
 @defvar PS2PDF
-The executible which produces PDF (@file{.pdf}) files from postscript
+The executible which produces PDF (@file{.pdf}) files from Postscript
 (@file{.ps})  files.
 Defaults to @samp{ps2pdf}.
 @end defvar
@@ -697,8 +697,8 @@ Defaults to @samp{}.
 @defvar USE_DVIPDFM
 When set, this variable causes the DVIPDFM program to be used to
 directly generate @file{.pdf} files from the @file{.dvi} files instead
-of using DVIPS to generate a postscript file and then PS2PDF to convert
-the postscript to PDF.  Please note that the use of this option
+of using DVIPS to generate a Postscript file and then PS2PDF to convert
+the Postscript to PDF.  Please note that the use of this option
 currently precludes the generation of the -draft versions of PDF files.
 @end defvar
 
@@ -716,8 +716,8 @@ generate HTML output.
 When set, this variable causes the PDFLATEX program to be used to 
 directly generate @file{.pdf} files from the @file{.tex} files instead
 of using LATEX to generate a @file{.dvi} file, DVIPS to generate a
-postscript file and then PS2PDF to convert 
-the postscript to PDF.  Please note that the use of this option
+Postscript file and then PS2PDF to convert 
+the Postscript to PDF.  Please note that the use of this option
 currently precludes the generation of the -draft versions of PDF files.
 @end defvar
 
@@ -800,7 +800,7 @@ Defaults to @samp{-color -print}.
 
 @defvar TGIF_EPS_FLAGS
 A list of flags to be passed to the TGIF executible when exporting to
-an encapsulated postscript, @file{.eps}, file.
+an encapsulated Postscript, @file{.eps}, file.
 Defaults to @samp{-eps}.
 @end defvar
 
@@ -817,7 +817,7 @@ Please note that LaTeX-Mk requires that all Xfig files use the extension
 
 @defvar FIG2DEV
 The executible which can convert xfig @file{.fig} files to encapsulated
-postscript @file{.eps} files.
+Postscript @file{.eps} files.
 Defaults to @code{fig2dev}.
 @end defvar
 
@@ -829,7 +829,7 @@ Defaults to @samp{}.
 
 @defvar FIG2DEV_EPS_FLAGS
 A list of flags to be passed to the FIG2DEV executible when exporting to
-an encapsulated postscript, @file{.eps}, file.
+an encapsulated Postscript, @file{.eps}, file.
 Defaults to @samp{-L eps}.
 @end defvar
 
@@ -989,7 +989,7 @@ srcs/funny.c_LGRIND_FLAGS=      -t 8
 All files listed in this variable are assumed to be tgif @file{.obj}
 files.  Listing files in this variable will cause a dependency to be
 added to the top level project and will cause these files to be
-automatically re-exported to postscript as required.
+automatically re-exported to Postscript as required.
 @end defvar
 
 @defvar TGIFDIRS
@@ -997,7 +997,7 @@ A list of directories containing tgif drawings can be listed in this
 variable.  All @file{.obj} files found in those directories are assumed
 to be tgif @file{.obj} files.  These files will be added to the top
 level dependency list and will be
-automatically re-exported to postscript as required.
+automatically re-exported to Postscript as required.
 @end defvar
 
 
@@ -1006,7 +1006,7 @@ automatically re-exported to postscript as required.
 All files listed in this variable are assumed to be xfig @file{.fig}
 files.  Listing files in this variable will cause a dependency to be
 added to the top level project and will cause these files to be
-automatically re-exported to postscript as required.
+automatically re-exported to Postscript as required.
 @end defvar
 
 @defvar XFIGDIRS
@@ -1014,7 +1014,7 @@ A list of directories containing xfig drawings can be listed in this
 variable.  All @file{.fig} files found in those directories are assumed
 to be xfig @file{.fig} files.  These files will be added to the top
 level dependency list and will be
-automatically re-exported to postscript as required.
+automatically re-exported to Postscript as required.
 @end defvar
 
 @node HTML, Recursive, Variables, Top
@@ -1363,7 +1363,7 @@ of all source files.
 @item Added support for using tex2page for html output.
 
 @item When using pdflatex, directly convert tgif and xfig drawings
-to PDF instead of to encapsulated postscript.
+to PDF instead of to encapsulated Postscript.
 
 @item When using pdflatex, do not create @file{.dvi} files as part
 of the default target.
@@ -1372,7 +1372,7 @@ of the default target.
 flags to various tools.
 
 @item Make the default flag for exporting xfig drawings to encapsulated
-postscript be @code{-L eps} instead of @code{-L ps}.
+Postscript be @code{-L eps} instead of @code{-L ps}.
 
 @end itemize
 
