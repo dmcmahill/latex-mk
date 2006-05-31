@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.59 2006/05/31 04:44:57 dan Exp $
+@c $Id: latex-mk.texi,v 1.60 2006/05/31 04:49:59 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -310,7 +310,7 @@ Previews the Postscript (@file{.ps}) file.
 @section Draft Targets
 LaTeX-Mk supports adding a DRAFT watermark and timestamp for the
 Postscript, PDF, and printed output.  To produce the draft versions,
-simply append @code{-draft} to the target.  The curently supported draft
+simply append @code{-draft} to the target.  The currently supported draft
 targets are:
 @deffn Target pdf-draft
 @trindex pdf-draft
@@ -452,7 +452,7 @@ Defaults to @samp{convert}.
 
 @defvar DVIPDFM
 The executible which produces PDF files from @file{.dvi} files.
-Defaults to @samp{dvipdfm}.  Note that the default behaviour is to use
+Defaults to @samp{dvipdfm}.  Note that the default behavior is to use
 DVIPS to produce Postscript and then PS2PDF to produce a PDF file.  To
 use DVIPDFM to directly produce PDF from DVI, set the USE_DVIPDFM
 variable. 
@@ -484,7 +484,7 @@ Defaults to @samp{dvips}.
 A list of flags to be passed to the DVIPS executible.
 Defaults to @samp{-j0}.  Note:  versions of latex-mk
 prior to 1.2 used @samp{-Ppdf -j0} as the default.  If
-you wish to maintain this behaviour on latex-mk-1.2 and
+you wish to maintain this behavior on latex-mk-1.2 and
 newer, you will need to set this variable in your site or
 user configuration file.
 @end defvar
@@ -547,7 +547,7 @@ Defaults to @samp{imagen}.
 
 @defvar JPG2EPS
 The command to convert a JPEG file
-to an Encapsulated PostScript (EPS) file.
+to an Encapsulated Postscript (EPS) file.
 Defaults to @samp{$@{CONVERT@}}.
 @end defvar
 
@@ -639,14 +639,14 @@ Defaults to @samp{}.
 
 @defvar PNG2EPS
 The command to convert a Portable Network Graphic (PNG) file
-to an Encapsulated PostScript (EPS) file.
+to an Encapsulated Postscript (EPS) file.
 Defaults to @samp{$@{CONVERT@}}.
 @end defvar
 
 @defvar POST_BIBTEX_HOOK
 If this variable is set to the name of an executible, then LaTeX-Mk will
 run this program/script immediately after a BibTeX run.  This hook
-provides the ability to do postprocessing of the BibTeX output prior to
+provides the ability to do post-processing of the BibTeX output prior to
 the final LaTeX run(s).  This feature is likely to be of interest to
 advanced users only.  The program/script is run in the same environment
 as specified by LATEX_ENV and is given the project name as an argument.
@@ -841,7 +841,7 @@ Defaults to @samp{-L pdf}.
 
 @section Per-Project Variables
 This section documents variables which can be set in project Makefiles
-to accomodate other dependencies which may be added.
+to accommodate other dependencies which may be added.
 
 @subsection Required Variables
 Every project must define the @code{NAME} variable.
@@ -1193,7 +1193,7 @@ better.
 
 @section The Giant Per-Project Makefile
 In graduate school, a friend showed me a makefile he had set up for his
-thesis.  It contained all sorts of targets and some intellegence about
+thesis.  It contained all sorts of targets and some intelligence about
 running LaTeX multiple times for resolving references.  I made a
 modified version of that for my thesis and even wrote a book
 where I used yet another modified version of that makefile.  This
@@ -1347,7 +1347,7 @@ but rather used \nocite@{@}.  Bug report #927068.
 @item Fixed some file names in the examples/ directory to avoid a 
 file name clash on file systems which are not case sensitive.  This
 should fix a long standing bug where latex-mk would not build under
-cywgin.  Bug report #946216.
+cygwin.  Bug report #946216.
         
 @end itemize
 
@@ -1400,7 +1400,7 @@ of times to resolves all references.
 
 @itemize @bullet 
 @item Fix a syntax error in the (not used yet) ieee-copyout script.
-@item Fix a bug in the @code{latex-mk} script when BibTex is used.
+@item Fix a bug in the @code{latex-mk} script when BibTeX is used.
 @item Add quoting of command names in the BSD makefiles.  This will
 properly deal with pathnames to the programs which contain spaces.
 Currently GNU make will not properly deal with this.
