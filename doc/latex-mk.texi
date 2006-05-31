@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.60 2006/05/31 04:49:59 dan Exp $
+@c $Id: latex-mk.texi,v 1.61 2006/05/31 05:01:04 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -123,6 +123,7 @@ This edition documents version @value{VERSION}.
 * Obtaining::                   How to get LaTeX-Mk
 * Installation::                How to configure and install LaTeX-Mk
 * Feedback::                    How to contribute
+* Alternatives::                Other similar tools
 * History::                     History
 * Target Index::                Target Index
 * Variable Index::              Variable Index
@@ -1167,7 +1168,7 @@ default user
 configuration file for GNU make.  This file defaults to
 @file{$HOME/.latex-gmk.conf}. 
 
-@node Feedback, History, Installation, Top
+@node Feedback, Alternatives, Installation, Top
 @chapter Feedback
 @comment  node-name,  next,  previous,  up
 @cindex BUGS, reporting
@@ -1181,8 +1182,21 @@ author at @email{danmc@@users.sourceforge.net}.
 For information on the current version of LaTeX-Mk, visit the LaTeX-Mk
 homepage at @url{http://latex-mk.sourceforge.net}.
 
+@node Alternatives, History, Feedback, Top
+@chapter Alternatives
+@cindex  alternatives to LaTeX-Mk
+
+There are a few tools which are somewhat similar to LaTeX-Mk.  I have
+not reviewed them in any detail and thus am unable to comment on how similar
+or different they are compared to LaTeX-Mk.
+@enumerate
+
+@item  "mk" @url{http://www.servalys.nl/scripts/}
+
+@end enumerate
+
 @comment  node-name,  next,  previous,  up
-@node History, Target Index, Feedback, Top
+@node History, Target Index, Alternatives, Top
 @chapter History
 @section The Dark Ages
 In the beginning I used a WYSIWYG word processor from a large software
