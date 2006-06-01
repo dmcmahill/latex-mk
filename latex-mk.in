@@ -1,11 +1,9 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.28 2006/06/01 01:31:13 dan Exp $
+# $Id: latex-mk.in,v 1.29 2006/06/01 01:33:20 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
-#
-# This code is derived from software written by Dan McMahill
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
