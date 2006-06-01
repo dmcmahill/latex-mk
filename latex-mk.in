@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.27 2006/06/01 01:29:36 dan Exp $
+# $Id: latex-mk.in,v 1.28 2006/06/01 01:31:13 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -262,6 +262,18 @@ fi
 NAME=`basename "${INFILE}" .tex`
 
 log "latex-mk invoked with flags = $flags" 
+log "BIBTEX         [${BIBTEX}]"
+log "BIBTEX_FLAGS   [${BIBTEX_FLAGS}]"
+log "LATEX          [${LATEX}]"
+log "LATEX_FLAGS    [${LATEX_FLAGS}]"
+log "MAKEIDX        [${MAKEIDX}]"
+log "MAKEIDX_FLAGS  [${MAKEIDX_FLAGS}]"
+log "PDFLATEX       [${PDFLATEX}]"
+log "PDFLATEX_FLAGS [${PDFLATEX_FLAGS}]"
+log "TEX2PAGE       [${TEX2PAGE}]"
+log "TEX2PAGE_FLAGS [${TEX2PAGE_FLAGS}]"
+log "LATEX_MK_LOG   [${LOG}]"
+
 
 if test "X$debug" = "Xyes" ; then
 	echo "$0 debug: NAME=$NAME"
