@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.26 2006/04/04 21:41:14 dan Exp $
+# $Id: latex-mk.in,v 1.27 2006/06/01 01:29:36 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -37,14 +37,18 @@
 VERSION=@VERSION@
 
 MAXITERS=${MAXITERS:-5}
+
+BIBTEX=${BIBTEX:-bibtex}
+BIBTEX_FLAGS=${BIBTEX_FLAGS:-}
 LATEX=${LATEX:-latex}
 LATEX_FLAGS=${LATEX_FLAGS:-}
+MAKEIDX=${MAKEIDX:-makeindex}
+MAKEIDX_FLAGS=${MAKEIDX_FLAGS:-}
 PDFLATEX=${PDFLATEX:-pdflatex}
 PDFLATEX_FLAGS=${PDFLATEX_FLAGS:-}
 TEX2PAGE=${TEX2PAGE:-tex2page}
 TEX2PAGE_FLAGS=${TEX2PAGE_FLAGS:-}
-BIBTEX=${BIBTEX:-bibtex}
-BIBTEX_FLAGS=${BIBTEX_FLAGS:-}
+
 LATEX_MK_LOG=${LOG:-latex-mk.log}
 
 # list of files to monitor.  If they change, we will rerun 
@@ -53,10 +57,86 @@ monitor_files="lof lot toc"
 
 sep="------------------------------------"
 
+#######################################################################
+#
+# usage()
+#
+
+usage() {
+cat << EOF
+
+$0
+
+This is a wrapper script used by the LaTeX-Mk
+makefile system for LaTeX documents.  Its purpose is to
+run LaTeX the appropriate number of times to resolve all
+references and page changes associated with resolving
+references.  In addition BibTex and makeindex runs are
+performed as needed.
+
+Although the primary purpose of this script is to be a support
+tool for the LaTeX-Mk system, it may be run standalone.
+
+
+OPTIONS
+
+  -b, --bibtex      :  Force a run of bibtex even if there were no
+		       missing citations.
+
+  --clean           :  Clean up various state files and log files used
+		       by $0.
+
+  --debug           :  Enable verbose debugging output.
+
+  -h, --help        :  Display this help message.
+
+  --ignore-errors   :  Ignores any error codes from the various programs
+		       which are run.
+
+  --pdflatex        :  Use PDFLaTeX instead of LaTeX.
+
+  --testlog logfile :  Log the actions taken by this script to the file
+		       "logfile".  This is used as part of the regression
+		       test suite and is primarily for developer use.
+		       The exact format and contents of the log file are
+		       subject to change without notification.
+
+  --tex2page        :  Use TeX2Page instead of LaTeX.
+
+  --version         :  Displays the version and exits.
+
+ENVIRONMENT VARIABLES
+
+The following environment variables, with defaults shown in [],
+affect the behaviour of $0.
+
+  BIBTEX         [${BIBTEX}]
+  BIBTEX_FLAGS   [${BIBTEX_FLAGS}]
+  LATEX          [${LATEX}]
+  LATEX_FLAGS    [${LATEX_FLAGS}]
+  MAKEIDX        [${MAKEIDX}]
+  MAKEIDX_FLAGS  [${MAKEIDX_FLAGS}]
+  PDFLATEX       [${PDFLATEX}]
+  PDFLATEX_FLAGS [${PDFLATEX_FLAGS}]
+  TEX2PAGE       [${TEX2PAGE}]
+  TEX2PAGE_FLAGS [${TEX2PAGE_FLAGS}]
+  LATEX_MK_LOG   [${LOG}]
+
+SEE ALSO
+
+  http://latex-mk.sf.net
+
+EOF
+}
+#
+#######################################################################
+
 ignore_errors=no
 debug=no
 do_clean=no
 force_bibtex=no
+test_log=""
+flags=""
 
 while test -n "$1"
 do
@@ -65,11 +145,13 @@ do
 
 	-b|--bibtex)
 		force_bibtex=yes
+		flags="${flags} bibtex"
 		shift
 		;;
 
 	--clean)
 		do_clean=yes
+		flags="${flags} clean"
 		shift
 		;;
 		
@@ -80,28 +162,32 @@ do
 		;;
 		
 	-h|--help)
-		echo "latex-mk.  This is a wrapper script used by the LaTeX-Mk"
-		echo "makefile system for LaTeX documents.  Its purpose is to"
-		echo "run LaTeX the appropriate number of times to resolve all"
-		echo "references and page changes associated with resolving"
-		echo "references."
+		usage
 		exit 0
 		;;
 
 	--ignore-errors)
 		ignore_errors=yes
+		flags="${flags} ignore_errors"
 		shift
 		;;
 
 	--pdflatex)
 		LATEX=$PDFLATEX
 		LATEX_FLAGS=$PDFLATEX_FLAGS
+		flags="${flags} pdflatex"
 		shift
+		;;
+
+	--testlog)
+		test_log="$2"
+		shift 2
 		;;
 
 	--tex2page)
 		LATEX=$TEX2PAGE
 		LATEX_FLAGS=$TEX2PAGE_FLAGS
+		flags="${flags} tex2page"
 		shift
 		;;
 
@@ -121,6 +207,35 @@ do
 
 	esac
 done
+
+#######################################################################
+#
+# log()
+#
+
+first_log=yes
+log() {
+	# Log a message to the test log file if it has been defined.
+	if test -n "$test_log" ; then
+		if test "${first_log}" = "yes" ; then
+			first_log=no
+			rm -f $test_log
+		fi
+		if test ! -f $test_log ; then
+			touch $test_log
+			if test $? -ne 0 ; then
+				echo "$0:  Could not write to test log $test_log" > /dev/stderr
+				exit 1
+			fi
+		fi
+		echo "$*" >> $test_log
+
+	fi
+}
+
+#
+#
+#######################################################################
 
 INFILE=$1
 
@@ -146,6 +261,8 @@ fi
 
 NAME=`basename "${INFILE}" .tex`
 
+log "latex-mk invoked with flags = $flags" 
+
 if test "X$debug" = "Xyes" ; then
 	echo "$0 debug: NAME=$NAME"
 fi
@@ -158,12 +275,14 @@ if [ "X$do_clean" = "Xyes" ]; then
 	# clean up any of the .old versions of files we were
 	# monitoring
 	for sfx in $monitor_files ; do
+		log "cleaning ${NAME}.${sfx}.old"
 		if [ -f "${NAME}.${sfx}.old" ]; then
 			rm -f "${NAME}.${sfx}.old"
 		fi
 	done
 	exit 0
 fi
+
 
 #######################################################################
 #
@@ -174,14 +293,17 @@ run_latex() {
 	# run latex.  If it fails, manually remove the .dvi file since
 	# latex won't.  This will confuse 'make' because on the next
 	# invocation, the .dvi file will appear to be up to date already.
+	log "run_latex() called"
 	( ( ( "$LATEX" $LATEX_FLAGS "$INFILE" 2>&1 ; echo $? >&4) | tee "$LATEX_MK_LOG" 1>&3) 4>&1 |  (read a; exit $a)) 3>&1
-	if test $? -ne 0 -a "$ignore_errors" != "yes"  ; then
+	rc=$?
+	if test $rc -ne 0 -a "$ignore_errors" != "yes"  ; then
 		echo "$sep" 
 		echo "$0:  Error:  LaTeX failed" 
 		echo "$sep"
 		rm -f "${NAME}.dvi" "${NAME}.pdf"
 		rm -f "$LATEX_MK_LOG"
-		exit 1
+		log "run_latex() failed"
+		exit $rc
 	fi
 
 }
@@ -195,6 +317,7 @@ run_latex() {
 #
 
 run_bibtex() {
+	log "run_bibtex() called"
 	"$BIBTEX" $BIBTEX_FLAGS "$NAME"
 	rc=$?
 	if test $rc -ne 0 -a "$ignore_errors" != "yes" ; then
@@ -203,6 +326,7 @@ run_bibtex() {
 		echo "$sep"
 		rm -f "${NAME}.dvi" "${NAME}.pdf"
 		rm -f "$LATEX_MK_LOG"
+		log "run_bibtex() failed"
 		exit $rc
 	fi
 
@@ -221,10 +345,32 @@ run_bibtex() {
 	fi
 }
 
+#######################################################################
+#
+# run_makeindex()
+#
+
+run_makeindex() {
+	log "run_makeindex() called"
+	"$MAKEIDX" $MAKEIDX_FLAGS "$NAME"
+	rc=$?
+	if test $rc -ne 0 -a "$ignore_errors" != "yes" ; then
+		echo "$sep" 
+		echo "$0:  Error:  makeindex failed" 
+		echo "$sep"
+		rm -f "${NAME}.dvi" "${NAME}.pdf"
+		rm -f "$LATEX_MK_LOG"
+		log "run_makeindex() failed"
+		exit $rc
+	fi
+
+}
+
 #
 #######################################################################
 
 if [ "X$force_bibtex" = "Xyes" ] ; then
+	log "Running with force_bibtex"
 	run_latex
 	run_bibtex
 fi
@@ -234,6 +380,8 @@ cnt=0
 bibcnt=0
 
 while test $cnt -lt $MAXITERS ; do
+	log "${sep}"
+	log "Pass #${cnt}"
 	run_latex
 
 	# if we need to run bibtex, we should end up with something like this:
@@ -255,9 +403,11 @@ while test $cnt -lt $MAXITERS ; do
 	# something line \nocite{*} in your document instead of \cite{x}
 
 	needbib=`grep "Citation.*undefined" "$LATEX_MK_LOG"`
+	if test -n "$needbib" ; then log "Citation undefined" ; fi
 	if test -z "$needbib" ; then
 	    echo "Checking for missing .bbl files in latex log ..."
 	    needbib=`grep "No file.*\.bbl" "$LATEX_MK_LOG"`
+	    if test -n "$needbib" ; then log "Missing .bbl" ; fi
 	fi
 	if test -n "$needbib" ; then
 		if test $bibcnt -eq 0 ; then
@@ -265,6 +415,7 @@ while test $cnt -lt $MAXITERS ; do
 			echo "$0:  Running bibtex to resolve citations"
 			echo "$sep"
 			bibtex_ran=yes
+			log "BibTex run #1"
 			run_bibtex
 		elif test $bibcnt -eq 1 ; then
 			echo "$sep"
@@ -272,6 +423,7 @@ while test $cnt -lt $MAXITERS ; do
 			echo "    $needbib."
 			echo "    Trying LaTeX one more time...."
 			echo "$sep"
+			log "Try another latex run for the citations"
 		elif test -n "$IGNORE_CITATION_WARNS" ; then
 			echo "$sep"
 			echo "$0:  WARNING:  BibTeX has already been run, but LaTeX is still reporting"
@@ -279,12 +431,14 @@ while test $cnt -lt $MAXITERS ; do
 			echo "$0:  You have set the IGNORE_CITATION_WARNS variable to override this, but"
 			echo "$0:  you probably do have an error in your citations."
 			echo "$sep"
+			log "Could not resolve citations but you are ignoring this"
 		else
 			echo "$sep"
 			echo "$0:  Error:  BibTeX has already been run, but LaTeX is still reporting"
 			echo "$0:  $needbib"
 			echo "$sep"
 			rm -f "$LATEX_MK_LOG"
+			log "Exit with undefined citations"
 			if test "$ignore_errors" = "yes" ; then exit 0 ; else exit 1 ; fi
 		fi
 		bibcnt=`expr $bibcnt + 1`
@@ -298,11 +452,13 @@ while test $cnt -lt $MAXITERS ; do
 		echo "Checking for ${NAME}.${sfx} ..."
 		if [ -f "${NAME}.${sfx}" ]; then
 			if [ ! -f "${NAME}.${sfx}.old" ]; then
+				log "${NAME}.${sfx} is new"
 				echo "${NAME}.${sfx} is new.  LaTeX needs to be re-run"
 				changed_file="$changed_file ${NAME}.${sfx}"
 			elif cmp -s "${NAME}.${sfx}.old" "${NAME}.${sfx}" ; then
 				echo "no change"
 			else
+				log "${NAME}.${sfx} has changed"
 				echo "${NAME}.${sfx} has changed.  LaTeX needs to be re-run"
 				changed_file="$changed_file ${NAME}.${sfx}"
 			fi
@@ -318,8 +474,10 @@ while test $cnt -lt $MAXITERS ; do
 	#
 	rerun=`grep "Rerun" "$LATEX_MK_LOG"`
 	if test -z "$rerun" -a -z "$needbib" -a -z "$changed_file" ; then
+		log "No rerun is needed"
 		break;
 	fi
+	log "Rerun is needed"
 	echo "$sep"
 	echo "$0:   LaTeX references have changed, another latex run is needed"
 	echo "$sep"
@@ -330,6 +488,7 @@ done
 #LaTeX Warning: There were undefined references.
 undefined=`grep "There were undefined references" "$LATEX_MK_LOG"`
 if test -n "$undefined" ; then
+	log "Finished but still have undefined references."
 	echo "$sep"
 	echo "$0:  There were undefined references.  Please correct this."
 	echo "$0:  I have already made $cnt passes."
@@ -341,6 +500,7 @@ fi
 #LaTeX Warning: There were multiply-defined labels.
 mult=`grep "multiply-defined labels" "$LATEX_MK_LOG"`
 if test -n "$mult" ; then
+	log "Finished but still have multiply defined labels."
 	echo "$sep"
 	echo "$0:  There were multiply defined labels."
 	echo "$0:  You may wish to correct this"
@@ -350,6 +510,7 @@ if test -n "$mult" ; then
 fi
 
 if test $cnt -eq $MAXITERS ; then
+	log "Reached iteration limit."
 	echo "$sep"
 	echo "$0:   Failed to get LaTeX to converge after $MAXITERS tries"
 	echo "$0:   Please fix the document or try again if you think it"
@@ -359,6 +520,7 @@ if test $cnt -eq $MAXITERS ; then
 	if test "$ignore_errors" = "yes" ; then exit 0 ; else exit 1 ; fi
 fi
 
+log "Remove log and exit."
 rm -f "$LATEX_MK_LOG"
 exit 0
 
