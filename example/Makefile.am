@@ -1,9 +1,7 @@
-## $Id: Makefile.am,v 1.13 2004/05/29 12:59:40 dan Exp $
+## $Id: Makefile.am,v 1.14 2006/06/07 17:56:48 dan Exp $
 ##
-## Copyright (c) 2002, 2003, 2004 Dan McMahill
+## Copyright (c) 2002, 2003, 2004, 2006 Dan McMahill
 ## All rights reserved.
-##
-## This code is derived from software written by Dan McMahill
 ##
 ## Redistribution and use in source and binary forms, with or without
 ## modification, are permitted provided that the following conditions
@@ -41,6 +39,7 @@ EXFILES= \
 	ex3.tex \
 	ex4.bib \
 	ex4.tex \
+	ex5.tex \
 	refs.bib 
 
 BMKFILES=	${MKSRCS:.in=.mk}

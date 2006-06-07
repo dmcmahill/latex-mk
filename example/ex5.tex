@@ -1,0 +1,31 @@
+% $Id: ex5.tex,v 1.1 2006/06/07 17:55:52 dan Exp $
+%
+
+\documentclass[11pt]{article}
+
+\usepackage{makeidx}
+
+\title{Example Document Number 5}
+\author{Someone}
+\date{\today}
+
+\usepackage{fancyheadings}
+\pagestyle{fancy}
+\rhead{Indexed Doc}
+\usepackage{hyperref}
+
+\makeindex
+
+\begin{document}
+\maketitle
+\section{Introduction}
+This document\glossary{a document} includes\index{documents, with index} an index.
+
+\section{Section 2}
+We index words\index{words, indexed} from this section too.
+
+\section{Index}
+\printindex
+
+\end{document}
+
