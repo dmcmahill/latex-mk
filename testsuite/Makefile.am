@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.14 2006/01/27 19:43:31 dan Exp $
+## $Id: Makefile.am,v 1.15 2006/06/08 11:49:31 dan Exp $
 ##
 ## Copyright (c) 2003, 2006 Dan McMahill
 ## All rights reserved.
@@ -31,6 +31,8 @@
 ##  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 ##  SUCH DAMAGE.
 ##
+
+SUBDIRS=	texfiles
 
 TESTS_ENVIRONMENT=	\
 	GMAKE=${GMAKE}	\
