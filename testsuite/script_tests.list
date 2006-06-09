@@ -1,0 +1,63 @@
+# $Id: script_tests.list,v 1.1 2006/06/09 16:54:57 dan Exp $
+#
+# Copyright (c) 2006 Dan McMahill
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by Dan McMahill
+#  4. The name of the author may not be used to endorse or promote products
+#     derived from this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+#  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+#  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+#  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+#  SUCH DAMAGE.
+#
+#
+# Format:
+#
+# test_name | directories to create | files needed | arguments to latex-mk | env vars
+#
+#
+# Basic document, no table of contents, index, bibliography, etc.
+# Verify that it works with writeable and read only ./
+#
+basic1 | | basic1.tex | basic1 | 
+basic2 | out:755 .:755 | basic1.tex | basic1 | TEXMFOUTPUT=out
+basic3 | out:755 .:555 | basic1.tex | basic1 |
+basic4 | out:755 .:555 | basic1.tex | basic1 | TEXMFOUTPUT=out
+
+# same thing with pdflatex
+pdf1 | | basic1.tex | --pdflatex |
+pdf2 | out:755 .:755 | basic1.tex | --pdflatex basic1 | TEXMFOUTPUT=out
+pdf3 | out:755 .:555 | basic1.tex | --pdflatex basic1 |
+pdf4 | out:755 .:555 | basic1.tex | --pdflatex basic1 | TEXMFOUTPUT=out
+
+#
+# Reading of environment variables
+#
+vars1  | | basic1.tex | |   BIBTEX=mybibtex BIBTEX_FLAGS=mybibtex_flags
+vars2  | | basic1.tex | |   LATEX=mylatex LATEX_FLAGS=mylatex_flags
+vars3  | | basic1.tex | |   MAKEIDX=mymakeindex MAKEIDX_FLAGS=mymakeindex_flags
+vars4  | | basic1.tex | |   PDFLATEX=mypdflatex PDFLATEX_FLAGS=mypdflatex_flags
+vars5  | | basic1.tex | |   TEX2PAGE=mytex2page TEX2PAGE_FLAGS=mytex2page_flags
+vars6  | | basic1.tex | |   TEXMFOUTPUT=mytexmf
+vars7  | | basic1.tex | |   LOG=mylog
+
+

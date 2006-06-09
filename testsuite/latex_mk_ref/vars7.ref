@@ -1,0 +1,17 @@
+latex-mk invoked with flags = 
+BIBTEX         [bibtex]
+BIBTEX_FLAGS   []
+LATEX          [latex]
+LATEX_FLAGS    []
+MAKEIDX        [makeindex]
+MAKEIDX_FLAGS  []
+PDFLATEX       [pdflatex]
+PDFLATEX_FLAGS []
+TEX2PAGE       [tex2page]
+TEX2PAGE_FLAGS []
+LATEX_MK_LOG   [./mylog]
+ODIR           [.]
+
+TEXMFOUTPUT    []
+TEXINPUTS      []
+BIBINPUTS      []

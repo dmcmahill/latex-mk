@@ -1,9 +1,7 @@
-## $Id: Makefile.am,v 1.16 2006/06/09 16:54:56 dan Exp $
+## $Id: Makefile.am,v 1.1 2006/06/09 16:54:58 dan Exp $
 ##
-## Copyright (c) 2003, 2006 Dan McMahill
+## Copyright (c) 2006 Dan McMahill
 ## All rights reserved.
-##
-## This code is derived from software written by Dan McMahill
 ##
 ## Redistribution and use in source and binary forms, with or without
 ## modification, are permitted provided that the following conditions
@@ -32,44 +30,29 @@
 ##  SUCH DAMAGE.
 ##
 
-SUBDIRS=	bmake_ref gmake_ref latex_mk_ref tesfiles
+check_DATA=	${GOLDEN_FILES}
 
-TESTS_ENVIRONMENT=	\
-	GMAKE=${GMAKE}	\
-	BMAKE=${BMAKE}
+DISTCLEANFILES=	${LOG_FILES} 
+CLEANFILES=	${LOG_FILES} 
 
-MKSRCS=		testfile.mk.in
-RUN_TESTS=	run_tests.sh script_tests.sh
+EXTRA_DIST=	${GOLDEN_FILES}
+LOG_FILES=	${GOLDEN_FILES:.ref=.log}
 
-BMKFILES=	${MKSRCS:.mk.in=.mk}
-GMKFILES=	${MKSRCS:.mk.in=.gmk}
+GOLDEN_FILES=	\
+	basic1.ref \
+	basic2.ref \
+	basic3.ref \
+	basic4.ref \
+	pdf1.ref \
+	pdf2.ref \
+	pdf3.ref \
+	pdf4.ref \
+	vars1.ref \
+	vars2.ref \
+	vars3.ref \
+	vars4.ref \
+	vars5.ref \
+	vars6.ref \
+	vars7.ref
 
-#pkgtestdir=	${pkgdatadir}/testsuite
-#pkgtest_DATA=	${BMKFILES} ${GMKFILES} simple.mk tests.list script_tests.list
-#pkgtest_SCRIPTS=	${RUN_TESTS}
 
-check_SCRIPTS=		${RUN_TESTS}
-check_DATA=		${BMKFILES} ${GMKFILES}
-
-DISTCLEANFILES=	\
-	configure.lineno \
-	${BMKFILES} \
-	${GMKFILES}
-
-TESTS=		${RUN_TESTS}
-
-EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list script_tests.list golden.mk simple.mk README.txt
-
-all-local:	${BMKFILES} ${GMKFILES}
-
-SUFFIXES=	.mk.in .mk .gmk
-
-SED_COMMON=	-e 's;@pkgdatadir@;$(pkgdatadir);g' \
-	-e 's;@latexmkconfdir@;${sysconfdir};g' \
-	-e 's;@latexmkbindir@;${bindir};g'
-
-.mk.in.mk:
-	sed -e 's/^BMK://g' -e '/^GMK:/d' ${SED_COMMON} $<  > $@
-
-.mk.in.gmk:
-	sed -e 's/^GMK://g' -e '/^BMK:/d' ${SED_COMMON} $<  > $@
