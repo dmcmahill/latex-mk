@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.16 2006/06/09 16:54:56 dan Exp $
+## $Id: Makefile.am,v 1.17 2006/06/09 17:00:30 dan Exp $
 ##
 ## Copyright (c) 2003, 2006 Dan McMahill
 ## All rights reserved.
@@ -32,7 +32,7 @@
 ##  SUCH DAMAGE.
 ##
 
-SUBDIRS=	bmake_ref gmake_ref latex_mk_ref tesfiles
+SUBDIRS=	bmake_ref gmake_ref latex_mk_ref texfiles
 
 TESTS_ENVIRONMENT=	\
 	GMAKE=${GMAKE}	\
