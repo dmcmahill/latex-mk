@@ -1,3 +1,132 @@
+2006-06-09 14:08  dan
+
+	* example/ex5.tex: add a glossary (or the start of one)
+
+2006-06-09 14:06  dan
+
+	* README.to-release: update with 1.7 as the example release
+
+2006-06-09 13:00  dan
+
+	* testsuite/Makefile.am: fix typo
+
+2006-06-09 12:57  dan
+
+	* testsuite/script_tests.sh: point to latex-mk, not latex-mk.in
+
+2006-06-09 12:56  dan
+
+	* testsuite/README.txt: update notes to mention script_tests.sh
+
+2006-06-09 12:54  dan
+
+	* configure.ac, testsuite/Makefile.am, testsuite/script_tests.list,
+	  testsuite/script_tests.sh, testsuite/latex_mk_ref/Makefile.am,
+	  testsuite/latex_mk_ref/basic1.ref,
+	  testsuite/latex_mk_ref/basic2.ref,
+	  testsuite/latex_mk_ref/basic3.ref,
+	  testsuite/latex_mk_ref/basic4.ref,
+	  testsuite/latex_mk_ref/pdf1.ref, testsuite/latex_mk_ref/pdf2.ref,
+	  testsuite/latex_mk_ref/pdf3.ref, testsuite/latex_mk_ref/pdf4.ref,
+	  testsuite/latex_mk_ref/vars1.ref,
+	  testsuite/latex_mk_ref/vars2.ref,
+	  testsuite/latex_mk_ref/vars3.ref,
+	  testsuite/latex_mk_ref/vars4.ref,
+	  testsuite/latex_mk_ref/vars5.ref,
+	  testsuite/latex_mk_ref/vars6.ref,
+	  testsuite/latex_mk_ref/vars7.ref: add some (very basic for now)
+	  tests of the latex-mk script
+
+2006-06-09 12:39  dan
+
+	* latex-mk.in: log the flags and environment before exiting if the
+	  input args are bad
+
+2006-06-08 07:49  dan
+
+	* testsuite/Makefile.am, configure.ac: add texfiles subdirectory
+
+2006-06-08 07:49  dan
+
+	* testsuite/texfiles/: Makefile.am, README.txt: add some
+	  documentation and a makefile
+
+2006-06-08 07:45  dan
+
+	* testsuite/texfiles/: basic1.tex, figures.tex, lof.tex, lot.tex,
+	  tables.tex, toc.tex: add various example latex files
+
+2006-06-07 19:15  dan
+
+	* latex-mk.in: - add makeindex support - use TEFMFOUTPUT to
+	  correctly (I think) deal with the case where the   current
+	  directory is not writeable.  - consolidate some common code to a
+	  function
+
+2006-06-07 13:55  dan
+
+	* example/: ex5.tex, Makefile.am: add example with an index
+
+2006-06-07 09:49  dan
+
+	* example/ex2.tex: make compatible with pdflatex
+
+2006-05-31 21:33  dan
+
+	* latex-mk.in: remove a strange line I had near the copyright
+	  statement.
+
+2006-05-31 21:31  dan
+
+	* latex-mk.in: log the environment variables to the testlog file
+
+2006-05-31 21:29  dan
+
+	* latex-mk.in: - add usage output - add parial support for
+	  makeindex - add --testlog logfile option that lets you log
+	  actions to a file.	The goal is to provide a way for me to do
+	  regression testing on    this script.  I'll do a real set of runs
+	  and then compare the log    file to a known good log.
+
+2006-05-31 01:01  dan
+
+	* doc/latex-mk.texi: add an alternatives section
+
+2006-05-31 00:49  dan
+
+	* doc/latex-mk.texi: ispell the manual.
+
+2006-05-31 00:44  dan
+
+	* doc/latex-mk.texi: be consistent with how "Postscript" is
+	  written.  Noted by Reuben Thomas.
+
+2006-04-04 19:14  dan
+
+	* README.to-release: it is md5 not md6!
+
+2006-04-04 18:35  dan
+
+	* README.to-release: it is md5 not md6...
+
+2006-04-04 18:22  dan
+
+	* configure.ac: set rev for 1.6 release
+
+2006-04-04 18:21  dan
+
+	* configure.ac: bump rev for after the 1.6 branch
+
+2006-04-04 18:11  dan
+
+	* AUTHORS: add a contributers section
+
+2006-04-04 18:09  dan
+
+	* ChangeLog, README.to-release, doc/latex-mk.texi,
+	  htdocs/history.shtml, htdocs/index.shtml, htdocs/news.shtml:
+	  update changelog, add news and notes for version 1.6
+
 2006-04-04 17:41  dan
 
 	* latex-mk.in: When run with --force-bibtex, run latex once, run
