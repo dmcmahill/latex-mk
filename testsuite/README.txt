@@ -1,4 +1,4 @@
-# $Id: README.txt,v 1.1 2003/02/25 00:26:21 dan Exp $
+# $Id: README.txt,v 1.2 2006/06/09 16:56:49 dan Exp $
 #
 
 Currently, the 'run_tests.sh' script looks at the environment
@@ -10,7 +10,13 @@ the test script or simply ignore the error output.
 
 The testsuite as currently implemented simply runs a 'make -n'  with
 various setups to see that the correct actions would be taken.  This
-hopefully provides pretty good coverage of the make rules.  The
-'latex-mk' script however is not currently covered by the testsuite.
-I'd like to fix this at some point.
+hopefully provides pretty good coverage of the make rules.
+
+
+The 'latex-mk' script is checked by the 'script_tests.sh' script.
+The tests here rely on having a working LaTeX installation.  latex-mk
+includes the ability to log its actions to a file which can then be
+compared to a reference.  Hopefully the actions will not vary with 
+what version of LaTeX is installed.
+
 
