@@ -1,4 +1,4 @@
-$Id: README.to-release,v 1.6 2006/04/04 23:14:30 dan Exp $
+$Id: README.to-release,v 1.7 2006/06/09 18:06:36 dan Exp $
 
 To make a latex-mk release do the following:
 
@@ -19,37 +19,37 @@ To make a latex-mk release do the following:
 =)	if this is a major release, then tag and branch:
 
 	1. Tag the base of the release branch
-		cvs tag latex-mk-1-6-base 
+		cvs tag latex-mk-1-7-base 
 
 	2. Create the release branch
-		cvs tag -R -b -r latex-mk-1-6-base latex-mk-1-6
+		cvs tag -R -b -r latex-mk-1-7-base latex-mk-1-7
 
 	3. On the trunk, update configure.ac to update the version
-		for example 1.6A after releasing 1.6
+		for example 1.7A after releasing 1.7
 		cvs update -PdA
 		vi configure.ac
 		cvs ci configure.ac
 
 	4. On the release branch, update configure.ac to update the version
-		for example 1.6_ALPHA.  Now pre-release snapshots can be made.
-		cvs update -PdA -r latex-mk-1-6
+		for example 1.7_ALPHA.  Now pre-release snapshots can be made.
+		cvs update -PdA -r latex-mk-1-7
 
 	6. If desired tag an alpha release:
-		cvs update -PdA -r latex-mk-1-6
+		cvs update -PdA -r latex-mk-1-7
 		./autogen.sh --enable-maintainer-mode
-		cvs tag -R -r latex-mk-1-6 latex-mk-1-6-ALPHA
-		cvs update -PdA -r latex-mk-1-6-ALPHA
+		cvs tag -R -r latex-mk-1-7 latex-mk-1-7-ALPHA
+		cvs update -PdA -r latex-mk-1-7-ALPHA
 		./autogen.sh --enable-maintainer-mode && gmake distcheck
 
 	6. When the release branch is ready to go,  update configure.ac to
 	   set the final release version.  Then tag the release.
-		cvs update -PdA -r latex-mk-1-6
+		cvs update -PdA -r latex-mk-1-7
 		vi configure.ac
 		cvs ci configure.ac
 		./autogen.sh --enable-maintainer-mode
 		cvs ci
-		cvs tag -R -r latex-mk-1-6 latex-mk-1-6-RELEASE
-		cvs update -PdA -r latex-mk-1-6-RELEASE
+		cvs tag -R -r latex-mk-1-7 latex-mk-1-7-RELEASE
+		cvs update -PdA -r latex-mk-1-7-RELEASE
 		./autogen.sh --enable-maintainer-mode && gmake distcheck
 
 	7. Return to your regularly scheduled trunk development
@@ -57,20 +57,20 @@ To make a latex-mk release do the following:
 
 =) 	if this is a patch release, then simply make desired changes to the branch, and
 		./autogen.sh 
-		cvs tag -R -r latex-mk-1-6 latex-mk-1-6-PATCH001
+		cvs tag -R -r latex-mk-1-7 latex-mk-1-7-PATCH001
 
 =)	gmake distclean ; ./autogen.sh && ./configure && gmake distcheck
 
 =)      Create checksums
 
-                digest sha1 latex-mk-1.6.tar.gz  > latex-mk-1.6.SHA1
-                digest md5 latex-mk-1.6.tar.gz > latex-mk-1.6.MD5
+                digest sha1 latex-mk-1.7.tar.gz  > latex-mk-1.7.SHA1
+                digest md5 latex-mk-1.7.tar.gz > latex-mk-1.7.MD5
 
 =)      Upload the .tar.gz, .MD5, and .SHA1 files
         to ftp://upload.sourceforge.net/incoming/
 
 =)      Create a new file release for latex-mk with a release name of
-        "latex-mk-1.6" (for latex-mk-1.6).
+        "latex-mk-1.7" (for latex-mk-1.7).
 
 =)      For file types:
 
