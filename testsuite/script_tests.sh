@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.1 2006/06/09 16:54:57 dan Exp $
+# $Id: script_tests.sh,v 1.2 2006/06/09 16:57:32 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -168,10 +168,11 @@ for t in $all_tests ; do
 	echo "Test:  $t"
 	testlog="/tmp/script_tests.$$$$"
 	#echo "cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args" 
-	cd ${rundir} && env ${vars} ${here}/../latex-mk.in --testlog ${testlog} $args 2>&1 >/dev/null
+	cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args 2>&1 >/dev/null
 
 	# take care of some absolute paths which may appear in the test log file.
 	sed "s;${here};HERE;g" ${testlog} > ${here}/${REF}/${t}.${sufx}
+
 	if [ "X$regen" != "Xyes" ]; then
 		if [ -f ${srcdir}/${REF}/${t}.ref ]; then
 			if diff ${srcdir}/${REF}/${t}.ref ${here}/${REF}/${t}.log >/dev/null ; then
