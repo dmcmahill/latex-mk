@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.61 2006/05/31 05:01:04 dan Exp $
+@c $Id: latex-mk.texi,v 1.62 2006/06/09 18:23:28 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -1418,6 +1418,22 @@ of times to resolves all references.
 @item Add quoting of command names in the BSD makefiles.  This will
 properly deal with pathnames to the programs which contain spaces.
 Currently GNU make will not properly deal with this.
+
+@end itemize
+
+@subsection Version 1.7
+
+@itemize @bullet 
+@item Added support for makeindex.  Suggested by Antoine Reilles who provided a preliminary
+patch.
+
+@item Added a @code{--help} flag to the @code{latex-mk} script and documented the script a bit more
+ there.  It seems that some users are using the @code{latex-mk} script only and not the makefile
+ system.  Suggested by Reuben Thomas.
+
+@item Added the ability in the @code{latex-mk} script to work with a read only current directory
+  and use the TEXMFOUTPUT environment variable to control where the real output goes.
+  Suggested by Reuben Thomas.
 
 @end itemize
 

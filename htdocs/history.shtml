@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.21 2006/04/04 22:09:34 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.22 2006/06/09 18:23:29 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -263,6 +263,29 @@ xfig,
 	Add quoting of command names in the BSD makefiles.  This will
 	properly deal with pathnames to the programs which contain spaces.
 	Currently GNU make will not properly deal with this.
+	</LI>
+    </UL>
+    </P>
+
+
+    <H3>Version 1.7</H3>
+    <P>
+    LaTeX-Mk version 1.7 was released on June 09, 2006.
+    The significant changes/additions over the previous version are:
+    <UL>
+        <LI>
+        Added support for makeindex.  Suggested by Antoine Reilles who provided a preliminary
+	patch.
+        </LI>
+	<LI>
+        Added a --help flag to the latex-mk script and documented the script a bit more
+	there.  It seems that some users are using the latex-mk script only and not the makefile
+	system.  Suggested by Reuben Thomas.
+	</LI>
+	<LI>
+	Added the ability in the latex-mk script to work with a read only current directory
+	and use the TEXMFOUTPUT environment variable to control where the real output goes.
+	Suggested by Reuben Thomas.
 	</LI>
     </UL>
     </P>

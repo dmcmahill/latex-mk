@@ -1,0 +1,18 @@
+# $Id: NEWS,v 1.2 2006/06/09 18:23:27 dan Exp $
+#
+
+------------------------------
+Release Notes for LaTeX-Mk-1.7
+------------------------------
+
+- Added support for makeindex.  Suggested by Antoine Reilles who provided a preliminary
+patch.
+
+- Added a --help flag to the latex-mk script and documented the script a bit more
+there.  It seems that some users are using the latex-mk script only and not the makefile
+system.  Suggested by Reuben Thomas.
+
+- Added the ability in the latex-mk script to work with a read only current directory 
+and use the TEXMFOUTPUT environment variable to control where the real output goes.
+Suggested by Reuben Thomas.
+

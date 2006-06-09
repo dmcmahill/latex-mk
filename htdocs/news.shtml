@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: news.shtml,v 1.16 2006/04/04 22:09:35 dan Exp $ -->
+<!-- $Id: news.shtml,v 1.17 2006/06/09 18:23:30 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -33,6 +33,30 @@ xfig,
     </center>
     
     <font face="helvetica, arial">
+
+    <HR>
+    <H2><A NAME="20060609">LaTeX-Mk-1.7 Released</A></H2>
+    <P> 
+    June 09, 2006.  LaTeX-Mk version 1.7 has been released.
+    The significant changes/additions over the previous version are:  
+    <UL>
+        <LI>
+        Added support for makeindex.  Suggested by Antoine Reilles who provided a preliminary
+        patch.
+        </LI> 
+        <LI> 
+        Added a --help flag to the latex-mk script and documented the script a bit more
+        there.  It seems that some users are using the latex-mk script only and not the makefile
+        system.  Suggested by Reuben Thomas.
+        </LI> 
+        <LI>
+        Added the ability in the latex-mk script to work with a read only current directory
+        and use the TEXMFOUTPUT environment variable to control where the real output goes.
+        Suggested by Reuben Thomas.
+        </LI>
+    </UL>
+    </P> 
+
 
     <HR>
     <H2><A NAME="20060404">LaTeX-Mk-1.6 Released</A></H2>
