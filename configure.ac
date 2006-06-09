@@ -1,4 +1,4 @@
-dnl $Id: configure.ac,v 1.44 2006/06/09 16:54:56 dan Exp $
+dnl $Id: configure.ac,v 1.45 2006/06/09 18:30:36 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
@@ -79,6 +79,7 @@ AC_PATH_PROG(LATEX, latex, latex)
 AC_PATH_PROG(LATEX2HTML, latex2html, latex2html)
 AC_PATH_PROG(LATEX2RTF, latex2rtf, latex2rtf)
 AC_PATH_PROG(LPR, lpr, lpr)
+AC_PATH_PROG(MAKEIDX, makeindex, makeindex)
 AC_PATH_PROG(PDFLATEX, pdflatex, pdflatex)
 AC_PATH_PROG(PS2PDF, ps2pdf, ps2pdf)
 AC_PATH_PROG(TEX2PAGE, tex2page, tex2page)
