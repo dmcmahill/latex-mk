@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.21 2006/01/27 19:43:33 dan Exp $
+# $Id: tests.list,v 1.22 2006/06/09 22:26:15 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -221,6 +221,10 @@ vars_lgrind||test2.tex src1.c src2.c src2.h|dvi TEST2A=yes LGRIND=mylgrind LGRIN
 #  LPR		= executable to print postscript files
 #  LPR_FLAGS	= flags passed to the executable to print postscript files
 vars_lpr||test1.tex|print TEST1=yes LPR=mylpr LPR_FLAGS=mylpr_flags
+#
+#  MAKEIDX      = makeindex executable
+#  MAKEIDX_FLAGS= flags passed to the makeindex executable
+vars_makeindex||test1.tex|dvi TEST1=yes MAKEIDX=mymakeindex MAKEIDX_FLAGS=mymakeindex_flags
 #
 #  PDFLATEX     = pdflatex executable
 #  PDFLATEX_ENV = environment variables set when running the PDFLaTeX executable
