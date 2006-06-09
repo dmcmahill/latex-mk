@@ -1,4 +1,4 @@
 fig2dev  -L eps xfigdir1/xfiga.fig xfigdir1/xfiga.eps
 fig2dev  -L eps xfigdir1/xfigb.fig xfigdir1/xfigb.eps
 fig2dev  -L eps xfigdir2/xfigc.fig xfigdir2/xfigc.eps
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test.tex

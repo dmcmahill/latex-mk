@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.21 2006/01/28 04:39:02 dan Exp $
+# $Id: run_tests.sh,v 1.22 2006/06/09 21:33:08 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -136,6 +136,8 @@ LGRIND=lgrind
 LGRIND_FLAGS=-i
 LPR=lpr
 LPR_FLAGS=
+MAKEIDX=makeindex
+MAKEIDX_FLAGS=
 PDFLATEX=pdflatex
 PDFLATEX_ENV=
 PDFLATEX_FLAGS=
@@ -185,6 +187,8 @@ export LGRIND
 export LGRIND_FLAGS
 export LPR
 export LPR_FLAGS
+export MAKEIDX
+export MAKEIDX_FLAGS
 export PDFLATEX
 export PDFLATEX_ENV
 export PDFLATEX_FLAGS

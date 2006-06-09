@@ -1,7 +1,7 @@
 touch test1.html-stamp1
 echo LaTeX-Mk:  Creating HTML output using tex2page
 echo "test1.html_dir" > test1.hdir
-env TEX2PAGE=mytex2page TEX2PAGE_FLAGS=mytex2page_flags BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK= foo=bar latex-mk --tex2page  test1.tex
+env TEX2PAGE=mytex2page TEX2PAGE_FLAGS=mytex2page_flags BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK= foo=bar latex-mk --tex2page  test1.tex
 if [ ! -f test1.www_files ]; then touch test1.www_files ; fi
 for f in `find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
 	-o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \

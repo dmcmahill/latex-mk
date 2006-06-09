@@ -1,4 +1,4 @@
 mylgrind mylgrind_flags   -o src1.c.tex src1.c
 mylgrind mylgrind_flags   -o src2.c.tex src2.c
 mylgrind mylgrind_flags   -o src2.h.tex src2.h
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test2.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test2.tex

@@ -1,4 +1,4 @@
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
 touch test1.html-stamp1
 echo LaTeX-Mk:  Creating HTML output using latex2html
 env  latex2html  -mkdir -dir test1.html_dir test1.tex
