@@ -1,7 +1,7 @@
-latex-mk invoked with flags =  pdflatex
+latex-mk invoked with flags = 
 BIBTEX         [bibtex]
 BIBTEX_FLAGS   []
-LATEX          [pdflatex]
+LATEX          [latex]
 LATEX_FLAGS    []
 MAKEIDX        [makeindex]
 MAKEIDX_FLAGS  []
@@ -12,12 +12,26 @@ TEX2PAGE_FLAGS []
 LATEX_MK_LOG   [./latex-mk.log]
 ODIR           [.]
 
-TEXMFOUTPUT    []
+TEXMFOUTPUT    [out]
 TEXINPUTS      []
 BIBINPUTS      []
 ------------------------------------
 Pass #0
 run_latex() called
+./index.idx is new
+./index.idx new or changed -> need to run makeindex
+run_makeindex() called
+cd . && makeindex  index
+./index.ind is new
+rerun        = 
+needbib      = 
+changed_file =  ./index.ind
+Rerun is needed
+------------------------------------
+Pass #1
+run_latex() called
+./index.idx is not changed
+./index.ind is not changed
 rerun        = 
 needbib      = 
 changed_file = 

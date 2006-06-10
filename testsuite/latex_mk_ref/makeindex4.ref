@@ -1,0 +1,39 @@
+latex-mk invoked with flags = 
+BIBTEX         [bibtex]
+BIBTEX_FLAGS   []
+LATEX          [latex]
+LATEX_FLAGS    []
+MAKEIDX        [makeindex]
+MAKEIDX_FLAGS  []
+PDFLATEX       [pdflatex]
+PDFLATEX_FLAGS []
+TEX2PAGE       [tex2page]
+TEX2PAGE_FLAGS []
+LATEX_MK_LOG   [out/latex-mk.log]
+ODIR           [out]
+
+TEXMFOUTPUT    [out]
+TEXINPUTS      [out:]
+BIBINPUTS      [.:HERE/run:]
+------------------------------------
+Pass #0
+run_latex() called
+out/index.idx is new
+out/index.idx new or changed -> need to run makeindex
+run_makeindex() called
+cd out && makeindex  index
+out/index.ind is new
+rerun        = 
+needbib      = 
+changed_file =  out/index.ind
+Rerun is needed
+------------------------------------
+Pass #1
+run_latex() called
+out/index.idx is not changed
+out/index.ind is not changed
+rerun        = 
+needbib      = 
+changed_file = 
+No rerun is needed
+Remove log and exit.

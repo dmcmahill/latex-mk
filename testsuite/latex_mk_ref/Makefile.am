@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.1 2006/06/09 16:54:58 dan Exp $
+## $Id: Makefile.am,v 1.2 2006/06/10 13:23:08 dan Exp $
 ##
 ## Copyright (c) 2006 Dan McMahill
 ## All rights reserved.
@@ -43,6 +43,10 @@ GOLDEN_FILES=	\
 	basic2.ref \
 	basic3.ref \
 	basic4.ref \
+	makeindex1.ref \
+	makeindex2.ref \
+	makeindex3.ref \
+	makeindex4.ref \
 	pdf1.ref \
 	pdf2.ref \
 	pdf3.ref \

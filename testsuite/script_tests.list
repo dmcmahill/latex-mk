@@ -1,4 +1,4 @@
-# $Id: script_tests.list,v 1.1 2006/06/09 16:54:57 dan Exp $
+# $Id: script_tests.list,v 1.2 2006/06/10 13:23:08 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -32,7 +32,7 @@
 #
 # Format:
 #
-# test_name | directories to create | files needed | arguments to latex-mk | env vars
+# test_name | directories to create | files needed | arguments to latex-mk | env vars | rc
 #
 #
 # Basic document, no table of contents, index, bibliography, etc.
@@ -40,24 +40,32 @@
 #
 basic1 | | basic1.tex | basic1 | 
 basic2 | out:755 .:755 | basic1.tex | basic1 | TEXMFOUTPUT=out
-basic3 | out:755 .:555 | basic1.tex | basic1 |
+basic3 | out:755 .:555 | basic1.tex | basic1 | | 1
 basic4 | out:755 .:555 | basic1.tex | basic1 | TEXMFOUTPUT=out
 
 # same thing with pdflatex
-pdf1 | | basic1.tex | --pdflatex |
+pdf1 | | basic1.tex | --pdflatex basic1 |
 pdf2 | out:755 .:755 | basic1.tex | --pdflatex basic1 | TEXMFOUTPUT=out
-pdf3 | out:755 .:555 | basic1.tex | --pdflatex basic1 |
+pdf3 | out:755 .:555 | basic1.tex | --pdflatex basic1 | | 1
 pdf4 | out:755 .:555 | basic1.tex | --pdflatex basic1 | TEXMFOUTPUT=out
+
+#
+# makeindex operation
+#
+makeindex1 | | index.tex | index |
+makeindex2 | out:755 .:755 | index.tex | index | TEXMFOUTPUT=out
+makeindex3 | out:755 .:555 | index.tex | index | | 1
+makeindex4 | out:755 .:555 | index.tex | index | TEXMFOUTPUT=out
 
 #
 # Reading of environment variables
 #
-vars1  | | basic1.tex | |   BIBTEX=mybibtex BIBTEX_FLAGS=mybibtex_flags
-vars2  | | basic1.tex | |   LATEX=mylatex LATEX_FLAGS=mylatex_flags
-vars3  | | basic1.tex | |   MAKEIDX=mymakeindex MAKEIDX_FLAGS=mymakeindex_flags
-vars4  | | basic1.tex | |   PDFLATEX=mypdflatex PDFLATEX_FLAGS=mypdflatex_flags
-vars5  | | basic1.tex | |   TEX2PAGE=mytex2page TEX2PAGE_FLAGS=mytex2page_flags
-vars6  | | basic1.tex | |   TEXMFOUTPUT=mytexmf
-vars7  | | basic1.tex | |   LOG=mylog
+vars1  | | basic1.tex | |   BIBTEX=mybibtex BIBTEX_FLAGS=mybibtex_flags | 1
+vars2  | | basic1.tex | |   LATEX=mylatex LATEX_FLAGS=mylatex_flags | 1
+vars3  | | basic1.tex | |   MAKEIDX=mymakeindex MAKEIDX_FLAGS=mymakeindex_flags | 1
+vars4  | | basic1.tex | |   PDFLATEX=mypdflatex PDFLATEX_FLAGS=mypdflatex_flags | 1
+vars5  | | basic1.tex | |   TEX2PAGE=mytex2page TEX2PAGE_FLAGS=mytex2page_flags | 1
+vars6  | | basic1.tex | |   TEXMFOUTPUT=mytexmf | 1
+vars7  | | basic1.tex | |   LOG=mylog | 1
 
 
