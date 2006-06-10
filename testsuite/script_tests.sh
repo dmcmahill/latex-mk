@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.2 2006/06/09 16:57:32 dan Exp $
+# $Id: script_tests.sh,v 1.3 2006/06/10 13:22:44 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -33,6 +33,7 @@
 #
 
 regen=no
+noclean=no
 
 while test -n "$1"
 do
@@ -42,6 +43,11 @@ do
     -h|--help)
 	echo "Sorry, help not available for this script yet"
 	exit 0
+	;;
+
+    --noclean)
+	noclean=yes
+	shift
 	;;
 
     -r|--regen)
@@ -122,11 +128,21 @@ echo "Source directory is $srcdir"
 
 for t in $all_tests ; do
 
+	grep "^[ \t]*${t}[ \t]*|" $TESTLIST >/dev/null
+	if test $? -ne 0 ; then
+		echo "$0:  Error, specified test ${t} does not exist in ${TESTLIST}" >/dev/stderr
+		exit 1
+	fi
 	# test_name | directories to create | files needed | arguments to latex-mk | env vars
 	dirs=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $2}'`
 	files=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $3}'`
 	args=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $4}'`
 	vars=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $5}'`
+	ret=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $6}'`
+
+	if test "X${ret}" = "X" ; then
+		ret=0
+	fi
 
 	tot=`expr $tot + 1`
 
@@ -168,10 +184,22 @@ for t in $all_tests ; do
 	echo "Test:  $t"
 	testlog="/tmp/script_tests.$$$$"
 	#echo "cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args" 
-	cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args 2>&1 >/dev/null
+	cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args 2>&1 \
+		> ${here}/${REF}/${t}.dlog 
+	rc=$?
+
+	if test $rc -ne $ret -a "X$regen" != "Xyes" ; then
+		echo "FAIL due to wrong return code.  Received $rc, expected $ret"
+	fi
 
 	# take care of some absolute paths which may appear in the test log file.
-	sed "s;${here};HERE;g" ${testlog} > ${here}/${REF}/${t}.${sufx}
+	if test -f ${testlog} ; then
+		sed "s;${here};HERE;g" ${testlog} > ${here}/${REF}/${t}.${sufx}
+		rm ${testlog}
+	else
+		echo "latex-mk returned $rc" > ${here}/${REF}/${t}.${sufx}
+		sed "s;${here};HERE;g" ${here}/${REF}/${t}.dlog >> ${here}/${REF}/${t}.${sufx}
+	fi
 
 	if [ "X$regen" != "Xyes" ]; then
 		if [ -f ${srcdir}/${REF}/${t}.ref ]; then
@@ -194,7 +222,11 @@ for t in $all_tests ; do
     
 	# clean up the rundirectory
 	chmod -R a+w ${rundir}
-	rm -fr ${rundir}
+	if test "X${noclean}" != "Xyes" ; then 
+		rm -fr ${rundir}
+	else
+		echo "Keeping run directory ${rundir}"
+	fi
 
 done
 
