@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.31 2006/06/09 16:39:28 dan Exp $
+# $Id: latex-mk.in,v 1.32 2006/06/10 12:36:41 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -94,9 +94,8 @@ else
 	fi
 fi
 
-if echo "${LATEX_MK_LOG}" | grep "^/" ; then
-	# absolute path specified for the log, do not override it
-else
+echo "${LATEX_MK_LOG}" | grep "^/"
+if test $? -ne 0 ; then
 	LATEX_MK_LOG=${ODIR}/${LATEX_MK_LOG}
 fi
 
