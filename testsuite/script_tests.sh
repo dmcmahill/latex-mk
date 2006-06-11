@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.3 2006/06/10 13:22:44 dan Exp $
+# $Id: script_tests.sh,v 1.4 2006/06/11 11:59:14 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -147,9 +147,8 @@ for t in $all_tests ; do
 	tot=`expr $tot + 1`
 
 	# create temporary run directory
-	if [ ! -d $rundir ]; then
-		mkdir -p $rundir
-	fi
+	rm -fr ${rundir}
+	mkdir -p $rundir
 
 	# Create the subdirectories needed
 	if [ ! -z "$dirs" ]; then
