@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.33 2006/06/10 13:23:56 dan Exp $
+# $Id: latex-mk.in,v 1.34 2006/06/11 11:25:31 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -108,6 +108,7 @@ fi
 # lot = list of tables
 # toc = table of contents
 monitor_files="glo ind lof lot toc"
+clean_files="idx ${monitor_files}"
 
 sep="------------------------------------"
 
@@ -377,7 +378,7 @@ if [ "X$do_clean" = "Xyes" ]; then
 	fi
 	# clean up any of the .old versions of files we were
 	# monitoring
-	for sfx in $monitor_files ; do
+	for sfx in $clean_files ; do
 		f="${ODIR}/${NAME}.${sfx}.old"
 		log "cleaning ${f}"
 		if test -f "${f}" ; then
