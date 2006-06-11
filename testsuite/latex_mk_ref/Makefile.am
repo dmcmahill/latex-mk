@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.2 2006/06/10 13:23:08 dan Exp $
+## $Id: Makefile.am,v 1.3 2006/06/11 11:59:32 dan Exp $
 ##
 ## Copyright (c) 2006 Dan McMahill
 ## All rights reserved.
@@ -32,11 +32,12 @@
 
 check_DATA=	${GOLDEN_FILES}
 
-DISTCLEANFILES=	${LOG_FILES} 
-CLEANFILES=	${LOG_FILES} 
+DISTCLEANFILES=	${LOG_FILES} ${DLOG_FILES}
+CLEANFILES=	${LOG_FILES} ${DLOG_FILES}
 
 EXTRA_DIST=	${GOLDEN_FILES}
 LOG_FILES=	${GOLDEN_FILES:.ref=.log}
+DLOG_FILES=	${GOLDEN_FILES:.ref=.dlog}
 
 GOLDEN_FILES=	\
 	basic1.ref \
