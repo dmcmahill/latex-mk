@@ -1,4 +1,4 @@
-# $Id: script_tests.list,v 1.2 2006/06/10 13:23:08 dan Exp $
+# $Id: script_tests.list,v 1.3 2006/06/11 12:00:29 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -56,6 +56,16 @@ makeindex1 | | index.tex | index |
 makeindex2 | out:755 .:755 | index.tex | index | TEXMFOUTPUT=out
 makeindex3 | out:755 .:555 | index.tex | index | | 1
 makeindex4 | out:755 .:555 | index.tex | index | TEXMFOUTPUT=out
+
+#
+# bibtex operation
+#
+bibtex1 | | bibliography.tex bibliography.bib| bibliography |
+bibtex2 | out:755 .:755 | bibliography.tex bibliography.bib| bibliography | TEXMFOUTPUT=out
+bibtex3 | out:755 .:555 | bibliography.tex bibliography.bib| bibliography | | 1
+bibtex4 | out:755 .:555 | bibliography.tex bibliography.bib| bibliography | TEXMFOUTPUT=out
+
+bibtex5 | | bibliography2.tex bibliography.bib| bibliography2 |
 
 #
 # Reading of environment variables

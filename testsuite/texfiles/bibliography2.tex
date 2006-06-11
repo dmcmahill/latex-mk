@@ -1,0 +1,33 @@
+% $Id: bibliography2.tex,v 1.1 2006/06/11 12:00:30 dan Exp $
+%
+
+\documentclass[11pt]{article}
+
+\usepackage{makeidx}
+
+\title{Example Document That Uses BibTeX}
+\author{Dan}
+\date{\today}
+
+\usepackage{fancyheadings}
+\pagestyle{fancy}
+\rhead{Referenced Notes}
+\usepackage{hyperref}
+
+\makeindex
+
+\begin{document}
+\maketitle
+\section{Introduction}
+See the DECT\index{standards, DECT} standard\cite{en300.175-2v1.4.2} for details.
+
+\section{Index}
+\printindex
+
+\section{References}
+
+\bibliographystyle{ieeetr}
+\bibliography{bibliography}
+
+\end{document}
+

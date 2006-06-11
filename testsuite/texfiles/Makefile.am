@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.2 2006/06/10 13:23:10 dan Exp $
+## $Id: Makefile.am,v 1.3 2006/06/11 11:59:45 dan Exp $
 ##
 ## Copyright (c) 2006 Dan McMahill
 ## All rights reserved.
@@ -33,6 +33,9 @@
 
 EXFILES= \
 	basic1.tex \
+	bibliography.bib \
+	bibliography.tex \
+	bibliography2.tex \
 	figures.tex \
 	index.tex \
 	lof.tex \
