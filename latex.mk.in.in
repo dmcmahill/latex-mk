@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.57 2006/06/09 18:30:37 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.58 2006/06/11 11:26:49 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -1026,6 +1026,9 @@ CLEAN_FILES+=	${NAME:=.dvi}
 CLEAN_FILES+=	${NAME:=.log}
 CLEAN_FILES+=	${NAME:=.bbl}
 CLEAN_FILES+=	${NAME:=.blg}
+CLEAN_FILES+=	${NAME:=.glo}
+CLEAN_FILES+=	${NAME:=.idx}
+CLEAN_FILES+=	${NAME:=.ind}
 CLEAN_FILES+=	${NAME:=.lof}
 CLEAN_FILES+=	${NAME:=.lot}
 CLEAN_FILES+=	${NAME:=.toc}
