@@ -1,0 +1,54 @@
+latex-mk invoked with flags = 
+BIBTEX         [bibtex]
+BIBTEX_FLAGS   []
+LATEX          [latex]
+LATEX_FLAGS    []
+MAKEIDX        [makeindex]
+MAKEIDX_FLAGS  []
+PDFLATEX       [pdflatex]
+PDFLATEX_FLAGS []
+TEX2PAGE       [tex2page]
+TEX2PAGE_FLAGS []
+LATEX_MK_LOG   [./latex-mk.log]
+ODIR           [.]
+
+TEXMFOUTPUT    []
+TEXINPUTS      []
+BIBINPUTS      []
+------------------------------------
+Pass #0
+run_latex() called
+Citation undefined
+BibTex run #1
+run_bibtex() called
+cd . && bibtex  bibliography2
+./bibliography2.idx is new
+./bibliography2.idx new or changed -> need to run makeindex
+run_makeindex() called
+cd . && makeindex  bibliography2
+./bibliography2.ind is new
+rerun        = 
+needbib      = LaTeX Warning: Citation `en300.175-2v1.4.2' on page 1 undefined on input line 2
+changed_file =  ./bibliography2.ind
+Rerun is needed
+------------------------------------
+Pass #1
+run_latex() called
+Citation undefined
+Try another latex run for the citations
+./bibliography2.idx is not changed
+./bibliography2.ind is not changed
+rerun        = LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+needbib      = LaTeX Warning: Citation `en300.175-2v1.4.2' on page 1 undefined on input line 2
+changed_file = 
+Rerun is needed
+------------------------------------
+Pass #2
+run_latex() called
+./bibliography2.idx is not changed
+./bibliography2.ind is not changed
+rerun        = 
+needbib      = 
+changed_file = 
+No rerun is needed
+Remove log and exit.
