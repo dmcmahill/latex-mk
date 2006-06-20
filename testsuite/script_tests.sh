@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.4 2006/06/11 11:59:14 dan Exp $
+# $Id: script_tests.sh,v 1.5 2006/06/20 12:51:22 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -88,6 +88,38 @@ REF=latex_mk_ref
 
 #######################################
 #
+# Here we have to clean out some environment variables
+# which may mess up the test results
+#
+
+BIBTEX=bibtex
+BIBTEX_FLAGS=
+LATEX=latex
+LATEX_FLAGS=
+MAKEIDX=makeindex
+MAKEIDX_FLAGS=
+PDFLATEX=pdflatex
+PDFLATEX_FLAGS=
+TEX2PAGE=tex2page
+TEX2PAGE_FLAGS=
+
+export BIBTEX
+export BIBTEX_FLAGS
+export LATEX
+export LATEX_FLAGS
+export MAKEIDX
+export MAKEIDX_FLAGS
+export PDFLATEX
+export PDFLATEX_FLAGS
+export TEX2PAGE
+export TEX2PAGE_FLAGS
+
+# these should just not be set at all
+LATEX_MK_LOG=x ; unset LATEX_MK_LOG
+TEXMFOUTPUT=x ; unset TEXMFOUTPUT
+TEXINPUTS=x ; unset TEXINPUTS
+BIBINPUTS=x ; unset BIBINPUTS
+
 #
 #
 #######################################
