@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.22 2006/06/09 21:33:08 dan Exp $
+# $Id: run_tests.sh,v 1.23 2006/06/20 11:26:07 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005 Dan McMahill
 # All rights reserved.
@@ -239,6 +239,7 @@ export FIG2DEV_PDF_FLAGS
 #######################################
 
 BMAKE=${BMAKE:-make}
+BMAKE_NAME=`basename $BMAKE`
 GMAKE=${GMAKE:-gmake}
 GMAKE_NAME=`basename $GMAKE`
 
@@ -421,6 +422,7 @@ for t in $all_tests ; do
     echo "Test:  (BSD make) $t"
     cd ${rundir} && ${BMAKE}  $args | sed \
 	-e "s;stopped in .*/testsuite/run/;stopped in testsuite/run/;g" \
+	-e "s;${BMAKE_NAME};make;g" \
 	> ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
