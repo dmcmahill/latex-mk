@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.22 2006/06/09 22:26:15 dan Exp $
+# $Id: tests.list,v 1.23 2006/06/20 19:48:02 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -73,6 +73,8 @@ basic1_landscape_ps||test1.tex|ps TEST1=yes LANDSCAPE=yes
 basic1_landscape_view||test1.tex|view TEST1=yes LANDSCAPE=yes
 basic1_landscape_viewps||test1.tex|viewps TEST1=yes LANDSCAPE=yes
 basic1_landscape_viewpdf||test1.tex|viewpdf TEST1=yes LANDSCAPE=yes
+basic1_clean1||test1.tex|clean TEST1=yes
+
 #
 # HTML output -- LaTeX2HTML
 #
