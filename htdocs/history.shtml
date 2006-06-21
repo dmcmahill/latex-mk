@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.22 2006/06/09 18:23:29 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.23 2006/06/21 17:49:34 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -278,14 +278,46 @@ xfig,
 	patch.
         </LI>
 	<LI>
-        Added a --help flag to the latex-mk script and documented the script a bit more
-	there.  It seems that some users are using the latex-mk script only and not the makefile
+        Added a <tt>--help</tt> flag to the <tt>latex-mk</tt> script and documented the script
+	a bit more
+	there.  It seems that some users are using the <tt>latex-mk</tt> script only and not
+	the makefile
 	system.  Suggested by Reuben Thomas.
 	</LI>
 	<LI>
-	Added the ability in the latex-mk script to work with a read only current directory
-	and use the TEXMFOUTPUT environment variable to control where the real output goes.
+	Added the ability in the <tt>latex-mk</tt> script to work with a read only current directory
+	and use the <tt>TEXMFOUTPUT</tt> environment variable to control where the real output goes.
 	Suggested by Reuben Thomas.
+	</LI>
+    </UL>
+    </P>
+
+    <H3>Version 1.8</H3>
+    <P>
+    LaTeX-Mk version 1.8 was released on June 22, 2006.
+    The significant changes/additions over the previous version are:
+    <UL>
+        <LI>
+	Fix a bug in the <tt>latex-mk</tt> script where some of the ".old" files that are used
+	for determining when to re-run various tools were not being cleaned up properly.
+        </LI>
+
+        <LI>
+	Add a few more files which latex and makeindex may generate to the list of files
+	removed by the <tt>clean</tt> target.
+        </LI>
+
+        <LI>
+	Add a testsuite entry for the <tt>clean</tt> target.
+        </LI>
+
+        <LI>
+	Improve the makefile testsuite robustness.  In particular it now deals with
+	the bmake program having different names (make, bmake, bsdmake, etc).
+        </LI>
+
+        <LI>
+	Improve and expand the testsuite for the <tt>latex-mk</tt> script.
 	</LI>
     </UL>
     </P>

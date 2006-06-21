@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <!-- $Id: index.shtml,v 1.16 2006/06/09 18:23:30 dan Exp $ -->
+    <!-- $Id: index.shtml,v 1.17 2006/06/21 17:49:34 dan Exp $ -->
     <!-- Copyright (c) 2001, 2002, 2003, 2004
     Dan McMahill  ALL RIGHTS RESERVED. -->
     <link rev="made" href="mailto:danmc@users.sourceforge.net">
@@ -55,6 +55,10 @@
       <!-- Recent news  -->
 
       <li><font face="helvetica, arial" size="-1">
+	  <a href="news.html#20060622">LaTeX-Mk-1.8 released, 2006-06-22</a>
+	</font></li>
+
+      <li><font face="helvetica, arial" size="-1">
 	  <a href="news.html#20060609">LaTeX-Mk-1.7 released, 2006-06-09</a>
 	</font></li>
 
@@ -64,10 +68,6 @@
 
       <li><font face="helvetica, arial" size="-1">
 	  <a href="news.html#20060128">LaTeX-Mk-1.5 released, 2006-01-28</a>
-	</font></li>
-
-      <li><font face="helvetica, arial" size="-1">
-	  <a href="news.html#20051004">LaTeX-Mk-1.4 released, 2005-10-04</a>
 	</font></li>
 
 
