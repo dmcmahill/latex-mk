@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.63 2006/06/09 18:30:38 dan Exp $
+@c $Id: latex-mk.texi,v 1.64 2006/06/21 17:42:16 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -1420,6 +1420,10 @@ of times to resolves all references.
 
 @end itemize
 
+@c ********************************************************
+@c ********************** VERSION 1.6 *********************
+@c ********************************************************
+
 @subsection Version 1.6
 
 @itemize @bullet 
@@ -1430,6 +1434,10 @@ properly deal with pathnames to the programs which contain spaces.
 Currently GNU make will not properly deal with this.
 
 @end itemize
+
+@c ********************************************************
+@c ********************** VERSION 1.7 *********************
+@c ********************************************************
 
 @subsection Version 1.7
 
@@ -1444,6 +1452,29 @@ patch.
 @item Added the ability in the @code{latex-mk} script to work with a read only current directory
   and use the TEXMFOUTPUT environment variable to control where the real output goes.
   Suggested by Reuben Thomas.
+
+@end itemize
+
+@c ********************************************************
+@c ********************** VERSION 1.8 *********************
+@c ********************************************************
+
+@subsection Version 1.8
+
+@itemize @bullet 
+
+@item Fix a bug in the @code{latex-mk} script where some of the @file{.old} files that are used
+  for determining when to re-run various tools were not being cleaned up properly.
+
+@item Add a few more files which latex and makeindex may generate to the list of files
+    removed by the @code{clean} target.
+
+@item Add a testsuite entry for the @code{clean} target.
+
+@item Improve the makefile testsuite robustness.  In particular it now deals with
+      the bmake program having different names (make, bmake, bsdmake, etc).
+
+@item Improve and expand the testsuite for the @code{latex-mk} script.
 
 @end itemize
 
