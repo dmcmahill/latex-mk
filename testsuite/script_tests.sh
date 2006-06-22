@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.5 2006/06/20 12:51:22 dan Exp $
+# $Id: script_tests.sh,v 1.6 2006/06/22 13:55:49 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -158,6 +158,26 @@ fi
 echo "Starting tests in $here."
 echo "Source directory is $srcdir"
 
+echo "Syntax check on the shell scripts..."
+sfail=0
+spass=0
+stot=0
+for s in ${here}/../ieee-copyout ${here}/../latex-mk ./run_tests.sh ./script_tests.sh ; do
+	echo "Script: ${s}"
+	sh -n ${s}
+	rc=$?
+	if test $rc -ne 0 ; then
+		echo "FAILED:  return code = ${rc}"
+		sfail=`expr $sfail + 1`
+	else
+		spass=`expr $spass + 1`
+		echo "PASS"
+	fi
+done
+stot=`expr $sfail + $spass`
+
+echo "latex-mk script tests..."
+
 for t in $all_tests ; do
 
 	grep "^[ \t]*${t}[ \t]*|" $TESTLIST >/dev/null
@@ -261,9 +281,13 @@ for t in $all_tests ; do
 
 done
 
+echo "LaTeX-Mk shell script syntax:  Passed $spass, failed $sfail out of $stot tests."
 echo "LaTeX-Mk latex-mk script:  Passed $pass, failed $fail, skipped $skip out of $tot tests."
 
 rc=0
+if [ $spass -ne $stot ]; then
+    rc=1
+fi
 if [ $pass -ne $tot ]; then
     rc=1
 fi
