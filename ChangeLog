@@ -1,3 +1,281 @@
+2006-06-22 14:25  dan
+
+	* README: add one more acknowledgement
+
+2006-06-22 12:22  dan
+
+	* README.to-release: update for 1.8
+
+2006-06-22 11:22  dan
+
+	* doc/latex-mk.texi, htdocs/history.shtml, htdocs/news.shtml: one
+	  more news item for 1.8
+
+2006-06-22 10:09  dan
+
+	* testsuite/script_tests.sh: use srcdir to find the scripts
+
+2006-06-22 09:55  dan
+
+	* testsuite/script_tests.sh: Add a syntax check on all shell
+	  scripts (sh -n).  Suggested by Rafael Laboissiere.
+
+2006-06-21 13:49  dan
+
+	* htdocs/: history.shtml, index.shtml, news.shtml: add 1.8 release
+	  notes
+
+2006-06-21 13:42  dan
+
+	* doc/latex-mk.texi: add 1.8 release notes
+
+2006-06-20 15:51  dan
+
+	* NEWS: start on latex-mk-1.8 release notes
+
+2006-06-20 15:51  dan
+
+	* README: add some more acknowledgements
+
+2006-06-20 15:48  dan
+
+	* testsuite/: golden.mk, tests.list, bmake_ref/basic1_clean1.ref,
+	  gmake_ref/basic1_clean1.ref: add a basic test for the clean
+	  target
+
+2006-06-20 08:51  dan
+
+	* testsuite/script_tests.sh: normalize the environment before
+	  running the tests
+
+2006-06-20 07:26  dan
+
+	* testsuite/run_tests.sh: normalize the name of the bmake program
+	  when comparing to the golden files
+
+2006-06-19 18:13  dan
+
+	* testsuite/latex_mk_ref/: Makefile.am, bibtex1.ref, bibtex2.ref,
+	  bibtex3.ref, bibtex4.ref, bibtex5.ref: add some bibtex tests
+
+2006-06-11 07:59  dan
+
+	* testsuite/: texfiles/Makefile.am, script_tests.list,
+	  texfiles/bibliography.bib, texfiles/bibliography.tex,
+	  texfiles/bibliography2.tex: add some bibtex tests
+
+2006-06-11 07:59  dan
+
+	* testsuite/latex_mk_ref/Makefile.am: add the .dlog files to the
+	  list to be cleaned
+
+2006-06-11 07:59  dan
+
+	* testsuite/script_tests.sh: be sure to clean out the rundirectory
+	  first
+
+2006-06-11 07:58  dan
+
+	* latex-mk.in: if the .idx file exists but not a .ind file then
+	  also be sure to run makeindex.  Suggested by Antoine Reilles.
+
+2006-06-11 07:26  dan
+
+	* latex.mk.in.in: clean .glo, .idx, and .ind files
+
+2006-06-11 07:25  dan
+
+	* latex-mk.in: be sure and clean out the .idx.old file
+
+2006-06-10 09:23  dan
+
+	* latex-mk.in: add some more annotation output
+
+2006-06-10 09:23  dan
+
+	* testsuite/: script_tests.list, latex_mk_ref/Makefile.am,
+	  latex_mk_ref/basic3.ref, latex_mk_ref/makeindex1.ref,
+	  latex_mk_ref/makeindex2.ref, latex_mk_ref/makeindex3.ref,
+	  latex_mk_ref/makeindex4.ref, latex_mk_ref/pdf1.ref,
+	  latex_mk_ref/pdf3.ref, texfiles/Makefile.am, texfiles/index.tex:
+	  add makeindex tests
+
+2006-06-10 09:22  dan
+
+	* testsuite/script_tests.sh: - check return code from latex-mk.
+	  Used in a few cases where we intentionally   error out right away
+	  before a log file is created.
+
+	  - if the testlog is not created, make our own by grabbing the
+	  output from	latex-mk and also add some text
+
+	  - add a --noclean flag to preserve the run directory for
+	  debugging.
+
+	  - be sure to clean up the testlog after we're done each time.
+	  Besides   being nicer, we avoid the results of one test
+	  corrupting the results of   another test from the same run
+
+2006-06-10 08:36  dan
+
+	* latex-mk.in: fix a non-portable shell construct (empty then
+	  clause).  Spotted by Antoine Reilles
+
+2006-06-09 18:52  dan
+
+	* configure.ac: set version to 1.7
+
+2006-06-09 18:50  dan
+
+	* configure.ac: welcome to 1.7A
+
+2006-06-09 18:26  dan
+
+	* testsuite/: golden.mk, tests.list, bmake_ref/vars_makeindex.ref,
+	  gmake_ref/vars_makeindex.ref: add vars_makeindex test
+
+2006-06-09 17:33  dan
+
+	* testsuite/: run_tests.sh, bmake_ref/basic1_dvi1.ref,
+	  bmake_ref/basic1_dvi2.ref, bmake_ref/basic1_dvipdfm_dvi1.ref,
+	  bmake_ref/basic1_dvipdfm_dvi2.ref,
+	  bmake_ref/basic1_dvipdfm_pdf1.ref,
+	  bmake_ref/basic1_dvipdfm_pdf2.ref,
+	  bmake_ref/basic1_dvipdfm_ps1.ref,
+	  bmake_ref/basic1_dvipdfm_ps2.ref, bmake_ref/basic1_html1.ref,
+	  bmake_ref/basic1_html2.ref, bmake_ref/basic1_html4.ref,
+	  bmake_ref/basic1_html7.ref, bmake_ref/basic1_html8.ref,
+	  bmake_ref/basic1_landscape_dvipdfm.ref,
+	  bmake_ref/basic1_landscape_pdf.ref,
+	  bmake_ref/basic1_landscape_ps.ref,
+	  bmake_ref/basic1_landscape_view.ref,
+	  bmake_ref/basic1_landscape_viewpdf.ref,
+	  bmake_ref/basic1_landscape_viewps.ref, bmake_ref/basic1_pdf1.ref,
+	  bmake_ref/basic1_pdf2.ref, bmake_ref/basic1_pdflatex_dvi1.ref,
+	  bmake_ref/basic1_pdflatex_dvi2.ref,
+	  bmake_ref/basic1_pdflatex_pdf1.ref,
+	  bmake_ref/basic1_pdflatex_pdf2.ref,
+	  bmake_ref/basic1_pdflatex_ps1.ref,
+	  bmake_ref/basic1_pdflatex_ps2.ref, bmake_ref/basic1_ps1.ref,
+	  bmake_ref/basic1_ps2.ref, bmake_ref/basic2_dvi1.ref,
+	  bmake_ref/basic2_dvi2.ref, bmake_ref/basic2_dvi3.ref,
+	  bmake_ref/basic_bibtexsrcs_dvi1.ref,
+	  bmake_ref/basic_bibtexsrcs_dvi3.ref,
+	  bmake_ref/basic_lgrinddirs.ref, bmake_ref/basic_lgrinddirs2.ref,
+	  bmake_ref/basic_lgrinddirs3.ref, bmake_ref/basic_lgrindsrcs.ref,
+	  bmake_ref/basic_lgrindsrcs2.ref, bmake_ref/basic_tgifdirs.ref,
+	  bmake_ref/basic_tgifsrcs.ref, bmake_ref/basic_xfigdirs.ref,
+	  bmake_ref/basic_xfigsrcs.ref, bmake_ref/graphic1_dvi1.ref,
+	  bmake_ref/multi1_dvi1.ref, bmake_ref/multi1_dvi2.ref,
+	  bmake_ref/multi1_dvi3.ref, bmake_ref/multi_lgrinddirs_dvi1.ref,
+	  bmake_ref/multi_lgrinddirs_dvi2.ref,
+	  bmake_ref/multi_lgrinddirs_dvi3.ref,
+	  bmake_ref/multi_lgrinddirs_dvi4.ref,
+	  bmake_ref/multi_lgrinddirs_dvi5.ref,
+	  bmake_ref/multi_lgrinddirs_dvi6.ref,
+	  bmake_ref/multi_lgrindsrcs_dvi1.ref,
+	  bmake_ref/multi_lgrindsrcs_dvi2.ref,
+	  bmake_ref/multi_lgrindsrcs_dvi3.ref,
+	  bmake_ref/multi_lgrindsrcs_dvi5.ref,
+	  bmake_ref/multi_lgrindsrcs_dvi6.ref,
+	  bmake_ref/multi_lgrindsrcs_dvi7.ref,
+	  bmake_ref/multi_texsrcs_dvi1.ref,
+	  bmake_ref/multi_texsrcs_dvi2.ref,
+	  bmake_ref/multi_texsrcs_dvi3.ref,
+	  bmake_ref/multi_texsrcs_dvi5.ref,
+	  bmake_ref/multi_tgifsrcs_dvi1.ref,
+	  bmake_ref/multi_tgifsrcs_dvi2.ref,
+	  bmake_ref/multi_tgifsrcs_dvi3.ref,
+	  bmake_ref/multi_tgifsrcs_dvi5.ref,
+	  bmake_ref/tgif_pdflatex_dvi1.ref, bmake_ref/vars_bibtex.ref,
+	  bmake_ref/vars_dvipdfm.ref, bmake_ref/vars_dvipdfm_landscape.ref,
+	  bmake_ref/vars_dvips.ref, bmake_ref/vars_dvips_landscape.ref,
+	  bmake_ref/vars_gv.ref, bmake_ref/vars_gv_landscape.ref,
+	  bmake_ref/vars_latex.ref, bmake_ref/vars_latex2html.ref,
+	  bmake_ref/vars_latex2rtf.ref, bmake_ref/vars_lgrind.ref,
+	  bmake_ref/vars_lpr.ref, bmake_ref/vars_pdflatex.ref,
+	  bmake_ref/vars_ps2pdf.ref, bmake_ref/vars_tex2page.ref,
+	  bmake_ref/vars_viewpdf.ref, bmake_ref/vars_viewpdf_landscape.ref,
+	  bmake_ref/vars_xdvi.ref, bmake_ref/vars_xdvi_landscape.ref,
+	  bmake_ref/xfig_pdflatex_dvi1.ref, gmake_ref/basic1_dvi1.ref,
+	  gmake_ref/basic1_dvi2.ref, gmake_ref/basic1_dvipdfm_dvi1.ref,
+	  gmake_ref/basic1_dvipdfm_dvi2.ref,
+	  gmake_ref/basic1_dvipdfm_pdf1.ref,
+	  gmake_ref/basic1_dvipdfm_pdf2.ref,
+	  gmake_ref/basic1_dvipdfm_ps1.ref,
+	  gmake_ref/basic1_dvipdfm_ps2.ref, gmake_ref/basic1_html1.ref,
+	  gmake_ref/basic1_html2.ref, gmake_ref/basic1_html4.ref,
+	  gmake_ref/basic1_html7.ref, gmake_ref/basic1_html8.ref,
+	  gmake_ref/basic1_landscape_dvipdfm.ref,
+	  gmake_ref/basic1_landscape_pdf.ref,
+	  gmake_ref/basic1_landscape_ps.ref,
+	  gmake_ref/basic1_landscape_view.ref,
+	  gmake_ref/basic1_landscape_viewpdf.ref,
+	  gmake_ref/basic1_landscape_viewps.ref, gmake_ref/basic1_pdf1.ref,
+	  gmake_ref/basic1_pdf2.ref, gmake_ref/basic1_pdflatex_dvi1.ref,
+	  gmake_ref/basic1_pdflatex_dvi2.ref,
+	  gmake_ref/basic1_pdflatex_pdf1.ref,
+	  gmake_ref/basic1_pdflatex_pdf2.ref,
+	  gmake_ref/basic1_pdflatex_ps1.ref,
+	  gmake_ref/basic1_pdflatex_ps2.ref, gmake_ref/basic1_ps1.ref,
+	  gmake_ref/basic1_ps2.ref, gmake_ref/basic2_dvi1.ref,
+	  gmake_ref/basic2_dvi2.ref, gmake_ref/basic2_dvi3.ref,
+	  gmake_ref/basic_bibtexsrcs_dvi1.ref,
+	  gmake_ref/basic_bibtexsrcs_dvi3.ref,
+	  gmake_ref/basic_lgrinddirs.ref, gmake_ref/basic_lgrinddirs2.ref,
+	  gmake_ref/basic_lgrinddirs3.ref, gmake_ref/basic_lgrindsrcs.ref,
+	  gmake_ref/basic_lgrindsrcs2.ref, gmake_ref/basic_tgifdirs.ref,
+	  gmake_ref/basic_tgifsrcs.ref, gmake_ref/basic_xfigdirs.ref,
+	  gmake_ref/basic_xfigsrcs.ref, gmake_ref/graphic1_dvi1.ref,
+	  gmake_ref/multi1_dvi1.ref, gmake_ref/multi1_dvi2.ref,
+	  gmake_ref/multi1_dvi3.ref, gmake_ref/multi_lgrinddirs_dvi1.ref,
+	  gmake_ref/multi_lgrinddirs_dvi2.ref,
+	  gmake_ref/multi_lgrinddirs_dvi3.ref,
+	  gmake_ref/multi_lgrinddirs_dvi4.ref,
+	  gmake_ref/multi_lgrinddirs_dvi5.ref,
+	  gmake_ref/multi_lgrinddirs_dvi6.ref,
+	  gmake_ref/multi_lgrindsrcs_dvi1.ref,
+	  gmake_ref/multi_lgrindsrcs_dvi2.ref,
+	  gmake_ref/multi_lgrindsrcs_dvi3.ref,
+	  gmake_ref/multi_lgrindsrcs_dvi5.ref,
+	  gmake_ref/multi_lgrindsrcs_dvi6.ref,
+	  gmake_ref/multi_lgrindsrcs_dvi7.ref,
+	  gmake_ref/multi_texsrcs_dvi1.ref,
+	  gmake_ref/multi_texsrcs_dvi2.ref,
+	  gmake_ref/multi_texsrcs_dvi3.ref,
+	  gmake_ref/multi_texsrcs_dvi5.ref,
+	  gmake_ref/multi_tgifsrcs_dvi1.ref,
+	  gmake_ref/multi_tgifsrcs_dvi2.ref,
+	  gmake_ref/multi_tgifsrcs_dvi3.ref,
+	  gmake_ref/multi_tgifsrcs_dvi5.ref,
+	  gmake_ref/tgif_pdflatex_dvi1.ref, gmake_ref/vars_bibtex.ref,
+	  gmake_ref/vars_dvipdfm.ref, gmake_ref/vars_dvipdfm_landscape.ref,
+	  gmake_ref/vars_dvips.ref, gmake_ref/vars_dvips_landscape.ref,
+	  gmake_ref/vars_gv.ref, gmake_ref/vars_gv_landscape.ref,
+	  gmake_ref/vars_latex.ref, gmake_ref/vars_latex2html.ref,
+	  gmake_ref/vars_latex2rtf.ref, gmake_ref/vars_lgrind.ref,
+	  gmake_ref/vars_lpr.ref, gmake_ref/vars_pdflatex.ref,
+	  gmake_ref/vars_ps2pdf.ref, gmake_ref/vars_tex2page.ref,
+	  gmake_ref/vars_viewpdf.ref, gmake_ref/vars_viewpdf_landscape.ref,
+	  gmake_ref/vars_xdvi.ref, gmake_ref/vars_xdvi_landscape.ref,
+	  gmake_ref/xfig_pdflatex_dvi1.ref: update after adding MAKEIDX and
+	  MAKEIDX_FLAGS
+
+2006-06-09 14:30  dan
+
+	* configure.ac, latex.mk.in.in, doc/latex-mk.texi: add MAKEIDX and
+	  MAKEIDX_FLAGS and document them
+
+2006-06-09 14:23  dan
+
+	* NEWS, doc/latex-mk.texi, htdocs/history.shtml,
+	  htdocs/index.shtml, htdocs/news.shtml: update htdocs, manual, and
+	  release notes for 1.7
+
+2006-06-09 14:11  dan
+
+	* ChangeLog: update for version 1.7
+
 2006-06-09 14:08  dan
 
 	* example/ex5.tex: add a glossary (or the start of one)
