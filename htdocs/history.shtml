@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.23 2006/06/21 17:49:34 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.24 2006/06/22 15:22:54 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -297,6 +297,10 @@ xfig,
     LaTeX-Mk version 1.8 was released on June 22, 2006.
     The significant changes/additions over the previous version are:
     <UL>
+        <LI>
+	Fix a syntax error in the <tt>latex-mk</tt> script which showed up with some shells.
+        </LI>
+
         <LI>
 	Fix a bug in the <tt>latex-mk</tt> script where some of the ".old" files that are used
 	for determining when to re-run various tools were not being cleaned up properly.

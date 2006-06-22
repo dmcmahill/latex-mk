@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: news.shtml,v 1.18 2006/06/21 17:49:35 dan Exp $ -->
+<!-- $Id: news.shtml,v 1.19 2006/06/22 15:22:55 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -40,6 +40,10 @@ xfig,
     June 22, 2006.  LaTeX-Mk version 1.8 has been released.
     The significant changes/additions over the previous version are:  
     <UL>
+        <LI>
+        Fix a syntax error in the <tt>latex-mk</tt> script which showed up with some shells.
+        </LI>
+        
         <LI>
         Fix a bug in the <tt>latex-mk</tt> script where some of the ".old" files that are used
         for determining when to re-run various tools were not being cleaned up properly.
