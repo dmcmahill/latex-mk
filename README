@@ -1,4 +1,4 @@
-# $Id: README,v 1.7 2006/06/20 19:51:31 dan Exp $
+# $Id: README,v 1.8 2006/06/22 18:25:02 dan Exp $
 
 --------------------------
 Quick overview
@@ -58,6 +58,9 @@ Thanks to Reuben Thomas for suggesting that the latex-mk script
 be documented a bit more for standalone use and for suggesting 
 a way to have the latex-mk script work with a read only source
 directory.
+
+Thanks to Rafael Laboissiere for suggesting that the testsuite
+run all shell scripts through 'sh -n' for a syntax check.
 
 --------------------------
 Bugs
