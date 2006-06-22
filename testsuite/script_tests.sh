@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.6 2006/06/22 13:55:49 dan Exp $
+# $Id: script_tests.sh,v 1.7 2006/06/22 14:09:47 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -162,7 +162,12 @@ echo "Syntax check on the shell scripts..."
 sfail=0
 spass=0
 stot=0
-for s in ${here}/../ieee-copyout ${here}/../latex-mk ./run_tests.sh ./script_tests.sh ; do
+for s in \
+	${here}/../ieee-copyout \
+	${here}/../latex-mk \
+	${srcdir}/run_tests.sh \
+	${srcdir}/script_tests.sh 
+	do
 	echo "Script: ${s}"
 	sh -n ${s}
 	rc=$?
