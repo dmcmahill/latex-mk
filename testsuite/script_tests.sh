@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.8 2006/06/23 13:09:28 dan Exp $
+# $Id: script_tests.sh,v 1.9 2006/06/23 18:22:55 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -183,6 +183,26 @@ stot=`expr $sfail + $spass`
 
 echo "latex-mk script tests..."
 
+# See if we are running as root or not.  If we are running as root we have
+# to skip a few tests.  The tests in question are ones where we try to write
+# to a read only directory.  root is allowed to go ahead and do this which
+# throws off the tests.
+
+for i in "${ID}" /usr/xpg4/bin/id /usr/bin/id /bin/id ; do
+	if test -x "${i}" ; then
+		ID="${i}"
+		break
+	fi
+done
+echo "Set ID=${ID}"
+
+uid=`${ID} -u`
+if test ${uid} -eq 0 ; then
+	root_user=yes
+else
+	root_user=no
+fi
+
 for t in $all_tests ; do
 
 	grep "^[ \t]*${t}[ \t]*|" $TESTLIST >/dev/null
@@ -190,18 +210,26 @@ for t in $all_tests ; do
 		echo "$0:  Error, specified test ${t} does not exist in ${TESTLIST}" >/dev/stderr
 		exit 1
 	fi
+	tot=`expr $tot + 1`
+
 	# test_name | directories to create | files needed | arguments to latex-mk | env vars
 	dirs=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $2}'`
 	files=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $3}'`
 	args=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $4}'`
 	vars=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $5}'`
 	ret=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $6}'`
+	root=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $7}' | sed 's; ;;g'`
+
+	if test "X${root}" = "Xno" -a "X${root_user}" = "Xyes" ; then
+		echo "Skipping ${t} which will fail if run as root (and you are running as root)"
+		skip=`expr $skip + 1`
+		continue
+	fi
 
 	if test "X${ret}" = "X" ; then
 		ret=0
 	fi
 
-	tot=`expr $tot + 1`
 
 	# create temporary run directory
 	rm -fr ${rundir}
@@ -293,7 +321,7 @@ rc=0
 if [ $spass -ne $stot ]; then
     rc=1
 fi
-if [ $pass -ne $tot ]; then
+if [ $fail -ne 0 ]; then
     rc=1
 fi
 
