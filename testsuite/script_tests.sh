@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.7 2006/06/22 14:09:47 dan Exp $
+# $Id: script_tests.sh,v 1.8 2006/06/23 13:09:28 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -126,7 +126,7 @@ BIBINPUTS=x ; unset BIBINPUTS
 
 # make sure we have the right paths when running this from inside the
 # source tree and also from outside the source tree.
-here=`echo 'echo $cwd' | csh -s`
+here=`pwd`
 srcdir=${srcdir:-$here}
 srcdir=`cd $srcdir && pwd`
 
@@ -259,11 +259,11 @@ for t in $all_tests ; do
 
 	if [ "X$regen" != "Xyes" ]; then
 		if [ -f ${srcdir}/${REF}/${t}.ref ]; then
-			if diff ${srcdir}/${REF}/${t}.ref ${here}/${REF}/${t}.log >/dev/null ; then
+			if diff -w ${srcdir}/${REF}/${t}.ref ${here}/${REF}/${t}.log >/dev/null ; then
 				echo "PASS"
 				pass=`expr $pass + 1`
 	    		else
-				echo "FAILED:  See diff ${srcdir}/${REF}/${t}.ref ${here}/${REF}/${t}.log"
+				echo "FAILED:  See diff -w ${srcdir}/${REF}/${t}.ref ${here}/${REF}/${t}.log"
 				fail=`expr $fail + 1`
 			fi
 		else

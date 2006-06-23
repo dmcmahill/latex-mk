@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.23 2006/06/20 11:26:07 dan Exp $
+# $Id: run_tests.sh,v 1.24 2006/06/23 13:09:27 dan Exp $
 #
-# Copyright (c) 2003, 2004, 2005 Dan McMahill
+# Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -426,11 +426,11 @@ for t in $all_tests ; do
 	> ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
-	    if diff ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
+	    if diff -w ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
 		echo "PASS"
 		bpass=`expr $bpass + 1`
 	    else
-		echo "FAILED:  See diff ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
+		echo "FAILED:  See diff -w ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
 		bfail=`expr $bfail + 1`
 	    fi
 	else
@@ -457,11 +457,11 @@ for t in $all_tests ; do
 	> ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
-	    if diff ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
+	    if diff -w ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
 		echo "PASS"
 		gpass=`expr $gpass + 1`
 	    else
-		echo "FAILED:  See diff ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
+		echo "FAILED:  See diff -w ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
 		gfail=`expr $gfail + 1`
 	    fi
 	else
