@@ -1,4 +1,4 @@
-# $Id: README,v 1.8 2006/06/22 18:25:02 dan Exp $
+# $Id: README,v 1.9 2006/06/23 18:23:38 dan Exp $
 
 --------------------------
 Quick overview
@@ -60,7 +60,8 @@ a way to have the latex-mk script work with a read only source
 directory.
 
 Thanks to Rafael Laboissiere for suggesting that the testsuite
-run all shell scripts through 'sh -n' for a syntax check.
+run all shell scripts through 'sh -n' for a syntax check and for
+helping to track down some testsuite failures.
 
 --------------------------
 Bugs
