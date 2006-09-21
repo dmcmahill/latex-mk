@@ -1,4 +1,4 @@
-## $Id: golden.mk,v 1.20 2006/06/20 19:48:01 dan Exp $
+## $Id: golden.mk,v 1.21 2006/09/21 13:47:39 dan Exp $
 ##
 ## Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 ## All rights reserved.
@@ -118,6 +118,7 @@ GOLDEN_FILES=	\
 	subdir4.ref \
 	subdir5.ref \
 	tgif_pdflatex_dvi1.ref \
+	tgifsrcs_clean.ref \
 	vars_bibtex.ref \
 	vars_dvipdfm.ref \
 	vars_dvipdfm_landscape.ref \

@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.23 2006/06/20 19:48:02 dan Exp $
+# $Id: tests.list,v 1.24 2006/09/21 13:47:38 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -147,6 +147,7 @@ basic_lgrinddirs3|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/s
 # -----------------------------------------
 #
 basic_tgifsrcs||test2.tex tgif1.obj tgif2.obj|dvi TEST2=yes
+tgifsrcs_clean||test2.tex tgif1.obj tgif2.obj|clean TEST2=yes
 tgif_pdflatex_dvi1||test2.tex tgif1.obj tgif2.obj|dvi TEST2=yes USE_PDFLATEX=yes
 #
 # -----------------------------------------
