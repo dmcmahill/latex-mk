@@ -1,9 +1,9 @@
 # -*- Makefile -*-
-# $Id: tgif.mk.in.in,v 1.14 2006/04/04 20:32:35 dan Exp $
+# $Id: tgif.mk.in.in,v 1.15 2006/09/21 13:48:13 dan Exp $
 #
 # Makefile fragment for processing tgif files to produce postscript
 #
-# Copyright (c) 2001, 2002, 2003, 2005 Dan McMahill
+# Copyright (c) 2001, 2002, 2003, 2005, 2006 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -109,7 +109,7 @@ GMK:$(foreach __tmp__,$(NAME),$(eval $(call tgifdirs_template,$(__tmp__))))
 #######################################
 # 
 # Process proj_TGIFSRCS to add to
-# prog_OTHER dependencies
+# proj_OTHER dependencies
 #
 #######################################
 
@@ -174,7 +174,10 @@ OTHER+=	$(TGIFOBJS)
 all::		$(ALLTGIFOBJS)
 
 clean::
-	$(RM) -f $(ALLTGIFOBJS:Q)
+BMK:.for __tmp__ in $(ALLTGIFOBJS)
+BMK:	$(RM) -f $(__tmp__:Q)
+BMK:.endfor
+GMK:	$(RM) -f $(ALLTGIFOBJS)
 
 #######################################
 # 
