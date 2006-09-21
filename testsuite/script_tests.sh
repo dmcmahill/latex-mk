@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.9 2006/06/23 18:22:55 dan Exp $
+# $Id: script_tests.sh,v 1.10 2006/09/21 14:02:52 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -217,7 +217,7 @@ for t in $all_tests ; do
 	files=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $3}'`
 	args=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $4}'`
 	vars=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $5}'`
-	ret=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $6}'`
+	ret=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $6}' | sed 's; ;;g'`
 	root=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $7}' | sed 's; ;;g'`
 
 	if test "X${root}" = "Xno" -a "X${root_user}" = "Xyes" ; then
