@@ -1,4 +1,4 @@
-## $Id: golden.mk,v 1.21 2006/09/21 13:47:39 dan Exp $
+## $Id: golden.mk,v 1.22 2006/09/21 13:52:02 dan Exp $
 ##
 ## Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 ## All rights reserved.
@@ -140,6 +140,7 @@ GOLDEN_FILES=	\
 	vars_viewpdf_landscape.ref \
 	vars_xdvi.ref \
 	vars_xdvi_landscape.ref \
-	xfig_pdflatex_dvi1.ref
+	xfig_pdflatex_dvi1.ref \
+	xfigsrcs_clean.ref
 
 

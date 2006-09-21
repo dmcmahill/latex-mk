@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.24 2006/09/21 13:47:38 dan Exp $
+# $Id: tests.list,v 1.25 2006/09/21 13:52:03 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -161,6 +161,7 @@ basic_tgifdirs|tgifdir1 tgifdir2|test3.tex tgifdir1/tgifa.obj tgifdir1/tgifb.obj
 # -----------------------------------------
 #
 basic_xfigsrcs||test.tex xfig1.fig xfig2.fig|dvi TEST4=yes
+xfigsrcs_clean||test.tex xfig1.fig xfig2.fig|clean TEST4=yes
 xfig_pdflatex_dvi1||test.tex xfig1.fig xfig2.fig|dvi TEST4=yes USE_PDFLATEX=yes
 #
 # -----------------------------------------
