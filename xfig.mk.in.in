@@ -1,9 +1,9 @@
 # -*- Makefile -*-
-# $Id: xfig.mk.in.in,v 1.12 2006/04/04 20:32:35 dan Exp $
+# $Id: xfig.mk.in.in,v 1.13 2006/09/21 13:49:36 dan Exp $
 #
 # Makefile fragment for processing xfig files to produce postscript
 #
-# Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill
+# Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -109,7 +109,7 @@ GMK:$(foreach __tmp__,$(NAME),$(eval $(call xfigdirs_template,$(__tmp__))))
 #######################################
 # 
 # Process proj_XFIGSRCS to add to
-# prog_OTHER dependencies
+# proj_OTHER dependencies
 #
 #######################################
 
@@ -174,7 +174,10 @@ OTHER+=	$(XFIGOBJS)
 all::		$(ALLXFIGOBJS)
 
 clean::
-	$(RM) -f $(ALLXFIGOBJS:Q)
+BMK:.for __tmp__ in $(ALLXFIGOBJS)
+BMK:	$(RM) -f $(__tmp__:Q)
+BMK:.endfor
+GMK:	$(RM) -f $(ALLXFIGOBJS)
 
 #######################################
 # 
