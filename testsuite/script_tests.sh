@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.10 2006/09/21 14:02:52 dan Exp $
+# $Id: script_tests.sh,v 1.11 2006/11/27 00:13:28 dan Exp $
 #
 # Copyright (c) 2006 Dan McMahill
 # All rights reserved.
@@ -268,8 +268,12 @@ for t in $all_tests ; do
 	echo "Test:  $t"
 	testlog="/tmp/script_tests.$$$$"
 	#echo "cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args" 
+	# We redirect from /dev/null because if the latex installation isn't quite
+	# right we may end up with latex waiting for input from stdin but we don't
+	# ever want to do that.  This is especially important since we are redirecting
+	# stdout and stderr so the user won't even see whats going on.
 	cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args 2>&1 \
-		> ${here}/${REF}/${t}.dlog 
+		> ${here}/${REF}/${t}.dlog  < /dev/null
 	rc=$?
 
 	if test $rc -ne $ret -a "X$regen" != "Xyes" ; then
