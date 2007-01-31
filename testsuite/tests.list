@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.28 2007/01/31 03:35:20 dan Exp $
+# $Id: tests.list,v 1.29 2007/01/31 12:56:41 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
@@ -78,7 +78,7 @@ basic1_clean1||test1.tex|clean TEST1=yes
 #
 # Draft targets
 #
-draft1||test1.tex|test1-draft.ps TEST1=yes
+draft1||draft.ps test1.tex|test1-draft.ps TEST1=yes DATED_DRAFT_PS=draft.ps
 
 #
 # HTML output -- LaTeX2HTML
