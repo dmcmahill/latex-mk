@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.65 2006/06/22 15:22:52 dan Exp $
+@c $Id: latex-mk.texi,v 1.66 2007/01/31 02:40:00 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -7,6 +7,7 @@
 @c %**end of header
 
 @include version.texi
+@include prefix.texi
 
 @dircategory LaTeX Project Tools
 @direntry
@@ -164,17 +165,17 @@ project, you would create a @file{Makefile} that contains the following.
 @example
 NAME=mydoc
 
-include /usr/local/share/latex-mk/latex.gmk
+include @value{PREFIX}/share/latex-mk/latex.gmk
 @end example
 @cindex make, differences between GNU and BSD
 @cindex GNU make, versus BSD make
 @cindex BSD make, versus GNU make
 @cindex include, Makefile syntax for
-Note that the @code{include /usr/local/share/latex-mk/latex.gmk} is the
+Note that the @code{include @value{PREFIX}/share/latex-mk/latex.gmk} is the
 syntax for GNU @samp{make}.  If you are using BSD @samp{make} you would
 replace the include line with 
-@code{.include "/usr/local/share/latex-mk/latex.mk"}.  In both examples,
-you would replace @code{/usr/local} with the installation prefix
+@code{.include "@value{PREFIX}/share/latex-mk/latex.mk"}.  In both examples,
+you would replace @code{@value{PREFIX}} with the installation prefix
 on your system.  For the remainder of this document we will use the BSD
 style of include in the examples.
 Now to create a @file{.pdf} file you simply run
@@ -196,7 +197,7 @@ TEXSRCS=     ch1.tex ch2.tex ch3.tex refs.tex
 BIBTEXSRCS=  mybib.bib
 TGIFDIRS=    tgif_figs
 
-.include "/usr/local/share/latex-mk/latex.mk"
+.include "@value{PREFIX}/share/latex-mk/latex.mk"
 @end example
 In this example is it assumed that all of the Tgif figures reside in a
 subdirectory called @file{tgif_figs}.  When the user issues a
@@ -1089,7 +1090,7 @@ SUBDIR+=        project1
 SUBDIR+=        project2
 SUBDIR+=        project3
 
-.include "/usr/local/share/latex-mk/latex.subdir.mk"
+.include "@value{PREFIX}/share/latex-mk/latex.subdir.mk"
 
 @end example
 Now create your usual LaTeX-Mk Makefiles in the @file{project1},
