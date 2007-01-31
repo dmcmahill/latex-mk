@@ -1,6 +1,6 @@
-## $Id: golden.mk,v 1.22 2006/09/21 13:52:02 dan Exp $
+## $Id: golden.mk,v 1.23 2007/01/31 03:35:20 dan Exp $
 ##
-## Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
+## Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
@@ -82,6 +82,7 @@ GOLDEN_FILES=	\
 	basic2_dvi1.ref \
 	basic2_dvi2.ref \
 	basic2_dvi3.ref \
+	draft1.ref \
 	graphic1_dvi1.ref \
 	multi_distfile1.ref \
 	multi_distfile2.ref \
