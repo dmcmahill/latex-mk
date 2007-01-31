@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.60 2007/01/31 03:13:29 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.61 2007/01/31 03:21:37 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -962,7 +962,7 @@ GMK:endif
 BMK:.if defined(__DRAFT)
 GMK:ifdef __DRAFT
 GMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
-GMK	${ENV_PROG} ${DVIPS_ENV} $(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $*-draft.ps $<
+GMK:	${ENV_PROG} ${DVIPS_ENV} $(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $*-draft.ps $<
 BMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS:Q} > ${DRAFT_STAMP_PS:Q}
 BMK:	${DVIPS:Q} -h ${DRAFT_STAMP_PS:Q} ${DVIPS_FLAGS} -o $*-draft.ps $<
 BMK:.else
