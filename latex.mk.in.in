@@ -1,9 +1,9 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.59 2007/01/31 03:12:08 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.60 2007/01/31 03:13:29 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
-# Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006 Dan McMahill
+# Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
