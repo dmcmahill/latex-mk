@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.25 2006/09/21 13:52:03 dan Exp $
+# $Id: tests.list,v 1.26 2007/01/31 03:12:11 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -187,7 +187,7 @@ vars_dvipdfm_landscape||test1.tex|pdf TEST1=yes DVIPDFM=mydvipdfm DVIPDFM_ENV=fo
 #
 #  DVIPS	= the dvips executable
 #  DVIPS_FLAGS	= flags passed to the dvips executable
-vars_dvips||test1.tex|ps TEST1=yes DVIPS=mydvips DVIPS_FLAGS=mydvips_flags
+vars_dvips||test1.tex|ps TEST1=yes DVIPS=mydvips DVIPS_FLAGS=mydvips_flags DVIPS_ENV=foo=dvips
 vars_dvips_landscape||test1.tex|ps TEST1=yes DVIPS=mydvips DVIPS_LANDSCAPE_FLAGS=mydvips_landscape LANDSCAPE=yes
 #
 #  GV		= a postscript previewer executable

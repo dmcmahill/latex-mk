@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.66 2007/01/31 02:40:00 dan Exp $
+@c $Id: latex-mk.texi,v 1.67 2007/01/31 03:12:09 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -480,6 +480,12 @@ Defaults to @samp{-l}.
 @defvar DVIPS
 The executible which produces Postscript files from @file{.dvi} files.
 Defaults to @samp{dvips}.
+@end defvar
+
+@defvar DVIPS_ENV
+A list of variables to be set in the environment when DVIPS is
+executed.
+Defaults to @samp{}.
 @end defvar
 
 @defvar DVIPS_FLAGS
