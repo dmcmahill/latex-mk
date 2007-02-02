@@ -1,6 +1,6 @@
-## $Id: Makefile.am,v 1.3 2006/06/11 11:59:45 dan Exp $
+## $Id: Makefile.am,v 1.4 2007/02/02 01:26:01 dan Exp $
 ##
-## Copyright (c) 2006 Dan McMahill
+## Copyright (c) 2006, 2007 Dan McMahill
 ## All rights reserved.
 ##
 ## Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,7 @@ EXFILES= \
 	index.tex \
 	lof.tex \
 	lot.tex \
+	nomencl.tex \
 	tables.tex \
 	toc.tex
 

@@ -1,5 +1,5 @@
 lgrind -i -myflags1 -o lgd1/src1.c.tex lgd1/src1.c
 lgrind -i -myflags1 -o lgd1/src2.c.tex lgd1/src2.c
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
 lgrind -i -myflags2 -o lgd2/src1.c.tex lgd2/src1.c
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test2.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test2.tex

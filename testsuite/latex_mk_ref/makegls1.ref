@@ -14,12 +14,28 @@ TEX2PAGE_FLAGS []
 LATEX_MK_LOG   [./latex-mk.log]
 ODIR           [.]
 
-TEXMFOUTPUT    [out]
+TEXMFOUTPUT    []
 TEXINPUTS      []
 BIBINPUTS      []
 ------------------------------------
 Pass #0
 run_latex() called
+./nomencl.glo is new
+./nomencl.glo new or changed -> need to update glossary
+run_makeglossary() called
+cd . && makeindex  -s nomencl.ist nomencl.glo -o nomencl.gls
+./nomencl.glo is not changed
+./nomencl.gls is new
+rerun        = 
+needbib      = 
+changed_file =  ./nomencl.gls
+Rerun is needed
+------------------------------------
+Pass #1
+run_latex() called
+./nomencl.glo is not changed
+./nomencl.glo is not changed
+./nomencl.gls is not changed
 rerun        = 
 needbib      = 
 changed_file = 

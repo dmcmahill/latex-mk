@@ -1,4 +1,4 @@
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
 env  dvips  -j0 -o test1.ps test1.dvi
 ps2pdf  test1.ps
 myviewpdf myviewpdf_flags  test1.pdf

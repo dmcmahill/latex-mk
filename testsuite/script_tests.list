@@ -1,6 +1,6 @@
-# $Id: script_tests.list,v 1.4 2006/06/23 18:22:55 dan Exp $
+# $Id: script_tests.list,v 1.5 2007/02/02 01:25:08 dan Exp $
 #
-# Copyright (c) 2006 Dan McMahill
+# Copyright (c) 2006, 2007 Dan McMahill
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -56,6 +56,11 @@ makeindex1 | | index.tex | index |
 makeindex2 | out:755 .:755 | index.tex | index | TEXMFOUTPUT=out
 makeindex3 | out:755 .:555 | index.tex | index | | 1 | no
 makeindex4 | out:755 .:555 | index.tex | index | TEXMFOUTPUT=out | | no
+
+#
+# makeindex operation
+#
+makegls1 | | nomencl.tex | nomencl |
 
 #
 # bibtex operation

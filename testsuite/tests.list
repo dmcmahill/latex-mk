@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.29 2007/01/31 12:56:41 dan Exp $
+# $Id: tests.list,v 1.30 2007/02/02 01:25:09 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
@@ -230,6 +230,10 @@ vars_lgrind||test2.tex src1.c src2.c src2.h|dvi TEST2A=yes LGRIND=mylgrind LGRIN
 #  LPR		= executable to print postscript files
 #  LPR_FLAGS	= flags passed to the executable to print postscript files
 vars_lpr||test1.tex|print TEST1=yes LPR=mylpr LPR_FLAGS=mylpr_flags
+#
+#  MAKEGLS      = makeindex executable for glossaries
+#  MAKEGLS_FLAGS= flags passed to the makeindex for glossaries executable
+vars_makegls||test1.tex|dvi TEST1=yes MAKEGLS=mymakegls MAKEGLS_FLAGS=mymakegls_flags
 #
 #  MAKEIDX      = makeindex executable
 #  MAKEIDX_FLAGS= flags passed to the makeindex executable

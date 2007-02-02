@@ -9,4 +9,4 @@ rm -f test.html_dir/images.out
 rm -f test.html_dir/images.tex
 if [ -d test.html_dir ]; then rm test.html_dir ; fi
 latex-mk --clean test
-rm -f *~ texput.log test.aux  test.ps test-draft.ps test.pdf test-draft.pdf test.rtf test.aux test.log test.dvi test.log test.bbl test.blg test.glo test.idx test.ind test.lof test.lot test.toc test.out draft_stamp.ps test.bib-stamp test.html-stamp test.www_files test.haux test.image.tex
+rm -f *~ texput.log test.aux  test.ps test-draft.ps test.pdf test-draft.pdf test.rtf test.aux test.log test.dvi test.log test.bbl test.blg test.glo test.gls test.ilg test.idx test.ind test.lof test.lot test.toc test.out draft_stamp.ps test.bib-stamp test.html-stamp test.www_files test.haux test.image.tex

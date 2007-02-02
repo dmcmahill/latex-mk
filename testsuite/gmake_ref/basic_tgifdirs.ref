@@ -1,4 +1,4 @@
 tgif -color -print -eps tgifdir1/tgifa.obj
 tgif -color -print -eps tgifdir1/tgifb.obj
 tgif -color -print -eps tgifdir2/tgifc.obj
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test3.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test3.tex

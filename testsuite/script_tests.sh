@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.11 2006/11/27 00:13:28 dan Exp $
+# $Id: script_tests.sh,v 1.12 2007/02/02 01:25:08 dan Exp $
 #
-# Copyright (c) 2006 Dan McMahill
+# Copyright (c) 2006, 2007 Dan McMahill
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without

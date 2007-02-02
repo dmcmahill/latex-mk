@@ -1,3 +1,3 @@
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
 sed "s;DATE;`date`;g" draft.ps > draft_stamp.ps
 env  dvips -h draft_stamp.ps  -j0 -o test1-draft.ps test1.dvi

@@ -1,4 +1,4 @@
 lgrind -i  -o lgrinddir1/src1.c.tex lgrinddir1/src1.c
 lgrind -i  -o lgrinddir1/src1.h.tex lgrinddir1/src1.h
 lgrind -i  -o lgrinddir2/src3.c.tex lgrinddir2/src3.c
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test3.tex
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test3.tex

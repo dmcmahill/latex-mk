@@ -1,0 +1,1 @@
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=mymakegls MAKEGLS_FLAGS=mymakegls_flags POST_BIBTEX_HOOK=  latex-mk  test1.tex

@@ -1,4 +1,4 @@
-## $Id: golden.mk,v 1.23 2007/01/31 03:35:20 dan Exp $
+## $Id: golden.mk,v 1.24 2007/02/02 01:25:07 dan Exp $
 ##
 ## Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 ## All rights reserved.
@@ -133,6 +133,7 @@ GOLDEN_FILES=	\
 	vars_latex2rtf.ref \
 	vars_lgrind.ref \
 	vars_lpr.ref \
+	vars_makegls.ref \
 	vars_makeindex.ref \
 	vars_pdflatex.ref \
 	vars_ps2pdf.ref \

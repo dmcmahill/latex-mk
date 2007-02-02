@@ -7,4 +7,4 @@ rm -f test1.html_dir/images.out
 rm -f test1.html_dir/images.tex
 if [ -d test1.html_dir ] ; then rm test1.html_dir ; fi
 latex-mk --clean test1
-rm -f *~ texput.log  test1.aux   test1.ps test1-draft.ps test1.pdf test1-draft.pdf test1.rtf test1.aux test1.log test1.dvi test1.log test1.bbl test1.blg test1.glo test1.idx test1.ind test1.lof test1.lot test1.toc test1.out draft_stamp.ps test1.bib-stamp test1.html-stamp test1.www_files test1.haux test1.image.tex
+rm -f *~ texput.log  test1.aux   test1.ps test1-draft.ps test1.pdf test1-draft.pdf test1.rtf test1.aux test1.log test1.dvi test1.log test1.bbl test1.blg test1.glo test1.gls test1.ilg test1.idx test1.ind test1.lof test1.lot test1.toc test1.out draft_stamp.ps test1.bib-stamp test1.html-stamp test1.www_files test1.haux test1.image.tex

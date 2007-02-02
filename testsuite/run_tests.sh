@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.24 2006/06/23 13:09:27 dan Exp $
+# $Id: run_tests.sh,v 1.25 2007/02/02 01:25:07 dan Exp $
 #
-# Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
+# Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -136,6 +136,8 @@ LGRIND=lgrind
 LGRIND_FLAGS=-i
 LPR=lpr
 LPR_FLAGS=
+MAKEGLS=makeindex
+MAKEGLS_FLAGS=
 MAKEIDX=makeindex
 MAKEIDX_FLAGS=
 PDFLATEX=pdflatex
@@ -187,6 +189,8 @@ export LGRIND
 export LGRIND_FLAGS
 export LPR
 export LPR_FLAGS
+export MAKEGLS
+export MAKEGLS_FLAGS
 export MAKEIDX
 export MAKEIDX_FLAGS
 export PDFLATEX

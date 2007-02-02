@@ -1,1 +1,1 @@
-env PDFLATEX=mypdflatex PDFLATEX_FLAGS=mypdflatex_flags BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= POST_BIBTEX_HOOK= foo=bar latex-mk --pdflatex  test1.tex
+env PDFLATEX=mypdflatex PDFLATEX_FLAGS=mypdflatex_flags BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK= foo=bar latex-mk --pdflatex  test1.tex
