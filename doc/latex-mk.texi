@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.68 2007/01/31 03:13:31 dan Exp $
+@c $Id: latex-mk.texi,v 1.69 2007/02/02 01:28:02 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -623,6 +623,16 @@ For example:
 @example
 LPR_FLAGS=	-Pbeernuts
 @end example
+Defaults to @samp{}.
+@end defvar
+
+@defvar MAKEGLS
+The executible used to make glossaries.
+Defaults to @samp{makeindex}.
+@end defvar
+
+@defvar MAKEGLS_FLAGS
+A list of flags to be passed to the MAKEGLS executible.
 Defaults to @samp{}.
 @end defvar
 
