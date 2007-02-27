@@ -1,7 +1,7 @@
-dnl $Id: configure.ac,v 1.48 2007/01/31 02:39:59 dan Exp $
+dnl $Id: configure.ac,v 1.49 2007/02/27 05:01:53 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
+dnl Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007 Dan McMahill
 dnl All rights reserved.
 dnl
 dnl This code is derived from software written by Dan McMahill
@@ -89,6 +89,11 @@ AC_PATH_PROG(XDVI, xdvi, xdvi)
 # for lgrind.mk
 #
 AC_PATH_PROG(LGRIND, lgrind, lgrind)
+
+#
+# for mpost.mk
+#
+AC_PATH_PROG(MPOST, mpost mp, mpost)
 
 #
 # for tgif.mk
@@ -202,6 +207,7 @@ AC_OUTPUT(
 	latex.mk.in
 	latex.subdir.mk.in
 	lgrind.mk.in
+	mpost.mk.in
 	testsuite/Makefile
 	testsuite/bmake_ref/Makefile
 	testsuite/gmake_ref/Makefile

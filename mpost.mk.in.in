@@ -1,0 +1,197 @@
+# -*- Makefile -*-
+# $Id: mpost.mk.in.in,v 1.1 2007/02/27 05:01:55 dan Exp $
+#
+# Makefile fragment for processing METAPOST files to produce postscript
+#
+# Copyright (c) 2007 Dan McMahill
+# All rights reserved.
+#
+# This code is derived from software written by Dan McMahill
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by Dan McMahill
+#  4. The name of the author may not be used to endorse or promote products
+#     derived from this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+#  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+#  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+#  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+#  SUCH DAMAGE.
+#
+
+
+#######################################
+#
+# README:
+#
+# To use this makefile fragment, set the variable:
+#	MPOSTSRCS	= the mpost drawing files (.obj files)
+# in your top level Makefile.  You can also specify
+# MPOSTDIRS which is a list of directories containing
+# mpost files.  All mpost files in the specified directories
+# are added to MPOSTSRCS
+#
+# The following variables may be overridden in your top level Makefile
+#
+#  MPOST		  = the mpost executable
+#  MPOST_FLAGS	  = flags passed to mpost for any exporting 
+#  MPOST_EPS_FLAGS = flags passed to mpost for exporting to eps
+#  MPOST_PDF_FLAGS = flags passed to mpost for exporting to pdf
+#
+#######################################
+
+
+# how to call mpost to convert mpost files to postscript
+MPOST?=		@MPOST@
+MPOST_FLAGS?=		-color -print
+MPOST_EPS_FLAGS?=	-eps
+MPOST_PDF_FLAGS?=	-pdf
+
+#######################################
+#
+# Process MPOSTDIRS, adding to MPOSTSRCS
+#
+#######################################
+
+BMK:.if defined(MPOSTDIRS)
+BMK:.for __tmp__ in ${MPOSTDIRS}
+BMK:.if exists(${__tmp__})
+BMK:_MPOST_ADD_${__tmp__}!=	ls ${__tmp__}/*.obj
+BMK:MPOSTSRCS+=	${_MPOST_ADD_${__tmp__}}
+BMK:.endif
+BMK:.endfor
+BMK:.endif
+
+GMK:ifdef MPOSTDIRS
+GMK:MPOSTSRCS+= $(foreach __tmp__,$(MPOSTDIRS),$(wildcard $(__tmp__)/*.obj))
+GMK:endif
+
+#######################################
+#
+# Process proj_MPOSTDIRS, adding to proj_MPOSTSRCS
+#
+#######################################
+
+BMK:.for __name__ in ${NAME}
+BMK:.if defined(${__name__}_MPOSTDIRS)
+BMK:.for __tmp__ in ${${__name__}_MPOSTDIRS}
+BMK:.if exists(${__tmp__})
+BMK:_MPOST_ADD2_${__tmp__}!=	ls ${__tmp__}/*.obj
+BMK:${__name__}_MPOSTSRCS+=	${_MPOST_ADD2_${__tmp__}}
+BMK:.endif
+BMK:.endfor
+BMK:.endif
+BMK:.endfor
+
+GMK:define mpostdirs_template
+GMK:ifdef $(1)_MPOSTDIRS
+GMK:$(1)_MPOSTSRCS+= $(foreach __tmp2__,$($(1)_MPOSTDIRS),$(wildcard $(__tmp2__)/*.obj))
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call mpostdirs_template,$(__tmp__))))
+
+#######################################
+# 
+# Process proj_MPOSTSRCS to add to
+# proj_OTHER dependencies
+#
+#######################################
+
+# if we are using pdflatex, then don't bother with the .eps files
+# but create .pdf files instead
+
+BMK:.if defined(USE_PDFLATEX)
+GMK:ifdef USE_PDFLATEX
+MPOSTOBJS?=      $(MPOSTSRCS:.obj=.pdf)
+BMK:.else
+GMK:else
+MPOSTOBJS?=      $(MPOSTSRCS:.obj=.eps)
+BMK:.endif
+GMK:endif
+ALLMPOSTOBJS+=	$(MPOSTOBJS)
+
+BMK:.for __tmp__ in ${NAME}
+BMK:.if defined(${__tmp__}_MPOSTSRCS)
+BMK:.if defined(USE_PDFLATEX)
+BMK:${__tmp__}_MPOSTOBJS?=	${${__tmp__}_MPOSTSRCS:.obj=.pdf}
+BMK:.else
+BMK:${__tmp__}_MPOSTOBJS?=	${${__tmp__}_MPOSTSRCS:.obj=.eps}
+BMK:.endif
+BMK:${__tmp__}_OTHER+=	${${__tmp__}_MPOSTOBJS}
+BMK:ALLMPOSTOBJS+=	${${__tmp__}_MPOSTOBJS}
+BMK:.endif
+BMK:${__tmp__}_DIST+=	${${__tmp__}_MPOSTSRCS} ${MPOSTSRCS}
+BMK:.endfor
+
+GMK:# note, this had to be done in two steps (create proj_MPOSTOBJS,
+GMK:# and then add to proj_OTHER and ALLMPOSTOBJS) with GNU make 3.80
+GMK:# don't really know why.
+GMK:define mpostobjs_template
+GMK:ifdef $(1)_MPOSTSRCS
+GMK:ifdef USE_PDFLATEX
+GMK:$(1)_MPOSTOBJS?=	${$(1)_MPOSTSRCS:.obj=.pdf}
+GMK:else
+GMK:$(1)_MPOSTOBJS?=	${$(1)_MPOSTSRCS:.obj=.eps}
+GMK:endif
+GMK:endif
+GMK:$(1)_DIST+=		${$(1)_MPOSTSRCS}  ${MPOSTSRCS}
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call mpostobjs_template,$(__tmp__))))
+
+GMK:define mpostdeps_template
+GMK:ifdef $(1)_MPOSTSRCS
+GMK:$(1)_OTHER+=	${$(1)_MPOSTOBJS}
+GMK:ALLMPOSTOBJS+=	${$(1)_MPOSTOBJS}
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call mpostdeps_template,$(__tmp__))))
+
+
+#######################################
+# 
+# Add the dependencies
+#
+#######################################
+
+
+OTHER+=	$(MPOSTOBJS)
+all::		$(ALLMPOSTOBJS)
+
+clean::
+BMK:.for __tmp__ in $(ALLMPOSTOBJS)
+BMK:	$(RM) -f $(__tmp__:Q)
+BMK:.endfor
+GMK:	$(RM) -f $(ALLMPOSTOBJS)
+
+#######################################
+# 
+# The suffix rules
+#
+#######################################
+
+.SUFFIXES : .obj .eps .pdf
+
+.obj.eps : 
+BMK:	$(MPOST:Q) $(MPOST_FLAGS) $(MPOST_EPS_FLAGS) $*.obj
+GMK:	$(MPOST) $(MPOST_FLAGS) $(MPOST_EPS_FLAGS) $*.obj
+
+.obj.pdf : 
+BMK:	$(MPOST:Q) $(MPOST_FLAGS) $(MPOST_PDF_FLAGS) $*.obj
+GMK:	$(MPOST) $(MPOST_FLAGS) $(MPOST_PDF_FLAGS) $*.obj
+

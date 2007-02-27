@@ -1,7 +1,7 @@
 ## -*- makefile -*-
-## $Id: Makefile.am,v 1.16 2006/01/27 17:21:00 dan Exp $
+## $Id: Makefile.am,v 1.17 2007/02/27 05:01:53 dan Exp $
 ##
-## Copyright (c) 2002, 2005, 2006 Dan McMahill
+## Copyright (c) 2002, 2005, 2006, 2007 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
@@ -34,7 +34,7 @@
 ##
 
 
-MKSRCS=	latex.mk.in latex.subdir.mk.in lgrind.mk.in tgif.mk.in xfig.mk.in
+MKSRCS=	latex.mk.in latex.subdir.mk.in lgrind.mk.in mpost.mk.in tgif.mk.in xfig.mk.in
 
 BMKFILES=	${MKSRCS:.mk.in=.mk}
 GMKFILES=	${MKSRCS:.mk.in=.gmk}

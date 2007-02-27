@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.63 2007/02/02 01:25:05 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.64 2007/02/27 05:01:54 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -343,6 +343,53 @@ BMK:.include "${LATEX_MK_DIR}/lgrind.mk"
 BMK:.endif
 GMK:ifdef _USE_LGRIND_MK
 GMK:include ${LATEX_MK_DIR}/lgrind.gmk
+GMK:endif
+
+#######################################
+#
+# Check for METAPOST
+#
+#######################################
+
+# Check for MPOSTSRCS and MPOSTDIRS
+
+BMK:.if defined(MPOSTSRCS) || defined(MPOSTDIRS)
+BMK:_USE_MPOST_MK=	YES
+BMK:.endif
+
+GMK:ifdef MPOSTSRCS
+GMK:_USE_MPOST_MK+=	YES
+GMK:endif
+GMK:ifdef MPOSTDIRS
+GMK:_USE_MPOST_MK+=	YES
+GMK:endif
+
+# Check for proj_MPOSTSRCS and proj_MPOSTDIRS
+
+BMK:.for __tmp__ in ${NAME}
+BMK:.if defined(${__tmp__}_MPOSTSRCS) || defined(${__tmp__}_MPOSTDIRS)
+BMK:_USE_MPOST_MK=	YES
+BMK:.endif
+BMK:.endfor
+
+GMK:
+GMK:define add_mpost_mk_template
+GMK:ifdef $(1)_MPOSTSRCS
+GMK:_USE_MPOST_MK=	YES
+GMK:endif
+GMK:ifdef $(1)_MPOSTDIRS
+GMK:_USE_MPOST_MK=	YES
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call add_mpost_mk_template,$(__tmp__))))
+
+# pull in mpost.[g]mk if needed
+
+BMK:.if defined(_USE_MPOST_MK)
+BMK:.include "${LATEX_MK_DIR}/mpost.mk"
+BMK:.endif
+GMK:ifdef _USE_MPOST_MK
+GMK:include ${LATEX_MK_DIR}/mpost.gmk
 GMK:endif
 
 #######################################
