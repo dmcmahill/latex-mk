@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.64 2007/02/27 05:01:54 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.65 2007/06/14 16:55:17 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -694,7 +694,11 @@ BMK:.  endif
 BMK:.endif
 BMK:${__tmp__}.html-stamp:	${__tmp__}.tex ${TEXSRCS} ${${__tmp__}_TEXSRCS} ${OTHER} ${${__tmp__}_OTHER}
 BMK:${__tmp__}.bib-stamp:	${BIBTEXSRCS} ${${__tmp__}_BIBTEXSRCS}
+BMK:.if defined(USE_PDFLATEX)
+BMK:	${ENV_PROG:Q} ${REAL_LATEX_ENV} ${LATEX_MK:Q} ${LATEX_MK_FLAGS} --pdflatex --bibtex ${__tmp__}.tex
+BMK:.else
 BMK:	${ENV_PROG:Q} ${REAL_LATEX_ENV} ${LATEX_MK:Q} ${LATEX_MK_FLAGS} --bibtex ${__tmp__}.tex
+BMK:.endif
 BMK:	touch $@
 BMK:
 BMK:ALLTEXSRCS+=	${__tmp__}.tex ${${__tmp__}_TEXSRCS}
@@ -755,7 +759,11 @@ GMK:endif
 GMK:endif
 GMK:$(1).html-stamp:	$(1).tex ${TEXSRCS} ${$(1)_TEXSRCS} ${OTHER} ${$(1)_OTHER}
 GMK:$(1).bib-stamp:	${BIBTEXSRCS} ${$(1)_BIBTEXSRCS}
+GMK:ifdef USE_PDFLATEX
+GMK:	$(ENV_PROG) $(REAL_LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) --pdflatex --bibtex $(1).tex
+GMK:else
 GMK:	$(ENV_PROG) $(REAL_LATEX_ENV) $(LATEX_MK) $(LATEX_MK_FLAGS) --bibtex $(1).tex
+GMK:endif
 GMK:	touch $(1).bib-stamp
 GMK:
 GMK:ALLTEXSRCS+=	$(1).tex ${$(1)_TEXSRCS}
