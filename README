@@ -1,4 +1,4 @@
-# $Id: README,v 1.9 2006/06/23 18:23:38 dan Exp $
+# $Id: README,v 1.10 2007/06/14 14:02:42 dan Exp $
 
 --------------------------
 Quick overview
@@ -49,7 +49,8 @@ Thanks to Karthikesh Raju for suggesting including a 'dist' target
 and for suggesting that the -draft output be supported.
 
 Thanks to Brook Milligan for suggesting that I add HTML output,
-POST_BIBTEX_HOOK, and providing general encouragement.
+POST_BIBTEX_HOOK, and providing general encouragement.  Brook also
+suggested the sweave support.
 
 Thanks to Antoine Reilles for suggesting that I add makeindex
 support and for providing a preliminary patch.
@@ -61,7 +62,9 @@ directory.
 
 Thanks to Rafael Laboissiere for suggesting that the testsuite
 run all shell scripts through 'sh -n' for a syntax check and for
-helping to track down some testsuite failures.
+helping to track down some testsuite failures.  Rafael has also
+provided several small patches found as the Debian package 
+maintainer.
 
 --------------------------
 Bugs
