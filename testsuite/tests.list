@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.30 2007/02/02 01:25:09 dan Exp $
+# $Id: tests.list,v 1.31 2007/06/14 16:54:27 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
@@ -128,6 +128,9 @@ basic_bibtexsrcs_dvi1||test.tex foo.bib|dvi TEST8=yes
 basic_bibtexsrcs_dvi2||test.tex foo.bib @ test.bib-stamp @ test.dvi @ |dvi TEST8=yes
 # this one should want to re-run
 basic_bibtexsrcs_dvi3||test.tex test.dvi @ foo.bib|dvi TEST8=yes
+#
+basic_bibtexsrcs_pdf1||test.tex foo.bib|pdf TEST8=yes
+basic_bibtexsrcs_pdf2||test.tex foo.bib|pdf TEST8=yes USE_PDFLATEX=yes
 #
 # -----------------------------------------
 # LGRINDSRCS test

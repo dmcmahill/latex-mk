@@ -1,4 +1,4 @@
-## $Id: golden.mk,v 1.24 2007/02/02 01:25:07 dan Exp $
+## $Id: golden.mk,v 1.25 2007/06/14 16:54:26 dan Exp $
 ##
 ## Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 ## All rights reserved.
@@ -37,6 +37,8 @@ GOLDEN_FILES=	\
 	basic_bibtexsrcs_dvi1.ref \
 	basic_bibtexsrcs_dvi2.ref \
 	basic_bibtexsrcs_dvi3.ref \
+	basic_bibtexsrcs_pdf1.ref \
+	basic_bibtexsrcs_pdf2.ref \
 	basic1_clean1.ref \
 	basic1_dvi1.ref \
 	basic1_dvi2.ref \
