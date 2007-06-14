@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: mpost.mk.in.in,v 1.1 2007/02/27 05:01:55 dan Exp $
+# $Id: mpost.mk.in.in,v 1.2 2007/06/14 13:30:03 dan Exp $
 #
 # Makefile fragment for processing METAPOST files to produce postscript
 #
@@ -41,27 +41,23 @@
 # README:
 #
 # To use this makefile fragment, set the variable:
-#	MPOSTSRCS	= the mpost drawing files (.obj files)
+#	MPOSTSRCS	= the METAPOST input files (.mp files)
 # in your top level Makefile.  You can also specify
 # MPOSTDIRS which is a list of directories containing
-# mpost files.  All mpost files in the specified directories
+# METAPOST files.  All mpost files in the specified directories
 # are added to MPOSTSRCS
 #
 # The following variables may be overridden in your top level Makefile
 #
-#  MPOST		  = the mpost executable
-#  MPOST_FLAGS	  = flags passed to mpost for any exporting 
-#  MPOST_EPS_FLAGS = flags passed to mpost for exporting to eps
-#  MPOST_PDF_FLAGS = flags passed to mpost for exporting to pdf
+#  MPOST	  = the METAPOST executable
+#  MPOST_FLAGS	  = flags passed to ${MPOST}
 #
 #######################################
 
 
-# how to call mpost to convert mpost files to postscript
+# how to call METAPOST
 MPOST?=		@MPOST@
-MPOST_FLAGS?=		-color -print
-MPOST_EPS_FLAGS?=	-eps
-MPOST_PDF_FLAGS?=	-pdf
+MPOST_FLAGS?=
 
 #######################################
 #
@@ -72,14 +68,14 @@ MPOST_PDF_FLAGS?=	-pdf
 BMK:.if defined(MPOSTDIRS)
 BMK:.for __tmp__ in ${MPOSTDIRS}
 BMK:.if exists(${__tmp__})
-BMK:_MPOST_ADD_${__tmp__}!=	ls ${__tmp__}/*.obj
+BMK:_MPOST_ADD_${__tmp__}!=	ls ${__tmp__}/*.mp
 BMK:MPOSTSRCS+=	${_MPOST_ADD_${__tmp__}}
 BMK:.endif
 BMK:.endfor
 BMK:.endif
 
 GMK:ifdef MPOSTDIRS
-GMK:MPOSTSRCS+= $(foreach __tmp__,$(MPOSTDIRS),$(wildcard $(__tmp__)/*.obj))
+GMK:MPOSTSRCS+= $(foreach __tmp__,$(MPOSTDIRS),$(wildcard $(__tmp__)/*.mp))
 GMK:endif
 
 #######################################
@@ -92,7 +88,7 @@ BMK:.for __name__ in ${NAME}
 BMK:.if defined(${__name__}_MPOSTDIRS)
 BMK:.for __tmp__ in ${${__name__}_MPOSTDIRS}
 BMK:.if exists(${__tmp__})
-BMK:_MPOST_ADD2_${__tmp__}!=	ls ${__tmp__}/*.obj
+BMK:_MPOST_ADD2_${__tmp__}!=	ls ${__tmp__}/*.mp
 BMK:${__name__}_MPOSTSRCS+=	${_MPOST_ADD2_${__tmp__}}
 BMK:.endif
 BMK:.endfor
@@ -101,7 +97,7 @@ BMK:.endfor
 
 GMK:define mpostdirs_template
 GMK:ifdef $(1)_MPOSTDIRS
-GMK:$(1)_MPOSTSRCS+= $(foreach __tmp2__,$($(1)_MPOSTDIRS),$(wildcard $(__tmp2__)/*.obj))
+GMK:$(1)_MPOSTSRCS+= $(foreach __tmp2__,$($(1)_MPOSTDIRS),$(wildcard $(__tmp2__)/*.mp))
 GMK:endif
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call mpostdirs_template,$(__tmp__))))
