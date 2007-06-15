@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.36 2007/02/02 01:25:04 dan Exp $
+# $Id: latex-mk.in,v 1.37 2007/06/15 20:35:49 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
 # All rights reserved.
@@ -60,7 +60,7 @@ LATEX_MK_LOG=${LOG:-latex-mk.log}
 # like BibTeX.  Because of this, we will test right away if we can write
 # to the current directory.
 
-here=`echo 'echo $cwd' | csh -s`
+here=${PWD}
 t=latex-mk.test.$$$$
 if touch ${t} 2>/dev/null ; then
 	rm -f ${t}
