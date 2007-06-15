@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.72 2007/06/15 21:44:23 dan Exp $
+@c $Id: latex-mk.texi,v 1.73 2007/06/15 23:09:06 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -1541,6 +1541,29 @@ patch.
 @subsection Version 1.9
 
 @itemize @bullet 
+
+@item Added support for per-document DVIPS_FLAGS and DVIPDFM_FLAGS.
+
+@item Avoided the use of hardcoded csh in some scripts.
+
+@item Removed claims of a BIBTEX_ENV variable in the documentation.
+It didn't do anything. 
+
+@item Added METAPOST support.
+
+@item Fixed a bug when using BibTeX and PDFLaTeX at the same time.
+
+@item Added glossary support.
+
+@item Fixed a bug with GNU make draft output.
+
+@item Put the actual installation prefix into the manual.
+
+@item Avoid a case which caused the testsuite to hang.
+
+@item Expanded the testsuite and fixed some bugs in the testsuite.
+
+@item Fix a bug in cleaning xfig and tgif output.
 
 @end itemize
 

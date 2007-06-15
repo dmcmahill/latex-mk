@@ -1,3 +1,454 @@
+2007-06-15 18:54  dan
+
+	* TODO: add sweave support
+
+2007-06-15 18:48  dan
+
+	* README.to-release: update for 1.9
+
+2007-06-15 18:47  dan
+
+	* sweave.mk.in.in: create sweave.mk.in.in by copying
+	  mpost.mk.in.in.  Not fixed up at all yet
+
+2007-06-15 17:51  dan
+
+	* testsuite/golden.mk: added some missing files
+
+2007-06-15 17:44  dan
+
+	* latex.mk.in.in, doc/latex-mk.texi, testsuite/golden.mk,
+	  testsuite/run_tests.sh, testsuite/script_tests.sh,
+	  testsuite/tests.list,
+	  testsuite/bmake_ref/multi1_dvipdfm_flag1.ref,
+	  testsuite/bmake_ref/multi1_dvips_flag1.ref,
+	  testsuite/gmake_ref/multi1_dvipdfm_flag1.ref,
+	  testsuite/gmake_ref/multi1_dvips_flag1.ref: add support for
+	  per-document DVIPS_FLAGS and DVIPDFM_FLAGS
+
+2007-06-15 16:35  dan
+
+	* latex-mk.in: use $PWD instead of some hacks involving csh.  Bug [
+	  1672001 ] latex-mk uses hardcoded csh
+
+2007-06-15 16:29  dan
+
+	* latex.mk.in.in, mpost.mk.in.in, doc/latex-mk.texi,
+	  testsuite/tests.list: remove references to BIBTEX_ENV.  It didn't
+	  work anyway.	Addresses bug report [ 1530580 ] BIBTEX_ENV seems
+	  to be a no-op
+
+2007-06-15 16:16  dan
+
+	* doc/latex-mk.texi: document metapost
+
+2007-06-15 15:48  dan
+
+	* testsuite/: golden.mk, run_tests.sh, testfile.mk.in, tests.list,
+	  bmake_ref/basic_mpostdirs1.ref, bmake_ref/basic_mpostsrcs1.ref,
+	  bmake_ref/basic_mpostsrcs2.ref, bmake_ref/basic_mpostsrcs3.ref,
+	  bmake_ref/mpostsrcs_clean1.ref, bmake_ref/mpostsrcs_clean2.ref,
+	  bmake_ref/vars_mpost.ref, gmake_ref/basic_mpostdirs1.ref,
+	  gmake_ref/basic_mpostsrcs1.ref, gmake_ref/basic_mpostsrcs2.ref,
+	  gmake_ref/basic_mpostsrcs3.ref, gmake_ref/mpostsrcs_clean1.ref,
+	  gmake_ref/mpostsrcs_clean2.ref, gmake_ref/vars_mpost.ref: add
+	  tests for mpost.mk
+
+2007-06-14 12:55  dan
+
+	* latex.mk.in.in: when running latex-mk with --bibtex, also add
+	  --pdflatex if USE_PDFLATEX is set.  From Rafael  Laboissiere
+
+2007-06-14 12:54  dan
+
+	* testsuite/: golden.mk, tests.list,
+	  bmake_ref/basic_bibtexsrcs_pdf1.ref,
+	  bmake_ref/basic_bibtexsrcs_pdf2.ref,
+	  gmake_ref/basic_bibtexsrcs_pdf1.ref,
+	  gmake_ref/basic_bibtexsrcs_pdf2.ref: add tests for bibtex when
+	  pdflatex is being used
+
+2007-06-14 10:02  dan
+
+	* README: add a few more acks
+
+2007-06-14 09:30  dan
+
+	* mpost.mk.in.in: clean up a bunch of stuff which still pointed at
+	  tgif (this file came from tgif.mk.in.in)
+
+2007-02-27 00:01  dan
+
+	* Makefile.am, configure.ac, latex.mk.in.in, mpost.mk.in.in: start
+	  work on metapost support
+
+2007-02-01 20:28  dan
+
+	* doc/latex-mk.texi: document MAKEGLS and MAKEGLS_FLAGS
+
+2007-02-01 20:25  dan
+
+	* latex-mk.in, latex.mk.in.in, testsuite/golden.mk,
+	  testsuite/run_tests.sh, testsuite/script_tests.list,
+	  testsuite/script_tests.sh, testsuite/tests.list,
+	  testsuite/bmake_ref/basic1_clean1.ref,
+	  testsuite/bmake_ref/basic1_dvi1.ref,
+	  testsuite/bmake_ref/basic1_dvi2.ref,
+	  testsuite/bmake_ref/basic1_dvipdfm_dvi1.ref,
+	  testsuite/bmake_ref/basic1_dvipdfm_dvi2.ref,
+	  testsuite/bmake_ref/basic1_dvipdfm_pdf1.ref,
+	  testsuite/bmake_ref/basic1_dvipdfm_pdf2.ref,
+	  testsuite/bmake_ref/basic1_dvipdfm_ps1.ref,
+	  testsuite/bmake_ref/basic1_dvipdfm_ps2.ref,
+	  testsuite/bmake_ref/basic1_html1.ref,
+	  testsuite/bmake_ref/basic1_html2.ref,
+	  testsuite/bmake_ref/basic1_html4.ref,
+	  testsuite/bmake_ref/basic1_html7.ref,
+	  testsuite/bmake_ref/basic1_html8.ref,
+	  testsuite/bmake_ref/basic1_landscape_dvipdfm.ref,
+	  testsuite/bmake_ref/basic1_landscape_pdf.ref,
+	  testsuite/bmake_ref/basic1_landscape_ps.ref,
+	  testsuite/bmake_ref/basic1_landscape_view.ref,
+	  testsuite/bmake_ref/basic1_landscape_viewpdf.ref,
+	  testsuite/bmake_ref/basic1_landscape_viewps.ref,
+	  testsuite/bmake_ref/basic1_pdf1.ref,
+	  testsuite/bmake_ref/basic1_pdf2.ref,
+	  testsuite/bmake_ref/basic1_pdflatex_dvi1.ref,
+	  testsuite/bmake_ref/basic1_pdflatex_dvi2.ref,
+	  testsuite/bmake_ref/basic1_pdflatex_pdf1.ref,
+	  testsuite/bmake_ref/basic1_pdflatex_pdf2.ref,
+	  testsuite/bmake_ref/basic1_pdflatex_ps1.ref,
+	  testsuite/bmake_ref/basic1_pdflatex_ps2.ref,
+	  testsuite/bmake_ref/basic1_ps1.ref,
+	  testsuite/bmake_ref/basic1_ps2.ref,
+	  testsuite/bmake_ref/basic2_dvi1.ref,
+	  testsuite/bmake_ref/basic2_dvi2.ref,
+	  testsuite/bmake_ref/basic2_dvi3.ref,
+	  testsuite/bmake_ref/basic_bibtexsrcs_dvi1.ref,
+	  testsuite/bmake_ref/basic_bibtexsrcs_dvi3.ref,
+	  testsuite/bmake_ref/basic_lgrinddirs.ref,
+	  testsuite/bmake_ref/basic_lgrinddirs2.ref,
+	  testsuite/bmake_ref/basic_lgrinddirs3.ref,
+	  testsuite/bmake_ref/basic_lgrindsrcs.ref,
+	  testsuite/bmake_ref/basic_lgrindsrcs2.ref,
+	  testsuite/bmake_ref/basic_tgifdirs.ref,
+	  testsuite/bmake_ref/basic_tgifsrcs.ref,
+	  testsuite/bmake_ref/basic_xfigdirs.ref,
+	  testsuite/bmake_ref/basic_xfigsrcs.ref,
+	  testsuite/bmake_ref/draft1.ref,
+	  testsuite/bmake_ref/graphic1_dvi1.ref,
+	  testsuite/bmake_ref/multi1_dvi1.ref,
+	  testsuite/bmake_ref/multi1_dvi2.ref,
+	  testsuite/bmake_ref/multi1_dvi3.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi1.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi2.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi3.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi4.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi5.ref,
+	  testsuite/bmake_ref/multi_lgrinddirs_dvi6.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi1.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi2.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi3.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi5.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi6.ref,
+	  testsuite/bmake_ref/multi_lgrindsrcs_dvi7.ref,
+	  testsuite/bmake_ref/multi_texsrcs_dvi1.ref,
+	  testsuite/bmake_ref/multi_texsrcs_dvi2.ref,
+	  testsuite/bmake_ref/multi_texsrcs_dvi3.ref,
+	  testsuite/bmake_ref/multi_texsrcs_dvi5.ref,
+	  testsuite/bmake_ref/multi_tgifsrcs_dvi1.ref,
+	  testsuite/bmake_ref/multi_tgifsrcs_dvi2.ref,
+	  testsuite/bmake_ref/multi_tgifsrcs_dvi3.ref,
+	  testsuite/bmake_ref/multi_tgifsrcs_dvi5.ref,
+	  testsuite/bmake_ref/tgif_pdflatex_dvi1.ref,
+	  testsuite/bmake_ref/tgifsrcs_clean.ref,
+	  testsuite/bmake_ref/vars_bibtex.ref,
+	  testsuite/bmake_ref/vars_dvipdfm.ref,
+	  testsuite/bmake_ref/vars_dvipdfm_landscape.ref,
+	  testsuite/bmake_ref/vars_dvips.ref,
+	  testsuite/bmake_ref/vars_dvips_landscape.ref,
+	  testsuite/bmake_ref/vars_gv.ref,
+	  testsuite/bmake_ref/vars_gv_landscape.ref,
+	  testsuite/bmake_ref/vars_latex.ref,
+	  testsuite/bmake_ref/vars_latex2html.ref,
+	  testsuite/bmake_ref/vars_latex2rtf.ref,
+	  testsuite/bmake_ref/vars_lgrind.ref,
+	  testsuite/bmake_ref/vars_lpr.ref,
+	  testsuite/bmake_ref/vars_makegls.ref,
+	  testsuite/bmake_ref/vars_makeindex.ref,
+	  testsuite/bmake_ref/vars_pdflatex.ref,
+	  testsuite/bmake_ref/vars_ps2pdf.ref,
+	  testsuite/bmake_ref/vars_tex2page.ref,
+	  testsuite/bmake_ref/vars_viewpdf.ref,
+	  testsuite/bmake_ref/vars_viewpdf_landscape.ref,
+	  testsuite/bmake_ref/vars_xdvi.ref,
+	  testsuite/bmake_ref/vars_xdvi_landscape.ref,
+	  testsuite/bmake_ref/xfig_pdflatex_dvi1.ref,
+	  testsuite/bmake_ref/xfigsrcs_clean.ref,
+	  testsuite/gmake_ref/basic1_clean1.ref,
+	  testsuite/gmake_ref/basic1_dvi1.ref,
+	  testsuite/gmake_ref/basic1_dvi2.ref,
+	  testsuite/gmake_ref/basic1_dvipdfm_dvi1.ref,
+	  testsuite/gmake_ref/basic1_dvipdfm_dvi2.ref,
+	  testsuite/gmake_ref/basic1_dvipdfm_pdf1.ref,
+	  testsuite/gmake_ref/basic1_dvipdfm_pdf2.ref,
+	  testsuite/gmake_ref/basic1_dvipdfm_ps1.ref,
+	  testsuite/gmake_ref/basic1_dvipdfm_ps2.ref,
+	  testsuite/gmake_ref/basic1_html1.ref,
+	  testsuite/gmake_ref/basic1_html2.ref,
+	  testsuite/gmake_ref/basic1_html4.ref,
+	  testsuite/gmake_ref/basic1_html7.ref,
+	  testsuite/gmake_ref/basic1_html8.ref,
+	  testsuite/gmake_ref/basic1_landscape_dvipdfm.ref,
+	  testsuite/gmake_ref/basic1_landscape_pdf.ref,
+	  testsuite/gmake_ref/basic1_landscape_ps.ref,
+	  testsuite/gmake_ref/basic1_landscape_view.ref,
+	  testsuite/gmake_ref/basic1_landscape_viewpdf.ref,
+	  testsuite/gmake_ref/basic1_landscape_viewps.ref,
+	  testsuite/gmake_ref/basic1_pdf1.ref,
+	  testsuite/gmake_ref/basic1_pdf2.ref,
+	  testsuite/gmake_ref/basic1_pdflatex_dvi1.ref,
+	  testsuite/gmake_ref/basic1_pdflatex_dvi2.ref,
+	  testsuite/gmake_ref/basic1_pdflatex_pdf1.ref,
+	  testsuite/gmake_ref/basic1_pdflatex_pdf2.ref,
+	  testsuite/gmake_ref/basic1_pdflatex_ps1.ref,
+	  testsuite/gmake_ref/basic1_pdflatex_ps2.ref,
+	  testsuite/gmake_ref/basic1_ps1.ref,
+	  testsuite/gmake_ref/basic1_ps2.ref,
+	  testsuite/gmake_ref/basic2_dvi1.ref,
+	  testsuite/gmake_ref/basic2_dvi2.ref,
+	  testsuite/gmake_ref/basic2_dvi3.ref,
+	  testsuite/gmake_ref/basic_bibtexsrcs_dvi1.ref,
+	  testsuite/gmake_ref/basic_bibtexsrcs_dvi3.ref,
+	  testsuite/gmake_ref/basic_lgrinddirs.ref,
+	  testsuite/gmake_ref/basic_lgrinddirs2.ref,
+	  testsuite/gmake_ref/basic_lgrinddirs3.ref,
+	  testsuite/gmake_ref/basic_lgrindsrcs.ref,
+	  testsuite/gmake_ref/basic_lgrindsrcs2.ref,
+	  testsuite/gmake_ref/basic_tgifdirs.ref,
+	  testsuite/gmake_ref/basic_tgifsrcs.ref,
+	  testsuite/gmake_ref/basic_xfigdirs.ref,
+	  testsuite/gmake_ref/basic_xfigsrcs.ref,
+	  testsuite/gmake_ref/draft1.ref,
+	  testsuite/gmake_ref/graphic1_dvi1.ref,
+	  testsuite/gmake_ref/multi1_dvi1.ref,
+	  testsuite/gmake_ref/multi1_dvi2.ref,
+	  testsuite/gmake_ref/multi1_dvi3.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi1.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi2.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi3.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi4.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi5.ref,
+	  testsuite/gmake_ref/multi_lgrinddirs_dvi6.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi1.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi2.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi3.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi5.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi6.ref,
+	  testsuite/gmake_ref/multi_lgrindsrcs_dvi7.ref,
+	  testsuite/gmake_ref/multi_texsrcs_dvi1.ref,
+	  testsuite/gmake_ref/multi_texsrcs_dvi2.ref,
+	  testsuite/gmake_ref/multi_texsrcs_dvi3.ref,
+	  testsuite/gmake_ref/multi_texsrcs_dvi5.ref,
+	  testsuite/gmake_ref/multi_tgifsrcs_dvi1.ref,
+	  testsuite/gmake_ref/multi_tgifsrcs_dvi2.ref,
+	  testsuite/gmake_ref/multi_tgifsrcs_dvi3.ref,
+	  testsuite/gmake_ref/multi_tgifsrcs_dvi5.ref,
+	  testsuite/gmake_ref/tgif_pdflatex_dvi1.ref,
+	  testsuite/gmake_ref/tgifsrcs_clean.ref,
+	  testsuite/gmake_ref/vars_bibtex.ref,
+	  testsuite/gmake_ref/vars_dvipdfm.ref,
+	  testsuite/gmake_ref/vars_dvipdfm_landscape.ref,
+	  testsuite/gmake_ref/vars_dvips.ref,
+	  testsuite/gmake_ref/vars_dvips_landscape.ref,
+	  testsuite/gmake_ref/vars_gv.ref,
+	  testsuite/gmake_ref/vars_gv_landscape.ref,
+	  testsuite/gmake_ref/vars_latex.ref,
+	  testsuite/gmake_ref/vars_latex2html.ref,
+	  testsuite/gmake_ref/vars_latex2rtf.ref,
+	  testsuite/gmake_ref/vars_lgrind.ref,
+	  testsuite/gmake_ref/vars_lpr.ref,
+	  testsuite/gmake_ref/vars_makegls.ref,
+	  testsuite/gmake_ref/vars_makeindex.ref,
+	  testsuite/gmake_ref/vars_pdflatex.ref,
+	  testsuite/gmake_ref/vars_ps2pdf.ref,
+	  testsuite/gmake_ref/vars_tex2page.ref,
+	  testsuite/gmake_ref/vars_viewpdf.ref,
+	  testsuite/gmake_ref/vars_viewpdf_landscape.ref,
+	  testsuite/gmake_ref/vars_xdvi.ref,
+	  testsuite/gmake_ref/vars_xdvi_landscape.ref,
+	  testsuite/gmake_ref/xfig_pdflatex_dvi1.ref,
+	  testsuite/gmake_ref/xfigsrcs_clean.ref,
+	  testsuite/latex_mk_ref/Makefile.am,
+	  testsuite/latex_mk_ref/basic1.ref,
+	  testsuite/latex_mk_ref/basic2.ref,
+	  testsuite/latex_mk_ref/basic4.ref,
+	  testsuite/latex_mk_ref/bibtex1.ref,
+	  testsuite/latex_mk_ref/bibtex2.ref,
+	  testsuite/latex_mk_ref/bibtex4.ref,
+	  testsuite/latex_mk_ref/bibtex5.ref,
+	  testsuite/latex_mk_ref/makegls1.ref,
+	  testsuite/latex_mk_ref/makeindex1.ref,
+	  testsuite/latex_mk_ref/makeindex2.ref,
+	  testsuite/latex_mk_ref/makeindex4.ref,
+	  testsuite/latex_mk_ref/pdf1.ref, testsuite/latex_mk_ref/pdf2.ref,
+	  testsuite/latex_mk_ref/pdf4.ref,
+	  testsuite/latex_mk_ref/vars1.ref,
+	  testsuite/latex_mk_ref/vars2.ref,
+	  testsuite/latex_mk_ref/vars3.ref,
+	  testsuite/latex_mk_ref/vars4.ref,
+	  testsuite/latex_mk_ref/vars5.ref,
+	  testsuite/latex_mk_ref/vars6.ref,
+	  testsuite/latex_mk_ref/vars7.ref, testsuite/texfiles/Makefile.am,
+	  testsuite/texfiles/nomencl.tex: Add glossary support.  Partial
+	  patch from Recai Oktaş (roktas at debian dot org).  I updated the
+	  testsuite since a new variable has been added to the latex-mk run
+	  environments.
+
+2007-01-31 07:56  dan
+
+	* testsuite/: tests.list, bmake_ref/draft1.ref,
+	  gmake_ref/draft1.ref: override the DATED_DRAFT variable to make
+	  sure we don't embed a build (or worse yet, my home directory)
+	  path into the reference and/or log file.
+
+2007-01-30 22:35  dan
+
+	* latex.mk.in.in, testsuite/golden.mk, testsuite/tests.list,
+	  testsuite/bmake_ref/draft1.ref, testsuite/gmake_ref/draft1.ref:
+	  Add a testsuite entry for the foo-draft.ps target.  This shows
+	  sourceforge bugs 1645713 and 1645718.  Fix both of these bugs.
+	  The former is a typo on my part, the latter seems to be a GNU
+	  make bug, but the workaround is easy so do that.
+
+2007-01-30 22:21  dan
+
+	* latex.mk.in.in: add a missing : after a GMK.	Sourceforge bug
+	  1645713
+
+2007-01-30 22:13  dan
+
+	* latex.mk.in.in, testsuite/tests.list, doc/latex-mk.texi: forgot
+	  to bump copyright date on last commit
+
+2007-01-30 22:12  dan
+
+	* latex.mk.in.in, doc/latex-mk.texi, testsuite/tests.list,
+	  testsuite/bmake_ref/basic1_dvipdfm_ps1.ref,
+	  testsuite/bmake_ref/basic1_dvipdfm_ps2.ref,
+	  testsuite/bmake_ref/basic1_landscape_pdf.ref,
+	  testsuite/bmake_ref/basic1_landscape_ps.ref,
+	  testsuite/bmake_ref/basic1_landscape_viewpdf.ref,
+	  testsuite/bmake_ref/basic1_landscape_viewps.ref,
+	  testsuite/bmake_ref/basic1_pdf1.ref,
+	  testsuite/bmake_ref/basic1_pdf2.ref,
+	  testsuite/bmake_ref/basic1_pdflatex_ps1.ref,
+	  testsuite/bmake_ref/basic1_pdflatex_ps2.ref,
+	  testsuite/bmake_ref/basic1_ps1.ref,
+	  testsuite/bmake_ref/basic1_ps2.ref,
+	  testsuite/bmake_ref/vars_dvips.ref,
+	  testsuite/bmake_ref/vars_dvips_landscape.ref,
+	  testsuite/bmake_ref/vars_gv.ref,
+	  testsuite/bmake_ref/vars_gv_landscape.ref,
+	  testsuite/bmake_ref/vars_lpr.ref,
+	  testsuite/bmake_ref/vars_ps2pdf.ref,
+	  testsuite/bmake_ref/vars_viewpdf.ref,
+	  testsuite/bmake_ref/vars_viewpdf_landscape.ref,
+	  testsuite/gmake_ref/basic1_dvipdfm_ps1.ref,
+	  testsuite/gmake_ref/basic1_dvipdfm_ps2.ref,
+	  testsuite/gmake_ref/basic1_landscape_pdf.ref,
+	  testsuite/gmake_ref/basic1_landscape_ps.ref,
+	  testsuite/gmake_ref/basic1_landscape_viewpdf.ref,
+	  testsuite/gmake_ref/basic1_landscape_viewps.ref,
+	  testsuite/gmake_ref/basic1_pdf1.ref,
+	  testsuite/gmake_ref/basic1_pdf2.ref,
+	  testsuite/gmake_ref/basic1_pdflatex_ps1.ref,
+	  testsuite/gmake_ref/basic1_pdflatex_ps2.ref,
+	  testsuite/gmake_ref/basic1_ps1.ref,
+	  testsuite/gmake_ref/basic1_ps2.ref,
+	  testsuite/gmake_ref/vars_dvips.ref,
+	  testsuite/gmake_ref/vars_dvips_landscape.ref,
+	  testsuite/gmake_ref/vars_gv.ref,
+	  testsuite/gmake_ref/vars_gv_landscape.ref,
+	  testsuite/gmake_ref/vars_lpr.ref,
+	  testsuite/gmake_ref/vars_ps2pdf.ref,
+	  testsuite/gmake_ref/vars_viewpdf.ref,
+	  testsuite/gmake_ref/vars_viewpdf_landscape.ref: Add a DVIPS_ENV
+	  variable, document it, and update the testsuite accordingly.	The
+	  idea and basic patch came from Steven Mestdagh - steven.mestdagh
+	  at esat kuleuven be The documentation and testsuite updates are
+	  from me.
+
+2007-01-30 21:39  dan
+
+	* configure.ac, doc/latex-mk.texi, doc/prefix.texi.in: Put the
+	  actual installation prefix into the manual.  Patch from Rafael
+	  Laboissiere.
+
+2006-11-26 19:13  dan
+
+	* testsuite/script_tests.sh: When executing latex-mk, redirect
+	  stdin to /dev/null (< /dev/null) to avoid tex possibly sitting
+	  waiting for user input.  Patch suggested by Rafael Laboissiere
+	  from Debian.
+
+2006-09-21 10:02  dan
+
+	* testsuite/script_tests.sh: Be sure to eat white space in the
+	  return value field in the test list file.  Otherwise a " " gets
+	  fed to   test $? -ne " "
+
+2006-09-21 09:52  dan
+
+	* testsuite/: bmake_ref/xfigsrcs_clean.ref, golden.mk,
+	  gmake_ref/xfigsrcs_clean.ref, tests.list: add xfigsrcs_clean test
+	  as a result of a bug in removing xfig output files.
+
+2006-09-21 09:49  dan
+
+	* xfig.mk.in.in: fix a bug in cleaning files created via XFIGSRCS
+
+2006-09-21 09:48  dan
+
+	* tgif.mk.in.in: fix a bug in cleaning files created via TGIFSRCS
+
+2006-09-21 09:47  dan
+
+	* testsuite/: bmake_ref/tgifsrcs_clean.ref, tests.list,
+	  gmake_ref/tgifsrcs_clean.ref, golden.mk: add tgifsrcs_clean test
+	  as a result of a bug in cleaning files created via TGIFSRCS
+
+2006-06-23 14:23  dan
+
+	* README: note that Rafael helped with testsuite issues
+
+2006-06-23 14:22  dan
+
+	* testsuite/: script_tests.list, script_tests.sh: skip some tests
+	  when run as root since they will fail (root can write to a 555
+	  directory)
+
+2006-06-23 09:09  dan
+
+	* testsuite/: run_tests.sh, script_tests.sh: use diff -w to ignore
+	  white space differences due to different makes.  Also avoide csh
+
+2006-06-22 23:50  dan
+
+	* configure.ac: welcome to 1.8A
+
+2006-06-22 14:46  dan
+
+	* configure.ac: set version for 1.8
+
+2006-06-22 14:42  dan
+
+	* NEWS: one last 1.8 news item
+
+2006-06-22 14:33  dan
+
+	* ChangeLog: update for 1.8 release
+
 2006-06-22 14:25  dan
 
 	* README: add one more acknowledgement
