@@ -1,0 +1,4 @@
+mpost   mpdir1/f1.mp
+mpost   mpdir1/f2.mp
+mpost   mpdir2/f3.mp
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test3.tex

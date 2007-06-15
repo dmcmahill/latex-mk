@@ -1,0 +1,17 @@
+mpost   figs1.mp
+for f in figs1.ps figs1.[0-9]* "" ; do \
+	if test "X$f" != "X" ; then \
+		fn=`basename $f .ps` ; \
+		fn=${fn}.pdf ; \
+		ps2pdf  $f $fn ; \
+	fi ; \
+done
+mpost   figs2.mp
+for f in figs2.ps figs2.[0-9]* "" ; do \
+	if test "X$f" != "X" ; then \
+		fn=`basename $f .ps` ; \
+		fn=${fn}.pdf ; \
+		ps2pdf  $f $fn ; \
+	fi ; \
+done
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test2.tex

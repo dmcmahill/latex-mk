@@ -1,4 +1,4 @@
-## $Id: golden.mk,v 1.25 2007/06/14 16:54:26 dan Exp $
+## $Id: golden.mk,v 1.26 2007/06/15 19:48:32 dan Exp $
 ##
 ## Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 ## All rights reserved.
@@ -77,6 +77,10 @@ GOLDEN_FILES=	\
 	basic_lgrinddirs3.ref \
 	basic_lgrindsrcs.ref \
 	basic_lgrindsrcs2.ref \
+	basic_mpostdirs1.ref \
+	basic_mpostsrcs1.ref \
+	basic_mpostsrcs2.ref \
+	basic_mpostsrcs3.ref \
 	basic_tgifdirs.ref \
 	basic_tgifsrcs.ref \
 	basic_xfigdirs.ref \
@@ -137,6 +141,7 @@ GOLDEN_FILES=	\
 	vars_lpr.ref \
 	vars_makegls.ref \
 	vars_makeindex.ref \
+	vars_mpost.ref \
 	vars_pdflatex.ref \
 	vars_ps2pdf.ref \
 	vars_tex2page.ref \

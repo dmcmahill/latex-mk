@@ -1,7 +1,7 @@
 # -*- Makefile -*-
-# $Id: testfile.mk.in,v 1.10 2006/01/27 19:43:33 dan Exp $
+# $Id: testfile.mk.in,v 1.11 2007/06/15 19:48:33 dan Exp $
 #
-# Copyright (c) 2003, 2004, 2005, 2006 Dan McMahill
+# Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
 #
 # This code is derived from software written by Dan McMahill
@@ -104,6 +104,36 @@ GMK:ifdef TEST3A
 
 NAME= test3
 LGRINDDIRS=	lgrinddir1 lgrinddir2
+
+BMK:.endif
+GMK:endif
+
+#######################################
+# 
+# TEST #2B (simple with MPOSTSRCS)
+#
+#######################################
+
+BMK:.if defined(TEST2B)
+GMK:ifdef TEST2B
+
+NAME= test2
+MPOSTSRCS=	figs1.mp figs2.mp
+
+BMK:.endif
+GMK:endif
+
+#######################################
+# 
+# TEST #3B (simple with MPOSTDIRS)
+#
+#######################################
+
+BMK:.if defined(TEST3B)
+GMK:ifdef TEST3B
+
+NAME= test3
+MPOSTDIRS=	mpdir1 mpdir2
 
 BMK:.endif
 GMK:endif

@@ -1,0 +1,3 @@
+mympost mympost_flags  figs1.mp
+mympost mympost_flags  figs2.mp
+env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test2.tex

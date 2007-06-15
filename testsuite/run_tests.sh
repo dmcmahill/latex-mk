@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.25 2007/02/02 01:25:07 dan Exp $
+# $Id: run_tests.sh,v 1.26 2007/06/15 19:48:33 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
@@ -140,6 +140,8 @@ MAKEGLS=makeindex
 MAKEGLS_FLAGS=
 MAKEIDX=makeindex
 MAKEIDX_FLAGS=
+MPOST=mpost
+MPOST_FLAGS=
 PDFLATEX=pdflatex
 PDFLATEX_ENV=
 PDFLATEX_FLAGS=
@@ -193,6 +195,8 @@ export MAKEGLS
 export MAKEGLS_FLAGS
 export MAKEIDX
 export MAKEIDX_FLAGS
+export MPOST
+export MPOST_FLAGS
 export PDFLATEX
 export PDFLATEX_ENV
 export PDFLATEX_FLAGS

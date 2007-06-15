@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.31 2007/06/14 16:54:27 dan Exp $
+# $Id: tests.list,v 1.32 2007/06/15 19:48:34 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
@@ -151,6 +151,23 @@ basic_lgrinddirs2|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/s
 basic_lgrinddirs3|lgrinddir1 lgrinddir2|test3.tex lgrinddir1/src1.c lgrinddir1/src1.h lgrinddir2/src3.c |dvi TEST3A=yes lgrinddir1_LGRIND_FLAGS=-mydir1flags lgrinddir1/src1.h_LGRIND_FLAGS=-mysrcflag
 #
 # -----------------------------------------
+# MPOSTSRCS test
+# -----------------------------------------
+#
+basic_mpostsrcs1||test2.tex figs1.mp figs2.mp |dvi TEST2B=yes
+basic_mpostsrcs2||test2.tex figs1.mp figs2.mp |dvi TEST2B=yes USE_PDFLATEX=yes
+basic_mpostsrcs3||test2.tex figs1.mp figs2.mp |dvi TEST2B=yes MPOST_TWICE=yes
+mpostsrcs_clean1||test2.tex figs1.mp figs2.mp |clean TEST2B=yes
+mpostsrcs_clean2||test2.tex figs1.mp figs2.mp |clean TEST2B=yes USE_PDFLATEX=yes
+#
+# -----------------------------------------
+# MPOSTDIRS test
+# -----------------------------------------
+#
+basic_mpostdirs1|mpdir1 mpdir2|test3.tex mpdir1/f1.mp mpdir1/f2.mp mpdir2/f3.mp |dvi TEST3B=yes
+#
+#
+# -----------------------------------------
 # TGIFSRCS test
 # -----------------------------------------
 #
@@ -241,6 +258,10 @@ vars_makegls||test1.tex|dvi TEST1=yes MAKEGLS=mymakegls MAKEGLS_FLAGS=mymakegls_
 #  MAKEIDX      = makeindex executable
 #  MAKEIDX_FLAGS= flags passed to the makeindex executable
 vars_makeindex||test1.tex|dvi TEST1=yes MAKEIDX=mymakeindex MAKEIDX_FLAGS=mymakeindex_flags
+#
+#  MPOST	  = the METAPOST executable
+#  MPOST_FLAGS	  = flags passed to ${MPOST}
+vars_mpost||test2.tex figs1.mp figs2.mp|dvi TEST2B=yes MPOST=mympost MPOST_FLAGS=mympost_flags
 #
 #  PDFLATEX     = pdflatex executable
 #  PDFLATEX_ENV = environment variables set when running the PDFLaTeX executable
