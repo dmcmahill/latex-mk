@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.65 2007/06/14 16:55:17 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.66 2007/06/15 20:29:11 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -53,7 +53,6 @@
 # The following variables may be overridden in your top level Makefile
 #
 #  BIBTEX	= the BibTeX executable
-#  BIBTEX_ENV	= environment variables set when running the BibTeX executable
 #  BIBEX_FLAGS	= flags passed to the BibTeX executable
 #  CONVERT      = the 'convert' program which is part of ImageMagick
 #  DVIPDFM      = the dvipdfm executable

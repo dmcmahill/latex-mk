@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.32 2007/06/15 19:48:34 dan Exp $
+# $Id: tests.list,v 1.33 2007/06/15 20:29:14 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
@@ -201,8 +201,7 @@ basic_xfigdirs|xfigdir1 xfigdir2|test.tex xfigdir1/xfiga.fig xfigdir1/xfigb.fig 
 #
 #  BIBTEX	= the BibTeX executable
 #  BIBTEX_ENV	= environment variables set when running the BibTeX executable
-#  BIBTEX_FLAGS	= flags passed to the BibTeX executable
-vars_bibtex||test1.tex|dvi TEST1=yes BIBTEX=mybibtex BIBTEX_FLAGS=mybibtex_flags BIBTEX_ENV=foo=bar
+vars_bibtex||test1.tex|dvi TEST1=yes BIBTEX=mybibtex BIBTEX_FLAGS=mybibtex_flags
 #
 #  DVIPDFM      = the dvipdfm executable
 #  DVIPDFM_ENV  = environment variables set when running the dvipdfm executable

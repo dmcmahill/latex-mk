@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.70 2007/06/15 20:16:19 dan Exp $
+@c $Id: latex-mk.texi,v 1.71 2007/06/15 20:29:13 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -432,12 +432,8 @@ The bibtex executible.  Defaults to @samp{bibtex}.
 @end defvar
 
 @defvar BIBTEX_ENV
-A list of variables to be set in the environment when bibtex
-is run.  For example:
-@example
-BIBTEX_ENV+=	BIBINPUTS=.:/home/usr/bib:
-@end example
-Defaults to @samp{}.
+Deprecated.  Actually this variable did not work correctly anyway.
+Use LATEX_ENV to set variables for both LaTeX and bibTeX runs.
 @end defvar
 
 @defvar BIBTEX_FLAGS
@@ -1043,6 +1039,7 @@ By default META-post is run once for each of its input files.  Setting
 this variable will cause META-post to run twice on each input file.
 Some figures may require this and I haven't figured out if there is a
 way to automatically make this determination like there is with LaTeX.
+@end defvar
 
 @subsection Per-Project Tgif Variables
 @defvar TGIFSRCS
@@ -1536,6 +1533,12 @@ patch.
 @subsection Version 1.9
 
 @itemize @bullet 
+
+@end itemize
+
+@c ********************************************************
+@c ******************* end of history *********************
+@c ********************************************************
 
 @page
 @node Target Index, Variable Index, History, Top

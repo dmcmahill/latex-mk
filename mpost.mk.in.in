@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: mpost.mk.in.in,v 1.2 2007/06/14 13:30:03 dan Exp $
+# $Id: mpost.mk.in.in,v 1.3 2007/06/15 20:29:12 dan Exp $
 #
 # Makefile fragment for processing METAPOST files to produce postscript
 #
@@ -109,26 +109,13 @@ GMK:$(foreach __tmp__,$(NAME),$(eval $(call mpostdirs_template,$(__tmp__))))
 #
 #######################################
 
-# if we are using pdflatex, then don't bother with the .eps files
-# but create .pdf files instead
 
-BMK:.if defined(USE_PDFLATEX)
-GMK:ifdef USE_PDFLATEX
-MPOSTOBJS?=      $(MPOSTSRCS:.obj=.pdf)
-BMK:.else
-GMK:else
-MPOSTOBJS?=      $(MPOSTSRCS:.obj=.eps)
-BMK:.endif
-GMK:endif
+MPOSTOBJS?=      $(MPOSTSRCS:.mp=.mpx)
 ALLMPOSTOBJS+=	$(MPOSTOBJS)
 
 BMK:.for __tmp__ in ${NAME}
 BMK:.if defined(${__tmp__}_MPOSTSRCS)
-BMK:.if defined(USE_PDFLATEX)
-BMK:${__tmp__}_MPOSTOBJS?=	${${__tmp__}_MPOSTSRCS:.obj=.pdf}
-BMK:.else
-BMK:${__tmp__}_MPOSTOBJS?=	${${__tmp__}_MPOSTSRCS:.obj=.eps}
-BMK:.endif
+BMK:${__tmp__}_MPOSTOBJS?=	${${__tmp__}_MPOSTSRCS:.mp=.mpx}
 BMK:${__tmp__}_OTHER+=	${${__tmp__}_MPOSTOBJS}
 BMK:ALLMPOSTOBJS+=	${${__tmp__}_MPOSTOBJS}
 BMK:.endif
@@ -140,11 +127,7 @@ GMK:# and then add to proj_OTHER and ALLMPOSTOBJS) with GNU make 3.80
 GMK:# don't really know why.
 GMK:define mpostobjs_template
 GMK:ifdef $(1)_MPOSTSRCS
-GMK:ifdef USE_PDFLATEX
-GMK:$(1)_MPOSTOBJS?=	${$(1)_MPOSTSRCS:.obj=.pdf}
-GMK:else
-GMK:$(1)_MPOSTOBJS?=	${$(1)_MPOSTSRCS:.obj=.eps}
-GMK:endif
+GMK:$(1)_MPOSTOBJS?=	${$(1)_MPOSTSRCS:.mp=.mpx}
 GMK:endif
 GMK:$(1)_DIST+=		${$(1)_MPOSTSRCS}  ${MPOSTSRCS}
 GMK:endef
@@ -169,11 +152,27 @@ GMK:$(foreach __tmp__,$(NAME),$(eval $(call mpostdeps_template,$(__tmp__))))
 OTHER+=	$(MPOSTOBJS)
 all::		$(ALLMPOSTOBJS)
 
+
+# we do this funny thing because neither BSD make nor GNU make
+# seem to like make conditionals in the middle of shell code
+BMK:.if defined(USE_PDFLATEX)
+GMK:ifdef USE_PDFLATEX
+_MPOST_PDF_REMOVE_=	$$fn
+BMK:.endif
+GMK:endif
+
 clean::
 BMK:.for __tmp__ in $(ALLMPOSTOBJS)
 BMK:	$(RM) -f $(__tmp__:Q)
 BMK:.endfor
 GMK:	$(RM) -f $(ALLMPOSTOBJS)
+	for f in $*.ps $*.[0-9]* "" ; do \
+		if test "X$$f" != "X" ; then \
+			fn=`basename $$f .ps` ; \
+			fn=$${fn}.pdf ; \
+			$(RM) -f $$f ${_MPOST_PDF_REMOVE_}; \
+		fi ; \
+	done
 
 #######################################
 # 
@@ -181,13 +180,31 @@ GMK:	$(RM) -f $(ALLMPOSTOBJS)
 #
 #######################################
 
-.SUFFIXES : .obj .eps .pdf
+.SUFFIXES : .mp .mpx 
 
-.obj.eps : 
-BMK:	$(MPOST:Q) $(MPOST_FLAGS) $(MPOST_EPS_FLAGS) $*.obj
-GMK:	$(MPOST) $(MPOST_FLAGS) $(MPOST_EPS_FLAGS) $*.obj
+# if we are using pdflatex, then we probably need to convert our
+# postscript output to PDF
 
-.obj.pdf : 
-BMK:	$(MPOST:Q) $(MPOST_FLAGS) $(MPOST_PDF_FLAGS) $*.obj
-GMK:	$(MPOST) $(MPOST_FLAGS) $(MPOST_PDF_FLAGS) $*.obj
+.mp.mpx : 
+BMK:	$(MPOST:Q) $(MPOST_FLAGS) $(MPOST_EPS_FLAGS) $*.mp
+GMK:	$(MPOST) $(MPOST_FLAGS) $(MPOST_EPS_FLAGS) $*.mp
+BMK:.if defined(MPOST_TWICE)
+GMK:ifdef MPOST_TWICE
+BMK:	$(MPOST:Q) $(MPOST_FLAGS) $(MPOST_EPS_FLAGS) $*.mp
+GMK:	$(MPOST) $(MPOST_FLAGS) $(MPOST_EPS_FLAGS) $*.mp
+BMK:.endif
+GMK:endif
+BMK:.if defined(USE_PDFLATEX)
+GMK:ifdef USE_PDFLATEX
+	for f in $*.ps $*.[0-9]* "" ; do \
+		if test "X$$f" != "X" ; then \
+			fn=`basename $$f .ps` ; \
+			fn=$${fn}.pdf ; \
+BMK:			${PS2PDF:Q} ${PS2PDF_FLAGS} $$f $$fn ; \
+GMK:			${PS2PDF} ${PS2PDF_FLAGS} $$f $$fn ; \
+		fi ; \
+	done
+BMK:.endif
+GMK:endif
+
 
