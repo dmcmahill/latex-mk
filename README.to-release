@@ -1,4 +1,4 @@
-$Id: README.to-release,v 1.9 2007/06/15 22:48:57 dan Exp $
+$Id: README.to-release,v 1.10 2007/06/15 23:34:09 dan Exp $
 
 To make a latex-mk release do the following:
 
@@ -11,7 +11,7 @@ To make a latex-mk release do the following:
 =)	Update ChangeLog with 'cvs2cl.pl'
 
 =)	Update doc/latex-mk.texi, htdocs/index.shtml, htdocs/news.shtml,
-	htdocs/history.shtml with release notes.
+	htdocs/history.shtml, NEWS with release notes.
 
 =)	# make sure it makes distfiles ok after the doc updates:
 	gmake distclean ; ./autogen.sh  --enable-maintainer-mode && gmake distcheck
