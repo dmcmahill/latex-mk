@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.69 2007/02/02 01:28:02 dan Exp $
+@c $Id: latex-mk.texi,v 1.70 2007/06/15 20:16:19 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -646,6 +646,16 @@ A list of flags to be passed to the MAKEIDX executible.
 Defaults to @samp{}.
 @end defvar
 
+@defvar MPOST
+The METApost executible.
+Defaults to @samp{mpost}.
+@end defvar
+
+@defvar MPOST_FLAGS
+A list of flags to be passed to the MPOST executible.
+Defaults to @samp{}.
+@end defvar
+
 @defvar PDFLATEX
 The PDFLaTeX executible.
 Defaults to @samp{pdflatex}.
@@ -1011,6 +1021,28 @@ srcs/funny.c_LGRIND_FLAGS=      -t 8
 @end example
 
 @end defvar
+
+@subsection Per-Project META-post Variables
+@defvar MPOSTSRCS
+All files listed in this variable are assumed to be META-post @file{.mp}
+files.  Listing files in this variable will cause a dependency to be
+added to the top level project and will cause these files to be
+automatically re-exported to Postscript and/or PDF as required.
+@end defvar
+
+@defvar MPOSTDIRS
+A list of directories containing META-post figured can be listed in this
+variable.  All @file{.mp} files found in those directories are assumed
+to be META-post @file{.mp} files.  These files will be added to the top
+level dependency list and will be
+automatically re-exported to Postscript and/or PDF as required.
+@end defvar
+
+@defvar MPOST_TWICE
+By default META-post is run once for each of its input files.  Setting
+this variable will cause META-post to run twice on each input file.
+Some figures may require this and I haven't figured out if there is a
+way to automatically make this determination like there is with LaTeX.
 
 @subsection Per-Project Tgif Variables
 @defvar TGIFSRCS
@@ -1496,6 +1528,14 @@ patch.
 @item Improve and expand the testsuite for the @code{latex-mk} script.
 
 @end itemize
+
+@c ********************************************************
+@c ********************** VERSION 1.9 *********************
+@c ********************************************************
+
+@subsection Version 1.9
+
+@itemize @bullet 
 
 @page
 @node Target Index, Variable Index, History, Top
