@@ -1,0 +1,210 @@
+# -*- Makefile -*-
+# $Id: sweave.mk.in.in,v 1.1 2007/06/15 22:47:37 dan Exp $
+#
+# Makefile fragment for processing METAPOST files to produce postscript
+#
+# Copyright (c) 2007 Dan McMahill
+# All rights reserved.
+#
+# This code is derived from software written by Dan McMahill
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by Dan McMahill
+#  4. The name of the author may not be used to endorse or promote products
+#     derived from this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+#  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+#  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+#  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+#  SUCH DAMAGE.
+#
+
+
+#######################################
+#
+# README:
+#
+# To use this makefile fragment, set the variable:
+#	SWEAVESRCS	= the METAPOST input files (.mp files)
+# in your top level Makefile.  You can also specify
+# SWEAVEDIRS which is a list of directories containing
+# METAPOST files.  All sweave files in the specified directories
+# are added to SWEAVESRCS
+#
+# The following variables may be overridden in your top level Makefile
+#
+#  SWEAVE	  = the METAPOST executable
+#  SWEAVE_FLAGS	  = flags passed to ${SWEAVE}
+#
+#######################################
+
+
+# how to call METAPOST
+SWEAVE?=		@SWEAVE@
+SWEAVE_FLAGS?=
+
+#######################################
+#
+# Process SWEAVEDIRS, adding to SWEAVESRCS
+#
+#######################################
+
+BMK:.if defined(SWEAVEDIRS)
+BMK:.for __tmp__ in ${SWEAVEDIRS}
+BMK:.if exists(${__tmp__})
+BMK:_SWEAVE_ADD_${__tmp__}!=	ls ${__tmp__}/*.mp
+BMK:SWEAVESRCS+=	${_SWEAVE_ADD_${__tmp__}}
+BMK:.endif
+BMK:.endfor
+BMK:.endif
+
+GMK:ifdef SWEAVEDIRS
+GMK:SWEAVESRCS+= $(foreach __tmp__,$(SWEAVEDIRS),$(wildcard $(__tmp__)/*.mp))
+GMK:endif
+
+#######################################
+#
+# Process proj_SWEAVEDIRS, adding to proj_SWEAVESRCS
+#
+#######################################
+
+BMK:.for __name__ in ${NAME}
+BMK:.if defined(${__name__}_SWEAVEDIRS)
+BMK:.for __tmp__ in ${${__name__}_SWEAVEDIRS}
+BMK:.if exists(${__tmp__})
+BMK:_SWEAVE_ADD2_${__tmp__}!=	ls ${__tmp__}/*.mp
+BMK:${__name__}_SWEAVESRCS+=	${_SWEAVE_ADD2_${__tmp__}}
+BMK:.endif
+BMK:.endfor
+BMK:.endif
+BMK:.endfor
+
+GMK:define sweavedirs_template
+GMK:ifdef $(1)_SWEAVEDIRS
+GMK:$(1)_SWEAVESRCS+= $(foreach __tmp2__,$($(1)_SWEAVEDIRS),$(wildcard $(__tmp2__)/*.mp))
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call sweavedirs_template,$(__tmp__))))
+
+#######################################
+# 
+# Process proj_SWEAVESRCS to add to
+# proj_OTHER dependencies
+#
+#######################################
+
+
+SWEAVEOBJS?=      $(SWEAVESRCS:.mp=.mpx)
+ALLSWEAVEOBJS+=	$(SWEAVEOBJS)
+
+BMK:.for __tmp__ in ${NAME}
+BMK:.if defined(${__tmp__}_SWEAVESRCS)
+BMK:${__tmp__}_SWEAVEOBJS?=	${${__tmp__}_SWEAVESRCS:.mp=.mpx}
+BMK:${__tmp__}_OTHER+=	${${__tmp__}_SWEAVEOBJS}
+BMK:ALLSWEAVEOBJS+=	${${__tmp__}_SWEAVEOBJS}
+BMK:.endif
+BMK:${__tmp__}_DIST+=	${${__tmp__}_SWEAVESRCS} ${SWEAVESRCS}
+BMK:.endfor
+
+GMK:# note, this had to be done in two steps (create proj_SWEAVEOBJS,
+GMK:# and then add to proj_OTHER and ALLSWEAVEOBJS) with GNU make 3.80
+GMK:# don't really know why.
+GMK:define sweaveobjs_template
+GMK:ifdef $(1)_SWEAVESRCS
+GMK:$(1)_SWEAVEOBJS?=	${$(1)_SWEAVESRCS:.mp=.mpx}
+GMK:endif
+GMK:$(1)_DIST+=		${$(1)_SWEAVESRCS}  ${SWEAVESRCS}
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call sweaveobjs_template,$(__tmp__))))
+
+GMK:define sweavedeps_template
+GMK:ifdef $(1)_SWEAVESRCS
+GMK:$(1)_OTHER+=	${$(1)_SWEAVEOBJS}
+GMK:ALLSWEAVEOBJS+=	${$(1)_SWEAVEOBJS}
+GMK:endif
+GMK:endef
+GMK:$(foreach __tmp__,$(NAME),$(eval $(call sweavedeps_template,$(__tmp__))))
+
+
+#######################################
+# 
+# Add the dependencies
+#
+#######################################
+
+
+OTHER+=	$(SWEAVEOBJS)
+all::		$(ALLSWEAVEOBJS)
+
+
+# we do this funny thing because neither BSD make nor GNU make
+# seem to like make conditionals in the middle of shell code
+BMK:.if defined(USE_PDFLATEX)
+GMK:ifdef USE_PDFLATEX
+_SWEAVE_PDF_REMOVE_=	$$fn
+BMK:.endif
+GMK:endif
+
+clean::
+BMK:.for __tmp__ in $(ALLSWEAVEOBJS)
+BMK:	$(RM) -f $(__tmp__:Q)
+BMK:.endfor
+GMK:	$(RM) -f $(ALLSWEAVEOBJS)
+	for f in $*.ps $*.[0-9]* "" ; do \
+		if test "X$$f" != "X" ; then \
+			fn=`basename $$f .ps` ; \
+			fn=$${fn}.pdf ; \
+			$(RM) -f $$f ${_SWEAVE_PDF_REMOVE_}; \
+		fi ; \
+	done
+
+#######################################
+# 
+# The suffix rules
+#
+#######################################
+
+.SUFFIXES : .mp .mpx 
+
+# if we are using pdflatex, then we probably need to convert our
+# postscript output to PDF
+
+.mp.mpx : 
+BMK:	$(SWEAVE:Q) $(SWEAVE_FLAGS) $(SWEAVE_EPS_FLAGS) $*.mp
+GMK:	$(SWEAVE) $(SWEAVE_FLAGS) $(SWEAVE_EPS_FLAGS) $*.mp
+BMK:.if defined(SWEAVE_TWICE)
+GMK:ifdef SWEAVE_TWICE
+BMK:	$(SWEAVE:Q) $(SWEAVE_FLAGS) $(SWEAVE_EPS_FLAGS) $*.mp
+GMK:	$(SWEAVE) $(SWEAVE_FLAGS) $(SWEAVE_EPS_FLAGS) $*.mp
+BMK:.endif
+GMK:endif
+BMK:.if defined(USE_PDFLATEX)
+GMK:ifdef USE_PDFLATEX
+	for f in $*.ps $*.[0-9]* "" ; do \
+		if test "X$$f" != "X" ; then \
+			fn=`basename $$f .ps` ; \
+			fn=$${fn}.pdf ; \
+BMK:			${PS2PDF:Q} ${PS2PDF_FLAGS} $$f $$fn ; \
+GMK:			${PS2PDF} ${PS2PDF_FLAGS} $$f $$fn ; \
+		fi ; \
+	done
+BMK:.endif
+GMK:endif
+
+
