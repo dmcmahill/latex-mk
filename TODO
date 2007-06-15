@@ -1,4 +1,4 @@
-# $Id: TODO,v 1.7 2006/01/31 13:24:40 dan Exp $
+# $Id: TODO,v 1.8 2007/06/15 22:54:32 dan Exp $
 #
 
 LaTeX-Mk Unofficial TODO List
@@ -10,4 +10,6 @@ LaTeX-Mk Unofficial TODO List
 
 - improve variable quoting all over the place to deal with spaces
   in file names or path names.
+
+- add sweave support (sweave is part of R)
 
