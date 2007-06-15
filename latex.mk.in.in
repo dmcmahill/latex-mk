@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: latex.mk.in.in,v 1.66 2007/06/15 20:29:11 dan Exp $ 
+# $Id: latex.mk.in.in,v 1.67 2007/06/15 21:44:22 dan Exp $ 
 #
 # Makefile fragment for handling LaTeX projects
 #
@@ -537,7 +537,7 @@ BMK:DEFAULTVIEWPS_DRAFT?=	viewps_${__tmp__}-draft
 BMK:ALLVIEWPS_DRAFT+=	viewps_${__tmp__}-draft
 BMK:${__tmp__}-draft.ps: ${__tmp__}.dvi ${DATED_DRAFT_PS}
 BMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS:Q} > ${DRAFT_STAMP_PS:Q}
-BMK:	${ENV_PROG:Q} ${DVIPS_ENV} ${DVIPS:Q} -h ${DRAFT_STAMP_PS:Q} ${DVIPS_FLAGS} -o $@ ${__tmp__}.dvi
+BMK:	${ENV_PROG:Q} ${DVIPS_ENV} ${DVIPS:Q} -h ${DRAFT_STAMP_PS:Q} ${$*_DVIPS_FLAGS} ${DVIPS_FLAGS} -o $@ ${__tmp__}.dvi
 BMK:.endfor
 
 GMK:define viewps_template
@@ -553,7 +553,7 @@ GMK:DEFAULTVIEWPS_DRAFT?=	viewps_$(1)-draft
 GMK:ALLVIEWPS_DRAFT+=	viewps_$(1)-draft
 GMK:$(1)-draft.ps: $(1).dvi ${DATED_DRAFT_PS}
 GMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
-GMK:	${ENV_PROG} ${DVIPS_ENV} $(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $(1)-draft.ps $(1).dvi
+GMK:	${ENV_PROG} ${DVIPS_ENV} $(DVIPS) -h ${DRAFT_STAMP_PS} ${$*_DVIPS_FLAGS} $(DVIPS_FLAGS) -o $(1)-draft.ps $(1).dvi
 GMK:endef
 GMK:$(foreach __tmp__,$(NAME),$(eval $(call viewps_template,$(__tmp__))))
 
@@ -1032,13 +1032,13 @@ GMK:endif
 BMK:.if defined(__DRAFT)
 GMK:ifdef __DRAFT
 GMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS} > ${DRAFT_STAMP_PS}
-GMK:	${ENV_PROG} ${DVIPS_ENV} $(DVIPS) -h ${DRAFT_STAMP_PS} $(DVIPS_FLAGS) -o $*-draft.ps $<
+GMK:	${ENV_PROG} ${DVIPS_ENV} $(DVIPS) -h ${DRAFT_STAMP_PS} ${$*_DVIPS_FLAGS} $(DVIPS_FLAGS) -o $*-draft.ps $<
 BMK:	sed "s;DATE;`date`;g" ${DATED_DRAFT_PS:Q} > ${DRAFT_STAMP_PS:Q}
-BMK:	${DVIPS:Q} -h ${DRAFT_STAMP_PS:Q} ${DVIPS_FLAGS} -o $*-draft.ps $<
+BMK:	${DVIPS:Q} -h ${DRAFT_STAMP_PS:Q} ${$*_DVIPS_FLAGS} ${DVIPS_FLAGS} -o $*-draft.ps $<
 BMK:.else
-BMK:	${ENV_PROG:Q} ${DVIPS_ENV} ${DVIPS:Q} ${DVIPS_FLAGS} -o $@ $<
+BMK:	${ENV_PROG:Q} ${DVIPS_ENV} ${DVIPS:Q} ${$*_DVIPS_FLAGS} ${DVIPS_FLAGS} -o $@ $<
 GMK:else
-GMK:	${ENV_PROG} ${DVIPS_ENV} $(DVIPS) $(DVIPS_FLAGS) -o $@ $<
+GMK:	${ENV_PROG} ${DVIPS_ENV} $(DVIPS) ${$*_DVIPS_FLAGS} $(DVIPS_FLAGS) -o $@ $<
 BMK:.endif
 GMK:endif
 
@@ -1052,8 +1052,8 @@ GMK:endif
 BMK:.if defined(USE_DVIPDFM)
 GMK:ifdef USE_DVIPDFM
 .dvi.pdf :
-GMK:	$(ENV_PROG) $(DVIPDFM_ENV) $(DVIPDFM) $(DVIPDFM_FLAGS) $<
-BMK:	${ENV_PROG:Q} ${DVIPDFM_ENV} ${DVIPDFM:Q} ${DVIPDFM_FLAGS} $<
+GMK:	$(ENV_PROG) $(DVIPDFM_ENV) $(DVIPDFM) ${$*_DVIPDFM_FLAGS} $(DVIPDFM_FLAGS) $<
+BMK:	${ENV_PROG:Q} ${DVIPDFM_ENV} ${DVIPDFM:Q} ${$*_DVIPDFM_FLAGS} ${DVIPDFM_FLAGS} $<
 BMK:.elif defined(USE_PDFLATEX)
 GMK:else
 GMK:ifdef USE_PDFLATEX

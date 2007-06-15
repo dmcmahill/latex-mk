@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.12 2007/02/02 01:25:08 dan Exp $
+# $Id: script_tests.sh,v 1.13 2007/06/15 21:44:26 dan Exp $
 #
 # Copyright (c) 2006, 2007 Dan McMahill
 # All rights reserved.
@@ -77,7 +77,7 @@ fi
 
 LATEX_MK_DIR=${top_srcdir:-..}
 
-LATEX_MK_DIR=`cd ${LATEX_MK_DIR} && pwd`
+LATEX_MK_DIR=`cd ${LATEX_MK_DIR} && echo $PWD`
 export LATEX_MK_DIR
 
 echo "LATEX_MK_DIR = $LATEX_MK_DIR"
@@ -126,9 +126,10 @@ BIBINPUTS=x ; unset BIBINPUTS
 
 # make sure we have the right paths when running this from inside the
 # source tree and also from outside the source tree.
-here=`pwd`
+here=${PWD}
+here=`cd $here && echo $PWD`
 srcdir=${srcdir:-$here}
-srcdir=`cd $srcdir && pwd`
+srcdir=`cd $srcdir && echo $PWD`
 
 rundir=${here}/run
 
@@ -282,11 +283,13 @@ for t in $all_tests ; do
 
 	# take care of some absolute paths which may appear in the test log file.
 	if test -f ${testlog} ; then
-		sed "s;${here};HERE;g" ${testlog} > ${here}/${REF}/${t}.${sufx}
+		sed -e "s;${here};HERE;g" -e "s;current directory:.*run;current directory: HERE/run;g" \
+			${testlog} > ${here}/${REF}/${t}.${sufx}
 		rm ${testlog}
 	else
 		echo "latex-mk returned $rc" > ${here}/${REF}/${t}.${sufx}
-		sed "s;${here};HERE;g" ${here}/${REF}/${t}.dlog >> ${here}/${REF}/${t}.${sufx}
+		sed -e "s;${here};HERE;g" -e "s;current directory:.*run;current directory: HERE/run;g" \
+			${here}/${REF}/${t}.dlog >> ${here}/${REF}/${t}.${sufx}
 	fi
 
 	if [ "X$regen" != "Xyes" ]; then

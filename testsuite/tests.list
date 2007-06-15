@@ -1,4 +1,4 @@
-# $Id: tests.list,v 1.33 2007/06/15 20:29:14 dan Exp $
+# $Id: tests.list,v 1.34 2007/06/15 21:44:26 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
@@ -302,6 +302,14 @@ basic2_dvi3||test.tex a.tex @ test.dvi @ b.tex|dvi TEST6=yes
 multi1_dvi1||test1.tex test2.tex|test1.dvi TEST7=yes
 multi1_dvi2||test1.tex test2.tex|test2.dvi TEST7=yes
 multi1_dvi3||test1.tex test2.tex|dvi TEST7=yes
+#
+# foo_DVIPDFM_FLAGS
+#
+multi1_dvipdfm_flag1||test1.tex test2.tex|pdf TEST7=yes test1_DVIPDFM_FLAGS=dvipdfm1_flags test2_DVIPDFM_FLAGS=dvipdfm2_flags DVIPDFM_FLAGS=my_dvipdfm_flags USE_DVIPDFM=yes
+#
+# foo_DVIPS_FLAGS
+#
+multi1_dvips_flag1||test1.tex test2.tex|ps TEST7=yes test1_DVIPS_FLAGS=dvips1_flags test2_DVIPS_FLAGS=dvips2_flags
 #
 # foo_TEXSRCS
 #

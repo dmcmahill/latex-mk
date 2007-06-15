@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.26 2007/06/15 19:48:33 dan Exp $
+# $Id: run_tests.sh,v 1.27 2007/06/15 21:44:25 dan Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
 # All rights reserved.
@@ -87,7 +87,7 @@ fi
 
 LATEX_MK_DIR=${top_srcdir:-..}
 
-LATEX_MK_DIR=`cd ${LATEX_MK_DIR} && pwd`
+LATEX_MK_DIR=`cd ${LATEX_MK_DIR} && echo $PWD`
 export LATEX_MK_DIR
 
 echo "LATEX_MK_DIR = $LATEX_MK_DIR"
@@ -310,9 +310,10 @@ GMAKE="${GMAKE} -f ../${GMKF} ${MFLAGS}"
 
 # make sure we have the right paths when running this from inside the
 # source tree and also from outside the source tree.
-here=`pwd`
+here=$PWD
+here=`cd $here && echo $PWD`
 srcdir=${srcdir:-$here}
-srcdir=`cd $srcdir && pwd`
+srcdir=`cd $srcdir && echo $PWD`
 
 rundir=${here}/run
 

@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.71 2007/06/15 20:29:13 dan Exp $
+@c $Id: latex-mk.texi,v 1.72 2007/06/15 21:44:23 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -464,7 +464,11 @@ Defaults to @samp{}.
 
 @defvar DVIPDFM_FLAGS
 A list of flags to be passed to the DVIPDFM executible.
-Defaults to @samp{}
+Defaults to @samp{}.
+
+To set flags on a per-document
+basis, you can use @code{<docname>_DVIPDFM_FLAGS}
+where @code{<docname>} is the name of the document.
 @end defvar
 
 @defvar DVIPDFM_LANDSCAPE_FLAGS
@@ -491,6 +495,10 @@ prior to 1.2 used @samp{-Ppdf -j0} as the default.  If
 you wish to maintain this behavior on latex-mk-1.2 and
 newer, you will need to set this variable in your site or
 user configuration file.
+
+To set flags on a per-document
+basis, you can use @code{<docname>_DVIPS_FLAGS}
+where @code{<docname>} is the name of the document.
 @end defvar
 
 @defvar DVIPS_LANDSCAPE_FLAGS
