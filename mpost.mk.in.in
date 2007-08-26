@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: mpost.mk.in.in,v 1.3 2007/06/15 20:29:12 dan Exp $
+# $Id: mpost.mk.in.in,v 1.4 2007/08/26 20:38:26 dan Exp $
 #
 # Makefile fragment for processing METAPOST files to produce postscript
 #
@@ -166,12 +166,15 @@ BMK:.for __tmp__ in $(ALLMPOSTOBJS)
 BMK:	$(RM) -f $(__tmp__:Q)
 BMK:.endfor
 GMK:	$(RM) -f $(ALLMPOSTOBJS)
-	for f in $*.ps $*.[0-9]* "" ; do \
-		if test "X$$f" != "X" ; then \
-			fn=`basename $$f .ps` ; \
-			fn=$${fn}.pdf ; \
-			$(RM) -f $$f ${_MPOST_PDF_REMOVE_}; \
-		fi ; \
+	for mp in $(ALLMPOSTOBJS) ; do \
+		mpb=`basename $${mp} .mpx` ; \
+		for f in $${mpb}.ps $${mpb}.[0-9]* "" ; do \
+			if test "X$$f" != "X" ; then \
+				fn=`basename $$f .ps` ; \
+				fn=$${fn}.pdf ; \
+				$(RM) -f $$f ${_MPOST_PDF_REMOVE_}; \
+			fi ; \
+		done ; \
 	done
 
 #######################################
