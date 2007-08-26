@@ -1,5 +1,10 @@
-# $Id: NEWS,v 1.5 2007/06/15 23:34:09 dan Exp $
+# $Id: NEWS,v 1.6 2007/08/26 22:01:05 dan Exp $
 #
+
+--------------------------------
+Release Notes for LaTeX-Mk-1.9.1
+--------------------------------
+- Fixed a bug in the 'clean' target when METAPOST is in use.
 
 ------------------------------
 Release Notes for LaTeX-Mk-1.9
