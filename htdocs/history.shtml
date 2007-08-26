@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: history.shtml,v 1.25 2007/06/15 23:09:08 dan Exp $ -->
+<!-- $Id: history.shtml,v 1.26 2007/08/26 22:09:06 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -347,6 +347,14 @@ xfig,
     </UL>
     </P>
 
+    <H3>Version 1.9.1</H3>
+    <P>
+    LaTeX-Mk version 1.9.1 was released on August 27, 2007.  This is a bug fix
+    release.
+    <UL>
+        <LI>Fixed a bug in the <tt>clean</tt> target when METAPOST is in use.</LI>
+    </UL>
+    </P>
 
     </font>
   </td>

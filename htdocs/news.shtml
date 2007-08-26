@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: news.shtml,v 1.20 2007/06/15 23:09:09 dan Exp $ -->
+<!-- $Id: news.shtml,v 1.21 2007/08/26 22:09:05 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -34,6 +34,19 @@ xfig,
     
     <font face="helvetica, arial">
 
+    <!-- ************************* VERSION 1.9.1 ******************** -->
+    <HR>
+    <H2><A NAME="20070827">LaTeX-Mk-1.9.1 Released</A></H2>
+    <P> 
+    August 27, 2007.  LaTeX-Mk version 1.9.1 has been released.  This is a bug
+    fix release.
+    <UL>
+        <LI>Fixed a bug in the <tt>clean</tt> target when METAPOST is in use.</LI>
+    </UL>
+    </P>
+
+
+    <!-- ************************* VERSION 1.9 ******************** -->
     <HR>
     <H2><A NAME="20070615">LaTeX-Mk-1.9 Released</A></H2>
     <P> 
@@ -55,6 +68,7 @@ xfig,
     </UL>
     </P>
 
+    <!-- ************************* VERSION 1.8 ******************** -->
     <HR>
     <H2><A NAME="20060622">LaTeX-Mk-1.8 Released</A></H2>
     <P> 
@@ -91,6 +105,7 @@ xfig,
     </P> 
 
 
+    <!-- ************************* VERSION 1.7 ******************** -->
     <HR>
     <H2><A NAME="20060609">LaTeX-Mk-1.7 Released</A></H2>
     <P> 
@@ -117,6 +132,7 @@ xfig,
     </P> 
 
 
+    <!-- ************************* VERSION 1.6 ******************** -->
     <HR>
     <H2><A NAME="20060404">LaTeX-Mk-1.6 Released</A></H2>
     <P>
@@ -137,6 +153,7 @@ xfig,
     </UL>
     </P>
 
+    <!-- ************************* VERSION 1.5 ******************** -->
     <HR>
     <H2><A NAME="20060128">LaTeX-Mk-1.5 Released</A></H2>
     <P>
@@ -168,6 +185,7 @@ xfig,
     </UL>
     </P>
 
+    <!-- ************************* VERSION 1.4 ******************** -->
     <HR>
     <H2><A NAME="20051004">LaTeX-Mk-1.4 Released</A></H2>
     <P>
@@ -196,6 +214,7 @@ xfig,
     </P>
    
 
+    <!-- ************************* VERSION 1.3 ******************** -->
     <HR>
     <H2><A NAME="20040529">LaTeX-Mk-1.3 Released</A></H2>
     <P>
@@ -213,6 +232,7 @@ xfig,
     </UL>
     </P>
 
+    <!-- ************************* VERSION 1.2 ******************** -->
     <HR>
     <H2><A NAME="20040321">LaTeX-Mk-1.2 Released</A></H2>
     <p>
@@ -244,6 +264,7 @@ xfig,
     </UL>
     </p>
 
+    <!-- ************************* VERSION 1.1 ******************** -->
     <HR>
     <H2><A NAME="20030615">LaTeX-Mk-1.1 Released</A></H2>
     <p>
@@ -261,6 +282,7 @@ xfig,
     </UL>
     </p>
 
+    <!-- ************************* VERSION 1.0 ******************** -->
     <HR>
     <H2><A NAME="20030326">LaTeX-Mk-1.0 Released</A></H2>
     <p>
@@ -275,6 +297,7 @@ xfig,
     testing. 
     </p>
 
+    <!-- ************************* VERSION 0.9.1 ******************** -->
     <HR>
     <H2><A NAME="20021029">LaTeX-Mk-0.9.1 Released</A></H2>
     <p>
@@ -294,6 +317,7 @@ xfig,
     for bug fixes.
     </p>
 
+    <!-- ************************* VERSION 0.9 ******************** -->
     <HR>
     <H2><A NAME="20021009">LaTeX-Mk-0.9 Released</A></H2>
     <p>
@@ -306,6 +330,7 @@ xfig,
     quick response, but I will try and look at each report.
     </p>
 
+    <!-- ************************* VERSION 0 ******************** -->
     </font>
 
   </td>

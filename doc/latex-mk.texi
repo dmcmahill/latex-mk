@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.73 2007/06/15 23:09:06 dan Exp $
+@c $Id: latex-mk.texi,v 1.74 2007/08/26 22:09:03 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -1564,6 +1564,18 @@ It didn't do anything.
 @item Expanded the testsuite and fixed some bugs in the testsuite.
 
 @item Fix a bug in cleaning xfig and tgif output.
+
+@end itemize
+
+@c ********************************************************
+@c ********************** VERSION 1.9.1 *******************
+@c ********************************************************
+
+@subsection Version 1.9.1
+
+@itemize @bullet 
+
+@item Fixed a bug in the @code{clean} target when METAPOST is in use.
 
 @end itemize
 
