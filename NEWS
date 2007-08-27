@@ -1,5 +1,36 @@
-# $Id: NEWS,v 1.4 2006/06/22 18:42:17 dan Exp $
+# $Id: NEWS,v 1.4.2.1 2007/08/27 00:07:53 dan Exp $
 #
+
+--------------------------------
+Release Notes for LaTeX-Mk-1.9.1
+--------------------------------
+- Fixed a bug in the 'clean' target when METAPOST is in use.
+
+------------------------------
+Release Notes for LaTeX-Mk-1.9
+------------------------------
+- Added support for per-document DVIPS_FLAGS and DVIPDFM_FLAGS.
+
+- Avoided the use of hardcoded csh in some scripts.
+
+- Removed claims of a BIBTEX_ENV variable in the documentation. It
+  didn't do anything.
+
+- Added METAPOST support.
+
+- Fixed a bug when using BibTeX and PDFLaTeX at the same time.
+
+- Added glossary support.
+
+- Fixed a bug with GNU make draft output.
+
+- Put the actual installation prefix into the manual.
+
+- Avoid a case which caused the testsuite to hang.
+
+- Expanded the testsuite and fixed some bugs in the testsuite.
+
+- Fix a bug in cleaning xfig and tgif output.
 
 ------------------------------
 Release Notes for LaTeX-Mk-1.8
