@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# $Id: autogen.sh,v 1.4 2005/09/30 00:07:28 dan Exp $
+# $Id: autogen.sh,v 1.5 2010/03/08 18:03:16 dan Exp $
 #
 # Run the various GNU autotools to bootstrap the build
 # system.  Should only need to be done once.
@@ -21,9 +21,7 @@ echo "Running autoconf..."
 autoconf || exit 1
 echo "Done with autoconf"
 
-echo "Running ./configure $@"
-./configure $@ || exit 1
-echo "Done with configure"
+echo "You must now run configure"
 
 echo "All done with autogen.sh"
 
