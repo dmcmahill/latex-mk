@@ -21,8 +21,12 @@ BIBINPUTS      []
 Pass #0
 run_latex() called
 Citation undefined
+check_bib() called
+check_bib():  It is ok to run BibTex (found citation)
+check_bib():  It is ok to run BibTex (found bibdata)
+check_bib():  It is ok to run BibTex (found bibstyle)
 BibTex run #1
-run_bibtex() called
+run_bibtex  called
 cd . && bibtex  bibliography2
 ./bibliography2.idx is new
 ./bibliography2.idx new or changed -> need to run makeindex
