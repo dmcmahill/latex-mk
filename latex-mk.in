@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.37 2007/06/15 20:35:49 dan Exp $
+# $Id: latex-mk.in,v 1.38 2010/03/12 21:11:19 dan Exp $
 #
-# Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill
+# Copyright (c) 2002, 2003, 2004, 2005, 2006, 2010 Dan McMahill
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -307,7 +307,7 @@ log() {
 new_or_changed() {
 	f=$1
 	r=1
-	echo "Checking for ${f} ..."
+	report "Checking for ${f} ..."
 	if [ -f "${f}" ]; then
 		if [ ! -f "${f}.old" ]; then
 			log "${f} is new"
@@ -323,6 +323,22 @@ new_or_changed() {
 	fi
 
 	return ${r}
+}
+
+#
+#
+#######################################################################
+
+#######################################################################
+#
+# report() -- Like echo but with some decorations added to help
+#             the user know what tool is producing the message
+#
+
+report() {
+cat <<EOF
+LaTeX-Mk: $*
+EOF
 }
 
 #
@@ -409,10 +425,41 @@ fi
 # run_latex()
 #
 
+check_bib() {
+	# run latex.  If it fails, manually remove the .dvi file since
+	# latex won't.  Leaving the .dvi file would confuse 'make' because on the next
+	# invocation, the .dvi file would appear to be up to date already.
+	log "check_bib() called"
+	bibtex_ok=no
+	for w in citation bibdata bibstyle ; do
+		msg="Checking for \\$w in ${ODIR}/${NAME}.aux ..."
+		rslt="no"
+		if grep "^\\\\${w}" "${ODIR}/${NAME}.aux" >/dev/null 2>/dev/null ; then
+			rslt="yes"
+			bibtex_ok=yes
+			log "check_bib():  It is ok to run BibTex (found $w)"
+		fi
+		report "$msg $rslt"
+	done
+	rc=0
+	if test $bibtex_ok = no ; then
+		rc=1
+	fi
+	return $rc
+}
+
+#
+#######################################################################
+
+#######################################################################
+#
+# run_latex()
+#
+
 run_latex() {
 	# run latex.  If it fails, manually remove the .dvi file since
-	# latex won't.  This will confuse 'make' because on the next
-	# invocation, the .dvi file will appear to be up to date already.
+	# latex won't.  Leaving the .dvi file would confuse 'make' because on the next
+	# invocation, the .dvi file would appear to be up to date already.
 	log "run_latex() called"
 	( ( ( "$LATEX" $LATEX_FLAGS "$INFILE" 2>&1 ; echo $? >&4) | tee "$LATEX_MK_LOG" 1>&3) 4>&1 |  (read a; exit $a)) 3>&1
 	rc=$?
@@ -437,12 +484,29 @@ run_latex() {
 #
 
 run_bibtex() {
-	log "run_bibtex() called"
-	log "cd ${ODIR} && $BIBTEX $BIBTEX_FLAGS ${NAME}"
+	log "run_bibtex $* called"
+	do_post=yes
+	while test $# -gt 0 ; do
+		case $1 in
+			--skip-post-hook)
+				do_post=no
+				shift
+				;;
+			-*)
+				echo "$0:  INTERNAL ERROR:  run_bibtex $*"
+				exit 1
+				;;
+			*)
+				break
+				;;
+		esac
+	done
+	BIBFILE=${1:-${NAME}}
+	log "cd ${ODIR} && $BIBTEX $BIBTEX_FLAGS ${BIBFILE}"
 	echo "${sep}"
 	echo "Running BibTeX"
-	echo "cd ${ODIR} && $BIBTEX $BIBTEX_FLAGS ${NAME}"
-	cd ${ODIR} && "$BIBTEX" $BIBTEX_FLAGS ${NAME}
+	echo "cd ${ODIR} && $BIBTEX $BIBTEX_FLAGS ${BIBFILE}"
+	cd ${ODIR} && "$BIBTEX" $BIBTEX_FLAGS ${BIBFILE}
 	rc=$?
 	cd ${here}
 	if test $rc -ne 0 -a "$ignore_errors" != "yes" ; then
@@ -451,17 +515,17 @@ run_bibtex() {
 		echo "$sep"
 		rm -f "${ODIR}/${NAME}.dvi" "${ODIR}/${NAME}.pdf"
 		rm -f "$LATEX_MK_LOG"
-		log "run_bibtex() failed"
+		log "run_bibtex($*) failed"
 		exit $rc
 	fi
 
 	# run the post-bibtex hook if its been defined
-	if test "X$POST_BIBTEX_HOOK" != "X" ; then
+	if test "$do_post" = "yes" -a "X$POST_BIBTEX_HOOK" != "X" ; then
 	    if test -x $POST_BIBTEX_HOOK ; then
-		$POST_BIBTEX_HOOK "$NAME"
+		$POST_BIBTEX_HOOK "$BIBFILE"
 		rc=$?
 		if test $rc -ne 0 ; then
-		    echo "$POST_BIBTEX_HOOK "$NAME" failed"
+		    echo "$POST_BIBTEX_HOOK "$BIBFILE" failed"
 		    rm -f "${ODIR}/${NAME}.dvi" "${ODIR}/${NAME}.pdf"
 		    rm -f "$LATEX_MK_LOG"
 		    exit $rc
@@ -543,6 +607,20 @@ while test $cnt -lt $MAXITERS ; do
 	log "Pass #${cnt}"
 	run_latex
 
+	# if the document uses the bibunits package, then we will end up
+	# with a bunch of .bib files and a bunch of .aux files and we will
+	# need to run bibtex
+	msg="Checking if ${NAME} uses the bibunits package..."
+	if grep "bibunits.sty" "$LATEX_MK_LOG" >/dev/null ; then
+	    rslt="yes"
+	    using_bibunits=yes
+	    log "bibunits package detected"
+	else
+	    rslt="yes"
+	    using_bibunits=no
+	fi
+	report "$msg $rslt"
+
 	# if we need to run bibtex, we should end up with something like this:
 	#LaTeX Warning: Citation `foo' on page 1 undefined on input line 2
 	# and
@@ -561,22 +639,45 @@ while test $cnt -lt $MAXITERS ; do
 	# instead of the previous warning.  This can happen if you only have
 	# something like \nocite{*} in your document instead of \cite{x}
 	# 
+	if test "$using_bibunits" = "yes" -a $cnt -eq 0 ; then
+		for f in ${ODIR}/*.aux ; do
+			case $f in
+				# FIXME -- the user can potentially change
+				# the file names used here.  Is there a more robust
+				# way?
+				${ODIR}/bu[0-9]*.aux)
+					fb=`basename $f .aux`
+					log "Running bibtex on $f"
+					run_bibtex --skip-post-hook "${fb}"
+					;;
+			esac
+		done
+	fi
 
 	needbib=`grep "Citation.*undefined" "$LATEX_MK_LOG"`
 	if test -n "$needbib" ; then log "Citation undefined" ; fi
 	if test -z "$needbib" ; then
-	    echo "Checking for missing .bbl files in latex log ..."
+	    report "Checking for missing .bbl files in latex log ..."
 	    needbib=`grep "No file.*\.bbl" "$LATEX_MK_LOG"`
 	    if test -n "$needbib" ; then log "Missing .bbl" ; fi
 	fi
 	if test -n "$needbib" ; then
 		if test $bibcnt -eq 0 ; then
-			echo "$sep"
-			echo "$0:  Running bibtex to resolve citations"
-			echo "$sep"
-			bibtex_ran=yes
-			log "BibTex run #1"
-			run_bibtex
+			# This is a bit of a dodgy thing here.  If we are using
+			# the bibunits package, we will probably end up here
+			# but we actually don't need to run bibtex on the main
+			# document.  There is also the possiblilty that we still
+			# need to run bibtex.  It all depends on if we have a
+			# non-bibunits bibliography too or not
+			if check_bib ; then
+				echo "$sep"
+				echo "$0:  Running bibtex to resolve citations"
+				echo "$sep"
+				log "BibTex run #1"
+				run_bibtex
+			else
+				log "Skip BibTex run #1 (due to check_bib)"
+			fi
 		elif test $bibcnt -eq 1 ; then
 			echo "$sep"
 			echo "$0:  BibTeX has already been run, but LaTeX is still reporting"

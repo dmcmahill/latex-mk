@@ -1,0 +1,35 @@
+% $Id: bibunits1.tex,v 1.1 2010/03/12 21:11:24 dan Exp $
+% Note: Do not use babel
+\documentclass[final, letterpaper, 10pt]{article}
+\usepackage{bibunits}
+\usepackage{cite}
+
+\begin{document}
+This document demonstrates the bibunits package and we see how it
+(the bibunit package) interacts with {\tt latex-mk}.
+
+\section*{Various References}
+\renewcommand{\refname}{}
+
+% BOOKS
+\subsection*{Books}
+\begin{bibunit}[IEEEtran]
+  \nocite{churchill84, cover91}
+  \putbib[IEEEabrv,bibliography]
+\end{bibunit}
+
+% JOURNAL ARTICLES
+\subsection*{Journal Articles}
+\begin{bibunit}[IEEEtran]
+  \nocite{fano50, green54}
+  \putbib[IEEEabrv,bibliography]
+\end{bibunit}
+
+% STANDARDS
+\subsection*{Standards}
+\begin{bibunit}[IEEEtran]
+  \nocite{en300.175-2v1.4.2}
+  \putbib[IEEEabrv,bibliography]
+\end{bibunit}
+
+\end{document}

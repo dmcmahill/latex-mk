@@ -1,0 +1,3 @@
+latex-mk returned 1
+HERE/../latex-mk:  The current directory: HERE/run
+is not writeable and TEXMFOUTPUT is not set.  LaTeX can not be run.

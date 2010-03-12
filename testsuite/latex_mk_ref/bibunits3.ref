@@ -1,0 +1,66 @@
+latex-mk invoked with flags = 
+BIBTEX         [bibtex]
+BIBTEX_FLAGS   []
+LATEX          [latex]
+LATEX_FLAGS    []
+MAKEIDX        [makeindex]
+MAKEIDX_FLAGS  []
+MAKEGLS        [makeindex]
+MAKEGLS_FLAGS  []
+PDFLATEX       [pdflatex]
+PDFLATEX_FLAGS []
+TEX2PAGE       [tex2page]
+TEX2PAGE_FLAGS []
+LATEX_MK_LOG   [./latex-mk.log]
+ODIR           [.]
+
+TEXMFOUTPUT    [out]
+TEXINPUTS      []
+BIBINPUTS      []
+------------------------------------
+Pass #0
+run_latex() called
+bibunits package detected
+Running bibtex on ./bu1.aux
+run_bibtex --skip-post-hook bu1 called
+cd . && bibtex  bu1
+Running bibtex on ./bu2.aux
+run_bibtex --skip-post-hook bu2 called
+cd . && bibtex  bu2
+Running bibtex on ./bu3.aux
+run_bibtex --skip-post-hook bu3 called
+cd . && bibtex  bu3
+Citation undefined
+check_bib() called
+Skip BibTex run #1 (due to check_bib)
+rerun        = 
+needbib      = LaTeX Warning: Citation `churchill84' undefined on input line 17.
+LaTeX Warning: Citation `cover91' undefined on input line 17.
+LaTeX Warning: Citation `fano50' undefined on input line 24.
+LaTeX Warning: Citation `green54' undefined on input line 24.
+LaTeX Warning: Citation `en300.175-2v1.4.2' undefined on input line 31.
+changed_file = 
+Rerun is needed
+------------------------------------
+Pass #1
+run_latex() called
+bibunits package detected
+Citation undefined
+Try another latex run for the citations
+rerun        = Package bibunits Warning: Label(s) may have changed. Rerun to get cross-referen
+needbib      = LaTeX Warning: Citation `churchill84' undefined on input line 17.
+LaTeX Warning: Citation `cover91' undefined on input line 17.
+LaTeX Warning: Citation `fano50' undefined on input line 24.
+LaTeX Warning: Citation `green54' undefined on input line 24.
+LaTeX Warning: Citation `en300.175-2v1.4.2' undefined on input line 31.
+changed_file = 
+Rerun is needed
+------------------------------------
+Pass #2
+run_latex() called
+bibunits package detected
+rerun        = 
+needbib      = 
+changed_file = 
+No rerun is needed
+Remove log and exit.

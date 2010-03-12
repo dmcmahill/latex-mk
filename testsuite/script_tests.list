@@ -1,6 +1,6 @@
-# $Id: script_tests.list,v 1.5 2007/02/02 01:25:08 dan Exp $
+# $Id: script_tests.list,v 1.6 2010/03/12 21:11:22 dan Exp $
 #
-# Copyright (c) 2006, 2007 Dan McMahill
+# Copyright (c) 2006, 2007, 2010 Dan McMahill
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,9 @@
 #
 # test_name | directories to create | files needed | arguments to latex-mk | env vars | rc | ok as root?
 #
+# We may put "no" in the "ok as root?" field for tests that won't work right as root.
+# In particular some of the tests may experiment with directories that have 555 permissions.
+# The root user may not be constrained by such things.
 #
 # Basic document, no table of contents, index, bibliography, etc.
 # Verify that it works with writeable and read only ./
@@ -49,22 +52,22 @@ pdf2 | out:755 .:755 | basic1.tex | --pdflatex basic1 | TEXMFOUTPUT=out
 pdf3 | out:755 .:555 | basic1.tex | --pdflatex basic1 | | 1 | no
 pdf4 | out:755 .:555 | basic1.tex | --pdflatex basic1 | TEXMFOUTPUT=out | | no
 
-#
+######################################################################
 # makeindex operation
-#
+######################################################################
 makeindex1 | | index.tex | index |
 makeindex2 | out:755 .:755 | index.tex | index | TEXMFOUTPUT=out
 makeindex3 | out:755 .:555 | index.tex | index | | 1 | no
 makeindex4 | out:755 .:555 | index.tex | index | TEXMFOUTPUT=out | | no
 
-#
+######################################################################
 # makeindex operation
-#
+######################################################################
 makegls1 | | nomencl.tex | nomencl |
 
-#
+######################################################################
 # bibtex operation
-#
+######################################################################
 bibtex1 | | bibliography.tex bibliography.bib| bibliography |
 bibtex2 | out:755 .:755 | bibliography.tex bibliography.bib| bibliography | TEXMFOUTPUT=out
 bibtex3 | out:755 .:555 | bibliography.tex bibliography.bib| bibliography | | 1 | no
@@ -72,9 +75,28 @@ bibtex4 | out:755 .:555 | bibliography.tex bibliography.bib| bibliography | TEXM
 
 bibtex5 | | bibliography2.tex bibliography.bib| bibliography2 |
 
-#
+######################################################################
+# Use of the bibunits package
+######################################################################
+bibunits1 | | bibunits1.tex  bibliography.bib | bibunits1 |
+bibunits2 | | bibunits2.tex  bibliography.bib | bibunits2 |
+
+# see what happens with TEXMFOUTPUT set.  Since "." is writable then things should
+# work as normal
+bibunits3 | out:755 .:755 | bibunits1.tex bibliography.bib| bibunits1 | TEXMFOUTPUT=out
+bibunits4 | out:755 .:755 | bibunits2.tex bibliography.bib| bibunits2 | TEXMFOUTPUT=out
+
+# in this case the output will be written to TEXMFOUTPUT since "." is read-only
+bibunits5 | out:755 .:555 | bibunits1.tex bibliography.bib| bibunits1 | TEXMFOUTPUT=out | | no
+bibunits6 | out:755 .:555 | bibunits2.tex bibliography.bib| bibunits2 | TEXMFOUTPUT=out | | no
+
+# in this case we should fail because of no write permissions to "." and no TEXMFOUTPUT set
+bibunits7 | out:755 .:555 | bibunits1.tex bibliography.bib| bibunits1 | | 1 | no
+bibunits8 | out:755 .:555 | bibunits2.tex bibliography.bib| bibunits2 | | 1 | no
+
+######################################################################
 # Reading of environment variables
-#
+######################################################################
 vars1  | | basic1.tex | |   BIBTEX=mybibtex BIBTEX_FLAGS=mybibtex_flags | 1
 vars2  | | basic1.tex | |   LATEX=mylatex LATEX_FLAGS=mylatex_flags | 1
 vars3  | | basic1.tex | |   MAKEIDX=mymakeindex MAKEIDX_FLAGS=mymakeindex_flags | 1

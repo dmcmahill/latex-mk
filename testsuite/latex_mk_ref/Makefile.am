@@ -1,6 +1,6 @@
-## $Id: Makefile.am,v 1.5 2007/02/02 01:25:56 dan Exp $
+## $Id: Makefile.am,v 1.6 2010/03/12 21:11:22 dan Exp $
 ##
-## Copyright (c) 2006, 2007 Dan McMahill
+## Copyright (c) 2006, 2007, 2010 Dan McMahill
 ## All rights reserved.
 ##
 ## Redistribution and use in source and binary forms, with or without
@@ -49,6 +49,14 @@ GOLDEN_FILES=	\
 	bibtex3.ref \
 	bibtex4.ref \
 	bibtex5.ref \
+	bibunits1.ref \
+	bibunits2.ref \
+	bibunits3.ref \
+	bibunits4.ref \
+	bibunits5.ref \
+	bibunits6.ref \
+	bibunits7.ref \
+	bibunits8.ref \
 	makegls1.ref \
 	makeindex1.ref \
 	makeindex2.ref \
