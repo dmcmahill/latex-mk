@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.13 2007/06/15 21:44:26 dan Exp $
+# $Id: script_tests.sh,v 1.14 2010/03/12 21:15:24 dan Exp $
 #
-# Copyright (c) 2006, 2007 Dan McMahill
+# Copyright (c) 2006, 2007, 2010 Dan McMahill
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -35,13 +35,39 @@
 regen=no
 noclean=no
 
+usage() {
+cat <<EOF
+
+$0 -- Run automated tests on the scripts which are part of the
+      LaTeX-Mk package.
+
+USAGE:
+
+$0 -h|--help
+$0 [options] [tests]
+
+OPTIONS:
+
+-h|--help      Display this help message and exit
+
+--noclean      After running the test, do not remove the run directory
+               or the files contained there.  This is useful for debugging
+               a failure.
+
+-r|--regen     Regenerate the 'golden' reference files.  This option needs
+               to be used with caution.  Any changes to the golden files
+               need to be verified by hand.
+
+
+EOF
+}
 while test -n "$1"
 do
     case "$1"
     in
 
     -h|--help)
-	echo "Sorry, help not available for this script yet"
+	usage
 	exit 0
 	;;
 
