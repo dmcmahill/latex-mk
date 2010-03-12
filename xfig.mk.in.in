@@ -1,5 +1,5 @@
 # -*- Makefile -*-
-# $Id: xfig.mk.in.in,v 1.13 2006/09/21 13:49:36 dan Exp $
+# $Id: xfig.mk.in.in,v 1.14 2010/03/12 21:21:41 dan Exp $
 #
 # Makefile fragment for processing xfig files to produce postscript
 #
@@ -192,6 +192,6 @@ BMK:	$(FIG2DEV:Q) $(FIG2DEV_FLAGS) $(FIG2DEV_EPS_FLAGS) $*.fig $*.eps
 GMK:	$(FIG2DEV) $(FIG2DEV_FLAGS) $(FIG2DEV_EPS_FLAGS) $*.fig $*.eps
 
 .fig.pdf : 
-BMK:	$(FIG2DEV:Q) $(FIG2DEV_FLAGS) $(FIG2DEV_PDF_FLAGS) $*.fig $*.eps
-GMK:	$(FIG2DEV) $(FIG2DEV_FLAGS) $(FIG2DEV_PDF_FLAGS) $*.fig $*.eps
+BMK:	$(FIG2DEV:Q) $(FIG2DEV_FLAGS) $(FIG2DEV_PDF_FLAGS) $*.fig $*.pdf
+GMK:	$(FIG2DEV) $(FIG2DEV_FLAGS) $(FIG2DEV_PDF_FLAGS) $*.fig $*.pdf
 
