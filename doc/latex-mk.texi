@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.74 2007/08/26 22:09:03 dan Exp $
+@c $Id: latex-mk.texi,v 1.75 2010/03/12 21:12:41 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -17,7 +17,7 @@
 @ifinfo
 This file documents LaTeX-Mk-@value{VERSION}
 
-Copyright @copyright{} 2002, 2003, 2004, 2005, 2006, 2007 Dan McMahill
+Copyright @copyright{} 2002, 2003, 2004, 2005, 2006, 2007, 2010 Dan McMahill
 
 @quotation
 This code is derived from software written by Dan McMahill
@@ -59,7 +59,8 @@ are met:
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 2002, 2003, 2004, 2005, 2006 Dan McMahill
+Copyright @copyright{} 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+2010 Dan McMahill
 @sp 2
 @iftex
 @smallformat
@@ -1309,6 +1310,10 @@ appropriate to document my efforts and provide a packaged solution that
 others could also use.  
 
 @section The Modern Era of LaTeX-Mk
+@c ********************************************************
+@c ********************** VERSION 0.9 *********************
+@c ********************************************************
+
 @subsection Version 0.9
 Released on 2002-10-09, this was the first public
 release of LaTeX-Mk.  My reason for using 0.9 instead of 1.0 is that
@@ -1317,6 +1322,10 @@ works well for me, as with any product I'm sure others will quickly
 find other ways to use it that I had not anticipated.  My goal is to
 collect feedback over the first few months of public consumption and
 come out with a 1.0 version which incorporates the primary improvements.
+
+@c ********************************************************
+@c ********************** VERSION 0.9.1 *******************
+@c ********************************************************
 
 @subsection Version 0.9.1
 This is a bug fix version released on 2002-10-29.
@@ -1340,6 +1349,10 @@ make.
 The history section of the manual was added.
 
 @end itemize
+
+@c ********************************************************
+@c ********************** VERSION 1.0 *********************
+@c ********************************************************
 
 @subsection Version 1.0
 This is the long awaited 1.0 release!  Hopefully LaTeX-Mk can be considered
@@ -1371,6 +1384,10 @@ been fixed.
 
 @end itemize
 
+@c ********************************************************
+@c ********************** VERSION 1.1 *********************
+@c ********************************************************
+
 @subsection Version 1.1
 This is the "HTML Support" release.  Version 1.1 was released on 2003-06-15.
 The significant changes/additions over the previous version are:
@@ -1385,6 +1402,10 @@ run after a BibTeX run.  This gives users the ability to insert an
 additional processing step if desired.
 
 @end itemize
+
+@c ********************************************************
+@c ********************** VERSION 1.2 *********************
+@c ********************************************************
 
 @subsection Version 1.2
 Version 1.2 was released on 2004-03-21.
@@ -1414,6 +1435,10 @@ files to EPS for inclusion in a document.
 
 @end itemize
 
+@c ********************************************************
+@c ********************** VERSION 1.3 *********************
+@c ********************************************************
+
 @subsection Version 1.3
 Version 1.3 was released on 2004-05-29.
 The significant changes/additions over the previous version are:
@@ -1428,6 +1453,10 @@ should fix a long standing bug where latex-mk would not build under
 cygwin.  Bug report #946216.
         
 @end itemize
+
+@c ********************************************************
+@c ********************** VERSION 1.4 *********************
+@c ********************************************************
 
 @subsection Version 1.4
 Version 1.4 was released on 2005-10-04.
@@ -1453,6 +1482,10 @@ flags to various tools.
 Postscript be @code{-L eps} instead of @code{-L ps}.
 
 @end itemize
+
+@c ********************************************************
+@c ********************** VERSION 1.5 *********************
+@c ********************************************************
 
 @subsection Version 1.5
 
@@ -1572,6 +1605,18 @@ It didn't do anything.
 @c ********************************************************
 
 @subsection Version 1.9.1
+
+@itemize @bullet 
+
+@item Fixed a bug in the @code{clean} target when METAPOST is in use.
+
+@end itemize
+
+@c ********************************************************
+@c ********************** VERSION 2.0 *********************
+@c ********************************************************
+
+@subsection Version 2.0
 
 @itemize @bullet 
 
