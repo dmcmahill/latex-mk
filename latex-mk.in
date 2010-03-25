@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.38 2010/03/12 21:11:19 dan Exp $
+# $Id: latex-mk.in,v 1.39 2010/03/25 18:26:46 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2006, 2010 Dan McMahill
 # All rights reserved.
@@ -301,6 +301,26 @@ log() {
 
 #######################################################################
 #
+# check_bibunits()
+
+check_bibunits() {
+	msg="Checking if ${NAME} uses the bibunits package..."
+	if grep "bibunits.sty" "$LATEX_MK_LOG" >/dev/null ; then
+	    rslt="yes"
+	    using_bibunits=yes
+	    log "bibunits package detected"
+	else
+	    rslt="yes"
+	    using_bibunits=no
+	fi
+	report "$msg $rslt"
+}
+
+#
+#######################################################################
+
+#######################################################################
+#
 # new_or_changed()
 #
 
@@ -395,8 +415,20 @@ if test "X$debug" = "Xyes" ; then
 fi
 
 if [ "X$do_clean" = "Xyes" ]; then
-	echo "$0: Cleaning for project: ${NAME}"
-	if [ -f "$LATEX_MK_LOG" ]; then
+	report "Cleaning for project: ${NAME}"
+	# clean up any of the .aux, .blg and .bbl files that may have
+	# been created by the bibunits package.
+	log "Cleaning bibunits.sty leftover files"
+	for sfx in aux blg bbl ; do
+		for f in "${ODIR}"/bu[0-9]*.${sfx} "${ODIR}/bu.${sfx}" 	; do
+			if test -f "${f}" ; then
+				report "Removing bibunits package leftover file ${f}"
+				rm -f "${f}"
+			fi
+		done
+	done
+
+	if test -f "$LATEX_MK_LOG" ; then
 		rm -f "$LATEX_MK_LOG"
 	fi
 	# clean up any of the .old versions of files we were
@@ -408,6 +440,7 @@ if [ "X$do_clean" = "Xyes" ]; then
 			rm -f "${f}"
 		fi
 	done
+
 	exit 0
 fi
 
@@ -422,7 +455,7 @@ fi
 
 #######################################################################
 #
-# run_latex()
+# check_bib()
 #
 
 check_bib() {
@@ -601,7 +634,6 @@ fi
 
 cnt=0
 bibcnt=0
-
 while test $cnt -lt $MAXITERS ; do
 	log "${sep}"
 	log "Pass #${cnt}"
@@ -610,16 +642,7 @@ while test $cnt -lt $MAXITERS ; do
 	# if the document uses the bibunits package, then we will end up
 	# with a bunch of .bib files and a bunch of .aux files and we will
 	# need to run bibtex
-	msg="Checking if ${NAME} uses the bibunits package..."
-	if grep "bibunits.sty" "$LATEX_MK_LOG" >/dev/null ; then
-	    rslt="yes"
-	    using_bibunits=yes
-	    log "bibunits package detected"
-	else
-	    rslt="yes"
-	    using_bibunits=no
-	fi
-	report "$msg $rslt"
+	check_bibunits
 
 	# if we need to run bibtex, we should end up with something like this:
 	#LaTeX Warning: Citation `foo' on page 1 undefined on input line 2
