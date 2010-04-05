@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.75 2010/03/12 21:12:41 dan Exp $
+@c $Id: latex-mk.texi,v 1.76 2010/04/05 16:52:06 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -1620,7 +1620,14 @@ It didn't do anything.
 
 @itemize @bullet 
 
-@item Fixed a bug in the @code{clean} target when METAPOST is in use.
+@item Added support for the bibunits LaTeX package.
+
+@item Fixed a bug where PDFLATEX_FLAGS was not being
+      properly passed down to the latex-mk script when
+      bibtex was in use.
+
+@item Fixed a bug where exporting Xfig figures to PDF actually
+      produced postscript instead of PDF.
 
 @end itemize
 

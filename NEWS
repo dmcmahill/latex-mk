@@ -1,6 +1,17 @@
-# $Id: NEWS,v 1.6 2007/08/26 22:01:05 dan Exp $
+# $Id: NEWS,v 1.7 2010/04/05 16:52:05 dan Exp $
 #
 
+--------------------------------
+Release Notes for LaTeX-Mk-2.0
+--------------------------------
+- Added support for the bibunits package
+
+- Fix a bug when exporting xfig figures to pdf (they were exporting
+  to postscript instead).
+
+- No longer install the .dvi or .ps versions of the manual.
+
+- Fix a bug where PDFLATEX_FLAGS wasn't being properly 
 --------------------------------
 Release Notes for LaTeX-Mk-1.9.1
 --------------------------------
