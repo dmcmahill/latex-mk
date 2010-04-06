@@ -1,4 +1,4 @@
-$Id: README.to-release,v 1.11 2010/04/05 23:38:13 dan Exp $
+$Id: README.to-release,v 1.12 2010/04/06 03:07:26 dan Exp $
 
 To make a latex-mk release do the following:
 
@@ -63,8 +63,9 @@ To make a latex-mk release do the following:
 
 =)      Create checksums
 
-                digest sha1 latex-mk-2.0.tar.gz  > latex-mk-2.0.SHA1
-                digest md5 latex-mk-2.0.tar.gz > latex-mk-2.0.MD5
+                digest sha1 latex-mk-2.0.tar.gz  > latex-mk-2.0-checksum.txt
+                digest md5 latex-mk-2.0.tar.gz >> latex-mk-2.0-checksum.txt
+                wc -c latex-mk-2.0.tar.gz | awk '{printf("Size (%s) = %d bytes\n", $2, $1)}' >> latex-mk-2.0-checksum.txt
 
 =)      Upload the .tar.gz, .MD5, and .SHA1 files
         to ftp://upload.sourceforge.net/incoming/
@@ -74,8 +75,8 @@ To make a latex-mk release do the following:
 
 =)      For file types:
 
-        .tar.gz      -  any / source .gz
-        .{SHA1,MD5}  -  Platform Independent / Other Source File
+        .tar.gz       -  any / source .gz
+        -checksum.txt -  Platform Independent / Other Source File
 
 =)	In htdocs to a 'make upload'
 
