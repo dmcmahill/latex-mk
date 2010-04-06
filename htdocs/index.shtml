@@ -2,8 +2,8 @@
 
 <html>
   <head>
-    <!-- $Id: index.shtml,v 1.19 2007/08/26 22:09:05 dan Exp $ -->
-    <!-- Copyright (c) 2001, 2002, 2003, 2004
+    <!-- $Id: index.shtml,v 1.20 2010/04/06 03:24:49 dan Exp $ -->
+    <!-- Copyright (c) 2001, 2002, 2003, 2004, 2007, 2010
     Dan McMahill  ALL RIGHTS RESERVED. -->
     <link rev="made" href="mailto:danmc@users.sourceforge.net">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -37,8 +37,12 @@
     <p>
 
       <font face="helvetica, arial">
-	LaTeX-Mk is a collection of makefile fragments and shell scripts for simplifying
-	the management of small to large sized LaTeX documents.
+	LaTeX-Mk is a complete system for simplifying the management of small to large
+	sized LaTeX documents.  LaTeX-Mk uses the standard make program for doing most
+	of the work.  Users simply create a makefile which many times is as simple as 
+	one line that specifies the document name and a single include line that loads
+	all of the LaTeX-Mk rules.  LaTeX-Mk has been used for many years on projects
+	ranging in scale from a single page business letter to a published book.
       </font>
 
     <dl>
@@ -55,6 +59,10 @@
       <!-- Recent news  -->
 
       <li><font face="helvetica, arial" size="-1">
+	  <a href="news.html#20100405">LaTeX-Mk-2.0 released, 2010-04-05</a>
+	</font></li>
+
+      <li><font face="helvetica, arial" size="-1">
 	  <a href="news.html#20070827">LaTeX-Mk-1.9.1 released, 2007-08-27</a>
 	</font></li>
 
@@ -65,15 +73,6 @@
       <li><font face="helvetica, arial" size="-1">
 	  <a href="news.html#20060622">LaTeX-Mk-1.8 released, 2006-06-22</a>
 	</font></li>
-
-      <li><font face="helvetica, arial" size="-1">
-	  <a href="news.html#20060609">LaTeX-Mk-1.7 released, 2006-06-09</a>
-	</font></li>
-
-      <li><font face="helvetica, arial" size="-1">
-	  <a href="news.html#20060404">LaTeX-Mk-1.6 released, 2006-04-04</a>
-	</font></li>
-
 
       <!-- End of news -->
 

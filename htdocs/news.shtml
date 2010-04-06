@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: news.shtml,v 1.21 2007/08/26 22:09:05 dan Exp $ -->
+<!-- $Id: news.shtml,v 1.22 2010/04/06 03:24:49 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -33,6 +33,22 @@ xfig,
     </center>
     
     <font face="helvetica, arial">
+
+    <!-- ************************* VERSION 2.0 ******************** -->
+    <HR>
+    <H2><A NAME="20100405">LaTeX-Mk-2.0 Released</A></H2>
+    <P> 
+    April 5, 2010.  LaTeX-Mk version 2.0 has been released.  This is a bug
+    fix release.
+    <UL>
+        <LI>Added support for the bibunits package.</LI>
+	<LI>Fix a bug when exporting xfig figures to pdf (they were exporting
+            to postscript instead).</LI>
+	<LI>No longer install the .dvi or .ps versions of the manual.</LI>
+	<LI>Fix a bug where PDFLATEX_FLAGS wasn't being properly used.</LI> 
+    </UL>
+    </P>
+
 
     <!-- ************************* VERSION 1.9.1 ******************** -->
     <HR>
