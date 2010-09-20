@@ -1,4 +1,4 @@
-## $Id: Makefile,v 1.9 2005/10/04 21:51:30 dan Exp $
+## $Id: Makefile,v 1.10 2010/09/20 23:27:21 dan Exp $
 ##
 
 ## Copyright (c) 2002, 2003, 2004, 2005 Dan McMahill
@@ -93,5 +93,5 @@ latex-mk.html: ../doc/latex-mk.html
 all: ${HTML_OUT} latex-mk.html favicon.ico
 
 upload: all
-	rsync  -e ssh -vax --progress --delete  --include-from=./upload_list --exclude='*' . danmc@shell.sourceforge.net:/home/groups/l/la/latex-mk/htdocs
+	rsync  -e ssh -vax --progress --delete  --include-from=./upload_list --exclude='*' ./ latex-mk-web:htdocs/
 
