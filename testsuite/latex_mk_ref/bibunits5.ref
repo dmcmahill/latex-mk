@@ -23,13 +23,13 @@ run_latex() called
 bibunits package detected
 Running bibtex on out/bu1.aux
 run_bibtex --skip-post-hook bu1 called
-cd out && bibtex  bu1
+cd "out" && "bibtex"  "bu1"
 Running bibtex on out/bu2.aux
 run_bibtex --skip-post-hook bu2 called
-cd out && bibtex  bu2
+cd "out" && "bibtex"  "bu2"
 Running bibtex on out/bu3.aux
 run_bibtex --skip-post-hook bu3 called
-cd out && bibtex  bu3
+cd "out" && "bibtex"  "bu3"
 Citation undefined
 check_bib() called
 Skip BibTex run #1 (due to check_bib)

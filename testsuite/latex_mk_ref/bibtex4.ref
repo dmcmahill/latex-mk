@@ -27,7 +27,7 @@ check_bib():  It is ok to run BibTex (found bibdata)
 check_bib():  It is ok to run BibTex (found bibstyle)
 BibTex run #1
 run_bibtex  called
-cd out && bibtex  bibliography
+cd "out" && "bibtex"  "bibliography"
 rerun        = 
 needbib      = LaTeX Warning: Citation `en300.175-2v1.4.2' on page 1 undefined on input line 1
 changed_file = 

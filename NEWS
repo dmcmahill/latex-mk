@@ -1,5 +1,10 @@
-# $Id: NEWS,v 1.7 2010/04/05 16:52:05 dan Exp $
+# $Id: NEWS,v 1.8 2010/12/28 07:28:50 dan Exp $
 #
+
+--------------------------------
+Release Notes for LaTeX-Mk-2.1
+--------------------------------
+- Improved behavior in the face of $NAME containing spaces.
 
 --------------------------------
 Release Notes for LaTeX-Mk-2.0

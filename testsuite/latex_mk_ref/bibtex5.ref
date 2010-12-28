@@ -27,23 +27,23 @@ check_bib():  It is ok to run BibTex (found bibdata)
 check_bib():  It is ok to run BibTex (found bibstyle)
 BibTex run #1
 run_bibtex  called
-cd . && bibtex  bibliography2
-./bibliography2.idx is new
-./bibliography2.idx new or changed -> need to run makeindex
+cd "." && "bibtex"  "bibliography2"
+"./bibliography2.idx" is new
+"./bibliography2.idx" new or changed -> need to run makeindex
 run_makeindex() called
-cd . && makeindex  bibliography2
-./bibliography2.ind is new
+cd "." && "makeindex"  "bibliography2"
+"./bibliography2.ind" is new
 rerun        = 
 needbib      = LaTeX Warning: Citation `en300.175-2v1.4.2' on page 1 undefined on input line 2
-changed_file =  ./bibliography2.ind
+changed_file =  "./bibliography2.ind"
 Rerun is needed
 ------------------------------------
 Pass #1
 run_latex() called
 Citation undefined
 Try another latex run for the citations
-./bibliography2.idx is not changed
-./bibliography2.ind is not changed
+"./bibliography2.idx" is not changed
+"./bibliography2.ind" is not changed
 rerun        = LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 needbib      = LaTeX Warning: Citation `en300.175-2v1.4.2' on page 1 undefined on input line 2
 changed_file = 
@@ -51,8 +51,8 @@ Rerun is needed
 ------------------------------------
 Pass #2
 run_latex() called
-./bibliography2.idx is not changed
-./bibliography2.ind is not changed
+"./bibliography2.idx" is not changed
+"./bibliography2.ind" is not changed
 rerun        = 
 needbib      = 
 changed_file = 
