@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: script_tests.sh,v 1.14 2010/03/12 21:15:24 dan Exp $
+# $Id: script_tests.sh,v 1.15 2010/12/28 20:18:40 dan Exp $
 #
 # Copyright (c) 2006, 2007, 2010 Dan McMahill
 # All rights reserved.
@@ -111,6 +111,14 @@ echo "LATEX_MK_DIR = $LATEX_MK_DIR"
 
 # golden directory
 REF=latex_mk_ref
+
+tmpdir=${TMPDIR:-/tmp}/latex-mk.$$
+mkdir -m 0700 -p ${tmpdir}
+rc=$?
+if test $rc -ne 0 ; then
+	echo "Failed to create temp directory ${tmpdir}"
+	exit 1
+fi
 
 #######################################
 #
@@ -273,10 +281,17 @@ for t in $all_tests ; do
 
 	# Create the files needed
 	if [ ! -z "$files" ]; then
-		for f in $files ; do
-			#echo "cp -f ${srcdir}/texfiles/${f} ${rundir}"
-			cp -f ${srcdir}/texfiles/${f} ${rundir}
-		done
+		# this horrible ugly hack is supposed to deal with allowing file names that have
+		# spaces in them.  Surely there is a better way but it eludes me at the moment.
+		cat > ${tmpdir}/files << EOF
+		for f in ${files} ; do 
+			#echo "f = \"\${f}\""
+			echo "cp -f \"${srcdir}/texfiles/\${f}\" ${rundir}"
+			cp -f "${srcdir}/texfiles/\${f}" ${rundir}
+done
+EOF
+		#cat ${tmpdir}/files
+		. ${tmpdir}/files
 	fi
     
 	# Set the permissions on the subdirectories
@@ -299,10 +314,13 @@ for t in $all_tests ; do
 	# right we may end up with latex waiting for input from stdin but we don't
 	# ever want to do that.  This is especially important since we are redirecting
 	# stdout and stderr so the user won't even see whats going on.
+	cat > ${tmpdir}/run << EOF
 	cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args 2>&1 \
 		> ${here}/${REF}/${t}.dlog  < /dev/null
-	rc=$?
-
+	rc=\$?
+EOF
+	cat ${tmpdir}/run
+	. ${tmpdir}/run
 	if test $rc -ne $ret -a "X$regen" != "Xyes" ; then
 		echo "FAIL due to wrong return code.  Received $rc, expected $ret"
 	fi
@@ -358,5 +376,6 @@ if [ $fail -ne 0 ]; then
     rc=1
 fi
 
+rm -fr ${tmpdir}
 exit $rc
 

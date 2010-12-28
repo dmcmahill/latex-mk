@@ -1,4 +1,4 @@
-# $Id: script_tests.list,v 1.6 2010/03/12 21:11:22 dan Exp $
+# $Id: script_tests.list,v 1.7 2010/12/28 20:18:39 dan Exp $
 #
 # Copyright (c) 2006, 2007, 2010 Dan McMahill
 # All rights reserved.
@@ -45,6 +45,7 @@ basic1 | | basic1.tex | basic1 |
 basic2 | out:755 .:755 | basic1.tex | basic1 | TEXMFOUTPUT=out
 basic3 | out:755 .:555 | basic1.tex | basic1 | | 1 | no
 basic4 | out:755 .:555 | basic1.tex | basic1 | TEXMFOUTPUT=out | | no
+basic_space1 | | "basic space1.tex" | "basic space1" | 
 
 # same thing with pdflatex
 pdf1 | | basic1.tex | --pdflatex basic1 |

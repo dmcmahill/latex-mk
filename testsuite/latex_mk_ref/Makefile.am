@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.6 2010/03/12 21:11:22 dan Exp $
+## $Id: Makefile.am,v 1.7 2010/12/28 20:18:40 dan Exp $
 ##
 ## Copyright (c) 2006, 2007, 2010 Dan McMahill
 ## All rights reserved.
@@ -40,6 +40,7 @@ LOG_FILES=	${GOLDEN_FILES:.ref=.log}
 DLOG_FILES=	${GOLDEN_FILES:.ref=.dlog}
 
 GOLDEN_FILES=	\
+	basic_space1.ref \
 	basic1.ref \
 	basic2.ref \
 	basic3.ref \
