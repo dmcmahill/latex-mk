@@ -1,4 +1,4 @@
-$Id: README.to-release,v 1.12 2010/04/06 03:07:26 dan Exp $
+$Id: README.to-release,v 1.13 2010/12/28 21:54:11 dan Exp $
 
 To make a latex-mk release do the following:
 
@@ -19,37 +19,37 @@ To make a latex-mk release do the following:
 =)	if this is a major release, then tag and branch:
 
 	1. Tag the base of the release branch
-		cvs tag latex-mk-2-0-base 
+		cvs tag latex-mk-2-1-base 
 
 	2. Create the release branch
-		cvs tag -R -b -r latex-mk-2-0-base latex-mk-2-0
+		cvs tag -R -b -r latex-mk-2-1-base latex-mk-2-1
 
 	3. On the trunk, update configure.ac to update the version
-		for example 2.0A after releasing 2.0
+		for example 2.1A after releasing 2.1
 		cvs update -PdA
 		vi configure.ac
 		cvs ci configure.ac
 
 	4. On the release branch, update configure.ac to update the version
-		for example 2.0_ALPHA.  Now pre-release snapshots can be made.
-		cvs update -PdA -r latex-mk-2-0
+		for example 2.1_ALPHA.  Now pre-release snapshots can be made.
+		cvs update -PdA -r latex-mk-2-1
 
 	6. If desired tag an alpha release:
-		cvs update -PdA -r latex-mk-2-0
+		cvs update -PdA -r latex-mk-2-1
 		./autogen.sh && ./configure --enable-maintainer-mode
-		cvs tag -R -r latex-mk-2-0 latex-mk-2-0-ALPHA
-		cvs update -PdA -r latex-mk-2-0-ALPHA
+		cvs tag -R -r latex-mk-2-1 latex-mk-2-1-ALPHA
+		cvs update -PdA -r latex-mk-2-1-ALPHA
 		./autogen.sh && ./configure --enable-maintainer-mode && gmake distcheck
 
 	6. When the release branch is ready to go,  update configure.ac to
 	   set the final release version.  Then tag the release.
-		cvs update -PdA -r latex-mk-2-0
+		cvs update -PdA -r latex-mk-2-1
 		vi configure.ac
 		cvs ci configure.ac
 		./autogen.sh && ./configure --enable-maintainer-mode
 		cvs ci
-		cvs tag -R -r latex-mk-2-0 latex-mk-2-0-RELEASE
-		cvs update -PdA -r latex-mk-2-0-RELEASE
+		cvs tag -R -r latex-mk-2-1 latex-mk-2-1-RELEASE
+		cvs update -PdA -r latex-mk-2-1-RELEASE
 		./autogen.sh && ./configure --enable-maintainer-mode && gmake distcheck
 
 	8. Return to your regularly scheduled trunk development
@@ -57,21 +57,21 @@ To make a latex-mk release do the following:
 
 =) 	if this is a patch release, then simply make desired changes to the branch, and
 		./autogen.sh 
-		cvs tag -R -r latex-mk-2-0 latex-mk-2-0-PATCH001
+		cvs tag -R -r latex-mk-2-1 latex-mk-2-1-PATCH001
 
 =)	gmake distclean ; ./autogen.sh && ./configure && gmake distcheck
 
 =)      Create checksums
 
-                digest sha1 latex-mk-2.0.tar.gz  > latex-mk-2.0-checksum.txt
-                digest md5 latex-mk-2.0.tar.gz >> latex-mk-2.0-checksum.txt
-                wc -c latex-mk-2.0.tar.gz | awk '{printf("Size (%s) = %d bytes\n", $2, $1)}' >> latex-mk-2.0-checksum.txt
+                digest sha1 latex-mk-2.1.tar.gz  > latex-mk-2.1-checksum.txt
+                digest md5 latex-mk-2.1.tar.gz >> latex-mk-2.1-checksum.txt
+                wc -c latex-mk-2.1.tar.gz | awk '{printf("Size (%s) = %d bytes\n", $2, $1)}' >> latex-mk-2.1-checksum.txt
 
 =)      Upload the .tar.gz, .MD5, and .SHA1 files
         to ftp://upload.sourceforge.net/incoming/
 
 =)      Create a new file release for latex-mk with a release name of
-        "latex-mk-2.0" (for latex-mk-2.0).
+        "latex-mk-2.1" (for latex-mk-2.1).
 
 =)      For file types:
 

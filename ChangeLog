@@ -1,3 +1,68 @@
+2010-12-28 16:15  dan
+
+	* configure.ac, testsuite/Makefile.am,
+	  testsuite/texfiles/Makefile.am: rework how the texfiles
+	  subdirectory is distributed to handle spaces in the file names
+
+2010-12-28 15:18  dan
+
+	* testsuite/: script_tests.list, script_tests.sh,
+	  latex_mk_ref/Makefile.am, latex_mk_ref/basic_space1.ref,
+	  texfiles/Makefile.am: add test for latex-mk script on a file with
+	  a space in the name
+
+2010-12-28 02:28  dan
+
+	* NEWS, latex-mk.in, testsuite/latex_mk_ref/bibtex1.ref,
+	  testsuite/latex_mk_ref/bibtex2.ref,
+	  testsuite/latex_mk_ref/bibtex4.ref,
+	  testsuite/latex_mk_ref/bibtex5.ref,
+	  testsuite/latex_mk_ref/bibunits1.ref,
+	  testsuite/latex_mk_ref/bibunits2.ref,
+	  testsuite/latex_mk_ref/bibunits3.ref,
+	  testsuite/latex_mk_ref/bibunits4.ref,
+	  testsuite/latex_mk_ref/bibunits5.ref,
+	  testsuite/latex_mk_ref/bibunits6.ref,
+	  testsuite/latex_mk_ref/makegls1.ref,
+	  testsuite/latex_mk_ref/makeindex1.ref,
+	  testsuite/latex_mk_ref/makeindex2.ref,
+	  testsuite/latex_mk_ref/makeindex4.ref: Improve quoting for $NAME
+	  and variables derived from NAME in the latex-mk shell script.
+	  This hopefully gets things working when $NAME has spaces in it.
+	  Also improve $ODIR quoting.
+
+	  Addresses bug #3146401 "$NAME needs quoting" reported by Reuben
+	  Thomas.
+
+2010-09-21 08:14  dan
+
+	* lgrind.mk.in.in: fix a bug in cleaning the lgrind objects.
+	  Quoted the wrong variable.
+
+2010-09-20 19:27  dan
+
+	* htdocs/Makefile: update the rsync setup
+
+2010-04-05 23:24  dan
+
+	* htdocs/: index.shtml, news.shtml: add latex-mk-2.0 news and notes
+
+2010-04-05 23:07  dan
+
+	* README.to-release: fix up the checksum instructions
+
+2010-04-05 22:39  dan
+
+	* configure.ac: Set version for 2.0 release
+
+2010-04-05 22:38  dan
+
+	* configure.ac: welcome to 2.0A
+
+2010-04-05 19:40  dan
+
+	* ChangeLog: update for 2.0
+
 2010-04-05 19:38  dan
 
 	* README.to-release: update to account for autogen.sh not running

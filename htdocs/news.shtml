@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<!-- $Id: news.shtml,v 1.22 2010/04/06 03:24:49 dan Exp $ -->
+<!-- $Id: news.shtml,v 1.23 2010/12/28 21:50:30 dan Exp $ -->
 <!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill  ALL RIGHTS RESERVED. -->
 <link rev="made" href="mailto:danmc@users.sourceforge.net">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -33,6 +33,22 @@ xfig,
     </center>
     
     <font face="helvetica, arial">
+
+    <!-- ************************* VERSION 2.1 ******************** -->
+    <HR>
+    <H2><A NAME="20101228">LaTeX-Mk-2.1 Released</A></H2>
+    <P> 
+    December 28, 2010.  LaTeX-Mk version 2.1 has been released.  This is a bug
+    fix release.
+    <UL>
+        <li>Fixed a bug in the quoting of lgrind related variables.  The
+            result is that the clean target didn't quite work right.</li>
+
+        <li>Improved quoting in the latex-mk script to better handle
+            the case of a file name with spaces in it.</li>
+    </UL>
+    </P>
+
 
     <!-- ************************* VERSION 2.0 ******************** -->
     <HR>
