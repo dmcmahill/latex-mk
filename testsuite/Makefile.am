@@ -1,6 +1,6 @@
-## $Id: Makefile.am,v 1.17 2006/06/09 17:00:30 dan Exp $
+## $Id: Makefile.am,v 1.18 2010/12/28 21:15:22 dan Exp $
 ##
-## Copyright (c) 2003, 2006 Dan McMahill
+## Copyright (c) 2003, 2006, 2010 Dan McMahill
 ## All rights reserved.
 ##
 ## This code is derived from software written by Dan McMahill
@@ -32,7 +32,7 @@
 ##  SUCH DAMAGE.
 ##
 
-SUBDIRS=	bmake_ref gmake_ref latex_mk_ref texfiles
+SUBDIRS=	bmake_ref gmake_ref latex_mk_ref
 
 TESTS_ENVIRONMENT=	\
 	GMAKE=${GMAKE}	\
@@ -58,7 +58,8 @@ DISTCLEANFILES=	\
 
 TESTS=		${RUN_TESTS}
 
-EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list script_tests.list golden.mk simple.mk README.txt
+EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list script_tests.list golden.mk simple.mk README.txt \
+		texfiles
 
 all-local:	${BMKFILES} ${GMKFILES}
 
