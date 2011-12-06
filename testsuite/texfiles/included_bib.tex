@@ -1,0 +1,41 @@
+% $Id: included_bib.tex,v 1.1 2011/12/06 22:35:56 dan Exp $
+%
+% This file is an example of a simple document which includes the
+% thebibliography environment as well as all the \bibitem entries.
+% In this case BibTeX should *not* be run
+%
+\documentclass{article}
+
+\begin{document}
+
+\title{Title}
+\author{Bug submitter
+}
+\subsubsection*{Acknowledgments.}
+
+The paper~\cite{Asin11} is interesting.
+
+
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem{Asin11}
+As\'{\i}n, R., Nieuwenhuis, R., Oliveras, A., Rodr\'{\i}guez-Carbonell, E.:
+Cardinality networks: a theoretical and empirical study. Constraints 16(2),
+195--221 (2011)
+
+\end{thebibliography}
+
+\end{document}
+
+
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem{Asin11}
+As\'{\i}n, R., Nieuwenhuis, R., Oliveras, A., Rodr\'{\i}guez-Carbonell, E.:
+Cardinality networks: a theoretical and empirical study. Constraints 16(2),
+195--221 (2011)
+\end{thebibliography}

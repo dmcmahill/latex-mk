@@ -1,6 +1,6 @@
-# $Id: script_tests.list,v 1.7 2010/12/28 20:18:39 dan Exp $
+# $Id: script_tests.list,v 1.8 2011/12/06 22:35:53 dan Exp $
 #
-# Copyright (c) 2006, 2007, 2010 Dan McMahill
+# Copyright (c) 2006, 2007, 2010, 2011 Dan McMahill
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -75,6 +75,7 @@ bibtex3 | out:755 .:555 | bibliography.tex bibliography.bib| bibliography | | 1 
 bibtex4 | out:755 .:555 | bibliography.tex bibliography.bib| bibliography | TEXMFOUTPUT=out | | no
 
 bibtex5 | | bibliography2.tex bibliography.bib| bibliography2 |
+bibtex6 | | included_bib.tex| included_bib |
 
 ######################################################################
 # Use of the bibunits package

@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.40 2010/12/28 07:28:50 dan Exp $
+# $Id: latex-mk.in,v 1.41 2011/12/06 22:35:52 dan Exp $
 #
-# Copyright (c) 2002, 2003, 2004, 2005, 2006, 2010 Dan McMahill
+# Copyright (c) 2002, 2003, 2004, 2005, 2006, 2010, 2011 Dan McMahill
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -462,21 +462,32 @@ check_bib() {
 	# run latex.  If it fails, manually remove the .dvi file since
 	# latex won't.  Leaving the .dvi file would confuse 'make' because on the next
 	# invocation, the .dvi file would appear to be up to date already.
+
+	# to figure out if we need to run BibTeX we look in the .aux file for
+	# \citation, \bibdata, or \bibstyle.  We have to watch out for the case where
+	# the .tex file contains the thebibliography environment as well as all
+	# \bibitem entries and all bibliographical information.  In this case, the
+	# .aux file will contain a \citation but not \bibdata
+
 	log "check_bib() called"
-	bibtex_ok=no
+	bibtex_ok=yes
+	wlist=""
 	for w in citation bibdata bibstyle ; do
+		wlist="${wlist} \\${w}"
 		msg="Checking for \\$w in \"${ODIR}/${NAME}.aux\" ..."
 		rslt="no"
 		if grep "^\\\\${w}" "${ODIR}/${NAME}.aux" >/dev/null 2>/dev/null ; then
 			rslt="yes"
-			bibtex_ok=yes
-			log "check_bib():  It is ok to run BibTex (found $w)"
+		else
+			bibtex_ok=no
 		fi
 		report "$msg $rslt"
 	done
 	rc=0
 	if test $bibtex_ok = no ; then
 		rc=1
+	else
+		log "check_bib():  It is ok to run BibTex (found all of: ${wlist} in the .aux file)"
 	fi
 	return $rc
 }

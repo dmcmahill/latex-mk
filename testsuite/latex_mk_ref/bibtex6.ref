@@ -14,7 +14,7 @@ TEX2PAGE_FLAGS []
 LATEX_MK_LOG   [./latex-mk.log]
 ODIR           [.]
 
-TEXMFOUTPUT    [out]
+TEXMFOUTPUT    []
 TEXINPUTS      []
 BIBINPUTS      []
 ------------------------------------
@@ -22,25 +22,13 @@ Pass #0
 run_latex() called
 Citation undefined
 check_bib() called
-check_bib():  It is ok to run BibTex (found all of:  \citation \bibdata \bibstyle in the .aux file)
-BibTex run #1
-run_bibtex  called
-cd "." && "bibtex"  "bibliography"
-rerun        = 
-needbib      = LaTeX Warning: Citation `en300.175-2v1.4.2' on page 1 undefined on input line 1
+Skip BibTex run #1 (due to check_bib)
+rerun        = LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+needbib      = LaTeX Warning: Citation `Asin11' on page 1 undefined on input line 16.
 changed_file = 
 Rerun is needed
 ------------------------------------
 Pass #1
-run_latex() called
-Citation undefined
-Try another latex run for the citations
-rerun        = LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-needbib      = LaTeX Warning: Citation `en300.175-2v1.4.2' on page 1 undefined on input line 1
-changed_file = 
-Rerun is needed
-------------------------------------
-Pass #2
 run_latex() called
 rerun        = 
 needbib      = 
