@@ -1,5 +1,5 @@
 \input texinfo   @c -*-texinfo-*-
-@c $Id: latex-mk.texi,v 1.77 2010/12/28 21:50:27 dan Exp $
+@c $Id: latex-mk.texi,v 1.78 2011/12/06 22:33:00 dan Exp $
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
@@ -429,7 +429,7 @@ do not need to be explicitly set as they will take on reasonable
 defaults. 
 
 @defvar BIBTEX
-The bibtex executible.  Defaults to @samp{bibtex}.
+The BibTeX executible.  Defaults to @samp{bibtex}.
 @end defvar
 
 @defvar BIBTEX_ENV
@@ -1394,7 +1394,7 @@ The significant changes/additions over the previous version are:
 @itemize @bullet
 @item Support for HTML output.  Either LaTeX2HTML or HeVeA may be used.  
 
-@item Fixed a bug where bibtex was not run sometimes when it needed to
+@item Fixed a bug where BibTeX was not run sometimes when it needed to
 be run.  This problem showed up with some versions of LaTeX.
 
 @item Added a POST_BIBTEX_HOOK variable which specifies a program to be
@@ -1624,7 +1624,7 @@ It didn't do anything.
 
 @item Fixed a bug where PDFLATEX_FLAGS was not being
       properly passed down to the latex-mk script when
-      bibtex was in use.
+      BibTeX was in use.
 
 @item Fixed a bug where exporting Xfig figures to PDF actually
       produced postscript instead of PDF.
