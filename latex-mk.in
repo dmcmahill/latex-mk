@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: latex-mk.in,v 1.41 2011/12/06 22:35:52 dan Exp $
+# $Id: latex-mk.in,v 1.42 2011/12/06 22:51:37 dan Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2006, 2010, 2011 Dan McMahill
 # All rights reserved.
@@ -49,7 +49,7 @@ PDFLATEX_FLAGS=${PDFLATEX_FLAGS:-}
 TEX2PAGE=${TEX2PAGE:-tex2page}
 TEX2PAGE_FLAGS=${TEX2PAGE_FLAGS:-}
 
-LATEX_MK_LOG=${LOG:-latex-mk.log}
+LATEX_MK_LOG=${LATEX_MK_LOG:-latex-mk.log}
 
 # The environment variable TEXMFOUTPUT is a "special" one.  LaTeX will
 # try to write its output files (including intermediate files) to the
@@ -182,7 +182,7 @@ affect the behaviour of $0.
   TEX2PAGE       [${TEX2PAGE}]
   TEX2PAGE_FLAGS [${TEX2PAGE_FLAGS}]
   TEXMFOUTPUT    [${TEXMFOUTPUT}]
-  LATEX_MK_LOG   [${LOG}]
+  LATEX_MK_LOG   [${LATEX_MK_LOG}]
 
 SEE ALSO
 
