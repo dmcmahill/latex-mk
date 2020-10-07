@@ -15,11 +15,9 @@ before_install:
 install:
   - ./autogen.sh
   #- touch intl/ChangeLog
-  #- bison --version
-  #- export PSTOEDIT=/usr/bin/pstoedit-3.75 ; ./configure
+  - ./configure
 
 script: |
-  - ./configure
   - make
   - make check
   - make distcheck
