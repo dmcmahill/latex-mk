@@ -29,7 +29,7 @@ addons:
     - automake
     - autopoint
     - ghostscript
-    - texlive-latex
+    - texlive-latex-base
     - texlive-latex-extra
     - texlive-latex-recommended
     - latex2html
