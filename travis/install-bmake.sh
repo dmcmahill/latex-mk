@@ -9,9 +9,10 @@ wget http://www.crufty.net/ftp/pub/sjg/${bmake_dist} -O ${bmake_dist}
 tar -zxvf ${bmake_dist}
 cd ${bmake_nm}
 
-mv boot-strap boot-strap.orig
-sed 's/Bmake test \|\| exit 1/Bmake test/g' boot-strap.orig > boot-strap
-chmod 755 boot-strap
+for f in travis/bmake-patch* ; do
+    echo "Apply $f"
+    patch -p0 < $f
+done
 
 ./configure --prefix=/usr
 make
