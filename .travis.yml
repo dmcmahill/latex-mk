@@ -9,6 +9,7 @@ os:
 #  - bsd
 
 before_install:
+  - ./travis/install-bmake.sh
   - ./travis/install-tgif.sh
 
 install:
