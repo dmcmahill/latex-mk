@@ -29,6 +29,11 @@ addons:
     - automake
     - autopoint
     - ghostscript
+    - texlive-latex
+    - texlive-latex-extra
+    - texlive-latex-recommended
+    - latex2html
+    - hevea
     # for tgif
     - libxmu-dev
     - xfonts-75dpi
