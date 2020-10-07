@@ -1,0 +1,16 @@
+--- unit-tests/Makefile.orig	2020-09-02 14:40:56.000000000 -0400
++++ unit-tests/Makefile	2020-10-06 22:38:05.417104726 -0400
+@@ -151,5 +151,5 @@
+ TESTS+=		error
+ TESTS+=		# escape	# broken by reverting POSIX changes
+-TESTS+=		export
++#TESTS+=		export
+ TESTS+=		export-all
+ TESTS+=		export-env
+@@ -161,5 +161,5 @@
+ TESTS+=		include-main
+ TESTS+=		lint
+-TESTS+=		make-exported
++#TESTS+=		make-exported
+ TESTS+=		misc
+ TESTS+=		moderrs
