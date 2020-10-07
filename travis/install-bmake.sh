@@ -9,7 +9,7 @@ wget http://www.crufty.net/ftp/pub/sjg/${bmake_dist} -O ${bmake_dist}
 tar -zxvf ${bmake_dist}
 cd ${bmake_nm}
 
-for f in travis/bmake-patch* ; do
+for f in `find ../travis/ -name bmake-patch\* -print` ; do
     echo "Apply $f"
     patch -p0 < $f
 done
