@@ -1,0 +1,48 @@
+#dist: xenial
+dist: bionic
+
+language: c
+
+os:
+  - linux
+#  - osx
+#  - bsd
+
+before_install:
+  - ./travis/install-tgif.sh
+
+install:
+  - ./autogen.sh
+  #- touch intl/ChangeLog
+  #- bison --version
+  #- export PSTOEDIT=/usr/bin/pstoedit-3.75 ; ./configure
+
+script: |
+  - make
+  - make check
+  - make distcheck
+
+addons:
+  apt:
+    packages:
+    - autoconf
+    - automake
+    - autopoint
+    - ghostscript
+    # for tgif
+    - libxmu-dev
+    - xfonts-75dpi
+    - gsfonts-x11
+
+
+  homebrew:
+    packages:
+    - autoconf
+    - automake
+    - autopoint
+    - tgif
+
+# need an X display for tgif for exporting the various
+# graphics.
+#services:
+#    - xvfb
