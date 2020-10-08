@@ -16,8 +16,7 @@ install:
   - ./autogen.sh
   #- touch intl/ChangeLog
   - ./configure
-
-script: |
+  # script: 
   - make
   - make check
   - make distcheck
