@@ -18,3 +18,24 @@ done
 make
 sudo make install
 
+echo "Running basic sanity check for functionality"
+
+cat > tmp.mk <<EOF
+# include some of the "." commands that we need from a 
+# BSD make.
+MYVAR= BSDmake
+MYFLAG= #defined
+test:
+.for __tmp__ in \${MYVAR}
+.if defined(MYFLAG)
+	@echo \${__tmp__}
+.endif
+.endfor
+EOF
+
+echo "========= tmp.mk =========="
+cat tmp.mk
+echo "========= ====== =========="
+
+/usr/bin/bmake -f tmp.mk
+
