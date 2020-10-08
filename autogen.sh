@@ -53,6 +53,8 @@ echo "... done with automake."
 
 echo "Checking autoconf version..."
 ac_ver=`autoconf --version | awk '{print $NF; exit}'`
+echo "    $ac_ver"
+
 echo "Running autoconf..."
 autoconf || exit 1
 echo "... done with autoconf."
