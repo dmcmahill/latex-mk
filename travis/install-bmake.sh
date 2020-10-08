@@ -14,8 +14,16 @@ for f in `find ../travis/ -name bmake-patch\* -print` ; do
     patch -p0 < $f
 done
 
-./configure --prefix=/usr
-make
+cat << EOF
+
+prefix           : ${prefix}
+PREFIX           : ${PREFIX}
+DEFAULT_SYS_PATH : ${DEFAULT_SYS_PATH}
+
+EOF
+
+./configure --prefix=/usr 
+make prefix=/usr DEFAULT_SYS_PATH=/usr/share/mk
 sudo make install
 
 echo "Running basic sanity check for functionality"
