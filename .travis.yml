@@ -33,6 +33,8 @@ addons:
     - texlive-latex-recommended
     - latex2html
     - hevea
+    # for the manual
+    - texinfo
     # for tgif
     - libxmu-dev
     - xfonts-75dpi
