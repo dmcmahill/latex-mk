@@ -88,6 +88,11 @@ bsd_make=
 for mk in "$BMAKE" "$MAKE" make bmake nbmake ; do
 	if test -n "$mk" ; then
 		AC_MSG_CHECKING([if $mk is BSD make])
+		echo "$as_me:$LINENO: $1" >&AS_MESSAGE_LOG_FD
+		sh -c "$mk -f tmp.mk test"  >&AS_MESSAGE_LOG_FD 2>&AS_MESSAGE_LOG_FD
+		ac_status=$?
+		echo "$as_me:$LINENO: \$? = $ac_status" >&AS_MESSAGE_LOG_FD
+
 		tmp=`sh -c "$mk -f tmp.mk test" 2> /dev/null | grep BSDmake`
 		if test "X$tmp" = "XBSDmake" ; then
 			AC_MSG_RESULT([yes])
