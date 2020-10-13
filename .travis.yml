@@ -18,7 +18,7 @@ install:
   - ./configure
   # script: 
   - make
-  - make check
+  - make check || (cat testsuite/test-suite.log ; exit 1)
   - make distcheck
 
 addons:
