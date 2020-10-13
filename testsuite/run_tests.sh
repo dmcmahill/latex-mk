@@ -240,9 +240,12 @@ GMAKE_REF=gmake_ref
 MAKEFLAGS=""
 MAKELEVEL=""
 MFLAGS=""
+USER_MAKECONF="/dev/null"
+
 export MAKEFLAGS
 export MAKELEVEL
 export MFLAGS
+export USER_MAKECONF
 
 #######################################
 #
