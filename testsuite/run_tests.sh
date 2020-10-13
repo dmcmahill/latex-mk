@@ -360,8 +360,17 @@ for t in $all_tests ; do
     # we have to replace the actual name of the GNU make program with 'gmake' because
     # some of the tests will contain the name of GNU make in the output.  This way if
     # someone has installed GNU make as 'gnumake', the test will still pass even though
-    # I use 'gmake' on my system
-    cd ${rundir} && ${GMAKE}  $args | sed "s;${GMAKE_NAME};gmake;g" > ${here}/${GMAKE_REF}/${t}.${sufx}
+    # I use 'gmake' on my system.  In addition, a change happened in GNU make at some point
+    # that changed output like:
+    #    gmake: `test1.dvi' is up to date.
+    # to
+    #    gmake: 'test1.dvi' is up to date.
+    #
+    cd ${rundir} && ${GMAKE}  $args | \
+        sed \
+            -e "s;${GMAKE_NAME};gmake;g" \
+            -e "/^gmake:/ s/\`/\'/g" \
+            > ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
 	    if diff ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
