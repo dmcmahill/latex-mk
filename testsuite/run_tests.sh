@@ -37,11 +37,19 @@
 regen=no
 with_bmake=yes
 with_gmake=yes
+show_diff=${SHOW_DIFF:-no}
+DIFF_FLAGS=${DIFF_FLAGS:-}
 
 while test -n "$1"
 do
     case "$1"
     in
+
+    --diff-flag)
+        # add to the diff flags
+        DIFF_FLAGS="${DIFF_FLAGS} $2"
+        shift 2
+        ;;
 
     -h|--help)
 	echo "Sorry, help not available for this script yet"
@@ -54,6 +62,12 @@ do
 	regen=yes
 	shift
 	;;
+
+    --show-diff)
+        # on failures, show the diff output
+        show_diff=yes
+        shift
+        ;;
 
     --without-bmake)
 	# don't run the BSD make tests
@@ -343,6 +357,9 @@ for t in $all_tests ; do
 		bpass=`expr $bpass + 1`
 	    else
 		echo "FAILED:  See diff ${here}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
+                if [ "X${show_diff}" = "Xyes" ] ; then
+                    diff ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log
+                fi
 		bfail=`expr $bfail + 1`
 	    fi
 	else
@@ -378,6 +395,9 @@ for t in $all_tests ; do
 		gpass=`expr $gpass + 1`
 	    else
 		echo "FAILED:  See diff ${here}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
+                if [ "X${show_diff}" = "Xyes" ] ; then
+                    diff ${DIFF_FLAGS} ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log
+                fi
 		gfail=`expr $gfail + 1`
 	    fi
 	else
