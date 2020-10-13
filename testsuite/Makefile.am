@@ -34,7 +34,9 @@
 
 TESTS_ENVIRONMENT=	\
 	GMAKE=${GMAKE}	\
-	BMAKE=${BMAKE}
+	BMAKE=${BMAKE}  \
+	DIFF_FLAGS="${DIFF_FLAGS}" \
+	SHOW_DIFF=yes
 
 MKSRCS=		testfile.mk.in
 RUN_TESTS=	run_tests.sh
