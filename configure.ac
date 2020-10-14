@@ -33,8 +33,9 @@ dnl  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 dnl  SUCH DAMAGE.
 dnl    
 
-AC_INIT(latex.mk.in.in)
-AM_INIT_AUTOMAKE(latex-mk, 1.0B)
+AC_INIT([latex-mk], [1.0B])
+AC_CONFIG_SRCDIR([latex.mk.in.in])
+AM_INIT_AUTOMAKE
 
 #
 # determine host type
@@ -90,8 +91,8 @@ AC_PATH_PROG(FIG2DEV, fig2dev, fig2dev)
 # This is used by the testsuite
 #
 
-AC_PATH_GNU_MAKE
-AC_PATH_BSD_MAKE
+AX_PATH_GNU_MAKE
+AX_PATH_BSD_MAKE
 
 #
 # system config files

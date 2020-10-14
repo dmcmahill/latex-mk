@@ -34,7 +34,7 @@ dnl
 
 # Look for GNU make
 
-AC_DEFUN(AC_PATH_GNU_MAKE,
+AC_DEFUN([AX_PATH_GNU_MAKE],
 [#AC_MSG_CHECKING([for GNU make])
 gnu_make=
 for mk in "$GMAKE" "$MAKE" gmake make gnumake ; do
@@ -69,7 +69,7 @@ fi
 
 
 # Look for BSD make
-AC_DEFUN(AC_PATH_BSD_MAKE,
+AC_DEFUN([AX_PATH_BSD_MAKE],
 [
 cat > tmp.mk << EOF
 # include some of the "." commands that we need from a 
