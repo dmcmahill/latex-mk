@@ -113,4 +113,66 @@ else
 fi
 ])dnl
 
+##########################################################################
+#
+# diff program and flags (used by the testsuite)
+#
+
+# find the diff program
+AC_DEFUN([AX_PATH_DIFF],
+  [AC_PATH_PROGS(DIFF, diff gdiff, diff)
+  AC_PROVIDE([AX_PATH_DIFF])dnl
+])
+
+# checks on DIFF flags
+dnl AX_TRY_DIFF(FLAG, MATCHED, [ACTION-IF-TRUE [, ACTION-IF-FALSE]])
+dnl MATCHED is one of [yes] or [no] to indicate that the input
+dnl files for the test should match ([yes]) or not match ([no])
+AC_DEFUN([AX_TRY_DIFF],
+[AC_REQUIRE([AX_PATH_DIFF])dnl
+cat > conftest1.txt <<EOF
+[#]line __oline__ "configure"
+this is a text file
+that has some line
+and another
+EOF
+cat > conftest2.txt <<EOF
+[#]line __oline__ "configure"
+this is a text file
+that has a different line
+and another
+EOF
+if test "X[$2]" = "Xyes" ; then
+    cp conftest1.txt conftest2.txt
+fi
+if ($DIFF [$1] conftest1.txt conftest2.txt >/dev/null; exit) 2>&AC_FD_CC
+then
+dnl
+  AC_MSG_RESULT([yes])
+  ifelse([$3], , :, [$3])
+else
+  AC_MSG_RESULT([no])
+  echo "configure:__oline__: $DIFF [$1] conftest1.txt conftest2.txt" >&AC_FD_CC
+  echo "configure:__oline__: failed input file conftest1.txt  was:" >&AC_FD_CC
+  cat conftest1.txt >&AC_FD_CC
+  echo "configure:__oline__: failed input file conftest2.txt  was:" >&AC_FD_CC
+  cat conftest2.txt >&AC_FD_CC
+ifelse([$4], , , [  rm -fr conftest*
+  $3
+])dnl
+fi
+rm -fr conftest*])
+
+
+# top level DIFF
+dnl AX_PROG_DIFF
+AC_DEFUN([AX_PROG_DIFF],
+[
+DIFF_FLAGS=${DIFF_FLAGS:-}
+for flag in -U2 ; do
+    AC_MSG_CHECKING([if $DIFF accepts $flag])
+    AX_TRY_DIFF([$flag], [yes], DIFF_FLAGS="${DIFF_FLAGS} ${flag}")
+done
+AC_SUBST(DIFF_FLAGS)
+])dnl
 

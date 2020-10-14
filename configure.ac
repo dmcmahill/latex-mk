@@ -57,6 +57,8 @@ AC_PATH_PROG(GREP, grep, grep)
 AC_PATH_PROG(RM,rm)
 AC_PATH_PROG(RMDIR,rmdir)
 
+AX_PROG_DIFF
+
 #
 # for latex.mk
 #
