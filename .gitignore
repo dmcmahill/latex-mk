@@ -41,13 +41,24 @@ test-driver
 # generated via the auto* tools
 Makefile
 Makefile.in
-aclocalm4
+aclocal.m4
 autom4te.cache/
 config.log
 config.status
 configure
 
 # generated via the configure and build steps
+doc/latex-mk.dvi
+doc/latex-mk.info
+doc/latex-mk.pdf
+doc/latex-mk.ps
+doc/stamp-vti
+doc/version.texi
+
+example/makefile.gmk
+example/makefile.mk
+
+ieee-copyout
 latex-mk
 latex.gmk
 latex.mk
@@ -59,3 +70,4 @@ tgif.mk.in
 xfig.gmk
 xfig.mk
 xfig.mk.in
+
