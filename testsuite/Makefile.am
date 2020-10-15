@@ -60,7 +60,8 @@ SUBDIRS=	bmake_ref gmake_ref
 
 TESTS=		${RUN_TESTS}
 
-EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list golden.mk README.txt
+EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list golden.mk README.txt \
+		sort_sections.awk
 
 SUFFIXES=	.mk.in .mk .gmk
 

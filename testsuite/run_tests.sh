@@ -253,6 +253,7 @@ export USER_MAKECONF
 #
 #######################################
 
+BUILD_AWK=${AWK:-awk}
 AWK=awk
 FIND=find
 GREP=grep
@@ -285,6 +286,8 @@ srcdir=${srcdir:-$here}
 srcdir=`cd $srcdir && pwd`
 
 rundir=${here}/run
+
+SORT_SECTIONS="${BUILD_AWK} -f ${srcdir}/sort_sections.awk"
 
 if [ ! -d ${BMAKE_REF} ]; then
     mkdir ${BMAKE_REF}
@@ -348,11 +351,11 @@ for t in $all_tests ; do
 	    fi
 	done
     fi
-    
+ 
     # run the BSD make test
     if [ "X$with_bmake" = "Xyes" ]; then
     echo "Test:  (BSD make) $t"
-    cd ${rundir} && ${BMAKE}  $args > ${here}/${BMAKE_REF}/${t}.${sufx}
+    cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
 	    if diff ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
@@ -390,6 +393,7 @@ for t in $all_tests ; do
         sed \
             -e "s;${GMAKE_NAME};gmake;g" \
             -e "/^gmake:/ s/\`/\'/g" \
+        | ${SORT_SECTIONS} \
             > ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
