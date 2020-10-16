@@ -18,9 +18,12 @@ install:
   - ./configure
   # script: 
   - make
-  - make check || (cat testsuite/test-suite.log ; exit 1)
+  - make check
   - make distcheck
 
+after_failure:
+  - ./travis/failures.sh
+  
 addons:
   apt:
     packages:
