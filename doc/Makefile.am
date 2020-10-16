@@ -10,7 +10,7 @@ dvi_docs=	${info_TEXINFOS:.texi=.dvi}
 
 EXTRA_DIST=	${html_docs} ${ps_docs} ${pdf_docs} ${dvi_docs}
 
-SUFFIXES=	.html .pdf
+#SUFFIXES=	.html .pdf
 
 DISTCLEANFILES= \
 	*.fns \
@@ -18,18 +18,22 @@ DISTCLEANFILES= \
 	*.trs \
 	*.vrs
 
-.ps.pdf:
-	ps2pdf $<
+# do not split the output, html in particular, into multiple files
+AM_MAKEINFO_FLAGS=	--no-split
 
-.texi.html:
-	$(MAKEINFO) --html $<
+#.ps.pdf:
+#	ps2pdf $<
+#
+# texi2dvi  --build-dir=latex-mk.t2d -o latex-mk.dvi   latex-mk.texi
+#.texi.html:
+#	$(MAKEINFO) --html --no-split $<
 
-.PHONY: html
-html: version.texi $(html_docs)
+#.PHONY: html
+#html: version.texi $(html_docs)
 
-.PHONY: ps
-ps: version.texi $(ps_docs)
+#.PHONY: ps
+#ps: version.texi $(ps_docs)
 
-.PHONY: pdf
-pdf: version.texi $(pdf_docs)
+#.PHONY: pdf
+#pdf: version.texi $(pdf_docs)
 
