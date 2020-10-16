@@ -12,11 +12,10 @@ before_install:
   - ./travis/install-bmake.sh
   - ./travis/install-tgif.sh
 
-install:
+script:
   - ./autogen.sh
   #- touch intl/ChangeLog
   - ./configure
-  # script: 
   - make
   - make check
   - make distcheck
