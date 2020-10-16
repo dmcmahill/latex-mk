@@ -35,6 +35,7 @@ addons:
     - hevea
     # for the manual
     - texinfo
+    - texi2html
     # for tgif
     - libxmu-dev
     - xfonts-75dpi
