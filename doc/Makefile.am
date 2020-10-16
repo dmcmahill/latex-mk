@@ -19,7 +19,7 @@ DISTCLEANFILES= \
 	*.vrs
 
 # do not split the output, html in particular, into multiple files
-AM_MAKEINFO_FLAGS=	--no-split
+AM_MAKEINFOFLAGS=	--no-split
 
 #.ps.pdf:
 #	ps2pdf $<
