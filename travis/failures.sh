@@ -3,7 +3,7 @@
 # This script is executed on a travis failure:
 
 for f in config.log testsuite/test-suite.log ; do
-    echo "++++ ${f}"
+    echo "--- ${f}"
     if test -f "${f}" ; then
         cat "${f}"
     else
@@ -11,11 +11,14 @@ for f in config.log testsuite/test-suite.log ; do
     fi
 done
 
+echo "--- Doc directory"
+ls -l doc
+
 for tool in makeinfo texi2html ; do
-    echo "+++ ${tool} check"
+    echo "--- ${tool} check"
     which -a "${tool}" 2>&1 || true
 done
 
-echo "+++ See if makeinfo --html works"
+echo "--- See if makeinfo --html works"
 man makeinfo
 
