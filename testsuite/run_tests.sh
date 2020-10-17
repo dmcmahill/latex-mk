@@ -37,11 +37,19 @@
 regen=no
 with_bmake=yes
 with_gmake=yes
+show_diff=${SHOW_DIFF:-no}
+DIFF_FLAGS=${DIFF_FLAGS:-}
 
 while test -n "$1"
 do
     case "$1"
     in
+
+    --diff-flag)
+        # add to the diff flags
+        DIFF_FLAGS="${DIFF_FLAGS} $2"
+        shift 2
+        ;;
 
     -h|--help)
 	echo "Sorry, help not available for this script yet"
@@ -54,6 +62,12 @@ do
 	regen=yes
 	shift
 	;;
+
+    --show-diff)
+        # on failures, show the diff output
+        show_diff=yes
+        shift
+        ;;
 
     --without-bmake)
 	# don't run the BSD make tests
@@ -226,9 +240,12 @@ GMAKE_REF=gmake_ref
 MAKEFLAGS=""
 MAKELEVEL=""
 MFLAGS=""
+USER_MAKECONF="/dev/null"
+
 export MAKEFLAGS
 export MAKELEVEL
 export MFLAGS
+export USER_MAKECONF
 
 #######################################
 #
@@ -236,6 +253,7 @@ export MFLAGS
 #
 #######################################
 
+BUILD_AWK=${AWK:-awk}
 AWK=awk
 FIND=find
 GREP=grep
@@ -268,6 +286,8 @@ srcdir=${srcdir:-$here}
 srcdir=`cd $srcdir && pwd`
 
 rundir=${here}/run
+
+SORT_SECTIONS="${BUILD_AWK} -f ${srcdir}/sort_sections.awk"
 
 if [ ! -d ${BMAKE_REF} ]; then
     mkdir ${BMAKE_REF}
@@ -331,11 +351,11 @@ for t in $all_tests ; do
 	    fi
 	done
     fi
-    
+ 
     # run the BSD make test
     if [ "X$with_bmake" = "Xyes" ]; then
     echo "Test:  (BSD make) $t"
-    cd ${rundir} && ${BMAKE}  $args > ${here}/${BMAKE_REF}/${t}.${sufx}
+    cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
 	    if diff ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
@@ -343,6 +363,9 @@ for t in $all_tests ; do
 		bpass=`expr $bpass + 1`
 	    else
 		echo "FAILED:  See diff ${here}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
+                if [ "X${show_diff}" = "Xyes" ] ; then
+                    diff ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log
+                fi
 		bfail=`expr $bfail + 1`
 	    fi
 	else
@@ -360,8 +383,18 @@ for t in $all_tests ; do
     # we have to replace the actual name of the GNU make program with 'gmake' because
     # some of the tests will contain the name of GNU make in the output.  This way if
     # someone has installed GNU make as 'gnumake', the test will still pass even though
-    # I use 'gmake' on my system
-    cd ${rundir} && ${GMAKE}  $args | sed "s;${GMAKE_NAME};gmake;g" > ${here}/${GMAKE_REF}/${t}.${sufx}
+    # I use 'gmake' on my system.  In addition, a change happened in GNU make at some point
+    # that changed output like:
+    #    gmake: `test1.dvi' is up to date.
+    # to
+    #    gmake: 'test1.dvi' is up to date.
+    #
+    cd ${rundir} && ${GMAKE}  $args | \
+        sed \
+            -e "s;${GMAKE_NAME};gmake;g" \
+            -e "/^gmake:/ s/\`/\'/g" \
+        | ${SORT_SECTIONS} \
+            > ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
 	    if diff ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
@@ -369,6 +402,9 @@ for t in $all_tests ; do
 		gpass=`expr $gpass + 1`
 	    else
 		echo "FAILED:  See diff ${here}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
+                if [ "X${show_diff}" = "Xyes" ] ; then
+                    diff ${DIFF_FLAGS} ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log
+                fi
 		gfail=`expr $gfail + 1`
 	    fi
 	else

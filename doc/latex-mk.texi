@@ -3,7 +3,6 @@
 @c %**start of header
 @setfilename latex-mk.info
 @settitle LaTeX-Mk
-@setcontentsaftertitlepage
 @c %**end of header
 
 @include version.texi
@@ -96,6 +95,8 @@ are met:
 @end iftex
 @end titlepage
 
+@contents
+
 @c Define an index of targets.
 @defcodeindex tr
 @c Define an index of variables.
@@ -129,7 +130,6 @@ This edition documents version @value{VERSION}.
 @end menu
 
 @page
-@c @contents
 
 @node Introduction, Targets, Top, Top
 @chapter Introduction

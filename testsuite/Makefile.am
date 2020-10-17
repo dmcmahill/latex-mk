@@ -34,7 +34,9 @@
 
 TESTS_ENVIRONMENT=	\
 	GMAKE=${GMAKE}	\
-	BMAKE=${BMAKE}
+	BMAKE=${BMAKE}  \
+	DIFF_FLAGS="${DIFF_FLAGS}" \
+	SHOW_DIFF=yes
 
 MKSRCS=		testfile.mk.in
 RUN_TESTS=	run_tests.sh
@@ -58,7 +60,8 @@ SUBDIRS=	bmake_ref gmake_ref
 
 TESTS=		${RUN_TESTS}
 
-EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list golden.mk README.txt
+EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list golden.mk README.txt \
+		sort_sections.awk
 
 SUFFIXES=	.mk.in .mk .gmk
 

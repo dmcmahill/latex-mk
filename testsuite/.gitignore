@@ -1,0 +1,7 @@
+run_tests.sh.log
+run_tests.sh.trs
+test-suite.log
+testfile.gmk
+testfile.mk
+bmake_ref/*.log
+gmake_ref/*.log
