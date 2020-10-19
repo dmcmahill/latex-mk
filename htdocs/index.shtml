@@ -2,8 +2,7 @@
 
 <html>
   <head>
-    <!-- $Id: index.shtml,v 1.8 2003/06/09 04:33:46 dan Exp $ -->
-    <!-- Copyright (c) 2001
+    <!-- Copyright (c) 2001, 2020
     Dan McMahill  ALL RIGHTS RESERVED. -->
     <link rev="made" href="mailto:danmc@users.sourceforge.net">
     <title>LaTeX-Mk</title>

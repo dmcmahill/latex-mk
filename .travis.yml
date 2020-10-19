@@ -38,6 +38,9 @@ addons:
     # for the manual
     - texinfo
     - texi2html
+    # for bmake unit tests (not latex-mk tests)
+    - csh
+    - ksh
     # for tgif
     - libxmu-dev
     - xfonts-75dpi
