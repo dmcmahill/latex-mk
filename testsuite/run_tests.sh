@@ -92,6 +92,8 @@ do
 
     esac
 done
+# sometimes make versions change whitespace
+DIFF_FLAGS="${DIFF_FLAGS} -b"
 
 if [ "X$regen" = "Xyes" ]; then
     sufx="ref"
@@ -355,10 +357,10 @@ for t in $all_tests ; do
     # run the BSD make test
     if [ "X$with_bmake" = "Xyes" ]; then
     echo "Test:  (BSD make) $t"
-    cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
+    cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} | > ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
-	    if diff ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
+	    if diff ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
 		echo "PASS"
 		bpass=`expr $bpass + 1`
 	    else
@@ -397,7 +399,7 @@ for t in $all_tests ; do
             > ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
-	    if diff ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
+	    if diff ${DIFF_FLAGS} ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
 		echo "PASS"
 		gpass=`expr $gpass + 1`
 	    else
