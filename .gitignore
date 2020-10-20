@@ -49,9 +49,12 @@ configure
 
 # generated via the configure and build steps
 doc/latex-mk.dvi
+doc/latex-mk.html
 doc/latex-mk.info
 doc/latex-mk.pdf
 doc/latex-mk.ps
+doc/latex-mk.t2d/**
+doc/latex-mk.t2p/**
 doc/stamp-vti
 doc/version.texi
 
