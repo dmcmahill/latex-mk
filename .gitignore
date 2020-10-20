@@ -55,8 +55,8 @@ doc/latex-mk.ps
 doc/stamp-vti
 doc/version.texi
 
-example/makefile.gmk
-example/makefile.mk
+example/mkfile.gmk
+example/mkfile.mk
 
 ieee-copyout
 latex-mk
