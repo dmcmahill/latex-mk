@@ -37,6 +37,8 @@
 regen=no
 with_bmake=yes
 with_gmake=yes
+verbose=no
+
 show_diff=${SHOW_DIFF:-no}
 DIFF_FLAGS=${DIFF_FLAGS:-}
 
@@ -68,6 +70,22 @@ do
         show_diff=yes
         shift
         ;;
+
+    --verbose)
+        verbose=yes
+        shift
+        ;;
+
+
+    --with-bmake)
+	BMAKE=$2
+	shift 2
+	;;
+
+    --with-gmake)
+	GMAKE=$2
+	shift 2
+	;;
 
     --without-bmake)
 	# don't run the BSD make tests
@@ -324,6 +342,20 @@ fi
 echo "Starting tests in $here."
 echo "Source directory is $srcdir"
 
+check_verbose() {
+    if test $verbose = yes ; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+echo_verbose() {
+    if check_verbose ; then
+        echo "===> $*"
+    fi
+}
+
 for t in $all_tests ; do
 
     dirs=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $2}'`
@@ -334,12 +366,14 @@ for t in $all_tests ; do
 
     # create temporary run directory
     if [ ! -d $rundir ]; then
+        echo_verbose "mkdir -p $rundir"
 	mkdir -p $rundir
     fi
 
     # Create the subdirectories needed
     if [ ! -z "$dirs" ]; then
 	for dir in $dirs ; do
+	    echo_verbose "mkdir -p ${rundir}/${dir}"
 	    mkdir -p ${rundir}/${dir}
 	done
     fi
@@ -348,8 +382,10 @@ for t in $all_tests ; do
     if [ ! -z "$files" ]; then
 	for f in $files ; do
 	    if [ "$f" = "@" ]; then
+		echo_verbose "sleep 2"
 		sleep 2
 	    else
+		echo_verbose "touch ${rundir}/${f}"
 		touch ${rundir}/${f}
 	    fi
 	done
@@ -358,7 +394,8 @@ for t in $all_tests ; do
     # run the BSD make test
     if [ "X$with_bmake" = "Xyes" ]; then
     echo "Test:  (BSD make) $t"
-    cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} | > ${here}/${BMAKE_REF}/${t}.${sufx}
+    echo_verbose "cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}"
+    cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
 	    if ${DIFF} ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
