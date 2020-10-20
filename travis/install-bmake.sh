@@ -7,6 +7,7 @@ bmake_dist=${bmake_nm}.tar.gz
 bmake_url=http://www.crufty.net/ftp/pub/sjg/${bmake_dist}
 
 do_install=yes
+use_sudo=yes
 usage() {
     cat <<EOF
 
@@ -16,7 +17,9 @@ Options
 
     -h|--help       : show this help message and exit
 
-    --no-install    :  build but do not install
+    --no-install    : build but do not install
+
+    --no-sudo       : do not use sudo during the install step
 
     --prefix prefix : specify an install prefix.  Default is ${bmake_prefix}
 
@@ -32,6 +35,11 @@ while test $# -gt 0 ; do
 
         --no-install)
             do_install=no
+            shift
+            ;;
+
+        --no-sudo)
+            use_sudo=no
             shift
             ;;
 
@@ -71,7 +79,7 @@ if ls ${PATCH_DIR}/${PATCH_FILE_BASE}* 2>/dev/null ; then
     echo "Applying local patches"
     for f in `find ${PATCH_DIR}/ -name ${PATCH_FILE_BASE}\* -print` ; do
         echo "Apply $f"
-        patch -p0 < $f
+        patch -p0 -b < $f
     done
 fi
 
@@ -83,11 +91,16 @@ DEFAULT_SYS_PATH : ${DEFAULT_SYS_PATH}
 
 EOF
 
-./configure --prefix=${bmake_prefix}
-make prefix=${bmake_prefix} DEFAULT_SYS_PATH=${bmake_prefix}/share/mk
+DEFAULT_SYS_PATH=${bmake_prefix}/share/mk
+export DEFAULT_SYS_PATH
+./boot-strap --prefix=${bmake_prefix} 
 
 if test $do_install = yes ; then
-    sudo make install
+    if test $use_sudo = yes ; then
+        sudo ./boot-strap --prefix=${bmake_prefix} op=install
+    else
+        ./boot-strap --prefix=${bmake_prefix} op=install
+    fi
 
     echo "Running basic sanity check for functionality"
 
