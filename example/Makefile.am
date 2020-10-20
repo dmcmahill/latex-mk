@@ -14,7 +14,7 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-MKSRCS=	makefile.in
+MKSRCS=	mkfile.in
 EXFILES= \
 	biblio.tex \
 	example.tex \
@@ -28,7 +28,7 @@ GMKFILES=	${MKSRCS:.in=.gmk}
 pkgexampledir=		${pkgdatadir}/example
 pkgexample_DATA=	${BMKFILES} ${GMKFILES} ${EXFILES} README-example.txt
 
-EXTRA_DIST=	${EXFILES} makefile.in README-example.txt
+EXTRA_DIST=	${EXFILES} ${MKSRCS} README-example.txt
 
 DISTCLEANFILES=	\
 	${BMKFILES} \
