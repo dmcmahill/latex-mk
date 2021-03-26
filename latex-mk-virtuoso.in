@@ -1,0 +1,366 @@
+#!/bin/sh
+#
+# Copyright (c) 2021 Dan McMahill
+# All rights reserved.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+VERSION=@VERSION@
+AWK=@AWK@
+
+# find a working awk
+case `uname -s` in 
+	NetBSD )
+		# needs gensub with the same escaping as gawk
+		AWK=gawk
+		;;
+
+	SunOS )
+		# needs gensub
+		AWK=gawk
+		;;
+
+	* )
+		AWK=awk
+		;;
+esac
+
+EPSTOOL=${EPSTOOL:-epstool}
+EPSTOOL_ARGS="--bbox --add-metafile-preview"
+
+section=Schematics
+
+usage() {
+cat <<EOF
+Usage:
+
+  $0 [--help | -h]
+  $0 [--version | -V]
+  $0 [--verbose | -v] [--fast | -f] [--section | -S section_name] [--preview | -p] eps_directory tex_file
+
+Options
+
+ --fast | -f      Runs much faster by not trying to check the bounding box on all the postseript
+                  files.  Be careful with this because often times the cadence postscript has broken
+                  bounding boxes.
+
+ --help | -h      Displays this message and exits.
+
+ --preview | -p   Adds a Windows metafile preview.  Normally not used, but lets you
+                  use this script as a hack when forced to used MS Word.
+
+ --version | -V   Displays the version number of this script and exits.
+
+ --verbose | -v   Enables verbose output.
+
+ --section | -S <section name>
+                  Specifies the section name for the LaTeX document.  Default is
+                  "${section}".
+
+Arguments
+
+  eps_directory is a directory containing encapsulated postscript files which are
+  named according to the following convention:
+
+    libName:cellname.viewName.eps
+
+  Where libName, cellName, and viewName are the cadence library, cell, and view names.
+
+
+EOF
+}
+
+verbose=no
+preview=no
+fixbbox=yes
+while test $# -gt 0 ; do
+    case $1 in
+	--fast|-f)
+	    fixbbox=no
+	    shift
+	    ;;
+		
+	--help|-h)
+	    usage
+	    exit 0
+	    ;;
+		
+	--preview|-p)
+	    preview=yes
+	    shift
+	    ;;
+		
+	--section|-s)
+	    section="$2"
+	    shift 2
+	    ;;
+
+	--version|-V)
+	    "latex-mk-virtuoso version $VERSION"
+	    exit 0
+	    ;;
+		
+	--verbose|-v)
+	    verbose=yes
+	    shift
+	    ;;
+		
+	-*)
+	    echo "$0:  Unknown option $1"
+	    usage
+	    exit 1
+	    ;;
+		
+	*)
+	    break
+	    ;;
+
+    esac
+done
+
+if test $# -ne 2 ; then
+    usage
+    exit 1
+fi
+
+# EPS directory
+cadeps=$1
+
+# LaTeX output file
+cadapp=$2
+
+# Index used for sorting out the eps files
+index=${cadeps}/.index
+
+# Index of top level cells
+topindex=${cadeps}/.toplevel
+
+
+# see if we have any .eps files
+if `ls $cadeps/*.eps >/dev/null` ; then
+
+    rm -f $index
+    echo "Creating postscript index"
+    for f in $cadeps/*.eps ; do
+	test $verbose = yes && echo "Processing file $f"
+
+	n=`basename $f .eps`
+	test $verbose = yes && echo "n = \"$n\""
+	lib=`echo $n | sed -e 's;:.*;;g'`
+	cell=`echo $n | sed -e 's;^[^:]*:;;g' -e 's;\.[^.]*$;;g'`
+	view=`echo $n | sed -e 's;^[^.]*\.;;g'`
+	
+	# to make life easier, provide a shortcut for references in LaTeX.
+	# Omit the viewname if the view is "schematic"
+	cellview=${lib}:${cell}.${view}
+	if test "$view" = "schematic" ; then
+	    cellview=${lib}:${cell}
+	fi
+	
+	test $verbose = yes && echo "lib = \"$lib\", cell = \"$cell\", view = \"$view\""
+	test $verbose = yes && echo "cellview = \"${cellview}\""
+	name=`basename $f .eps`
+	echo "${cellview} $f" >> $index
+
+	if test $fixbbox = yes ; then
+	    # Cadence sometimes (often times?) produces a broken BoundingBox in its EPS output
+	    # Look for that and fix it.
+	
+	    # Bounding box that cadence generated:
+	    bbox_cds=`${AWK} '/^%%BoundingBox/ {print}' $f`
+	
+	    # Bounding box computed by ghostscript
+	    bbox=`gs -q -dNOPAUSE -sOutputFile=- -sDEVICE=bbox  $f -c quit 2>&1 | ${AWK} '/%%BoundingBox/ {print}'`
+	
+	    if test "$bbox_cds" != "$bbox" ; then
+		echo "Repairing broken Cadence BoundingBox for $f"
+		echo "    $bbox_cds -> $bbox"
+		mv $f $f.bak
+		sed "s/$bbox_cds/$bbox/g" $f.bak > $f
+		rm $f.bak
+	    else
+		echo "CDS ($bbox_cds) matches GS ($bbox) for $f"
+	    fi
+	fi
+
+	if test "$preview" = "yes" ; then
+	    test $verbose = yes && echo "Adding Windows Metafile Preview to $f"
+	    mv $f $f.bak
+	    ${EPSTOOL} ${EPSTOOL_ARGS} $f.bak $f
+	    rm -f $f.bak
+	fi
+    done
+
+    echo "Sorting postscript files"
+    mv $index ${index}.bak
+    sort ${index}.bak > $index
+    rm ${index}.bak
+
+    mv $topindex ${topindex}.bak
+    sort ${topindex}.bak > $topindex
+    rm ${topindex}.bak
+    
+else
+    echo "No cadence .eps schematics found in $cadeps"
+    rm -f $index $topindex
+    echo "Creating dummy postscript index"
+    touch $index
+    touch $topindex
+fi
+
+echo "Generating LaTeX file $cadapp"
+rm -f $cadapp
+cat >$cadapp <<EOF
+% \$Id\$
+%
+% ----  DO NOT EDIT ------
+% ---- Generated File ----
+%
+
+% ugly hack to prevent the section header from landing
+% on top of the page header....
+\begin{verbatim}
+
+
+
+
+\end{verbatim}
+\section{${section}}
+\thispagestyle{fancy}
+This section contains c\={a}dence schematics for the design.\\\\
+\subsection{${section} -- Index}
+Top level schematics:\\\\
+EOF
+
+${AWK} '{nm=$1; gsub(/_/, "\\_", nm); printf("%s -- Figure \\ref{sch:%s} \\\\\n", nm, $1);}' $topindex >> $cadapp
+#${AWK} '{nm=$1; gsub(/_/, "\\_", nm); printf("%s  \\\\\n", nm);}' $topindex >> $cadapp
+
+cat >>$cadapp <<EOF
+Full schematic list:\\\\
+EOF
+
+${AWK} '{nm=$1; gsub(/_/, "\\_", nm); printf("%s -- Figure \\ref{sch:%s} \\\\\n", nm, $1);}' $index >> $cadapp
+
+cat >>$cadapp <<EOF
+
+\newpage
+\subsection{${section} -- Schematics}
+
+% save off some of the fancyheadings stuff related to the header
+\newdimen\mkschematicshrw
+
+% FIXME -- would be much better if I knew how to check that headrulewidth
+% even exists before I try to save it.  Also if I knew how to save the header
+% and footer that would be nice too...
+
+\setlength{\mkschematicshrw}{\headrulewidth}
+\setlength{\headrulewidth}{0pt}
+
+
+% clear the header out
+\ifx\lhead\undefined
+\relax
+\else
+\lhead{}%
+\fi%
+
+\ifx\chead\undefined
+\relax
+\else
+\chead{}%
+\fi%
+
+\ifx\rhead\undefined
+\relax
+\else
+\rhead{}%
+\fi%
+
+
+\newdimen\mkstopmargin
+\newdimen\mksheadwidth
+\newdimen\mksheadheight
+\newdimen\mksheadsep
+\newdimen\mkstextheight
+\newdimen\mksevensidemargin
+\newdimen\mksoddsidemargin
+\newdimen\mkstextwidth
+
+
+\setlength{\mkstopmargin}{\topmargin}
+\setlength{\mksheadwidth}{\headwidth}
+\setlength{\mksheadheight}{\headheight}
+\setlength{\mksheadsep}{\headsep}
+\setlength{\mkstextheight}{\textheight}
+\setlength{\mksevensidemargin}{\evensidemargin}
+\setlength{\mksoddsidemargin}{\oddsidemargin}
+\setlength{\mkstextwidth}{\textwidth}
+
+\setlength{\topmargin}{-0.75in}
+\setlength{\headwidth}{7.5in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\textheight}{10in}
+\setlength{\evensidemargin}{-0.75in}
+\setlength{\oddsidemargin}{-0.75in}
+\setlength{\textwidth}{7.5in}
+EOF
+
+${AWK} '{printf("\n%%\n%% %s\n%%\n",$1); \
+      printf("\\begin{figure}[htbp]\n");
+      printf("\\centering\n");
+      printf("\\setlength{\\hsize}{7.5in}\n");
+      printf("\\includegraphics[angle=90,width=7.5in,height=9.0in,keepaspectratio=true]{%s}\n",$2);
+      printf("\\caption{%s}\n",gensub(/_/,"\\\\_","g",$1));
+      printf("\\label{sch:%s}\n",$1);
+      printf("\\end{figure}\n");
+      printf("\\clearpage\n");
+     }'  $index >> $cadapp
+
+cat >> $cadapp <<EOF
+
+\newpage
+% restore settings
+
+\setlength{\topmargin}{\mkstopmargin}
+\setlength{\headwidth}{\mksheadwidth}
+\setlength{\headheight}{\mksheadheight}
+\setlength{\headsep}{\mksheadsep}
+\setlength{\textheight}{\mkstextheight}
+\setlength{\evensidemargin}{\mksevensidemargin}
+\setlength{\oddsidemargin}{\mksoddsidemargin}
+\setlength{\textwidth}{\mkstextwidth}
+
+\setlength{\headrulewidth}{\mkschematicshrw}
+
+% restore the header
+\ifx\mylhead\undefined
+\relax
+\else
+\lhead{\mylhead}%
+\fi%
+
+\ifx\mychead\undefined
+\relax
+\else
+\chead{\mychead}%
+\fi%
+
+\ifx\myrhead\undefined
+\relax
+\else
+\rhead{\myrhead}%
+\fi%
+
+EOF

@@ -1,0 +1,233 @@
+# -*- Makefile -*-
+#
+# Copyright (c) 2021 Dan McMahill
+# All rights reserved.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+# Adds the "cleancds" "cdssch" targets
+
+.if !defined(__LATEX_MK_CDS_MK__) && defined(CDSGRP)
+__LATEX_MK_CDS_MK__=	#defined
+
+# The list of names for our different cadence sessions.  They are
+# arbitrary but are used below
+#CDSGRP= myproj1 myproj2
+
+# directory where we run virtuoso
+#CDSDIR.myproj1=	${HOME}/design/myproj1/
+# name of latex file to generate
+#CDSSCH_TEX.myproj1=	schematics_myproj1.tex
+# directory to use for outputs
+#CDSSCH_DIR.myproj1=	sch_myproj1
+
+# Name of LaTeX section
+# CDSSCH_SECTION.myproj1= My Project 1 Schematics
+#
+# cells to plot.  Format is
+#
+#   libName:cellName[.viewName][:hier]
+#
+# If not given, the view name defaults to schematic.
+# If the ":hier" part is given, then the plot will be hierarchical but
+# only cells in libName will be plotted.
+#
+# Examples:
+#
+#CDSSCH.myproj1=	\
+#	myLib:myCell1 \
+#	myLib:myCell1.schematic_simplified \
+#	myOtherLib:myOtherCell:hier \
+#	myOtherLib:yetAnotherCell.schematic2:hier
+#
+#CDSLAY.myproj1=            \
+#        myLib:myCell1.layout \
+#        myLib:myCell2.layout
+
+
+
+# now we can set up another design project that does not need to be
+# at all related
+#CDSDIR.myproj2=		${HOME}/design/myproj2
+#CDSSCH.myproj2=		otherLib:topCell otherLib:lowerCell
+#CDSSCH_TEX.myproj2=	schematics_myproj2.tex
+#CDSSCH_DIR.myproj2=	sch_myproj2
+
+VIRTUOSO?=	virtuoso
+CDS_ENV?=	
+RM?=	rm
+MKSCHEMATICS?=	${LATEX_MK_DIR}/latex-mk-virtuoso
+MKSCHEMATICS_FLAGS?=	 -v
+DMSCHPLOT_IL?=	${LATEX_MK_DIR}/DMschPlot.il
+DMLAYPLOT_IL?=	${LATEX_MK_DIR}/DMlayPlot.il
+
+REAL_CDS_ENV+=        ${CDS_ENV}
+
+_CDS_MK_PROMPT=	CDS Plot--->
+
+.for __cds_grp__ in ${CDSGRP}
+
+# Virtuoso run directory.
+.if defined(CDSDIR.${__cds_grp__})
+_CDSDIR.${__cds_grp__}=	${CDSDIR.${__cds_grp__}}
+.else
+.error "You must define the directory location to run Virtuoso for group ${__cds_grp__}
+.endif
+
+# Generated LaTeX file
+.if defined(CDSSCH_TEX.${__cds_grp__})
+_CDSSCH_TEX.${__cds_grp__}=	${CDSSCH_TEX.${__cds_grp__}}
+.else
+_CDSSCH_TEX.${__cds_grp__}=	schematics_${__cds_grp__}.tex
+.endif
+
+# Directory for postscript files -- schematics
+.if defined(CDSSCH_DIR.${__cds_grp__})
+_CDSSCH_DIR.${__cds_grp__}=	${CDSSCH_DIR.${__cds_grp__}}
+.else
+_CDSSCH_DIR.${__cds_grp__}=	sch_${__cds_grp__}
+.endif
+
+# Directory for postscript files -- layout
+.if defined(CDSLAY_DIR.${__cds_grp__})
+_CDSLAY_DIR.${__cds_grp__}=	${CDSLAY_DIR.${__cds_grp__}}
+.else
+_CDSLAY_DIR.${__cds_grp__}=	lay_${__cds_grp__}
+.endif
+
+# List of cells to plot
+_CDSSCH.${__cds_grp__}=	${CDSSCH.${__cds_grp__}}
+_CDSLAY.${__cds_grp__}=	${CDSLAY.${__cds_grp__}}
+
+.if defined(CDSSCH_SECTION.${__cds_grp__})
+_CDSSCH_SECTION.${__cds_grp__}= ${CDSSCH_SECTION.${__cds_grp__}}
+.else
+_CDSSCH_SECTION.${__cds_grp__}= Cadence Schematics
+.endif
+
+${_CDSSCH_TEX.${__cds_grp__}} ${_CDSSCH_DIR.${__cds_grp__}} ${_CDSLAY_DIR.${__cds_grp__}}: cds_plot_${__cds_grp__}.il
+.if exists(${_CDSSCH_DIR.${__cds_grp__}})
+	@echo "${_CDS_MK_PROMPT} clearing out target schematic directory ${_CDSSCH_DIR.${__cds_grp__}}"
+	${RM} -fr ${_CDSSCH_DIR.${__cds_grp__}}/*
+.else
+	@echo "${_CDS_MK_PROMPT} creating target schematic directory ${_CDSSCH_DIR.${__cds_grp__}}"
+	mkdir -p  ${_CDSSCH_DIR.${__cds_grp__}}
+.endif
+.if exists(${_CDSLAY_DIR.${__cds_grp__}})
+	@echo "${_CDS_MK_PROMPT} clearing out target layout directory ${_CDSLAY_DIR.${__cds_grp__}}"
+	${RM} -fr ${_CDSLAY_DIR.${__cds_grp__}}/*
+.else
+	@echo "${_CDS_MK_PROMPT} creating target layout directory ${_CDSLAY_DIR.${__cds_grp__}}"
+	mkdir -p  ${_CDSLAY_DIR.${__cds_grp__}}
+.endif
+	@echo "${_CDS_MK_PROMPT} Creating cadence postscript files"
+	cd ${_CDSDIR.${__cds_grp__}} &&  \
+		${ENV_PROG:Q} ${REAL_CDS_ENV} ${VIRTUOSO} -nograph -log ${.CURDIR}/CDS_${__cds_grp__}.log \
+		-replay ${.CURDIR}/cds_plot_${__cds_grp__}.il
+	@echo "${_CDS_MK_PROMPT} Creating $@"
+	rm -f ${_CDSSCH_DIR.${__cds_grp__}}/.toplevel
+	touch ${_CDSSCH_DIR.${__cds_grp__}}/.toplevel
+.for __cds_cell__ in ${_CDSSCH.${__cds_grp__}}
+	@echo "${_CDS_MK_PROMPT} Adding ${__cds_cell__} to top level index file"
+	@echo ${__cds_cell__} | awk 'BEGIN{FS=":";} \
+		{libName=$$1; cellName=$$2; \
+		p = index(cellName, "."); \
+		if( p == 0 ) { \
+			viewName = "schematic"; \
+		} else { \
+			viewName = substr(cellName, p+1, length(cellName)); \
+			cellName = substr(cellName, 1, p-1); \
+		} \
+		if($$3 == "hier"){hier="t"} else {hier="nil"} \
+		if(viewName == "schematic") { \
+			print libName ":" cellName; \
+		} else { \
+			print libName ":" cellName "." viewName; \
+		} \
+		}' >> ${_CDSSCH_DIR.${__cds_grp__}}/.toplevel
+.endfor
+	${MKSCHEMATICS} ${MKSCHEMATICS_FLAGS} --section '${_CDSSCH_SECTION.${__cds_grp__}}' ${_CDSSCH_DIR.${__cds_grp__}} $@
+
+# This is not foolproof using "Makefile" as the dependency for the .il file, but it's
+# probably not too bad
+cds_plot_${__cds_grp__}.il: Makefile
+	@echo "${_CDS_MK_PROMPT} Creating skill code $@ for plotting"
+	@echo ";; ***** AUTOMATICALLY CREATED BY THE CADENCE ADD-ON FOR LATEX-MK *****" > $@
+	@echo ";; ***** Changes to this file will be overwritten.  Don't do it.        *****" >> $@
+	@echo ";; ***** You probably need to just edit your project Makefile.          *****" >> $@
+	@echo " " >> $@
+	@echo "printf(\"Starting to execute code contained in $@\n\") drain(poport) " >> $@
+	@echo "printf(\"Current directory is %L\n\", pwd()) drain(poport) " >> $@
+	@echo " " >> $@
+	@echo ";; set the design data management to never prompt and never check out " >> $@
+	@echo ";; to deal with some poorly set up projects that want to check out/in some" >> $@
+	@echo ";; cells/files every time a libInit.il is triggered." >> $@
+	@echo "ddAutoCtlSetVars(0, 0, 0, 0)" >> $@
+	@echo ";;" >> $@
+	@echo "printed = nil" >> $@
+	@echo ";;" >> $@
+	@echo "loadi(\"${DMSCHPLOT_IL}\")" >> $@
+	@echo "loadi(\"${DMLAYPLOT_IL}\")" >> $@
+	@echo  ";;" >> $@
+	@echo  ";;" >> $@
+.for __cds_cell__ in ${_CDSSCH.${__cds_grp__}}
+	@echo "printf(\"Start on ${__cds_cell__}\n\") drain(poport)" >> $@
+	@echo ${__cds_cell__} | awk 'BEGIN{FS=":";} \
+		{libName=$$1; cellName=$$2; \
+		p = index(cellName, "."); \
+		if( p == 0 ) { \
+			viewName = "schematic"; \
+		} else { \
+			viewName = substr(cellName, p+1, length(cellName)); \
+			cellName = substr(cellName, 1, p-1); \
+		} \
+		if($$3 == "hier"){hier="t"} else {hier="nil"} \
+		print "printed = DMschHierPlot(?libName \"" libName "\", ?cellName \"" cellName "\", ?viewName \"" viewName "\", ?hier " hier ", ?printedList printed, ?outDir \"" outDir "\")"; \
+		}' outDir=${.CURDIR}/${_CDSSCH_DIR.${__cds_grp__}} >> $@
+	@echo  ";;" >> $@
+.endfor
+	@echo  ";;" >> $@
+	@echo  ";;" >> $@
+.for __cds_cell__ in ${_CDSLAY.${__cds_grp__}}
+	@echo "printf(\"Start on ${__cds_cell__}\n\") drain(poport)" >> $@
+	@echo ${__cds_cell__} | awk 'BEGIN{FS=":";} \
+		{libName=$$1; cellName=$$2; \
+		p = index(cellName, "."); \
+		if( p == 0 ) { \
+			viewName = "layout"; \
+		} else { \
+			viewName = substr(cellName, p+1, length(cellName)); \
+			cellName = substr(cellName, 1, p-1); \
+		} \
+		print "drmLayPlot(?libName \"" libName "\", ?cellName \"" cellName "\", ?viewName \"" viewName "\", ?outDir \"" outDir "\" ?verbose t)"; \
+		}' outDir=${.CURDIR}/${_CDSLAY_DIR.${__cds_grp__}} >> $@
+	@echo  ";;" >> $@
+.endfor
+
+.PHONY: cleancds.${__cds_grp__}
+cleancds.${__cds_grp__}::
+	${RM} -f cds_plot_${__cds_grp__}.il ${_CDSSCH_TEX.${__cds_grp__}} ${_CDSSCH_TEX.${__cds_grp__}:.tex=.aux} CDS_${__cds_grp__}.log
+	${RM} -fr ${_CDSSCH_DIR.${__cds_grp__}}
+
+clean:: cleancds.${__cds_grp__}
+
+# automatically add this to the list of latex files
+TEXSRCS+=	${_CDSSCH_TEX.${__cds_grp__}}
+
+cdssch:: ${_CDSSCH_TEX.${__cds_grp__}}
+
+.endfor
+
+.endif # !defined(__LATEX_MK_CDS_MK__)
+

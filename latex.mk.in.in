@@ -2,7 +2,7 @@
 #
 # Makefile fragment for handling LaTeX projects
 #
-# Copyright (c) 2001, 2002, 2003, 2020 Dan McMahill
+# Copyright (c) 2001, 2002, 2003, 2020, 2021 Dan McMahill
 # All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -265,6 +265,19 @@ BMK:.include "${LATEX_MK_DIR}/xfig.mk"
 BMK:.endif
 GMK:ifdef _USE_XFIG_MK
 GMK:include ${LATEX_MK_DIR}/xfig.gmk
+GMK:endif
+
+#######################################
+#
+# Check for Virtuoso
+#
+#######################################
+
+BMK:.if defined(CDSGRP)
+BMK:.include "${LATEX_MK_DIR}/virtuoso.mk"
+BMK:.endif
+GMK:ifdef CDSGRP
+GMK:include ${LATEX_MK_DIR}/virtuoso.gmk
 GMK:endif
 
 #######################################

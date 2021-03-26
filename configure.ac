@@ -1,9 +1,21 @@
-dnl $Id: configure.ac,v 1.28 2003/06/09 04:24:11 dan Exp $
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (c) 2002, 2003 Dan McMahill
+dnl Copyright (c) 2002, 2003, 2021 Dan McMahill
 dnl All rights reserved.
 dnl
+dnl This program is free software; you can redistribute it and/or modify
+dnl it under the terms of the GNU General Public License as published by
+dnl the Free Software Foundation; version 2 of the License.
+dnl 
+dnl This program is distributed in the hope that it will be useful,
+dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl GNU General Public License for more details.
+dnl 
+dnl You should have received a copy of the GNU General Public License
+dnl along with this program; if not, write to the Free Software
+dnl Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
 dnl This code is derived from software written by Dan McMahill
 dnl
 dnl Redistribution and use in source and binary forms, with or without
@@ -171,11 +183,13 @@ AC_OUTPUT(
 	example/tgif/Makefile
 	ieee-copyout
 	latex-mk
+	latex-mk-virtuoso
 	latex.mk.in
 	latex.subdir.mk.in
 	testsuite/Makefile
 	testsuite/bmake_ref/Makefile
 	testsuite/gmake_ref/Makefile
 	tgif.mk.in
+	virtuoso.mk.in
 	xfig.mk.in
 )
