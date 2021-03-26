@@ -63,6 +63,7 @@ example/mkfile.mk
 
 ieee-copyout
 latex-mk
+latex-mk-virtuoso
 latex.gmk
 latex.mk
 latex.mk.in
@@ -70,6 +71,9 @@ latex.subdir.mk.in
 tgif.gmk
 tgif.mk
 tgif.mk.in
+virtuoso.gmk
+virtuoso.mk
+virtuoso.mk.in
 xfig.gmk
 xfig.mk
 xfig.mk.in
