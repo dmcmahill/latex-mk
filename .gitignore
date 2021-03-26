@@ -67,6 +67,8 @@ latex-mk-virtuoso
 latex.gmk
 latex.mk
 latex.mk.in
+latex.subdir.gmk
+latex.subdir.mk
 latex.subdir.mk.in
 tgif.gmk
 tgif.mk
