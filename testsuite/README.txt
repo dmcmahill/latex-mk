@@ -1,6 +1,3 @@
-# $Id: README.txt,v 1.2 2006/06/09 16:56:49 dan Exp $
-#
-
 Currently, the 'run_tests.sh' script looks at the environment
 variables 'BMAKE' and 'GMAKE' to figure out the name of the BSD make
 and GNU make programs.  They will default to 'make' and 'gmake'

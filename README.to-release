@@ -1,4 +1,5 @@
-$Id: README.to-release,v 1.13 2010/12/28 21:54:11 dan Exp $
+NOTE:  This is obsolete and is from when latex-mk lived in CVS.  This needs
+updating.
 
 To make a latex-mk release do the following:
 

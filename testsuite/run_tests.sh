@@ -1,47 +1,40 @@
 #!/bin/sh
 #
-# $Id: run_tests.sh,v 1.27 2007/06/15 21:44:25 dan Exp $
-#
-# Copyright (c) 2003, 2004, 2005, 2006, 2007 Dan McMahill
+# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2020 Dan McMahill
 # All rights reserved.
 #
-# This code is derived from software written by Dan McMahill
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the distribution.
-# 3. All advertising materials mentioning features or use of this software
-#    must display the following acknowledgement:
-#        This product includes software developed by Dan McMahill
-#  4. The name of the author may not be used to endorse or promote products
-#     derived from this software without specific prior written permission.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
 # 
-#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
-#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-#  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-#  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
-#  AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-#  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-#  SUCH DAMAGE.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
 regen=no
 with_bmake=yes
 with_gmake=yes
+verbose=no
+
+show_diff=${SHOW_DIFF:-no}
+DIFF_FLAGS=${DIFF_FLAGS:-}
 
 while test -n "$1"
 do
     case "$1"
     in
+
+    --diff-flag)
+        # add to the diff flags
+        DIFF_FLAGS="${DIFF_FLAGS} $2"
+        shift 2
+        ;;
 
     -h|--help)
 	echo "Sorry, help not available for this script yet"
@@ -53,6 +46,28 @@ do
 	# In particular, all differences should be noted and understood.
 	regen=yes
 	shift
+	;;
+
+    --show-diff)
+        # on failures, show the diff output
+        show_diff=yes
+        shift
+        ;;
+
+    --verbose)
+        verbose=yes
+        shift
+        ;;
+
+
+    --with-bmake)
+	BMAKE=$2
+	shift 2
+	;;
+
+    --with-gmake)
+	GMAKE=$2
+	shift 2
 	;;
 
     --without-bmake)
@@ -78,6 +93,8 @@ do
 
     esac
 done
+# sometimes make versions change whitespace
+DIFF_FLAGS="${DIFF_FLAGS} -b"
 
 if [ "X$regen" = "Xyes" ]; then
     sufx="ref"
@@ -267,9 +284,12 @@ GMAKE_REF=gmake_ref
 MAKEFLAGS=""
 MAKELEVEL=""
 MFLAGS=""
+USER_MAKECONF="/dev/null"
+
 export MAKEFLAGS
 export MAKELEVEL
 export MFLAGS
+export USER_MAKECONF
 
 MAKECONF="/dev/null"
 USER_MAKECONF="/dev/null"
@@ -283,7 +303,9 @@ export USER_MAKECONF
 #
 #######################################
 
+BUILD_AWK=${AWK:-awk}
 AWK=awk
+DIFF=${DIFF:-diff}
 FIND=find
 GREP=grep
 RM=rm
@@ -317,6 +339,8 @@ srcdir=`cd $srcdir && echo $PWD`
 
 rundir=${here}/run
 
+SORT_SECTIONS="${BUILD_AWK} -f ${srcdir}/sort_sections.awk"
+
 if [ ! -d ${BMAKE_REF} ]; then
     mkdir ${BMAKE_REF}
 fi
@@ -349,6 +373,20 @@ fi
 echo "Starting tests in $here."
 echo "Source directory is $srcdir"
 
+check_verbose() {
+    if test $verbose = yes ; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+echo_verbose() {
+    if check_verbose ; then
+        echo "===> $*"
+    fi
+}
+
 for t in $all_tests ; do
 
     noexec_mode=yes
@@ -375,12 +413,14 @@ for t in $all_tests ; do
 
     # create temporary run directory
     if [ ! -d $rundir ]; then
+        echo_verbose "mkdir -p $rundir"
 	mkdir -p $rundir
     fi
 
     # Create the subdirectories needed
     if [ ! -z "$dirs" ]; then
 	for dir in $dirs ; do
+	    echo_verbose "mkdir -p ${rundir}/${dir}"
 	    mkdir -p ${rundir}/${dir}
 	done
     fi
@@ -391,6 +431,7 @@ for t in $all_tests ; do
 	for f in $files ; do
 	    case "$f" in
 		@) 
+		echo_verbose "sleep 2"
 		sleep 2
 		;;
 		
@@ -409,6 +450,7 @@ for t in $all_tests ; do
 			f=`echo $f | sed -e "s;@S@;${srcdir};g" -e "s;@R@;${rundir};g"`
 			copy="$copy $f"
 		    else
+		        echo_verbose "touch ${rundir}/${f}"
 			touch ${rundir}/${f}
 		    fi
 		    ;;
@@ -421,7 +463,7 @@ for t in $all_tests ; do
 	    exit 1
 	fi
     fi
-    
+ 
     # run the BSD make test
     #
     # normalize messages like:
@@ -429,17 +471,18 @@ for t in $all_tests ; do
     # to avoid developer paths
     if [ "X$with_bmake" = "Xyes" ]; then
     echo "Test:  (BSD make) $t"
-    cd ${rundir} && ${BMAKE}  $args | sed \
-	-e "s;stopped in .*/testsuite/run/;stopped in testsuite/run/;g" \
-	-e "s;${BMAKE_NAME};make;g" \
-	> ${here}/${BMAKE_REF}/${t}.${sufx}
+    echo_verbose "cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}"
+    cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
-	    if diff -w ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
+	    if ${DIFF} ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
 		echo "PASS"
 		bpass=`expr $bpass + 1`
 	    else
-		echo "FAILED:  See diff -w ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
+		echo "FAILED:  See ${DIFF} ${here}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
+                if [ "X${show_diff}" = "Xyes" ] ; then
+                    ${DIFF} ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log
+                fi
 		bfail=`expr $bfail + 1`
 	    fi
 	else
@@ -457,20 +500,32 @@ for t in $all_tests ; do
     # we have to replace the actual name of the GNU make program with 'gmake' because
     # some of the tests will contain the name of GNU make in the output.  This way if
     # someone has installed GNU make as 'gnumake', the test will still pass even though
-    # I use 'gmake' on my system
+    # I use 'gmake' on my system.  In addition, a change happened in GNU make at some point
+    # that changed output like:
+    #    gmake: `test1.dvi' is up to date.
+    # to
+    #    gmake: 'test1.dvi' is up to date.
     #
     # Also, we have to watch out for the gmake entering/leaving directory messages.
     # those will have the full system path so we have to normalize it here
-    cd ${rundir} && ${GMAKE}  $args | sed -e "s;${GMAKE_NAME};gmake;g" \
-	-e "s;directory .*/testsuite/run/;directory \`testsuite/run/;g" \
-	> ${here}/${GMAKE_REF}/${t}.${sufx}
+    #
+    cd ${rundir} && ${GMAKE}  $args | \
+        sed \
+            -e "s;${GMAKE_NAME};gmake;g" \
+            -e "/^gmake:/ s/\`/\'/g" \
+	    -e "s;directory .*/testsuite/run/;directory \`testsuite/run/;g" \
+        | ${SORT_SECTIONS} \
+            > ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
-	    if diff -w ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
+	    if ${DIFF} ${DIFF_FLAGS} ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
 		echo "PASS"
 		gpass=`expr $gpass + 1`
 	    else
-		echo "FAILED:  See diff -w ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
+		echo "FAILED:  See ${DIFF} ${here}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
+                if [ "X${show_diff}" = "Xyes" ] ; then
+                    ${DIFF} ${DIFF_FLAGS} ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log
+                fi
 		gfail=`expr $gfail + 1`
 	    fi
 	else

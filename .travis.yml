@@ -1,0 +1,60 @@
+#dist: xenial
+dist: bionic
+
+language: c
+
+os:
+  - linux
+#  - osx
+#  - bsd
+
+before_install:
+  - ./travis/install-bmake.sh
+  - ./travis/install-tgif.sh
+
+script:
+  - ./autogen.sh
+  #- touch intl/ChangeLog
+  - ./configure
+  - make
+  - make check
+  - make distcheck
+
+after_failure:
+  - ./travis/failures.sh
+  
+addons:
+  apt:
+    packages:
+    - autoconf
+    - automake
+    - autopoint
+    - ghostscript
+    - texlive-latex-base
+    - texlive-latex-extra
+    - texlive-latex-recommended
+    - latex2html
+    - hevea
+    # for the manual
+    - texinfo
+    - texi2html
+    # for bmake unit tests (not latex-mk tests)
+    - csh
+    - ksh
+    # for tgif
+    - libxmu-dev
+    - xfonts-75dpi
+    - gsfonts-x11
+
+
+  homebrew:
+    packages:
+    - autoconf
+    - automake
+    - autopoint
+    - tgif
+
+# need an X display for tgif for exporting the various
+# graphics.
+#services:
+#    - xvfb

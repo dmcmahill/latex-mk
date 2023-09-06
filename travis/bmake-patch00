@@ -1,0 +1,23 @@
+--- unit-tests/Makefile.orig	2020-10-10 17:10:23.000000000 -0400
++++ unit-tests/Makefile	2020-10-19 19:46:31.572195900 -0400
+@@ -137,5 +137,5 @@
+ TESTS+=		directive-export
+ TESTS+=		directive-export-env
+-TESTS+=		directive-export-gmake
++#TESTS+=		directive-export-gmake
+ TESTS+=		directive-export-literal
+ TESTS+=		directive-for
+@@ -162,5 +162,5 @@
+ TESTS+=		error
+ TESTS+=		# escape	# broken by reverting POSIX changes
+-TESTS+=		export
++#TESTS+=		export
+ TESTS+=		export-all
+ TESTS+=		export-env
+@@ -247,5 +247,5 @@
+ TESTS+=		shell-csh
+ TESTS+=		shell-custom
+-TESTS+=		shell-ksh
++#TESTS+=		shell-ksh
+ TESTS+=		shell-sh
+ TESTS+=		# suffixes	# runs into an endless loop (try -dA)
