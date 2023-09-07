@@ -294,7 +294,7 @@ check_bibunits() {
 	    using_bibunits=yes
 	    log "bibunits package detected"
 	else
-	    rslt="yes"
+	    rslt="no"
 	    using_bibunits=no
 	fi
 	report "$msg $rslt"
