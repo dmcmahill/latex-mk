@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2020 Dan McMahill
+# Copyright (c) 2003-2023 Dan McMahill
 # All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -25,6 +25,46 @@ verbose=no
 show_diff=${SHOW_DIFF:-no}
 DIFF_FLAGS=${DIFF_FLAGS:-}
 
+prog="$(basename $0)"
+usage() {
+cat << EOF
+${prog} -- run the test suite
+
+Usage:
+    ${prog} [options]
+    ${prog} [options] test1 [ test2 [ test3 ...]]
+
+Options:
+    --diff-flag <flag>  : Adds the specified flag to options passed to
+                          the diff program.  May be used multiple times.
+
+    -h|--help           : Show this help and exit
+
+    -r|--regen          : Regenerate the golden files
+
+    --show-diff         : On failures, show the diff output
+
+    --verbose           : Operate verbosely
+
+    --with-bmake <name> : Specify the name of the BSD make program.  If not
+                          specified, the BMAKE environment variable will be
+                          used and if not set it defaults to make.
+
+    --with-gmake <name> : Specify the name of the GNU make program.  If not
+                          specified, the GMAKE environment variable will be
+                          used and if not set it defaults to gmake.
+
+    --without-bmake     : Skip running BSD make tests
+
+    --without-gmake     : Skip running GNU make tests
+
+Tests:
+    The default is to run all tests defined in tests.list.  To run a
+    subset, specify the test names on the command line.
+
+EOF
+}
+
 while test -n "$1"
 do
     case "$1"
@@ -37,7 +77,7 @@ do
         ;;
 
     -h|--help)
-	echo "Sorry, help not available for this script yet"
+	usage
 	exit 0
 	;;
 
