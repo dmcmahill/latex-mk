@@ -43,7 +43,7 @@ DISTCLEANFILES=	\
 TESTS=		${RUN_TESTS}
 
 EXTRA_DIST=	${MKSRCS} ${RUN_TESTS} tests.list script_tests.list golden.mk simple.mk README.txt \
-		sort_sections.awk
+		sort_sections.awk texfiles
 
 all-local:	${BMKFILES} ${GMKFILES}
 
