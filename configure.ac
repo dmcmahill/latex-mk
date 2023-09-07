@@ -33,7 +33,7 @@ dnl  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 dnl  SUCH DAMAGE.
 dnl    
 
-AC_INIT([latex-mk], [2.1A])
+AC_INIT([latex-mk],[2.1A])
 AC_CONFIG_SRCDIR([latex.mk.in.in])
 AM_INIT_AUTOMAKE
 
@@ -138,7 +138,7 @@ AC_ARG_WITH([mkconf],
                           file for BSD make.  [default = /etc/latex-mk.conf]],
 [
 if test "X$with_mkconf" = "Xno" ; then
-        AC_ERROR([--without-mkconf is not supported])
+        AC_MSG_ERROR(--without-mkconf is not supported)
 else
         MAKECONF="$with_mkconf"
 fi
@@ -153,7 +153,7 @@ AC_ARG_WITH([gmkconf],
                           file for GNU make.  [default = /etc/latex-gmk.conf]],
 [
 if test "X$with_gmkconf" = "Xno" ; then
-        AC_ERROR([--without-gmkconf is not supported])
+        AC_MSG_ERROR(--without-gmkconf is not supported)
 else
         GMAKECONF="$with_gmkconf"
 fi
@@ -170,7 +170,7 @@ AC_ARG_WITH([usermkconf],
                           file for BSD make.  [default = $HOME/.latex-mk.conf]],
 [
 if test "X$with_usermkconf" = "Xno" ; then
-        AC_ERROR([--without-usermkconf is not supported])
+        AC_MSG_ERROR(--without-usermkconf is not supported)
 else
         USERMAKECONF="$with_usermkconf"
 fi
@@ -186,7 +186,7 @@ AC_ARG_WITH([usergmkconf],
                           file for GNU make.  [default = $HOME/.latex-gmk.conf]],
 [
 if test "X$with_usergmkconf" = "Xno" ; then
-        AC_ERROR([--without-usergmkconf is not supported])
+        AC_MSG_ERROR(--without-usergmkconf is not supported)
 else
         USERGMAKECONF="$with_usergmkconf"
 fi
@@ -197,8 +197,7 @@ USERGMAKECONF="\${HOME}/.latex-gmk.conf"
 AC_SUBST(USERGMAKECONF)
 
 
-AC_OUTPUT(
-	Makefile
+AC_CONFIG_FILES([Makefile
 	doc/Makefile
 	doc/prefix.texi
 	example/Makefile
@@ -215,4 +214,5 @@ AC_OUTPUT(
 	testsuite/latex_mk_ref/Makefile
 	tgif.mk.in
 	xfig.mk.in
-)
+])
+AC_OUTPUT
