@@ -66,11 +66,20 @@ latex-mk
 latex.gmk
 latex.mk
 latex.mk.in
+latex.subdir.gmk
+latex.subdir.mk
 latex.subdir.mk.in
+lgrind.gmk
+lgrind.mk
+lgrind.mk.in
+mpost.gmk
+mpost.mk
+mpost.mk.in
 tgif.gmk
 tgif.mk
 tgif.mk.in
 xfig.gmk
 xfig.mk
 xfig.mk.in
+
 
