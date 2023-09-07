@@ -508,11 +508,23 @@ for t in $all_tests ; do
     #
     # normalize messages like:
     # make: stopped in /export/disk1/src/local-cvs/localsrc/misc/latex-mk/testsuite/run/dir1
-    # to avoid developer paths
+    # to avoid developer paths.
+    #
+    # also recursive make calls may generate an error diff like:
+    #    -make: stopped in testsuite/run/dir1
+    #    +bmake[1]: stopped in /full/path/src/latex-mk/testsuite/run/dir1
+    # The sed expression uses BRE (basic regular expressions) to first get rid of the
+    # possible [:digits:] part and then normalizes the name of the bmake program.
+    # I'm not using [0-9]+ as the + for "one or more" is an extended regular expression.
     if [ "X$with_bmake" = "Xyes" ]; then
     echo "Test:  (BSD make) $t"
     echo_verbose "cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}"
-    cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
+    cd ${rundir} && ${BMAKE}  $args | \
+        sed \
+            -e 's;\[[0-9]\{1,\}\];;g' \
+            -e "s;${BMAKE_NAME}:;make:;g" \
+            -e "s; [^ \t]*/testsuite/run/; testsuite/run/;g" \
+        | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
 	    if ${DIFF} ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
@@ -551,9 +563,9 @@ for t in $all_tests ; do
     #
     cd ${rundir} && ${GMAKE}  $args | \
         sed \
-            -e "s;${GMAKE_NAME};gmake;g" \
+            -e "s;${GMAKE_NAME}:;gmake:;g" \
             -e "/^gmake:/ s/\`/\'/g" \
-	    -e "s;directory .*/testsuite/run/;directory \`testsuite/run/;g" \
+            -e "s;directory .*/testsuite/run/;directory \`testsuite/run/;g" \
         | ${SORT_SECTIONS} \
             > ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
