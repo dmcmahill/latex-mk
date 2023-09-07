@@ -5,3 +5,5 @@ testfile.gmk
 testfile.mk
 bmake_ref/*.log
 gmake_ref/*.log
+latex_mk_ref/*.log
+latex_mk_ref/*.dlog
