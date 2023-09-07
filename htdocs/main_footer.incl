@@ -1,5 +1,4 @@
-<!-- $Id: main_footer.incl,v 1.6 2007/08/26 20:38:27 dan Exp $ -->
-<!-- Copyright (c) 2002, 2003, 2004, 2005, 2006 Dan McMahill, All rights reserved. -->
+<!-- Copyright (c) 2002-2023 Dan McMahill, All rights reserved. -->
 
 <center>
 <A href="http://sourceforge.net"><IMG 
@@ -12,7 +11,7 @@
 
   <address>
     <font color="#000000" size="-1">
-      Copyright &copy; 2002, 2003, 2004, 2005, 2006, 2007 Dan McMahill  ALL RIGHTS RESERVED.
+      Copyright &copy; 2002-2023 Dan McMahill  ALL RIGHTS RESERVED.
     </font>
   </address>
 

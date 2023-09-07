@@ -33,10 +33,9 @@ dnl  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 dnl  SUCH DAMAGE.
 dnl    
 
-AC_INIT(latex.mk.in.in)
-AM_INIT_AUTOMAKE(latex-mk, 2.1A)
-
-AM_MAINTAINER_MODE
+AC_INIT([latex-mk], [2.1A])
+AC_CONFIG_SRCDIR([latex.mk.in.in])
+AM_INIT_AUTOMAKE
 
 #
 # determine host type
@@ -60,6 +59,8 @@ AC_PATH_PROG(GZIP, gzip, gzip)
 AC_PATH_PROG(RM, rm, rm)
 AC_PATH_PROG(RMDIR, rmdir, rmdir)
 AC_PATH_PROG(TAR, tar, tar)
+
+AX_PROG_DIFF
 
 #
 # for latex.mk
@@ -110,8 +111,8 @@ AC_PATH_PROG(FIG2DEV, fig2dev, fig2dev)
 # This is used by the testsuite
 #
 
-AC_PATH_GNU_MAKE
-AC_PATH_BSD_MAKE
+AX_PATH_GNU_MAKE
+AX_PATH_BSD_MAKE
 
 if test "X${BMAKE}" = "Xnone" -a "X${GMAKE}" = "Xnone" ; then
 	AC_MSG_NOTICE([

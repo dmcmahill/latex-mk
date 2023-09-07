@@ -1,40 +1,22 @@
-dnl $Id: acinclude.m4,v 1.4 2005/09/30 10:53:53 dan Exp $
-dnl
-dnl Copyright (c) 2003, 2005 Dan McMahill
+dnl Copyright (c) 2003, 2005, 2020, 2023 Dan McMahill
 dnl All rights reserved.
 dnl
-dnl This code is derived from software written by Dan McMahill
-dnl
-dnl Redistribution and use in source and binary forms, with or without
-dnl modification, are permitted provided that the following conditions
-dnl are met:
-dnl 1. Redistributions of source code must retain the above copyright
-dnl    notice, this list of conditions and the following disclaimer.
-dnl 2. Redistributions in binary form must reproduce the above copyright
-dnl    notice, this list of conditions and the following disclaimer in the
-dnl    documentation and/or other materials provided with the distribution.
-dnl 3. All advertising materials mentioning features or use of this software
-dnl    must display the following acknowledgement:
-dnl        This product includes software developed by Dan McMahill
-dnl 4. The name of the author may not be used to endorse or promote products
-dnl    derived from this software without specific prior written permission.
-dnl
-dnl THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-dnl IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-dnl OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-dnl IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
-dnl INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-dnl BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-dnl LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
-dnl AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-dnl OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-dnl OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-dnl SUCH DAMAGE.
-dnl
+dnl This program is free software; you can redistribute it and/or modify
+dnl it under the terms of the GNU General Public License as published by
+dnl the Free Software Foundation; version 2 of the License.
+dnl 
+dnl This program is distributed in the hope that it will be useful,
+dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl GNU General Public License for more details.
+dnl 
+dnl You should have received a copy of the GNU General Public License
+dnl along with this program; if not, write to the Free Software
+dnl Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 # Look for GNU make
 
-AC_DEFUN([AC_PATH_GNU_MAKE],
+AC_DEFUN([AX_PATH_GNU_MAKE],
 [#AC_MSG_CHECKING([for GNU make])
 gnu_make=
 for mk in "$GMAKE" "$MAKE" gmake make gnumake ; do
@@ -69,7 +51,7 @@ fi
 
 
 # Look for BSD make
-AC_DEFUN([AC_PATH_BSD_MAKE],
+AC_DEFUN([AX_PATH_BSD_MAKE],
 [
 cat > tmp.mk << EOF
 # include some of the "." commands that we need from a 
@@ -88,6 +70,11 @@ bsd_make=
 for mk in "$BMAKE" "$MAKE" make bmake nbmake ; do
 	if test -n "$mk" ; then
 		AC_MSG_CHECKING([if $mk is BSD make])
+		echo "$as_me:$LINENO: $1" >&AS_MESSAGE_LOG_FD
+		sh -c "$mk -f tmp.mk test"  >&AS_MESSAGE_LOG_FD 2>&AS_MESSAGE_LOG_FD
+		ac_status=$?
+		echo "$as_me:$LINENO: \$? = $ac_status" >&AS_MESSAGE_LOG_FD
+
 		tmp=`sh -c "$mk -f tmp.mk test" 2> /dev/null | grep BSDmake`
 		if test "X$tmp" = "XBSDmake" ; then
 			AC_MSG_RESULT([yes])
@@ -108,4 +95,66 @@ else
 fi
 ])dnl
 
+##########################################################################
+#
+# diff program and flags (used by the testsuite)
+#
+
+# find the diff program
+AC_DEFUN([AX_PATH_DIFF],
+  [AC_PATH_PROGS(DIFF, diff gdiff, diff)
+  AC_PROVIDE([AX_PATH_DIFF])dnl
+])
+
+# checks on DIFF flags
+dnl AX_TRY_DIFF(FLAG, MATCHED, [ACTION-IF-TRUE [, ACTION-IF-FALSE]])
+dnl MATCHED is one of [yes] or [no] to indicate that the input
+dnl files for the test should match ([yes]) or not match ([no])
+AC_DEFUN([AX_TRY_DIFF],
+[AC_REQUIRE([AX_PATH_DIFF])dnl
+cat > conftest1.txt <<EOF
+[#]line __oline__ "configure"
+this is a text file
+that has some line
+and another
+EOF
+cat > conftest2.txt <<EOF
+[#]line __oline__ "configure"
+this is a text file
+that has a different line
+and another
+EOF
+if test "X[$2]" = "Xyes" ; then
+    cp conftest1.txt conftest2.txt
+fi
+if ($DIFF [$1] conftest1.txt conftest2.txt >/dev/null; exit) 2>&AC_FD_CC
+then
+dnl
+  AC_MSG_RESULT([yes])
+  ifelse([$3], , :, [$3])
+else
+  AC_MSG_RESULT([no])
+  echo "configure:__oline__: $DIFF [$1] conftest1.txt conftest2.txt" >&AC_FD_CC
+  echo "configure:__oline__: failed input file conftest1.txt  was:" >&AC_FD_CC
+  cat conftest1.txt >&AC_FD_CC
+  echo "configure:__oline__: failed input file conftest2.txt  was:" >&AC_FD_CC
+  cat conftest2.txt >&AC_FD_CC
+ifelse([$4], , , [  rm -fr conftest*
+  $3
+])dnl
+fi
+rm -fr conftest*])
+
+
+# top level DIFF
+dnl AX_PROG_DIFF
+AC_DEFUN([AX_PROG_DIFF],
+[
+DIFF_FLAGS=${DIFF_FLAGS:-}
+for flag in -U2 ; do
+    AC_MSG_CHECKING([if $DIFF accepts $flag])
+    AX_TRY_DIFF([$flag], [yes], DIFF_FLAGS="${DIFF_FLAGS} ${flag}")
+done
+AC_SUBST(DIFF_FLAGS)
+])dnl
 
