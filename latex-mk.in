@@ -6,12 +6,12 @@
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; version 2 of the License.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -85,17 +85,21 @@ if test $? -ne 0 ; then
 	LATEX_MK_LOG="${ODIR}/${LATEX_MK_LOG}"
 fi
 
-# list of files to monitor.  If they change, we will rerun 
+# list of files to monitor.  If they change, we will rerun
 # LaTeX again.  These are all suffixes of ${NAME}
 #
 # glo = \glossaryentry commands from \glossary
 # gls = glossary file created by (normally) makeindex from the .glo file
 # ilg = glossary log file created by (normally) makeindex
+#
+# nlo = \nomenclatureentry from  \nomenclature
+# nls = glossary file created by (normally) makeindex from the .nlo file
+#
 # ind = index file created by the makeindex program from the .idx file
 # lof = list of figures
 # lot = list of tables
 # toc = table of contents
-monitor_files="glo gls ind lof lot toc"
+monitor_files="glo gls ind lof lot nlo nls toc"
 clean_files="idx ilg ${monitor_files}"
 
 sep="------------------------------------"
@@ -200,13 +204,13 @@ do
 		flags="${flags} clean"
 		shift
 		;;
-		
+
 	--debug)
 		debug=yes
 		echo "$0:  Enabling debug mode"
 		shift
 		;;
-		
+
 	-h|--help)
 		usage
 		exit 0
@@ -261,20 +265,27 @@ done
 
 first_log=yes
 log() {
+    _prefix=""
+    case "$1" in
+        --prefix)
+            _prefix="$2"
+            shift 2
+            ;;
+    esac
 	# Log a message to the test log file if it has been defined.
-	if test -n "$test_log" ; then
+	if test -n "${test_log}" ; then
 		if test "${first_log}" = "yes" ; then
 			first_log=no
-			rm -f $test_log
+			rm -f "${test_log}"
 		fi
-		if test ! -f $test_log ; then
-			touch $test_log
+		if test ! -f "${test_log}" ; then
+			touch "${test_log}"
 			if test $? -ne 0 ; then
-				echo "$0:  Could not write to test log $test_log" > /dev/stderr
+				echo "$0:  Could not write to test log ${test_log}" > /dev/stderr
 				exit 1
 			fi
 		fi
-		echo "$*" >> $test_log
+		echo "$*" | awk '{print prefix $0}' prefix="${_prefix}" >> "${test_log}"
 
 	fi
 }
@@ -352,7 +363,7 @@ EOF
 
 INFILE=$1
 
-log "latex-mk invoked with flags = $flags" 
+log "latex-mk invoked with flags = $flags"
 log "BIBTEX         [${BIBTEX}]"
 log "BIBTEX_FLAGS   [${BIBTEX_FLAGS}]"
 log "LATEX          [${LATEX}]"
@@ -492,8 +503,8 @@ run_latex() {
 	( ( ( "$LATEX" $LATEX_FLAGS "$INFILE" 2>&1 ; echo $? >&4) | tee "$LATEX_MK_LOG" 1>&3) 4>&1 |  (read a; exit $a)) 3>&1
 	rc=$?
 	if test $rc -ne 0 -a "$ignore_errors" != "yes"  ; then
-		echo "$sep" 
-		echo "$0:  Error:  LaTeX failed" 
+		echo "$sep"
+		echo "$0:  Error:  LaTeX failed"
 		echo "$sep"
 		rm -f "${ODIR}/${NAME}.dvi" "${ODIR}/${NAME}.pdf"
 		rm -f "$LATEX_MK_LOG"
@@ -538,8 +549,8 @@ run_bibtex() {
 	rc=$?
 	cd ${here}
 	if test $rc -ne 0 -a "$ignore_errors" != "yes" ; then
-		echo "$sep" 
-		echo "$0:  Error:  BibTeX failed" 
+		echo "$sep"
+		echo "$0:  Error:  BibTeX failed"
 		echo "$sep"
 		rm -f "${ODIR}/${NAME}.dvi" "${ODIR}/${NAME}.pdf"
 		rm -f "$LATEX_MK_LOG"
@@ -578,8 +589,8 @@ run_makeindex() {
 	rc=$?
 	cd ${here}
 	if test $rc -ne 0 -a "$ignore_errors" != "yes" ; then
-		echo "$sep" 
-		echo "$0:  Error:  makeindex failed" 
+		echo "$sep"
+		echo "$0:  Error:  makeindex failed"
 		echo "$sep"
 		rm -f "${ODIR}/${NAME}.dvi" "${ODIR}/${NAME}.pdf"
 		rm -f "$LATEX_MK_LOG"
@@ -605,12 +616,39 @@ run_makeglossary() {
 	rc=$?
 	cd ${here}
 	if test $rc -ne 0 -a "$ignore_errors" != "yes" ; then
-		echo "$sep" 
-		echo "$0:  Error:  `basename $MAKEGLS` failed" 
+		echo "$sep"
+		echo "$0:  Error:  `basename $MAKEGLS` failed"
 		echo "$sep"
 		rm -f "${ODIR}/${NAME}.dvi" "${ODIR}/${NAME}.pdf"
 		rm -f "$LATEX_MK_LOG"
 		log "run_makeglossary() failed"
+		exit $rc
+	fi
+	echo "${sep}"
+
+}
+
+#######################################################################
+#
+# run_makenomenclature()
+#
+
+run_makenomenclature() {
+	log "run_makenomenclature() called"
+	log "cd \"${ODIR}\" && \"$MAKEGLS\" $MAKEGLS_FLAGS -s \"$GLSFILE\" \"$NAME.nlo\" -o \"$NAME.nls\""
+	echo "${sep}"
+	echo "Running `basename $MAKEGLS`"
+	echo "cd \"${ODIR}\" && \"$MAKEGLS\" $MAKEGLS_FLAGS -s \"$GLSFILE\" -o \"$NAME.nls\" \"$NAME.nlo\""
+	cd "${ODIR}" && "$MAKEGLS" $MAKEGLS_FLAGS -s "$GLSFILE" -o "$NAME.nls" "$NAME.nlo"
+	rc=$?
+	cd ${here}
+	if test $rc -ne 0 -a "$ignore_errors" != "yes" ; then
+		echo "$sep"
+		echo "$0:  Error:  `basename $MAKEGLS` failed"
+		echo "$sep"
+		rm -f "${ODIR}/${NAME}.dvi" "${ODIR}/${NAME}.pdf"
+		rm -f "$LATEX_MK_LOG"
+		log "run_makenomenclature() failed"
 		exit $rc
 	fi
 	echo "${sep}"
@@ -656,7 +694,7 @@ while test $cnt -lt $MAXITERS ; do
 	#
 	# instead of the previous warning.  This can happen if you only have
 	# something like \nocite{*} in your document instead of \cite{x}
-	# 
+	#
 	if test "$using_bibunits" = "yes" -a $cnt -eq 0 ; then
 		for f in "${ODIR}"/*.aux ; do
 			case $f in
@@ -743,6 +781,11 @@ while test $cnt -lt $MAXITERS ; do
 		run_makeglossary
 	fi
 
+	if test -f "${ODIR}/${NAME}.nlo" && new_or_changed "${ODIR}/${NAME}.nlo" ; then
+		log "\"${ODIR}/${NAME}.nlo\" new or changed -> need to update nomenclature"
+		run_makenomenclature
+	fi
+
 	# Examine the list of figures, list of tables, table of contents, etc
 	# files because when these change, we need to re-run latex, but
 	# sometimes latex does not tell us this.
@@ -756,15 +799,44 @@ while test $cnt -lt $MAXITERS ; do
 
 	# with latex, you might see:
 	#LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right
-	# 
+	#
 	# with tex2page, you may get:
 	#Rerun: tex2page week5.tex
 	#
-	rerun=`grep "Rerun" "$LATEX_MK_LOG"`
-	log "rerun        = ${rerun}"
+    # You may also see these:
+    # Package rerunfilecheck Warning: File `bibliography2.out' has changed.
+    # (rerunfilecheck)                Rerun to get outlines right
+    # (rerunfilecheck)                or use package `bookmark'.
+    #
+    # or these:
+    # Package hyperref Warning: Rerun to get /PageLabels entry.
+    #
+    # It looks likes from a test log point of view we should maybe
+    # just make rerun be a boolean.  Alternatively we can log the
+    # real result but with a flag that says not to diff that line
+
+    # to make matters even worse, rerunfilecheck generates Rerun
+    # messages by checking some other files too and so we may
+    # actually end up with rerun=yes due to rerunfilecheck when
+    # older LaTeX installations may not see that (but we picked up
+    # via the bibtex checks).
+    # because of this, mark rerun as @debug: or we won't reliably
+    # pass the tests across different LaTeX installs
+
+    debug_tag="@debug:  "
+	rerun_cnt=$(grep "Rerun" "$LATEX_MK_LOG" | wc -l)
+    if [ "${rerun_cnt}" -gt 0 ] ; then
+        rerun="yes"
+	    rerun_dbg="$(grep "Rerun" "$LATEX_MK_LOG" | awk '{print "@debug: " $0}')"
+        log "${rerun_dbg}"
+    else
+        rerun="no"
+    fi
+
+	log "${debug_tag}rerun        = ${rerun}"
 	log "needbib      = ${needbib}"
 	log "changed_file = ${changed_file}"
-	if test -z "$rerun" -a -z "$needbib" -a -z "$changed_file" ; then
+	if test "${rerun}" = "no" -a -z "$needbib" -a -z "$changed_file" ; then
 		log "No rerun is needed"
 		break;
 	fi

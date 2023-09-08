@@ -36,7 +36,7 @@ check_bib():  It is ok to run BibTex (found all of:  \citation \bibdata \bibstyl
 BibTex run #1
 run_bibtex  called
 cd "." && "bibtex"  "bibunits2"
-rerun        = 
+@debug:  rerun        = no
 needbib      = LaTeX Warning: Citation `churchill84' undefined on input line 17.
 LaTeX Warning: Citation `cover91' undefined on input line 17.
 LaTeX Warning: Citation `fano50' undefined on input line 24.
@@ -51,7 +51,8 @@ run_latex() called
 bibunits package detected
 Citation undefined
 Try another latex run for the citations
-rerun        = Package bibunits Warning: Label(s) may have changed. Rerun to get cross-referen
+@debug: Package bibunits Warning: Label(s) may have changed. Rerun to get cross-referen
+@debug:  rerun        = yes
 needbib      = LaTeX Warning: Citation `churchill84' undefined on input line 17.
 LaTeX Warning: Citation `cover91' undefined on input line 17.
 LaTeX Warning: Citation `fano50' undefined on input line 24.
@@ -64,7 +65,7 @@ Rerun is needed
 Pass #2
 run_latex() called
 bibunits package detected
-rerun        = 
+@debug:  rerun        = no
 needbib      = 
 changed_file = 
 No rerun is needed
