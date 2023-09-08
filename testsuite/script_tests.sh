@@ -324,11 +324,21 @@ EOF
 
 	if [ "X$regen" != "Xyes" ]; then
 		if [ -f ${srcdir}/${REF}/${t}.ref ]; then
-			if diff -w ${srcdir}/${REF}/${t}.ref ${here}/${REF}/${t}.log >/dev/null ; then
+            _psed='/^@debug:/d'
+
+            _f1="${srcdir}/${REF}/${t}.ref"
+            _f1p="${here}/${REF}/${t}-processed.ref"
+            sed "${_psed}" "${_f1}" > "${_f1p}"
+
+            _f2="${here}/${REF}/${t}.log"
+            _f2p="${here}/${REF}/${t}-processed.log"
+            sed "${_psed}" "${_f2}" > "${_f2p}"
+
+			if diff -w "${_f1p}" "${_f2p}" >/dev/null ; then
 				echo "PASS"
 				pass=`expr $pass + 1`
 	    		else
-				echo "FAILED:  See diff -w ${srcdir}/${REF}/${t}.ref ${here}/${REF}/${t}.log"
+				echo "FAILED:  See diff -w ${_f1p} ${_f2p}"
 				fail=`expr $fail + 1`
 			fi
 		else
