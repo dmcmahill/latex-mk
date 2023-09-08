@@ -20,7 +20,7 @@ BIBINPUTS      []
 ------------------------------------
 Pass #0
 run_latex() called
-rerun        = 
+@debug:  rerun        = no
 needbib      = 
 changed_file = 
 No rerun is needed

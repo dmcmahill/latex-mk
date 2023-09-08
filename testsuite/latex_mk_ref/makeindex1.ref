@@ -25,7 +25,9 @@ run_latex() called
 run_makeindex() called
 cd "." && "makeindex"  "index"
 "./index.ind" is new
-rerun        = 
+@debug: Package hyperref Warning: Rerun to get /PageLabels entry.
+@debug: (rerunfilecheck)                Rerun to get outlines right
+@debug:  rerun        = yes
 needbib      = 
 changed_file =  "./index.ind"
 Rerun is needed
@@ -34,7 +36,7 @@ Pass #1
 run_latex() called
 "./index.idx" is not changed
 "./index.ind" is not changed
-rerun        = 
+@debug:  rerun        = no
 needbib      = 
 changed_file = 
 No rerun is needed

@@ -23,14 +23,15 @@ run_latex() called
 Citation undefined
 check_bib() called
 Skip BibTex run #1 (due to check_bib)
-rerun        = LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+@debug: LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+@debug:  rerun        = yes
 needbib      = LaTeX Warning: Citation `Asin11' on page 1 undefined on input line 16.
 changed_file = 
 Rerun is needed
 ------------------------------------
 Pass #1
 run_latex() called
-rerun        = 
+@debug:  rerun        = no
 needbib      = 
 changed_file = 
 No rerun is needed

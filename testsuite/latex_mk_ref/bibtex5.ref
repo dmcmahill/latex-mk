@@ -31,7 +31,9 @@ cd "." && "bibtex"  "bibliography2"
 run_makeindex() called
 cd "." && "makeindex"  "bibliography2"
 "./bibliography2.ind" is new
-rerun        = 
+@debug: Package hyperref Warning: Rerun to get /PageLabels entry.
+@debug: (rerunfilecheck)                Rerun to get outlines right
+@debug:  rerun        = yes
 needbib      = LaTeX Warning: Citation `en300.175-2v1.4.2' on page 1 undefined on input line 2
 changed_file =  "./bibliography2.ind"
 Rerun is needed
@@ -42,7 +44,8 @@ Citation undefined
 Try another latex run for the citations
 "./bibliography2.idx" is not changed
 "./bibliography2.ind" is not changed
-rerun        = LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+@debug: LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+@debug:  rerun        = yes
 needbib      = LaTeX Warning: Citation `en300.175-2v1.4.2' on page 1 undefined on input line 2
 changed_file = 
 Rerun is needed
@@ -51,7 +54,7 @@ Pass #2
 run_latex() called
 "./bibliography2.idx" is not changed
 "./bibliography2.ind" is not changed
-rerun        = 
+@debug:  rerun        = no
 needbib      = 
 changed_file = 
 No rerun is needed
