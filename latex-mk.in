@@ -6,12 +6,12 @@
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; version 2 of the License.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -85,17 +85,21 @@ if test $? -ne 0 ; then
 	LATEX_MK_LOG="${ODIR}/${LATEX_MK_LOG}"
 fi
 
-# list of files to monitor.  If they change, we will rerun 
+# list of files to monitor.  If they change, we will rerun
 # LaTeX again.  These are all suffixes of ${NAME}
 #
 # glo = \glossaryentry commands from \glossary
 # gls = glossary file created by (normally) makeindex from the .glo file
 # ilg = glossary log file created by (normally) makeindex
+#
+# nlo = \nomenclatureentry from  \nomenclature
+# nls = glossary file created by (normally) makeindex from the .nlo file
+#
 # ind = index file created by the makeindex program from the .idx file
 # lof = list of figures
 # lot = list of tables
 # toc = table of contents
-monitor_files="glo gls ind lof lot toc"
+monitor_files="glo gls ind lof lot nlo nls toc"
 clean_files="idx ilg ${monitor_files}"
 
 sep="------------------------------------"
@@ -617,6 +621,33 @@ run_makeglossary() {
 
 }
 
+#######################################################################
+#
+# run_makenomenclature()
+#
+
+run_makenomenclature() {
+	log "run_makenomenclature() called"
+	log "cd \"${ODIR}\" && \"$MAKEGLS\" $MAKEGLS_FLAGS -s \"$GLSFILE\" \"$NAME.nlo\" -o \"$NAME.nls\""
+	echo "${sep}"
+	echo "Running `basename $MAKEGLS`"
+	echo "cd \"${ODIR}\" && \"$MAKEGLS\" $MAKEGLS_FLAGS -s \"$GLSFILE\" -o \"$NAME.nls\" \"$NAME.nlo\""
+	cd "${ODIR}" && "$MAKEGLS" $MAKEGLS_FLAGS -s "$GLSFILE" -o "$NAME.nls" "$NAME.nlo"
+	rc=$?
+	cd ${here}
+	if test $rc -ne 0 -a "$ignore_errors" != "yes" ; then
+		echo "$sep"
+		echo "$0:  Error:  `basename $MAKEGLS` failed"
+		echo "$sep"
+		rm -f "${ODIR}/${NAME}.dvi" "${ODIR}/${NAME}.pdf"
+		rm -f "$LATEX_MK_LOG"
+		log "run_makenomenclature() failed"
+		exit $rc
+	fi
+	echo "${sep}"
+
+}
+
 #
 #######################################################################
 
@@ -741,6 +772,11 @@ while test $cnt -lt $MAXITERS ; do
 	if test -f "${ODIR}/${NAME}.glo" && new_or_changed "${ODIR}/${NAME}.glo" ; then
 		log "\"${ODIR}/${NAME}.glo\" new or changed -> need to update glossary"
 		run_makeglossary
+	fi
+
+	if test -f "${ODIR}/${NAME}.nlo" && new_or_changed "${ODIR}/${NAME}.nlo" ; then
+		log "\"${ODIR}/${NAME}.nlo\" new or changed -> need to update nomenclature"
+		run_makenomenclature
 	fi
 
 	# Examine the list of figures, list of tables, table of contents, etc
