@@ -9,12 +9,12 @@
 \author{Dan}
 \date{\today}
 
-\usepackage{fancyheadings}
+\usepackage{fancyhdr}
 \pagestyle{fancy}
 \rhead{Doc with Nomenclatures}
 \usepackage{hyperref}
 
-\makeglossary
+\makenomenclature
 
 \begin{document}
 \maketitle
@@ -27,7 +27,7 @@ Here is an example equation with nomenclatures:
 \nomenclature{$m$}{Mass}%
 \nomenclature{$c$}{Speed of light}%
 
-\printglossary
+\printnomenclature
 
 \end{document}
 
