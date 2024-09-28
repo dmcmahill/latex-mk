@@ -40,13 +40,13 @@ jobs:
              tgif
              csh
              ksh
-    
+
       - name: Install tgif dependencies
         run: sudo apt-get install -y
              libxmu-dev
              xfonts-75dpi
              gsfonts-x11
-        
+
       - name: Autogen
         run: ./autogen.sh
 
@@ -61,7 +61,13 @@ jobs:
         run: |
           make check
 
+      - name: Upload Test Log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testsuite-log
+          path: testsuite/test-suite.log
+
       - name: Distcheck
         run:  |
           make distcheck
-
