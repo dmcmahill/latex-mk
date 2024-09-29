@@ -1,22 +1,23 @@
 #!/bin/sh
 #
-# Copyright (c) 2003-2023 Dan McMahill
+# Copyright (c) 2003-2024 Dan McMahill
 # All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; version 2 of the License.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+preserve=no
 regen=no
 with_bmake=yes
 with_gmake=yes
@@ -39,6 +40,10 @@ Options:
                           the diff program.  May be used multiple times.
 
     -h|--help           : Show this help and exit
+
+    --preserve          : Preserve the run directory instead of deleting it.  This
+                          option is primarily used for developers and when running
+                          a single test.
 
     -r|--regen          : Regenerate the golden files
 
@@ -65,74 +70,94 @@ Tests:
 EOF
 }
 
-while test -n "$1"
-do
-    case "$1"
-    in
+while test -n "$1" ; do
+    case "$1" in
 
-    --diff-flag)
-        # add to the diff flags
-        DIFF_FLAGS="${DIFF_FLAGS} $2"
-        shift 2
-        ;;
+        --diff-flag)
+            # add to the diff flags
+            DIFF_FLAGS="${DIFF_FLAGS} $2"
+            shift 2
+            ;;
 
-    -h|--help)
-	usage
-	exit 0
-	;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
 
-    -r|--regen)
-	# regenerate the 'golden' output files.  Use this with caution.
-	# In particular, all differences should be noted and understood.
-	regen=yes
-	shift
-	;;
+        --preserve)
+            preserve=yes
+            shift
+            ;;
 
-    --show-diff)
-        # on failures, show the diff output
-        show_diff=yes
-        shift
-        ;;
+        -r|--regen)
+            # regenerate the 'golden' output files.  Use this with caution.
+            # In particular, all differences should be noted and understood.
+            regen=yes
+            shift
+            ;;
 
-    --verbose)
-        verbose=yes
-        shift
-        ;;
+        --show-diff)
+            # on failures, show the diff output
+            show_diff=yes
+            shift
+            ;;
+
+        --verbose)
+            verbose=yes
+            shift
+            ;;
 
 
-    --with-bmake)
-	BMAKE=$2
-	shift 2
-	;;
+        --with-bmake)
+            BMAKE=$2
+            shift 2
+            ;;
 
-    --with-gmake)
-	GMAKE=$2
-	shift 2
-	;;
+        --with-gmake)
+            GMAKE=$2
+            shift 2
+            ;;
 
-    --without-bmake)
-	# don't run the BSD make tests
-	with_bmake=no
-	shift
-	;;
+        --without-bmake)
+            # don't run the BSD make tests
+            with_bmake=no
+            shift
+            ;;
 
-    --without-gmake)
-	# don't run the GNU make tests
-	with_gmake=no
-	shift
-	;;
+        --without-gmake)
+            # don't run the GNU make tests
+            with_gmake=no
+            shift
+            ;;
 
-    -*)
-	echo "unknown option: $1"
-	exit 1
-	;;
+        -*)
+            echo "unknown option: $1"
+            exit 1
+            ;;
 
-    *)
-	break
-	;;
+        *)
+            break
+            ;;
 
     esac
 done
+
+check_verbose() {
+    if test "${verbose}" = "yes" ; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+echo_verbose() {
+    if check_verbose ; then
+        echo "===> $*"
+    fi
+}
+
+echo_verbose "Running in verbose mode"
+
 # sometimes make versions change whitespace
 DIFF_FLAGS="${DIFF_FLAGS} -b"
 
@@ -151,7 +176,7 @@ echo "LATEX_MK_DIR = $LATEX_MK_DIR"
 # printenv
 
 #######################################
-# 
+#
 # general latex stuff
 #
 #######################################
@@ -266,7 +291,7 @@ export VIEWPDF
 export VIEWPDF_FLAGS
 
 #######################################
-# 
+#
 # tgif stuff
 #
 #######################################
@@ -282,7 +307,7 @@ export TGIF_EPS_FLAGS
 export TGIF_PDF_FLAGS
 
 #######################################
-# 
+#
 # xfig stuff
 #
 #######################################
@@ -370,6 +395,10 @@ GMAKE="${GMAKE} -f ../${GMKF} ${MFLAGS}"
 # echo "BSD make command = $BMAKE"
 # echo "GNU make command = $GMAKE"
 
+# tab character for some sed stuff supporting non-GNU sed implementations that do not
+# use \t for a tab.
+tab_char="$(printf '\t')"
+
 # make sure we have the right paths when running this from inside the
 # source tree and also from outside the source tree.
 here=$PWD
@@ -404,106 +433,111 @@ bskip=0
 gskip=0
 tot=0
 
+user_test_list=no
 if test -z "$1" ; then
-    all_tests=`awk 'BEGIN{FS="|"} /^#/{next} {print $1}' $TESTLIST | sed 's; ;;g'`
+    all_tests=`awk 'BEGIN{FS="|"} /^[ \t]*#/{next} {print $1}' $TESTLIST | sed 's; ;;g'`
 else
+    user_test_list=yes
     all_tests=$*
 fi
 
 echo "Starting tests in $here."
 echo "Source directory is $srcdir"
 
-check_verbose() {
-    if test $verbose = yes ; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-echo_verbose() {
-    if check_verbose ; then
-        echo "===> $*"
-    fi
-}
-
 for t in $all_tests ; do
-
     noexec_mode=yes
+    echo_verbose "Processing test t=${t}"
+
+    if [ "${user_test_list}" = "yes" ] ; then
+        echo_verbose "Checking if user specified test ${t} is in exec mode"
+        noexec_mode=$(awk -F"[|]" '$1 ~ mypat {if( $1 ~ /^[*]/) {print "no"} else { print "yes"}; ok=1}' mypat="^[ \t]*[*]?${t}[ \t]*$" "${TESTLIST}")
+        echo_verbose "noexec_mode=${noexec_mode}"
+        if [ "${noexec_mode}" = "no" ] ; then
+            t="*${t}"
+        fi
+    fi
+
     case "$t" in
-	\**)
-	    t=`echo $t | sed 's;^\*;;g'`
-	    rt="\*${t}"
-	    noexec_mode=no
-	    ;;
-	*)
-	    rt="${t}"
-	    ;;
+        \**)
+            t=`echo $t | sed 's;^\*;;g'`
+            rt="\*${t}"
+            noexec_mode=no
+            ;;
+        *)
+            rt="${t}"
+            ;;
     esac
     t=`echo $t | sed 's;^\*;;g'`
 
+    echo_verbose "t = ${t}, rt = ${rt}"
     dirs=`grep "^[ \t]*${rt}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $2}'`
     files=`grep "^[ \t]*${rt}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $3}'`
     args=`grep "^[ \t]*${rt}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $4}'`
     if [ "$noexec_mode" = "yes" ] ; then
-	args="-n $args"
+        args="-n $args"
     fi
 
     tot=`expr $tot + 1`
 
     # create temporary run directory
-    if [ ! -d $rundir ]; then
-        echo_verbose "mkdir -p $rundir"
-	mkdir -p $rundir
+    if [ -d "${rundir}" ]; then
+        echo_verbose "Delete existing run directory: ${rundir}"
+        rm -fr "${rundir}"
     fi
+
+    echo_verbose "mkdir -p ${rundir}"
+    mkdir -p "${rundir}"
 
     # Create the subdirectories needed
     if [ ! -z "$dirs" ]; then
-	for dir in $dirs ; do
-	    echo_verbose "mkdir -p ${rundir}/${dir}"
-	    mkdir -p ${rundir}/${dir}
-	done
+        for dir in $dirs ; do
+            echo_verbose "mkdir -p ${rundir}/${dir}"
+            mkdir -p ${rundir}/${dir}
+        done
     fi
 
     # Create the files needed
     if [ ! -z "$files" ]; then
-	copy_mode=no
-	for f in $files ; do
-	    case "$f" in
-		@) 
-		echo_verbose "sleep 2"
-		sleep 2
-		;;
-		
-		"<" )
-		    copy="cp"
-		    copy_mode=yes
-		    ;;
-		
-		">")
-		    eval $copy
-		    copy_mode=no
-		    ;;
-		
-		*)
-		    if [ "$copy_mode" = "yes" ]; then
-			f=`echo $f | sed -e "s;@S@;${srcdir};g" -e "s;@R@;${rundir};g"`
-			copy="$copy $f"
-		    else
-		        echo_verbose "touch ${rundir}/${f}"
-			touch ${rundir}/${f}
-		    fi
-		    ;;
-	    esac
-	done
-	if [ "$copy_mode" = "yes" ]; then
-	    echo "ERROR:  copy_mode is still yes for test ${t}"
-	    echo "        This indicates a bug in tests.list"
-	    echo " "
-	    exit 1
-	fi
+        copy_mode=no
+        for f in $files ; do
+            case "$f" in
+                @)
+                echo_verbose "sleep 2"
+                sleep 2
+                ;;
+
+                "<" )
+                    echo_verbose "Found < in files.  Looking for files to copy"
+                    copy="cp"
+                    copy_mode=yes
+                    ;;
+
+                ">")
+                    echo_verbose "Found > in files.  Running copy command:"
+                    echo_verbose "${copy}"
+                    eval $copy
+                    copy_mode=no
+                    ;;
+
+                *)
+                    if [ "$copy_mode" = "yes" ]; then
+                        f=`echo $f | sed -e "s;@S@;${srcdir};g" -e "s;@R@;${rundir};g"`
+                        copy="$copy $f"
+                    else
+                        echo_verbose "touch ${rundir}/${f}"
+                        touch ${rundir}/${f}
+                    fi
+                    ;;
+            esac
+        done
+        if [ "$copy_mode" = "yes" ]; then
+            echo "ERROR:  copy_mode is still yes for test ${t}"
+            echo "        This indicates a bug in tests.list"
+            echo " "
+            exit 1
+        fi
     fi
- 
+
     # run the BSD make test
     #
     # normalize messages like:
@@ -516,83 +550,95 @@ for t in $all_tests ; do
     # The sed expression uses BRE (basic regular expressions) to first get rid of the
     # possible [:digits:] part and then normalizes the name of the bmake program.
     # I'm not using [0-9]+ as the + for "one or more" is an extended regular expression.
+    #
+    # Also, ensure every line starts with whitespace.  Otherwise some make versions may produce
+    # something like " done" in the output while other produce "done" (no leading whitespace)
+    # and diff -b will say they are different.  I'd rather not move to diff -w (ignoring all whitespace
+    # differences) and stick to something less permissive.
     if [ "X$with_bmake" = "Xyes" ]; then
-    echo "Test:  (BSD make) $t"
-    echo_verbose "cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}"
-    cd ${rundir} && ${BMAKE}  $args | \
-        sed \
-            -e 's;\[[0-9]\{1,\}\];;g' \
-            -e "s;${BMAKE_NAME}:;make:;g" \
-            -e "s; [^ \t]*/testsuite/run/; testsuite/run/;g" \
-        | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
-    if [ "X$regen" != "Xyes" ]; then
-	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
-	    if ${DIFF} ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
-		echo "PASS"
-		bpass=`expr $bpass + 1`
-	    else
-		echo "FAILED:  See ${DIFF} ${here}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
-                if [ "X${show_diff}" = "Xyes" ] ; then
-                    ${DIFF} ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log
+        echo "Test:  (BSD make) $t"
+        echo_verbose "cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}"
+        cd ${rundir} && ${BMAKE}  $args | \
+                sed \
+                    -e 's;\[[0-9]\{1,\}\];;g' \
+                    -e "s;${BMAKE_NAME}:;make:;g" \
+                    -e "s; [^ \t]*/testsuite/run/; testsuite/run/;g" \
+                    -e "s;^\([^ ${tab_char}]\); \1;g" \
+                | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
+        if [ "X$regen" != "Xyes" ]; then
+            if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
+                if ${DIFF} ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log >/dev/null ; then
+                    echo "PASS"
+                    bpass=`expr $bpass + 1`
+                else
+                    echo "FAILED:  See ${DIFF} ${DIFF_FLAGS} ${here}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
+                    if [ "X${show_diff}" = "Xyes" ] ; then
+                        ${DIFF} ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log
+                    fi
+                    bfail=`expr $bfail + 1`
                 fi
-		bfail=`expr $bfail + 1`
-	    fi
-	else
-	    echo "No reference file.  Skipping"
-	    bskip=`expr $bskip + 1`
-	fi
-    else
-	echo "Regenerated"
-    fi
+            else
+                echo "No reference file.  Skipping"
+                bskip=`expr $bskip + 1`
+            fi
+        else
+            echo "Regenerated"
+        fi
     fi
 
     # run the GNU make test
     if [ "X$with_gmake" = "Xyes" ]; then
-	echo "Test:  (GNU make) $t"
-    # we have to replace the actual name of the GNU make program with 'gmake' because
-    # some of the tests will contain the name of GNU make in the output.  This way if
-    # someone has installed GNU make as 'gnumake', the test will still pass even though
-    # I use 'gmake' on my system.  In addition, a change happened in GNU make at some point
-    # that changed output like:
-    #    gmake: `test1.dvi' is up to date.
-    # to
-    #    gmake: 'test1.dvi' is up to date.
-    #
-    # Also, we have to watch out for the gmake entering/leaving directory messages.
-    # those will have the full system path so we have to normalize it here
-    #
-    cd ${rundir} && ${GMAKE}  $args | \
-        sed \
-            -e "s;${GMAKE_NAME}:;gmake:;g" \
-            -e "/^gmake:/ s/\`/\'/g" \
-            -e "s;directory .*/testsuite/run/;directory \`testsuite/run/;g" \
-        | ${SORT_SECTIONS} \
-            > ${here}/${GMAKE_REF}/${t}.${sufx}
-    if [ "X$regen" != "Xyes" ]; then
-	if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
-	    if ${DIFF} ${DIFF_FLAGS} ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
-		echo "PASS"
-		gpass=`expr $gpass + 1`
-	    else
-		echo "FAILED:  See ${DIFF} ${here}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
-                if [ "X${show_diff}" = "Xyes" ] ; then
-                    ${DIFF} ${DIFF_FLAGS} ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log
+        echo "Test:  (GNU make) $t"
+        # we have to replace the actual name of the GNU make program with 'gmake' because
+        # some of the tests will contain the name of GNU make in the output.  This way if
+        # someone has installed GNU make as 'gnumake', the test will still pass even though
+        # I use 'gmake' on my system.  In addition, a change happened in GNU make at some point
+        # that changed output like:
+        #    gmake: `test1.dvi' is up to date.
+        # to
+        #    gmake: 'test1.dvi' is up to date.
+        #
+        # Also, we have to watch out for the gmake entering/leaving directory messages.
+        # those will have the full system path so we have to normalize it here
+        #
+        cd ${rundir} && ${GMAKE}  $args | \
+                sed \
+                    -e "s;${GMAKE_NAME}:;gmake:;g" \
+                    -e "/^gmake:/ s/\`/\'/g" \
+                    -e "s;directory .*/testsuite/run/;directory \`testsuite/run/;g" \
+                    -e "s;^\([^ ${tab_char}]\); \1;g" \
+                | ${SORT_SECTIONS} \
+                      > ${here}/${GMAKE_REF}/${t}.${sufx}
+        if [ "X$regen" != "Xyes" ]; then
+            if [ -f ${srcdir}/${GMAKE_REF}/${t}.ref ]; then
+                if ${DIFF} ${DIFF_FLAGS} ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log >/dev/null ; then
+                    echo "PASS"
+                    gpass=`expr $gpass + 1`
+                else
+                    echo "FAILED:  See ${DIFF} ${DIFF_FLAGS} ${here}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
+                    if [ "X${show_diff}" = "Xyes" ] ; then
+                        ${DIFF} ${DIFF_FLAGS} ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log
+                    fi
+                    gfail=`expr $gfail + 1`
                 fi
-		gfail=`expr $gfail + 1`
-	    fi
-	else
-	    echo "No reference file.  Skipping"
-	    gskip=`expr $gskip + 1`
-	fi
-    else
-	echo "Regenerated"
-    fi
+            else
+                echo "No reference file.  Skipping"
+                gskip=`expr $gskip + 1`
+            fi
+        else
+            echo "Regenerated"
+        fi
     fi
 
     cd $here
-    
+
     # clean up the rundirectory
-    rm -fr ${rundir}
+    if [ "${preserve}" = "yes" ] ; then
+        echo "Preserving run directory: ${rundir}"
+        echo "This should only be done during development/debug and on a single test"
+    else
+        rm -fr "${rundir}"
+    fi
 
 done
 

@@ -1,3 +1,5 @@
-===> dir1
-===> dir2
-===> dir3 non-existent
+ ===> dir1
+ default target
+ ===> dir2
+ default target
+ ===> dir3 non-existent
