@@ -370,6 +370,10 @@ GMAKE="${GMAKE} -f ../${GMKF} ${MFLAGS}"
 # echo "BSD make command = $BMAKE"
 # echo "GNU make command = $GMAKE"
 
+# tab character for some sed stuff supporting non-GNU sed implementations that do not
+# use \t for a tab.
+tab_char="$(printf '\t')"
+
 # make sure we have the right paths when running this from inside the
 # source tree and also from outside the source tree.
 here=$PWD
@@ -516,6 +520,11 @@ for t in $all_tests ; do
     # The sed expression uses BRE (basic regular expressions) to first get rid of the
     # possible [:digits:] part and then normalizes the name of the bmake program.
     # I'm not using [0-9]+ as the + for "one or more" is an extended regular expression.
+    #
+    # Also, ensure every line starts with whitespace.  Otherwise some make versions may produce
+    # something like " done" in the output while other produce "done" (no leading whitespace)
+    # and diff -b will say they are different.  I'd rather not move to diff -w (ignoring all whitespace
+    # differences) and stick to something less permissive.
     if [ "X$with_bmake" = "Xyes" ]; then
     echo "Test:  (BSD make) $t"
     echo_verbose "cd ${rundir} && ${BMAKE}  $args | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}"
@@ -524,6 +533,7 @@ for t in $all_tests ; do
             -e 's;\[[0-9]\{1,\}\];;g' \
             -e "s;${BMAKE_NAME}:;make:;g" \
             -e "s; [^ \t]*/testsuite/run/; testsuite/run/;g" \
+            -e "s;^\([^ ${tab_char}]\); \1;g" \
         | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
 	if [ -f ${srcdir}/${BMAKE_REF}/${t}.ref ]; then
@@ -566,6 +576,7 @@ for t in $all_tests ; do
             -e "s;${GMAKE_NAME}:;gmake:;g" \
             -e "/^gmake:/ s/\`/\'/g" \
             -e "s;directory .*/testsuite/run/;directory \`testsuite/run/;g" \
+            -e "s;^\([^ ${tab_char}]\); \1;g" \
         | ${SORT_SECTIONS} \
             > ${here}/${GMAKE_REF}/${t}.${sufx}
     if [ "X$regen" != "Xyes" ]; then
