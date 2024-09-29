@@ -454,10 +454,6 @@ fi
 #
 
 check_bib() {
-	# run latex.  If it fails, manually remove the .dvi file since
-	# latex won't.  Leaving the .dvi file would confuse 'make' because on the next
-	# invocation, the .dvi file would appear to be up to date already.
-
 	# to figure out if we need to run BibTeX we look in the .aux file for
 	# \citation, \bibdata, or \bibstyle.  We have to watch out for the case where
 	# the .tex file contains the thebibliography environment as well as all
@@ -468,18 +464,21 @@ check_bib() {
 	bibtex_ok=yes
 	wlist=""
 	for w in citation bibdata bibstyle ; do
-		wlist="${wlist} \\${w}"
+		wlist="${wlist} \\\\${w}"
 		msg="Checking for \\$w in \"${ODIR}/${NAME}.aux\" ..."
 		rslt="no"
 		if grep "^\\\\${w}" "${ODIR}/${NAME}.aux" >/dev/null 2>/dev/null ; then
 			rslt="yes"
 		else
+            # did not find the desired item
 			bibtex_ok=no
 		fi
 		report "$msg $rslt"
 	done
+
 	rc=0
 	if test $bibtex_ok = no ; then
+        # we do not want to run BibTex
 		rc=1
 	else
 		log "check_bib():  It is ok to run BibTex (found all of: ${wlist} in the .aux file)"
