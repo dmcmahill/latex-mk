@@ -6,12 +6,12 @@
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; version 2 of the License.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -178,7 +178,7 @@ echo "LATEX_MK_DIR = $LATEX_MK_DIR"
 # printenv
 
 #######################################
-# 
+#
 # general latex stuff
 #
 #######################################
@@ -293,7 +293,7 @@ export VIEWPDF
 export VIEWPDF_FLAGS
 
 #######################################
-# 
+#
 # tgif stuff
 #
 #######################################
@@ -309,7 +309,7 @@ export TGIF_EPS_FLAGS
 export TGIF_PDF_FLAGS
 
 #######################################
-# 
+#
 # xfig stuff
 #
 #######################################
@@ -503,24 +503,24 @@ for t in $all_tests ; do
 	copy_mode=no
 	for f in $files ; do
 	    case "$f" in
-		@) 
+		@)
 		echo_verbose "sleep 2"
 		sleep 2
 		;;
-		
+
 		"<" )
             echo_verbose "Found < in files.  Looking for files to copy"
 		    copy="cp"
 		    copy_mode=yes
 		    ;;
-		
+
 		">")
             echo_verbose "Found > in files.  Running copy command:"
             echo_verbose "${copy}"
 		    eval $copy
 		    copy_mode=no
 		    ;;
-		
+
 		*)
 		    if [ "$copy_mode" = "yes" ]; then
 			f=`echo $f | sed -e "s;@S@;${srcdir};g" -e "s;@R@;${rundir};g"`
@@ -539,7 +539,7 @@ for t in $all_tests ; do
 	    exit 1
 	fi
     fi
- 
+
     # run the BSD make test
     #
     # normalize messages like:
@@ -633,7 +633,7 @@ for t in $all_tests ; do
     fi
 
     cd $here
-    
+
     # clean up the rundirectory
     if [ "${preserve}" = "yes" ] ; then
         echo "Preserving run directory: ${rundir}"
