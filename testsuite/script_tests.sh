@@ -53,6 +53,8 @@ OPTIONS:
 
 --show-diff    On failures, show the diff output
 
+--verbose      Operate verbosely
+
 Environment Variables:
     DIFF_FLAGS : Flags to pass down to the diff program.  Default: ${DIFF_FLAGS}
 
@@ -92,6 +94,11 @@ do
         shift
         ;;
 
+    --verbose)
+        verbose=yes
+        shift
+        ;;
+
     -*)
 	echo "unknown option: $1"
 	exit 1
@@ -103,6 +110,22 @@ do
 
     esac
 done
+
+check_verbose() {
+    if test "${verbose}" = "yes" ; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+echo_verbose() {
+    if check_verbose ; then
+        echo "===> $*"
+    fi
+}
+
+echo_verbose "Running in verbose mode"
 
 # sometimes make versions change whitespace
 DIFF_FLAGS="${DIFF_FLAGS} -b"
@@ -372,6 +395,7 @@ EOF
 			if ${DIFF} ${DIFF_FLAGS} "${_f1p}" "${_f2p}" >/dev/null ; then
 				echo "PASS"
 				pass=`expr $pass + 1`
+                echo_verbose "matched:  ${DIFF} ${DIFF_FLAGS} \"${_f1p}\" \"${_f2p}\""
 	    		else
 				echo "FAILED:  See ${DIFF} ${DIFF_FLAGS} ${_f1p} ${_f2p}"
 				fail=`expr $fail + 1`
