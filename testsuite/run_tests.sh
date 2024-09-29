@@ -531,7 +531,7 @@ for t in $all_tests ; do
 		echo "PASS"
 		bpass=`expr $bpass + 1`
 	    else
-		echo "FAILED:  See ${DIFF} ${here}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
+		echo "FAILED:  See ${DIFF} ${DIFF_FLAGS} ${here}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log"
                 if [ "X${show_diff}" = "Xyes" ] ; then
                     ${DIFF} ${DIFF_FLAGS} ${srcdir}/${BMAKE_REF}/${t}.ref ${here}/${BMAKE_REF}/${t}.log
                 fi
@@ -574,7 +574,7 @@ for t in $all_tests ; do
 		echo "PASS"
 		gpass=`expr $gpass + 1`
 	    else
-		echo "FAILED:  See ${DIFF} ${here}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
+		echo "FAILED:  See ${DIFF} ${DIFF_FLAGS} ${here}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log"
                 if [ "X${show_diff}" = "Xyes" ] ; then
                     ${DIFF} ${DIFF_FLAGS} ${srcdir}/${GMAKE_REF}/${t}.ref ${here}/${GMAKE_REF}/${t}.log
                 fi
