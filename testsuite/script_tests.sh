@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (c) 2006-2023 Dan McMahill
+# Copyright (c) 2006-2024 Dan McMahill
 # All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -18,8 +18,12 @@
 #
 
 
-regen=no
 noclean=no
+regen=no
+show_diff=${SHOW_DIFF:-no}
+verbose=no
+
+DIFF_FLAGS=${DIFF_FLAGS:-}
 
 usage() {
 cat <<EOF
@@ -34,6 +38,9 @@ $0 [options] [tests]
 
 OPTIONS:
 
+--diff-flag <flag>   Adds the specified flag to options passed to
+                     the diff program.  May be used multiple times.
+
 -h|--help      Display this help message and exit
 
 --noclean      After running the test, do not remove the run directory
@@ -44,6 +51,10 @@ OPTIONS:
                to be used with caution.  Any changes to the golden files
                need to be verified by hand.
 
+--show-diff    On failures, show the diff output
+
+Environment Variables:
+    DIFF_FLAGS : Flags to pass down to the diff program.  Default: ${DIFF_FLAGS}
 
 EOF
 }
@@ -51,6 +62,12 @@ while test -n "$1"
 do
     case "$1"
     in
+
+    --diff-flag)
+        # add to the diff flags
+        DIFF_FLAGS="${DIFF_FLAGS} $2"
+        shift 2
+        ;;
 
     -h|--help)
 	usage
@@ -69,6 +86,12 @@ do
 	shift
 	;;
 
+    --show-diff)
+        # on failures, show the diff output
+        show_diff=yes
+        shift
+        ;;
+
     -*)
 	echo "unknown option: $1"
 	exit 1
@@ -80,6 +103,9 @@ do
 
     esac
 done
+
+# sometimes make versions change whitespace
+DIFF_FLAGS="${DIFF_FLAGS} -b"
 
 if [ "X$regen" = "Xyes" ]; then
     sufx="ref"
@@ -105,6 +131,15 @@ if test $rc -ne 0 ; then
 	echo "Failed to create temp directory ${tmpdir}"
 	exit 1
 fi
+
+#######################################
+#
+# Tools
+
+DIFF=${DIFF:-diff}
+
+#
+#######################################
 
 #######################################
 #
@@ -151,7 +186,7 @@ here=`cd $here && echo $PWD`
 srcdir=${srcdir:-$here}
 srcdir=`cd $srcdir && echo $PWD`
 
-rundir=${here}/run
+rundir="${here}/run"
 
 if [ ! -d ${REF} ]; then
     mkdir ${REF}
@@ -253,8 +288,8 @@ for t in $all_tests ; do
 
 
 	# create temporary run directory
-	rm -fr ${rundir}
-	mkdir -p $rundir
+	rm -fr "${rundir}"
+	mkdir -p "${rundir}"
 
 	# Create the subdirectories needed
 	if [ ! -z "$dirs" ]; then
@@ -334,12 +369,15 @@ EOF
             _f2p="${here}/${REF}/${t}-processed.log"
             sed "${_psed}" "${_f2}" > "${_f2p}"
 
-			if diff -w "${_f1p}" "${_f2p}" >/dev/null ; then
+			if ${DIFF} ${DIFF_FLAGS} "${_f1p}" "${_f2p}" >/dev/null ; then
 				echo "PASS"
 				pass=`expr $pass + 1`
 	    		else
-				echo "FAILED:  See diff -w ${_f1p} ${_f2p}"
+				echo "FAILED:  See ${DIFF} ${DIFF_FLAGS} ${_f1p} ${_f2p}"
 				fail=`expr $fail + 1`
+                		if [ "X${show_diff}" = "Xyes" ] ; then
+                    			${DIFF} ${DIFF_FLAGS} "${_f1p}" "${_f2p}"
+                		fi
 			fi
 		else
 			echo "No reference file.  Skipping"
