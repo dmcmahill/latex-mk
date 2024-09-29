@@ -143,6 +143,23 @@ do
 
     esac
 done
+
+check_verbose() {
+    if test "${verbose}" = "yes" ; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+echo_verbose() {
+    if check_verbose ; then
+        echo "===> $*"
+    fi
+}
+
+echo_verbose "Running in verbose mode"
+
 # sometimes make versions change whitespace
 DIFF_FLAGS="${DIFF_FLAGS} -b"
 
@@ -427,23 +444,11 @@ fi
 echo "Starting tests in $here."
 echo "Source directory is $srcdir"
 
-check_verbose() {
-    if test $verbose = yes ; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-echo_verbose() {
-    if check_verbose ; then
-        echo "===> $*"
-    fi
-}
-
 for t in $all_tests ; do
 
     noexec_mode=yes
+    echo_verbose "Processing test t=${t}"
+
     case "$t" in
 	\**)
 	    t=`echo $t | sed 's;^\*;;g'`
@@ -456,6 +461,7 @@ for t in $all_tests ; do
     esac
     t=`echo $t | sed 's;^\*;;g'`
 
+    echo_verbose "t = ${t}, rt = ${rt}"
     dirs=`grep "^[ \t]*${rt}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $2}'`
     files=`grep "^[ \t]*${rt}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $3}'`
     args=`grep "^[ \t]*${rt}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $4}'`
@@ -493,11 +499,14 @@ for t in $all_tests ; do
 		;;
 		
 		"<" )
+            echo_verbose "Found < in files.  Looking for files to copy"
 		    copy="cp"
 		    copy_mode=yes
 		    ;;
 		
 		">")
+            echo_verbose "Found > in files.  Running copy command:"
+            echo_verbose "${copy}"
 		    eval $copy
 		    copy_mode=no
 		    ;;
