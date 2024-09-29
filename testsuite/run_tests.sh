@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (c) 2003-2023 Dan McMahill
+# Copyright (c) 2003-2024 Dan McMahill
 # All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -17,6 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+preserve=no
 regen=no
 with_bmake=yes
 with_gmake=yes
@@ -39,6 +40,10 @@ Options:
                           the diff program.  May be used multiple times.
 
     -h|--help           : Show this help and exit
+
+    --preserve          : Preserve the run directory instead of deleting it.  This
+                          option is primarily used for developers and when running
+                          a single test.
 
     -r|--regen          : Regenerate the golden files
 
@@ -80,6 +85,11 @@ do
 	usage
 	exit 0
 	;;
+
+    --preserve)
+        preserve=yes
+        shift
+        ;;
 
     -r|--regen)
 	# regenerate the 'golden' output files.  Use this with caution.
@@ -456,10 +466,13 @@ for t in $all_tests ; do
     tot=`expr $tot + 1`
 
     # create temporary run directory
-    if [ ! -d $rundir ]; then
-        echo_verbose "mkdir -p $rundir"
-	mkdir -p $rundir
+    if [ -d "${rundir}" ]; then
+        echo_verbose "Delete existing run directory: ${rundir}"
+        rm -fr "${rundir}"
     fi
+
+    echo_verbose "mkdir -p ${rundir}"
+    mkdir -p "${rundir}"
 
     # Create the subdirectories needed
     if [ ! -z "$dirs" ]; then
@@ -603,7 +616,12 @@ for t in $all_tests ; do
     cd $here
     
     # clean up the rundirectory
-    rm -fr ${rundir}
+    if [ "${preserve}" = "yes" ] ; then
+        echo "Preserving run directory: ${rundir}"
+        echo "This should only be done during development/debug and on a single test"
+    else
+        rm -fr "${rundir}"
+    fi
 
 done
 
