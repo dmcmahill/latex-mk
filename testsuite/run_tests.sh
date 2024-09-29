@@ -387,13 +387,25 @@ export RMDIR
 #
 #
 #######################################
+
+if [ "X$with_gmake" = "Xyes" ]; then
+    printf "Checking if ${GMAKE} accepts --no-print-directory... "
+    gmake_xtra_flag="--no-print-directory"
+    if ${GMAKE} --version ${gmake_xtra_flag} 2>/dev/null >/dev/null ; then
+        echo "YES"
+    else
+        echo "NO"
+        gmake_xtra_flag=""
+    fi
+fi
+
 BMKF=testfile.mk
 GMKF=testfile.gmk
 MFLAGS="LATEX_MK_DIR=${LATEX_MK_DIR}"
 BMAKE="${BMAKE} -f ../${BMKF} ${MFLAGS}"
-GMAKE="${GMAKE} -f ../${GMKF} ${MFLAGS}"
-# echo "BSD make command = $BMAKE"
-# echo "GNU make command = $GMAKE"
+GMAKE="${GMAKE}  ${gmake_xtra_flag} -f ../${GMKF} ${MFLAGS}"
+echo_verbose "BSD make command = $BMAKE"
+echo_verbose "GNU make command = $GMAKE"
 
 # tab character for some sed stuff supporting non-GNU sed implementations that do not
 # use \t for a tab.
@@ -601,6 +613,7 @@ for t in $all_tests ; do
         # Also, we have to watch out for the gmake entering/leaving directory messages.
         # those will have the full system path so we have to normalize it here
         #
+        echo_verbose "cd ${rundir} && ${GMAKE}  $args | <various cleanup programs>"
         cd ${rundir} && ${GMAKE}  $args | \
                 sed \
                     -e "s;${GMAKE_NAME}:;gmake:;g" \
