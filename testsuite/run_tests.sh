@@ -435,9 +435,11 @@ bskip=0
 gskip=0
 tot=0
 
+user_test_list=no
 if test -z "$1" ; then
-    all_tests=`awk 'BEGIN{FS="|"} /^#/{next} {print $1}' $TESTLIST | sed 's; ;;g'`
+    all_tests=`awk 'BEGIN{FS="|"} /^[ \t]*#/{next} {print $1}' $TESTLIST | sed 's; ;;g'`
 else
+    user_test_list=yes
     all_tests=$*
 fi
 
@@ -445,9 +447,17 @@ echo "Starting tests in $here."
 echo "Source directory is $srcdir"
 
 for t in $all_tests ; do
-
     noexec_mode=yes
     echo_verbose "Processing test t=${t}"
+
+    if [ "${user_test_list}" = "yes" ] ; then
+        echo_verbose "Checking if user specified test ${t} is in exec mode"
+        noexec_mode=$(awk -F"[|]" '$1 ~ mypat {if( $1 ~ /^[*]/) {print "no"} else { print "yes"}; ok=1}' mypat="^[ \t]*[*]?${t}[ \t]*$" "${TESTLIST}")
+        echo_verbose "noexec_mode=${noexec_mode}"
+        if [ "${noexec_mode}" = "no" ] ; then
+            t="*${t}"
+        fi
+    fi
 
     case "$t" in
 	\**)
