@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-preserve=no
+noclean=no
 regen=no
 with_bmake=yes
 with_gmake=yes
@@ -41,7 +41,7 @@ Options:
 
     -h|--help           : Show this help and exit
 
-    --preserve          : Preserve the run directory instead of deleting it.  This
+    --noclean          : Preserve the run directory instead of deleting it.  This
                           option is primarily used for developers and when running
                           a single test.
 
@@ -84,8 +84,8 @@ while test -n "$1" ; do
             exit 0
             ;;
 
-        --preserve)
-            preserve=yes
+        --noclean)
+            noclean=yes
             shift
             ;;
 
@@ -633,7 +633,7 @@ for t in $all_tests ; do
     cd $here
 
     # clean up the rundirectory
-    if [ "${preserve}" = "yes" ] ; then
+    if [ "${noclean}" = "yes" ] ; then
         echo "Preserving run directory: ${rundir}"
         echo "This should only be done during development/debug and on a single test"
     else
