@@ -1,11 +1,11 @@
-touch test1.html-stamp1
-echo LaTeX-Mk:  Creating HTML output using HeVeA
-mkdir -p test1.html_dir
-env  hevea  test1.tex 
-env  imagen  `basename test1.tex .tex`
-env  hevea  test1.tex 
-if [ ! -f test1.www_files ]; then touch test1.www_files ; fi
-for f in `find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
+ touch test1.html-stamp1
+ echo LaTeX-Mk:  Creating HTML output using HeVeA
+ mkdir -p test1.html_dir
+ env  hevea  test1.tex 
+ env  imagen  `basename test1.tex .tex`
+ env  hevea  test1.tex 
+ if [ ! -f test1.www_files ]; then touch test1.www_files ; fi
+ for f in `find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
 	-o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \
 	-o -name \*.scm -o -name \*.hlog \) \
 	-newer test1.html-stamp1 -print` ; do \
@@ -16,8 +16,8 @@ for f in `find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
 		echo "recording file $f (test1.html_dir/$fn)" ; \
 		echo "$f test1.html_dir/$fn" >> test1.www_files ; \
 	fi ;\
-done
-for f in `awk '{print $1}' test1.www_files` ; do \
+ done
+ for f in `awk '{print $1}' test1.www_files` ; do \
 	echo "Moving $f to test1.html_dir" ; mv $f test1.html_dir ; \
-done
-mv test1.html-stamp1 test1.html-stamp
+ done
+ mv test1.html-stamp1 test1.html-stamp

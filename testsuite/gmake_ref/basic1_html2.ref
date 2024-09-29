@@ -1,9 +1,9 @@
-env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
-touch test1.html-stamp1
-echo LaTeX-Mk:  Creating HTML output using latex2html
-env  latex2html  -mkdir -dir test1.html_dir test1.tex
-if [ ! -f test1.www_files ]; then touch test1.www_files ; fi
-for f in `find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
+ env LATEX=latex LATEX_FLAGS= BIBTEX=bibtex BIBTEX_FLAGS= MAKEIDX=makeindex MAKEIDX_FLAGS= MAKEGLS=makeindex MAKEGLS_FLAGS= POST_BIBTEX_HOOK=  latex-mk  test1.tex
+ touch test1.html-stamp1
+ echo LaTeX-Mk:  Creating HTML output using latex2html
+ env  latex2html  -mkdir -dir test1.html_dir test1.tex
+ if [ ! -f test1.www_files ]; then touch test1.www_files ; fi
+ for f in `find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
 	-o -name \*.png -o -name \*.css -o -name \*.pl -o -name WARNINGS \
 	-o -name \*.scm -o -name \*.hlog \) \
 	-newer test1.html-stamp1 -print` ; do \
@@ -14,5 +14,5 @@ for f in `find . -type f \( -name \*.html -o -name \*.htm -o -name \*.gif \
 		echo "recording file $f (test1.html_dir/$fn)" ; \
 		echo "$f test1.html_dir/$fn" >> test1.www_files ; \
 	fi ;\
-done
-mv test1.html-stamp1 test1.html-stamp
+ done
+ mv test1.html-stamp1 test1.html-stamp
