@@ -363,8 +363,18 @@ EOF
 EOF
     cat ${tmpdir}/run
     . ${tmpdir}/run
+    rcfail=no
     if test $rc -ne $ret -a "X$regen" != "Xyes" ; then
         echo "FAIL due to wrong return code.  Received $rc, expected $ret"
+        rcfail=yes
+
+        if [ "${show_diff}" = "yes" ] ; then
+            echo "Test log contents:"
+            cat "${testlog}"
+
+            echo "Run log contents:"
+            cat "${here}/${REF}/${t}.dlog"
+       fi
     fi
 
     # take care of some absolute paths which may appear in the test log file.
@@ -394,12 +404,14 @@ EOF
                 echo "PASS"
                 pass=`expr $pass + 1`
                 echo_verbose "matched:  ${DIFF} ${DIFF_FLAGS} \"${_f1p}\" \"${_f2p}\""
-                else
+            else
                 echo "FAILED:  See ${DIFF} ${DIFF_FLAGS} ${_f1p} ${_f2p}"
                 fail=`expr $fail + 1`
-                        if [ "X${show_diff}" = "Xyes" ] ; then
-                                ${DIFF} ${DIFF_FLAGS} "${_f1p}" "${_f2p}"
-                        fi
+                # only show the diff if we got the right return code.  Otherwise the diff probably doesn't
+                # really mean much
+                if [ "X${show_diff}" = "Xyes" -a "${rcfail}" = "no" ] ; then
+                    ${DIFF} ${DIFF_FLAGS} "${_f1p}" "${_f2p}"
+                fi
             fi
         else
             echo "No reference file.  Skipping"
