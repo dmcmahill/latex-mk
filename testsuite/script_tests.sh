@@ -1,25 +1,29 @@
 #!/bin/sh
 #
-# Copyright (c) 2006-2023 Dan McMahill
+# Copyright (c) 2006-2024 Dan McMahill
 # All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; version 2 of the License.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
 
-regen=no
 noclean=no
+regen=no
+show_diff=${SHOW_DIFF:-no}
+verbose=no
+
+DIFF_FLAGS=${DIFF_FLAGS:-}
 
 usage() {
 cat <<EOF
@@ -34,6 +38,9 @@ $0 [options] [tests]
 
 OPTIONS:
 
+--diff-flag <flag>   Adds the specified flag to options passed to
+                     the diff program.  May be used multiple times.
+
 -h|--help      Display this help message and exit
 
 --noclean      After running the test, do not remove the run directory
@@ -44,42 +51,82 @@ OPTIONS:
                to be used with caution.  Any changes to the golden files
                need to be verified by hand.
 
+--show-diff    On failures, show the diff output
+
+--verbose      Operate verbosely
+
+Environment Variables:
+    DIFF_FLAGS : Flags to pass down to the diff program.  Default: ${DIFF_FLAGS}
 
 EOF
 }
-while test -n "$1"
-do
-    case "$1"
-    in
 
-    -h|--help)
-	usage
-	exit 0
-	;;
+while test -n "$1" ; do
+    case "$1" in
+        --diff-flag)
+            # add to the diff flags
+            DIFF_FLAGS="${DIFF_FLAGS} $2"
+            shift 2
+            ;;
 
-    --noclean)
-	noclean=yes
-	shift
-	;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
 
-    -r|--regen)
-	# regenerate the 'golden' output files.  Use this with caution.
-	# In particular, all differences should be noted and understood.
-	regen=yes
-	shift
-	;;
+        --noclean)
+            noclean=yes
+            shift
+            ;;
 
-    -*)
-	echo "unknown option: $1"
-	exit 1
-	;;
+        -r|--regen)
+            # regenerate the 'golden' output files.  Use this with caution.
+            # In particular, all differences should be noted and understood.
+            regen=yes
+            shift
+            ;;
 
-    *)
-	break
-	;;
+        --show-diff)
+            # on failures, show the diff output
+            show_diff=yes
+            shift
+            ;;
+
+        --verbose)
+            verbose=yes
+            shift
+            ;;
+
+        -*)
+            echo "unknown option: $1"
+            exit 1
+            ;;
+
+        *)
+            break
+            ;;
 
     esac
 done
+
+check_verbose() {
+    if test "${verbose}" = "yes" ; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+echo_verbose() {
+    if check_verbose ; then
+        echo "===> $*"
+    fi
+}
+
+echo_verbose "Running in verbose mode"
+
+# sometimes make versions change whitespace
+DIFF_FLAGS="${DIFF_FLAGS} -b"
 
 if [ "X$regen" = "Xyes" ]; then
     sufx="ref"
@@ -102,9 +149,18 @@ tmpdir=${TMPDIR:-/tmp}/latex-mk.$$
 mkdir -m 0700 -p ${tmpdir}
 rc=$?
 if test $rc -ne 0 ; then
-	echo "Failed to create temp directory ${tmpdir}"
-	exit 1
+    echo "Failed to create temp directory ${tmpdir}"
+    exit 1
 fi
+
+#######################################
+#
+# Tools
+
+DIFF=${DIFF:-diff}
+
+#
+#######################################
 
 #######################################
 #
@@ -151,7 +207,7 @@ here=`cd $here && echo $PWD`
 srcdir=${srcdir:-$here}
 srcdir=`cd $srcdir && echo $PWD`
 
-rundir=${here}/run
+rundir="${here}/run"
 
 if [ ! -d ${REF} ]; then
     mkdir ${REF}
@@ -184,21 +240,21 @@ sfail=0
 spass=0
 stot=0
 for s in \
-	${here}/../ieee-copyout \
-	${here}/../latex-mk \
-	${srcdir}/run_tests.sh \
-	${srcdir}/script_tests.sh 
-	do
-	echo "Script: ${s}"
-	sh -n ${s}
-	rc=$?
-	if test $rc -ne 0 ; then
-		echo "FAILED:  return code = ${rc}"
-		sfail=`expr $sfail + 1`
-	else
-		spass=`expr $spass + 1`
-		echo "PASS"
-	fi
+    ${here}/../ieee-copyout \
+    ${here}/../latex-mk \
+    ${srcdir}/run_tests.sh \
+    ${srcdir}/script_tests.sh
+    do
+    echo "Script: ${s}"
+    sh -n ${s}
+    rc=$?
+    if test $rc -ne 0 ; then
+        echo "FAILED:  return code = ${rc}"
+        sfail=`expr $sfail + 1`
+    else
+        spass=`expr $spass + 1`
+        echo "PASS"
+    fi
 done
 stot=`expr $sfail + $spass`
 
@@ -210,120 +266,130 @@ echo "latex-mk script tests..."
 # throws off the tests.
 
 for i in "${ID}" /usr/xpg4/bin/id /usr/bin/id /bin/id ; do
-	if test -x "${i}" ; then
-		ID="${i}"
-		break
-	fi
+    if test -x "${i}" ; then
+        ID="${i}"
+        break
+    fi
 done
 echo "Set ID=${ID}"
 
 uid=`${ID} -u`
 if test ${uid} -eq 0 ; then
-	root_user=yes
+    root_user=yes
 else
-	root_user=no
+    root_user=no
 fi
 
 for t in $all_tests ; do
 
-	grep "^[ \t]*${t}[ \t]*|" $TESTLIST >/dev/null
-	if test $? -ne 0 ; then
-		echo "$0:  Error, specified test ${t} does not exist in ${TESTLIST}" >/dev/stderr
-		exit 1
-	fi
-	tot=`expr $tot + 1`
+    grep "^[ \t]*${t}[ \t]*|" $TESTLIST >/dev/null
+    if test $? -ne 0 ; then
+        echo "$0:  Error, specified test ${t} does not exist in ${TESTLIST}" >/dev/stderr
+        exit 1
+    fi
+    tot=`expr $tot + 1`
 
-	# test_name | directories to create | files needed | arguments to latex-mk | env vars
-	dirs=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $2}'`
-	files=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $3}'`
-	args=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $4}'`
-	vars=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $5}'`
-	ret=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $6}' | sed 's; ;;g'`
-	root=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $7}' | sed 's; ;;g'`
+    # test_name | directories to create | files needed | arguments to latex-mk | env vars
+    dirs=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $2}'`
+    files=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $3}'`
+    args=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $4}'`
+    vars=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $5}'`
+    ret=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $6}' | sed 's; ;;g'`
+    root=`grep "^[ \t]*${t}[ \t]*|" $TESTLIST | awk 'BEGIN{FS="|"} {print $7}' | sed 's; ;;g'`
 
-	if test "X${root}" = "Xno" -a "X${root_user}" = "Xyes" ; then
-		echo "Skipping ${t} which will fail if run as root (and you are running as root)"
-		skip=`expr $skip + 1`
-		continue
-	fi
+    if test "X${root}" = "Xno" -a "X${root_user}" = "Xyes" ; then
+        echo "Skipping ${t} which will fail if run as root (and you are running as root)"
+        skip=`expr $skip + 1`
+        continue
+    fi
 
-	if test "X${ret}" = "X" ; then
-		ret=0
-	fi
+    if test "X${ret}" = "X" ; then
+        ret=0
+    fi
 
 
-	# create temporary run directory
-	rm -fr ${rundir}
-	mkdir -p $rundir
+    # create temporary run directory
+    rm -fr "${rundir}"
+    mkdir -p "${rundir}"
 
-	# Create the subdirectories needed
-	if [ ! -z "$dirs" ]; then
-		for dir in $dirs ; do
-			d=`echo $dir | sed 's;:.*;;g'`
-			#echo "mkdir -p ${rundir}/${d}"
-			mkdir -p ${rundir}/${d}
-		done
-	fi
+    # Create the subdirectories needed
+    if [ ! -z "$dirs" ]; then
+        for dir in $dirs ; do
+            d=`echo $dir | sed 's;:.*;;g'`
+            #echo "mkdir -p ${rundir}/${d}"
+            mkdir -p ${rundir}/${d}
+        done
+    fi
 
-	# Create the files needed
-	if [ ! -z "$files" ]; then
-		# this horrible ugly hack is supposed to deal with allowing file names that have
-		# spaces in them.  Surely there is a better way but it eludes me at the moment.
-		cat > ${tmpdir}/files << EOF
-		for f in ${files} ; do 
-			#echo "f = \"\${f}\""
-			echo "cp -f \"${srcdir}/texfiles/\${f}\" ${rundir}"
-			cp -f "${srcdir}/texfiles/\${f}" ${rundir}
+    # Create the files needed
+    if [ ! -z "$files" ]; then
+        # this horrible ugly hack is supposed to deal with allowing file names that have
+        # spaces in them.  Surely there is a better way but it eludes me at the moment.
+        cat > ${tmpdir}/files << EOF
+        for f in ${files} ; do
+            #echo "f = \"\${f}\""
+            echo "cp -f \"${srcdir}/texfiles/\${f}\" ${rundir}"
+            cp -f "${srcdir}/texfiles/\${f}" ${rundir}
 done
 EOF
-		#cat ${tmpdir}/files
-		. ${tmpdir}/files
-	fi
-    
-	# Set the permissions on the subdirectories
-	if [ ! -z "$dirs" ]; then
-		for dir in $dirs ; do
-			d=`echo $dir | sed 's;:.*;;g'`
-			m=`echo $dir | awk 'BEGIN{FS=":"} {print $2}'`
-			if [ "X${m}" != "X" ]; then
-				#echo "chmod ${m} ${rundir}/${d}"
-				chmod ${m} ${rundir}/${d}
-			fi
-		done
-	fi
+        #cat ${tmpdir}/files
+        . ${tmpdir}/files
+    fi
 
-	# run the test
-	echo "Test:  $t"
-	testlog="/tmp/script_tests.$$$$"
-	#echo "cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args" 
-	# We redirect from /dev/null because if the latex installation isn't quite
-	# right we may end up with latex waiting for input from stdin but we don't
-	# ever want to do that.  This is especially important since we are redirecting
-	# stdout and stderr so the user won't even see whats going on.
-	cat > ${tmpdir}/run << EOF
-	cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args 2>&1 \
-		> ${here}/${REF}/${t}.dlog  < /dev/null
-	rc=\$?
+    # Set the permissions on the subdirectories
+    if [ ! -z "$dirs" ]; then
+        for dir in $dirs ; do
+            d=`echo $dir | sed 's;:.*;;g'`
+            m=`echo $dir | awk 'BEGIN{FS=":"} {print $2}'`
+            if [ "X${m}" != "X" ]; then
+                #echo "chmod ${m} ${rundir}/${d}"
+                chmod ${m} ${rundir}/${d}
+            fi
+        done
+    fi
+
+    # run the test
+    echo "Test:  $t"
+    testlog="/tmp/script_tests.$$$$"
+    #echo "cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args"
+    # We redirect from /dev/null because if the latex installation isn't quite
+    # right we may end up with latex waiting for input from stdin but we don't
+    # ever want to do that.  This is especially important since we are redirecting
+    # stdout and stderr so the user won't even see whats going on.
+    cat > ${tmpdir}/run << EOF
+    cd ${rundir} && env ${vars} ${here}/../latex-mk --testlog ${testlog} $args 2>&1 \
+        > ${here}/${REF}/${t}.dlog  < /dev/null
+    rc=\$?
 EOF
-	cat ${tmpdir}/run
-	. ${tmpdir}/run
-	if test $rc -ne $ret -a "X$regen" != "Xyes" ; then
-		echo "FAIL due to wrong return code.  Received $rc, expected $ret"
-	fi
+    cat ${tmpdir}/run
+    . ${tmpdir}/run
+    rcfail=no
+    if test $rc -ne $ret -a "X$regen" != "Xyes" ; then
+        echo "FAIL due to wrong return code.  Received $rc, expected $ret"
+        rcfail=yes
 
-	# take care of some absolute paths which may appear in the test log file.
-	if test -f ${testlog} ; then
-		sed -e "s;${here};HERE;g" -e "s;current directory:.*run;current directory: HERE/run;g" \
-			${testlog} > ${here}/${REF}/${t}.${sufx}
-		rm ${testlog}
-	else
-		echo "latex-mk returned $rc" > ${here}/${REF}/${t}.${sufx}
-		sed -e "s;${here};HERE;g" -e "s;current directory:.*run;current directory: HERE/run;g" \
-			${here}/${REF}/${t}.dlog >> ${here}/${REF}/${t}.${sufx}
-	fi
+        if [ "${show_diff}" = "yes" ] ; then
+            echo "Test log contents:"
+            cat "${testlog}"
 
-	if [ "X$regen" != "Xyes" ]; then
-		if [ -f ${srcdir}/${REF}/${t}.ref ]; then
+            echo "Run log contents:"
+            cat "${here}/${REF}/${t}.dlog"
+       fi
+    fi
+
+    # take care of some absolute paths which may appear in the test log file.
+    if test -f ${testlog} ; then
+        sed -e "s;${here};HERE;g" -e "s;current directory:.*run;current directory: HERE/run;g" \
+            ${testlog} > ${here}/${REF}/${t}.${sufx}
+        rm ${testlog}
+    else
+        echo "latex-mk returned $rc" > ${here}/${REF}/${t}.${sufx}
+        sed -e "s;${here};HERE;g" -e "s;current directory:.*run;current directory: HERE/run;g" \
+            ${here}/${REF}/${t}.dlog >> ${here}/${REF}/${t}.${sufx}
+    fi
+
+    if [ "X$regen" != "Xyes" ]; then
+        if [ -f ${srcdir}/${REF}/${t}.ref ]; then
             _psed='/^@debug:/d'
 
             _f1="${srcdir}/${REF}/${t}.ref"
@@ -334,30 +400,36 @@ EOF
             _f2p="${here}/${REF}/${t}-processed.log"
             sed "${_psed}" "${_f2}" > "${_f2p}"
 
-			if diff -w "${_f1p}" "${_f2p}" >/dev/null ; then
-				echo "PASS"
-				pass=`expr $pass + 1`
-	    		else
-				echo "FAILED:  See diff -w ${_f1p} ${_f2p}"
-				fail=`expr $fail + 1`
-			fi
-		else
-			echo "No reference file.  Skipping"
-			skip=`expr $skip + 1`
-		fi
-	else
-		echo "Regenerated"
-	fi
+            if ${DIFF} ${DIFF_FLAGS} "${_f1p}" "${_f2p}" >/dev/null ; then
+                echo "PASS"
+                pass=`expr $pass + 1`
+                echo_verbose "matched:  ${DIFF} ${DIFF_FLAGS} \"${_f1p}\" \"${_f2p}\""
+            else
+                echo "FAILED:  See ${DIFF} ${DIFF_FLAGS} ${_f1p} ${_f2p}"
+                fail=`expr $fail + 1`
+                # only show the diff if we got the right return code.  Otherwise the diff probably doesn't
+                # really mean much
+                if [ "X${show_diff}" = "Xyes" -a "${rcfail}" = "no" ] ; then
+                    ${DIFF} ${DIFF_FLAGS} "${_f1p}" "${_f2p}"
+                fi
+            fi
+        else
+            echo "No reference file.  Skipping"
+            skip=`expr $skip + 1`
+        fi
+    else
+        echo "Regenerated"
+    fi
 
-	cd $here
-    
-	# clean up the rundirectory
-	chmod -R a+w ${rundir}
-	if test "X${noclean}" != "Xyes" ; then 
-		rm -fr ${rundir}
-	else
-		echo "Keeping run directory ${rundir}"
-	fi
+    cd $here
+
+    # clean up the rundirectory
+    chmod -R a+w ${rundir}
+    if test "X${noclean}" != "Xyes" ; then
+        rm -fr ${rundir}
+    else
+        echo "Keeping run directory ${rundir}"
+    fi
 
 done
 

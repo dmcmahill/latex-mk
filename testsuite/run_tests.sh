@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-preserve=no
+noclean=no
 regen=no
 with_bmake=yes
 with_gmake=yes
@@ -41,7 +41,7 @@ Options:
 
     -h|--help           : Show this help and exit
 
-    --preserve          : Preserve the run directory instead of deleting it.  This
+    --noclean          : Preserve the run directory instead of deleting it.  This
                           option is primarily used for developers and when running
                           a single test.
 
@@ -84,8 +84,8 @@ while test -n "$1" ; do
             exit 0
             ;;
 
-        --preserve)
-            preserve=yes
+        --noclean)
+            noclean=yes
             shift
             ;;
 
@@ -387,13 +387,25 @@ export RMDIR
 #
 #
 #######################################
+
+if [ "X$with_gmake" = "Xyes" ]; then
+    printf "Checking if ${GMAKE} accepts --no-print-directory... "
+    gmake_xtra_flag="--no-print-directory"
+    if ${GMAKE} --version ${gmake_xtra_flag} 2>/dev/null >/dev/null ; then
+        echo "YES"
+    else
+        echo "NO"
+        gmake_xtra_flag=""
+    fi
+fi
+
 BMKF=testfile.mk
 GMKF=testfile.gmk
 MFLAGS="LATEX_MK_DIR=${LATEX_MK_DIR}"
 BMAKE="${BMAKE} -f ../${BMKF} ${MFLAGS}"
-GMAKE="${GMAKE} -f ../${GMKF} ${MFLAGS}"
-# echo "BSD make command = $BMAKE"
-# echo "GNU make command = $GMAKE"
+GMAKE="${GMAKE}  ${gmake_xtra_flag} -f ../${GMKF} ${MFLAGS}"
+echo_verbose "BSD make command = $BMAKE"
+echo_verbose "GNU make command = $GMAKE"
 
 # tab character for some sed stuff supporting non-GNU sed implementations that do not
 # use \t for a tab.
@@ -551,6 +563,14 @@ for t in $all_tests ; do
     # possible [:digits:] part and then normalizes the name of the bmake program.
     # I'm not using [0-9]+ as the + for "one or more" is an extended regular expression.
     #
+    # Next command strips down the full path part:
+    #    /full/path/src/latex-mk/testsuite/run/dir1  ->
+    #    testsuite/run/dir1
+    #
+    # Some versions of bmake seem do product things like
+    #  bmake[1]: stopped making "default" in /full/path/....
+    # so convert to "... stopped making in ..."
+    #
     # Also, ensure every line starts with whitespace.  Otherwise some make versions may produce
     # something like " done" in the output while other produce "done" (no leading whitespace)
     # and diff -b will say they are different.  I'd rather not move to diff -w (ignoring all whitespace
@@ -562,7 +582,8 @@ for t in $all_tests ; do
                 sed \
                     -e 's;\[[0-9]\{1,\}\];;g' \
                     -e "s;${BMAKE_NAME}:;make:;g" \
-                    -e "s; [^ \t]*/testsuite/run/; testsuite/run/;g" \
+                    -e "s; [^ ${tab_char}]*/testsuite/run/; testsuite/run/;g" \
+                    -e "s;stopped making [^ ${tab_char}]* in;stopped in;g" \
                     -e "s;^\([^ ${tab_char}]\); \1;g" \
                 | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
         if [ "X$regen" != "Xyes" ]; then
@@ -601,6 +622,7 @@ for t in $all_tests ; do
         # Also, we have to watch out for the gmake entering/leaving directory messages.
         # those will have the full system path so we have to normalize it here
         #
+        echo_verbose "cd ${rundir} && ${GMAKE}  $args | <various cleanup programs>"
         cd ${rundir} && ${GMAKE}  $args | \
                 sed \
                     -e "s;${GMAKE_NAME}:;gmake:;g" \
@@ -633,7 +655,7 @@ for t in $all_tests ; do
     cd $here
 
     # clean up the rundirectory
-    if [ "${preserve}" = "yes" ] ; then
+    if [ "${noclean}" = "yes" ] ; then
         echo "Preserving run directory: ${rundir}"
         echo "This should only be done during development/debug and on a single test"
     else

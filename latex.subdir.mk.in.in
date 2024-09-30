@@ -89,7 +89,7 @@ GMK:			fi; \
 GMK:			if [ "$$$$OK" = "" ]; then \
 GMK:				(cd $$$${edir}; \
 GMK:				${ECHO} "===> ${_THISDIR_}$$$${edir}"; \
-GMK:				${MAKE} ${MAKEFLAGS:%=-%} "_THISDIR_=${_THISDIR_}$$$${edir}/" \
+GMK:				${MAKE} ${MAKEFLAGS} "_THISDIR_=${_THISDIR_}$$$${edir}/" \
 GMK:			   		$(1) || true;) \
 GMK:			fi; \
 GMK:		fi ; \

@@ -1,0 +1,86 @@
+name: latex-mk CI - Linux
+
+on:
+  push:
+    paths-ignore:
+      - .github/workflows/ci-macos.yml
+  pull_request:
+    branches: [ develop ]
+    paths-ignore:
+      - .github/workflows/ci-macos.yml
+  # Allows you to run this workflow manually from the Actions tab:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out repository under $GITHUB_WORKSPACE:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: apt-get update
+        run: sudo apt-get update
+
+      - name: Install dependencies
+        run: sudo apt-get install -y
+             autoconf
+             automake
+             autopoint
+             bmake
+             ghostscript
+             texlive-bibtex-extra
+             texlive-latex-base
+             texlive-latex-extra
+             texlive-latex-recommended
+             texlive-publishers
+             latex2html
+             hevea
+             texinfo
+             texi2html
+             tgif
+             csh
+             ksh
+
+      - name: Install tgif dependencies
+        run: sudo apt-get install -y
+             libxmu-dev
+             xfonts-75dpi
+             gsfonts-x11
+
+      - name: Autogen
+        run: ./autogen.sh
+
+      - name: Configure
+        run: ./configure
+
+      - name: Build
+        run: |
+          make
+
+      - name: Check
+        run: |
+          make check
+
+      - name: Upload Test Log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testsuite-log
+          path: testsuite/test-suite.log
+
+      - name: Display Test Output
+        if: failure()
+        run: ./ci/failures.sh
+
+      - name: Distcheck
+        run:  |
+          make distcheck
+
+      # TODO: re-enable without depending on exact version
+      # - name: Upload Tarball
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: latex-mk-2.1A
+      #     path: latex-mk-2.1A.tar.gz
