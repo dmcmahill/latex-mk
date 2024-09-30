@@ -563,6 +563,14 @@ for t in $all_tests ; do
     # possible [:digits:] part and then normalizes the name of the bmake program.
     # I'm not using [0-9]+ as the + for "one or more" is an extended regular expression.
     #
+    # Next command strips down the full path part:
+    #    /full/path/src/latex-mk/testsuite/run/dir1  ->
+    #    testsuite/run/dir1
+    #
+    # Some versions of bmake seem do product things like
+    #  bmake[1]: stopped making "default" in /full/path/....
+    # so convert to "... stopped making in ..."
+    #
     # Also, ensure every line starts with whitespace.  Otherwise some make versions may produce
     # something like " done" in the output while other produce "done" (no leading whitespace)
     # and diff -b will say they are different.  I'd rather not move to diff -w (ignoring all whitespace
@@ -574,7 +582,8 @@ for t in $all_tests ; do
                 sed \
                     -e 's;\[[0-9]\{1,\}\];;g' \
                     -e "s;${BMAKE_NAME}:;make:;g" \
-                    -e "s; [^ \t]*/testsuite/run/; testsuite/run/;g" \
+                    -e "s; [^ ${tab_char}]*/testsuite/run/; testsuite/run/;g" \
+                    -e "s;stopped making [^ ${tab_char}]* in;stopped in;g" \
                     -e "s;^\([^ ${tab_char}]\); \1;g" \
                 | ${SORT_SECTIONS} > ${here}/${BMAKE_REF}/${t}.${sufx}
         if [ "X$regen" != "Xyes" ]; then
