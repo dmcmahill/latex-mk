@@ -6,8 +6,12 @@ on:
       - develop
       - 'dev-*'
       - 'ci-*'
+    paths-ignore:
+      - .github/workflows/ci-linux.yml
   pull_request:
     branches: [ develop ]
+    paths-ignore:
+      - .github/workflows/ci-linux.yml
   # Allows you to run this workflow manually from the Actions tab:
   workflow_dispatch:
 
@@ -20,28 +24,22 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: apt-get update
-        run: sudo apt-get update
-
       - name: Install dependencies
-        run: brew update
+        run: |
+             brew update
              brew install autoconf
              brew install automake
-             brew install autopoint
              brew install bmake
+             brew install gettext
              brew install ghostscript
-             brew install texlive-bibtex-extra
-             brew install texlive-latex-base
-             brew install texlive-latex-extra
-             brew install texlive-latex-recommended
-             brew install texlive-publishers
+             brew install texlive
              brew install latex2html
              brew install hevea
              brew install texinfo
              brew install texi2html
              brew install tgif
-             brew install csh
-             brew install ksh
+             brew install tcsh
+             brew install ksh93
 
       - name: Autogen
         run: ./autogen.sh
