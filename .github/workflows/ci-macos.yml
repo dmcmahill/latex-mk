@@ -73,5 +73,5 @@ jobs:
       - name: Upload Tarball
         uses: actions/upload-artifact@v4
         with:
-          name: testsuite-log
-          path: testsuite/test-suite.log
+          name: latex-mk-2.1A
+          path: latex-mk-2.1A.tar.gz
