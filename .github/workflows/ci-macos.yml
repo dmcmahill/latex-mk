@@ -1,4 +1,4 @@
-name: latex-mk CI - Linux
+name: latex-mk CI - MacOS
 
 on:
   push:
@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       # Checks-out repository under $GITHUB_WORKSPACE:
@@ -24,30 +24,24 @@ jobs:
         run: sudo apt-get update
 
       - name: Install dependencies
-        run: sudo apt-get install -y
-             autoconf
-             automake
-             autopoint
-             bmake
-             ghostscript
-             texlive-bibtex-extra
-             texlive-latex-base
-             texlive-latex-extra
-             texlive-latex-recommended
-             texlive-publishers
-             latex2html
-             hevea
-             texinfo
-             texi2html
-             tgif
-             csh
-             ksh
-
-      - name: Install tgif dependencies
-        run: sudo apt-get install -y
-             libxmu-dev
-             xfonts-75dpi
-             gsfonts-x11
+        run: brew update
+             brew install autoconf
+             brew install automake
+             brew install autopoint
+             brew install bmake
+             brew install ghostscript
+             brew install texlive-bibtex-extra
+             brew install texlive-latex-base
+             brew install texlive-latex-extra
+             brew install texlive-latex-recommended
+             brew install texlive-publishers
+             brew install latex2html
+             brew install hevea
+             brew install texinfo
+             brew install texi2html
+             brew install tgif
+             brew install csh
+             brew install ksh
 
       - name: Autogen
         run: ./autogen.sh
