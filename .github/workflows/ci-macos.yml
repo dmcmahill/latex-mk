@@ -2,10 +2,6 @@ name: latex-mk CI - MacOS
 
 on:
   push:
-    branches:
-      - develop
-      - 'dev-*'
-      - 'ci-*'
     paths-ignore:
       - .github/workflows/ci-linux.yml
   pull_request:
@@ -70,8 +66,9 @@ jobs:
         run:  |
           make distcheck
 
-      - name: Upload Tarball
-        uses: actions/upload-artifact@v4
-        with:
-          name: latex-mk-2.1A
-          path: latex-mk-2.1A.tar.gz
+      # TODO: re-enable without depending on exact version
+      # - name: Upload Tarball
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: latex-mk-2.1A
+      #     path: latex-mk-2.1A.tar.gz
