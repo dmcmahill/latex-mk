@@ -30,6 +30,7 @@ jobs:
              autopoint
              bmake
              ghostscript
+             texlive-bibtex-extra
              texlive-latex-base
              texlive-latex-extra
              texlive-latex-recommended
