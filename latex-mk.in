@@ -300,15 +300,17 @@ log() {
 
 check_bibunits() {
 	msg="Checking if ${NAME} uses the bibunits package..."
-	if grep "bibunits.sty" "$LATEX_MK_LOG" >/dev/null ; then
-	    rslt="yes"
-	    using_bibunits=yes
-	    log "bibunits package detected"
-	else
-	    rslt="no"
-	    using_bibunits=no
-	fi
-	report "$msg $rslt"
+    # this is a bit painful because the log file may have split lines and it is
+    # hard (impossible?) to determine which new lines are continuations versus
+    # intentional.  So... ugly hack.  Just try each line joined with the following
+    rslt=$(awk 'BEGIN{r="no"} {if( buf  $0 ~ /bibunits.sty/){r="yes"} ; buf = $0} END{print r}' "${LATEX_MK_LOG}")
+    if [ "${rslt}" = "yes" ] ; then
+        using_bibunits=yes
+        log "bibunits package detected"
+    else
+        using_bibunits=no
+    fi
+    report "$msg $rslt"
 }
 
 #
