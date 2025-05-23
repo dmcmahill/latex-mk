@@ -1,5 +1,11 @@
-# $Id: NEWS,v 1.9 2010/12/28 21:50:27 dan Exp $
-#
+--------------------------------
+Release Notes for LaTeX-Mk-2.2.0
+--------------------------------
+This represents an overhaul of how releases are built and how
+versions are determined.  In particular we are now able to
+build snapshots and releases via github actions.  The versions
+are determined via git annotated tags that conform to a particular
+format.
 
 --------------------------------
 Release Notes for LaTeX-Mk-2.1
