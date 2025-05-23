@@ -82,4 +82,10 @@ xfig.gmk
 xfig.mk
 xfig.mk.in
 
+# generated to hold the current version string
+package-version-internal.h
+
+# generated during tests
+testsuite/script_tests.sh.log
+testsuite/script_tests.sh.trs
 
