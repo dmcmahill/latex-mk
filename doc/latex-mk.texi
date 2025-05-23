@@ -1614,6 +1614,21 @@ It didn't do anything.
 @end itemize
 
 @c ********************************************************
+@c ********************** VERSION 2.2.0 *******************
+@c ********************************************************
+
+@subsection Version 2.2.0
+
+@itemize @bullet 
+
+@item Reworked how versioning of this package is handled.  Now
+      git tags are used to define versions.  This is part of
+      building infrastructure for CI and also automated release
+      builds.
+
+@end itemize
+
+@c ********************************************************
 @c ******************* end of history *********************
 @c ********************************************************
 
