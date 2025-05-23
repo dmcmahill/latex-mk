@@ -1,4 +1,4 @@
-## Copyright (c) 2002, 2005, 2006, 2007, 2020 Dan McMahill
+## Copyright (c) 2002, 2005, 2006, 2007, 2020, 2025 Dan McMahill
 ## All rights reserved.
 ## 
 ## This program is free software; you can redistribute it and/or modify
@@ -13,6 +13,10 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+# package-version.mk will want these defined to be able to append to them.
+CLEANFILES=
+BUILT_SOURCES=
 
 MKSRCS=	latex.mk.in latex.subdir.mk.in lgrind.mk.in mpost.mk.in tgif.mk.in xfig.mk.in
 
@@ -51,3 +55,4 @@ all-local:
 .mk.in.gmk:
 	sed -e 's/^GMK://g' -e '/^BMK:/d' ${SED_COMMON} $<  > $@
 
+include $(top_srcdir)/build-helpers/package-version.mk
