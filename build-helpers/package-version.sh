@@ -205,7 +205,7 @@ elif test -d "$GIT_DIR"; then
                 if verbose ; then echo "${prog}:  Converted release tag ${rslt} to version ${ver}" >&2 ; fi
                 ;;
             *)
-                echo "ERROR:  Not sure how to handle rslt=${rslt}" >&2
+                echo "${prog}:  ERROR:  Not sure how to handle rslt=${rslt}" >&2
                 exit 1
                 ;;
         esac
