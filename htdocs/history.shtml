@@ -387,6 +387,22 @@ xfig,
     </UL>
     </P>
 
+    <!-- ********************* VERSION 2.2 ******************* -->
+    <H3>Version 2.2</H3>
+    <P>
+    LaTeX-Mk version 2.2 is the first release after fully migrating
+    from cvs to git and also moving to automated builds.
+    </P>
+
+    <P>
+    This represents an overhaul of how releases are built and how
+    versions are determined.  In particular we are now able to
+    build snapshots and releases via github actions.  The versions
+    are determined via git annotated tags that conform to a particular
+    format.
+
+    </P>
+
     </font>
   </td>
 
