@@ -212,6 +212,7 @@ elif test -d "$GIT_DIR"; then
         printf "%s" "${ver}"
         exit 0
     else
+        printf "unknown-no-tags"
         echo "${prog}:  ERROR:  Unable to find annotated tag via ${GIT} describe" >&2
         exit 1
     fi
