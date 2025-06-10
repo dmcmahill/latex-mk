@@ -19,6 +19,9 @@ jobs:
       # Checks-out repository under $GITHUB_WORKSPACE:
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+            fetch-tags: true
 
       - name: Install dependencies
         run: |

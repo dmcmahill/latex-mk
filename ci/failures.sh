@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# This script is executed on a travis failure:
+# This script is executed on a CI failure:
 
 for f in config.log testsuite/test-suite.log ; do
     echo "--- ${f}"
